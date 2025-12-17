@@ -11,21 +11,20 @@ class InvoiceService {
         this.scriptPath = path.join(__dirname, '../invoice_generator/invoice_generator.py');
     }
 
-    async generateInvoice(orderData, companyData, customerData) {
+    async generateInvoice(orderData, companyData) {
         try {
             // Prepare the data to send to Python script
             const data = JSON.stringify({
                 order_data: orderData,
-                company_data: companyData,
-                customer_data: customerData
+                company_data: companyData
             });
 
             // Execute the Python script
             const { stdout, stderr } = await execAsync(
                 `"${this.pythonPath}" "${this.scriptPath}" '${data.replace(/'/g, "\\'")}'`,
-                { 
+                {
                     maxBuffer: 1024 * 1024 * 10, // 10MB buffer for larger PDFs
-                    encoding: 'binary'  // Handle binary data properly
+                    encoding: 'utf8'
                 }
             );
 
@@ -36,31 +35,30 @@ class InvoiceService {
                 }
             }
 
-            // The Python script saves the PDF to a file and prints the path
-            const match = stdout.match(/Invoice generated: (.+\.pdf)/i);
-            if (!match) {
-                console.error('Could not find PDF path in output:', stdout);
-                throw new Error('Failed to generate invoice: Invalid response from generator');
-            }
-
-            const pdfPath = match[1];
             try {
-                // Read the generated PDF file
-                const pdfBuffer = fs.readFileSync(pdfPath);
-                
-                // Extract invoice number from the path
-                const invoiceNumberMatch = pdfPath.match(/invoice_(.+)\.pdf$/i);
-                const invoiceNumber = invoiceNumberMatch ? invoiceNumberMatch[1] : `INV-${Date.now()}`;
-                
+                // Parse the JSON response
+                const result = JSON.parse(stdout.trim());
+
+                // Check for error in response
+                if (result.error) {
+                    throw new Error(`Python error: ${result.error} (${result.type || 'Unknown'})`);
+                }
+
+                // Ensure we have the required fields
+                if (!result.pdf_content) {
+                    throw new Error('No PDF content received from generator');
+                }
+
                 return {
-                    pdfBuffer,
-                    invoiceNumber,
-                    invoiceDate: new Date().toISOString().split('T')[0],
-                    total: orderData.total
+                    pdfBuffer: Buffer.from(result.pdf_content, 'base64'),
+                    invoiceNumber: result.invoice_number,
+                    invoiceDate: result.invoice_date,
+                    total: result.total
                 };
             } catch (error) {
-                console.error('Error reading generated PDF:', error);
-                throw new Error('Failed to read generated invoice: ' + error.message);
+                console.error('Failed to parse Python script output:', error);
+                console.error('Raw output:', stdout);
+                throw new Error('Invalid response from generator: ' + error.message);
             }
         } catch (error) {
             console.error('Error in generateInvoice:', error);
