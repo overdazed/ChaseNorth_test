@@ -127,7 +127,7 @@
 
         <td>{{ item.quantity }}</td>
         <td>${{ "%.2f"|format(item.price) }}</td>
-        <td>${{ "%.2f"|format(item.price) * 1.15 }}</td>
+        <td>${{ "%.2f"|format(item.price * 1.15) }}</td>
         <td>${{ "%.2f"|format((item.price * 1.15) * item.quantity) }}</td>
     </tr>
     {% endfor %}
