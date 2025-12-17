@@ -100,6 +100,7 @@
 <!--        <th>Description</th>-->
         <th>Quantity</th>
         <th>Price</th>
+<!--        <th>USt. %</th>-->
         <th>Price (with tax)</th>
         <th>Total (with tax)</th>
     </tr>
@@ -127,15 +128,16 @@
 
         <td>{{ item.quantity }}</td>
         <td>${{ "%.2f"|format(item.price) }}</td>
-        <td>${{ "%.2f"|format(item.price * 1.15) }}</td>
-        <td>${{ "%.2f"|format((item.price * 1.15) * item.quantity) }}</td>
+<!--        <td>19%</td>-->
+        <td>${{ "%.2f"|format(item.price * 1.19) }}</td>
+        <td>${{ "%.2f"|format((item.price * 1.19) * item.quantity) }}</td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
 
 <div class="total">
-    <p>Subtotal: ${{ "%.2f"|format(order['totalPrice'] if 'totalPrice' in order else 0) }}</p>
+<!--    <p>Subtotal: ${{ "%.2f"|format(order['totalPrice'] if 'totalPrice' in order else 0) }}</p>-->
     {% if order.tax and order.tax > 0 %}
     <p>Tax ({{ company_data.tax_rate }}%): ${{ "%.2f"|format(order.tax) }}</p>
     {% endif %}
