@@ -118,6 +118,17 @@ const Checkout = () => {
         const cost = getShippingCost(country);
         setShippingCost(cost);
 
+        // Prepare the complete shipping address with all fields
+        const completeShippingAddress = {
+            firstName: shippingAddress.firstName.trim(),
+            lastName: shippingAddress.lastName.trim(),
+            address: shippingAddress.address.trim(),
+            city: shippingAddress.city.trim(),
+            postalCode: shippingAddress.postalCode.trim(),
+            country: shippingAddress.country.trim(),
+            phone: shippingAddress.phone.trim()
+        };
+
         const form = formRef.current;
 
         const requiredFields = [
@@ -202,7 +213,7 @@ const Checkout = () => {
             const res = await dispatch(
                 createCheckout({
                     checkoutItems: cart.products,
-                    shippingAddress,
+                    shippingAddress: completeShippingAddress,
                     paymentMethod: "PayPal",
                     totalPrice: cart.totalPrice
                 })
