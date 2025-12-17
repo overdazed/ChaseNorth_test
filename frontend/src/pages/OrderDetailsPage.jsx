@@ -77,7 +77,7 @@ const OrderDetailsPage = () => {
     if (error) return <p>Error: {error}</p>;
 
     // Set background and text classes based on theme
-    const bgClass = isDarkMode ? 'bg-neutral-900' : 'bg-white'
+    const bgClass = isDarkMode ? 'bg-neutral-950' : 'bg-white'
     const textClass = isDarkMode ? 'text-white' : 'text-black'
 
     return (
