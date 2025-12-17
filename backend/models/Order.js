@@ -41,11 +41,11 @@ const orderSchema = new mongoose.Schema({
     shippingAddress: {
         firstName: {
             type: String,
-            required: false
+            required: true
         },
         lastName: {
             type: String,
-            required: false
+            required: true
         },
         address: {
             type: String,

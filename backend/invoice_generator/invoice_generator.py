@@ -42,7 +42,7 @@ class InvoiceGenerator:
                 # Ensure shipping address exists
                 if 'shippingAddress' not in order:
                     order['shippingAddress'] = {
-                        'firstName': order.get('shippingAddress.firstName', ''),
+                        'firstName': order.get('shippingAddress_firstName', ''),
                         # 'firstName': order.get('shippingAddress', {}).get('firstName', '')
                         'lastName': order.get('shippingAddress_lastName', ''),
                         'address': order.get('shippingAddress_address', ''),
