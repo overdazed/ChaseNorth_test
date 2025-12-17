@@ -9,6 +9,8 @@ from xhtml2pdf import pisa
 from dateutil.relativedelta import relativedelta
 import traceback
 
+# fghhffhg
+
 class InvoiceGenerator:
     def __init__(self, output_dir='invoices'):
         self.env = Environment(loader=FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')))
