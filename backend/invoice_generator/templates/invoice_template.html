@@ -97,17 +97,17 @@
     <thead>
     <tr>
         <th>Item</th>
-        <th>Description</th>
-        <th>Quantity</th>
+<!--        <th>Description</th>-->
         <th>Price</th>
+        <th>Quantity</th>
         <th>Total</th>
     </tr>
     </thead>
     <tbody>
     {% for item in order.orderItems %}
     <tr>
-        <td>{{ item.name }}</td>
         <td>
+            {{ item.name }}<br>
             {% if item.size or item.color %}
             {% if item.color %}{{ item.color }}<span> |</span>{% endif %}
             {% if item.size %}{{ item.size }}{% endif %}
@@ -115,9 +115,17 @@
             -
             {% endif %}
         </td>
+<!--        <td>-->
+<!--            {% if item.size or item.color %}-->
+<!--            {% if item.color %}{{ item.color }}<span> |</span>{% endif %}-->
+<!--            {% if item.size %}{{ item.size }}{% endif %}-->
+<!--            {% else %}-->
+<!--            - -->
+<!--            {% endif %}-->
+<!--        </td>-->
 
-        <td>{{ item.quantity }}</td>
         <td>${{ "%.2f"|format(item.price) }}</td>
+        <td>{{ item.quantity }}</td>
         <td>${{ "%.2f"|format(item.price * item.quantity) }}</td>
     </tr>
     {% endfor %}
