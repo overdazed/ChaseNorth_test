@@ -93,13 +93,13 @@
     </div>
 
     <div class="company-info">
-        <h2>{{ company_data['name'] }}</h2>
-        <p>{{ company_data['address'] }}<br>
-            {{ company_data['city'] }}, {{ company_data['zip'] }}<br>
-            {{ company_data['country'] }}<br>
-            {{ company_data['phone'] }}<br>
-            {{ company_data['email'] }}<br>
-            {{ company_data['website'] }}</p>
+        <h2>{{ company_name }}</h2>
+        <p>{{ company_address }}<br>
+            {{ company_city }}, {{ company_zip }}<br>
+            {{ company_country }}<br>
+            {{ company_phone }}<br>
+            {{ company_email }}<br>
+            {{ company_website }}</p>
     </div>
 </div>
 
@@ -122,32 +122,51 @@
 <table>
     <thead>
     <tr>
-        <th>Item</th>
-        <th>Description</th>
+        <th>Product</th>
+        <th>Price</th>
         <th>Quantity</th>
-        <th>Unit Price</th>
         <th>Total</th>
     </tr>
     </thead>
     <tbody>
-    {% for item in items %}
+    {% for item in order.orderItems %}
     <tr>
-        <td>{{ item['name'] }}</td>
-        <td>{{ item['description'] or '' }}</td>
-        <td>{{ item['quantity'] }}</td>
-        <td>${{ "%.2f"|format(item['price']) }}</td>
-        <td>${{ "%.2f"|format(item['quantity'] * item['price']) }}</td>
+        <td>
+            {{ item.name }}
+            {% if item.size or item.color %}
+            <br>
+            <small>
+                {% if item.size %}Size: {{ item.size }}{% endif %}
+                {% if item.color %}, Color: {{ item.color }}{% endif %}
+            </small>
+            {% endif %}
+        </td>
+        <td>${{ "%.2f"|format(item.price) }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>${{ "%.2f"|format(item.price * item.quantity) }}</td>
     </tr>
     {% endfor %}
     </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="3" style="text-align: right;"><strong>Subtotal:</strong></td>
+        <td>${{ "%.2f"|format(order.totalPrice) }}</td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
+        <td>${{ "%.2f"|format(order.totalPrice) }}</td>
+    </tr>
+    </tfoot>
 </table>
 
-<!-- Totals -->
-<div class="totals">
-    <p><strong>Subtotal:</strong> ${{ "%.2f"|format(subtotal) }}</p>
-    <p><strong>Tax ({{ tax_rate }}%):</strong> ${{ "%.2f"|format(tax) }}</p>
-    <p><strong>Shipping:</strong> ${{ "%.2f"|format(shipping) }}</p>
-    <p><strong>Total:</strong> ${{ "%.2f"|format(total) }}</p>
+<!-- Payment Information -->
+<div class="payment-info">
+    <h3>Payment Details</h3>
+    <p><strong>Payment Method:</strong> {{ order.paymentMethod|title }}</p>
+    <p><strong>Payment Status:</strong> {{ 'Paid' if order.isPaid else 'Pending' }}</p>
+    {% if order.paidAt %}
+    <p><strong>Paid On:</strong> {{ order.paidAt|format_date }}</p>
+    {% endif %}
 </div>
 
 <!-- Notes -->

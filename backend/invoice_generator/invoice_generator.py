@@ -47,41 +47,35 @@ class InvoiceGenerator:
             'tax_rate': tax_rate
         }
     
-    def generate_invoice(self, order_data, company_data, customer_data):
+    def format_date(self, value, format='%B %d, %Y'):
+        """Format date for display in the template"""
+        if isinstance(value, str):
+            try:
+                value = datetime.fromisoformat(value.replace('Z', '+00:00'))
+            except (ValueError, AttributeError):
+                return value
+        elif value is None:
+            return 'N/A'
+        return value.strftime(format)
+
+    def generate_invoice(self, order, company_data):
         """
-        Generate an invoice PDF
+        Generate an invoice PDF from an Order model
         
         Args:
-            order_data (dict): Order details including items
+            order (dict): Order model data
             company_data (dict): Company information
-            customer_data (dict): Customer information
             
         Returns:
-            str: Path to the generated PDF file
+            dict: Contains PDF path, base64 content, and invoice details
         """
-        # Calculate invoice totals
-        totals = self.calculate_totals(order_data['items'], company_data.get('tax_rate', 15.0))
+        # Add format_date filter to the environment
+        self.env.filters['format_date'] = self.format_date
         
-        # Prepare context for template with all required variables
+        # Prepare context for template
         context = {
-            # Invoice metadata
-            'invoice_number': self.generate_invoice_number(),
-            'invoice_date': datetime.now().strftime('%B %d, %Y'),
-            'due_date': (datetime.now() + relativedelta(days=30)).strftime('%B %d, %Y'),
-            
-            # Order data
-            'order_data': order_data,
-            'company_data': company_data,
-            'customer_data': customer_data,
-            
-            # Items and totals
-            'items': order_data.get('items', []),
-            'subtotal': order_data.get('subtotal', 0),
-            'tax': order_data.get('tax', 0),
-            'shipping': order_data.get('shipping', 0),
-            'total': order_data.get('total', 0),
-            'tax_rate': company_data.get('tax_rate', 15.0),
-            'notes': order_data.get('notes', ''),
+            # Pass the entire order object
+            'order': order,
             
             # Company information
             'company_name': company_data.get('name', ''),
@@ -93,14 +87,10 @@ class InvoiceGenerator:
             'company_phone': company_data.get('phone', ''),
             'company_website': company_data.get('website', ''),
             
-            # Customer information
-            'customer_name': customer_data.get('name', ''),
-            'customer_address': customer_data.get('address', ''),
-            'customer_city': customer_data.get('city', ''),
-            'customer_zip': customer_data.get('zip', customer_data.get('postalCode', '')),
-            'customer_country': customer_data.get('country', ''),
-            'customer_email': customer_data.get('email', ''),
-            'customer_phone': customer_data.get('phone', '')
+            # Invoice metadata
+            'invoice_number': self.generate_invoice_number(),
+            'invoice_date': datetime.now().strftime('%B %d, %Y'),
+            'due_date': (datetime.now() + relativedelta(days=30)).strftime('%B %d, %Y'),
         }
         
         # Render the template
@@ -149,7 +139,7 @@ def main():
     # Example usage
     invoice_gen = InvoiceGenerator()
     
-    # Example data
+    # Example company data
     company_data = {
         'name': 'Adventure Store',
         'address': '123 Adventure St',
@@ -162,30 +152,53 @@ def main():
         'tax_rate': 15.0
     }
     
-    customer_data = {
-        'name': 'John Doe',
-        'address': '456 Customer Ave',
-        'city': 'Customer City',
-        'zip': '54321',
-        'country': 'Customerland',
-        'email': 'john.doe@example.com',
-        'phone': '+1 (555) 987-6543'
-    }
-    
-    order_data = {
-        'items': [
-            {'name': 'Adventure Gear', 'description': 'Premium quality adventure gear', 'quantity': 2, 'price': 99.99},
-            {'name': 'Camping Tent', 'description': '4-person all-weather tent', 'quantity': 1, 'price': 199.99},
-            {'name': 'Hiking Boots', 'description': 'Waterproof hiking boots', 'quantity': 1, 'price': 129.99}
+    # Example order matching the Order.js schema
+    order = {
+        '_id': '5f8d7a6e4b5c4a3d2e1f0a9b',
+        'createdAt': datetime.now().isoformat(),
+        'status': 'Processing',
+        'paymentMethod': 'credit_card',
+        'isPaid': True,
+        'paidAt': datetime.now().isoformat(),
+        'totalPrice': 429.97,
+        'orderItems': [
+            {
+                'name': 'Adventure Gear',
+                'price': 99.99,
+                'quantity': 2,
+                'size': 'M',
+                'color': 'Blue',
+                'image': '/images/gear.jpg'
+            },
+            {
+                'name': 'Camping Tent',
+                'price': 199.99,
+                'quantity': 1,
+                'size': '4-person',
+                'image': '/images/tent.jpg'
+            },
+            {
+                'name': 'Hiking Boots',
+                'price': 129.99,
+                'quantity': 1,
+                'size': '10',
+                'color': 'Brown',
+                'image': '/images/boots.jpg'
+            }
         ],
-        'notes': 'Thank you for your order!'
+        'shippingAddress': {
+            'address': '456 Customer Ave',
+            'city': 'Customer City',
+            'postalCode': '54321',
+            'country': 'Customerland'
+        }
     }
     
     # Generate invoice
-    result = invoice_gen.generate_invoice(order_data, company_data, customer_data)
+    result = invoice_gen.generate_invoice(order, company_data)
     print(f"Invoice generated: {result['pdf_path']}")
     print(f"Invoice Number: {result['invoice_number']}")
-    print(f"Total Amount: ${result['total']:.2f}")
+    print(f"Total Amount: ${order['totalPrice']:.2f}")
 
 if __name__ == "__main__":
     main()
