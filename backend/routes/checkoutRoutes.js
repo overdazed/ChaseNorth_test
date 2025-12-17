@@ -12,34 +12,43 @@ const router = express.Router();
 // @route POST /api/checkout
 // @desc Create a new checkout session
 // @access Private/Customer, only customer can create a new checkout
+// In the POST / route of checkoutRoutes.js
 router.post('/', protect, async (req, res) => {
     const { checkoutItems, shippingAddress, paymentMethod, totalPrice } = req.body;
 
-    // add a basic validation to check if there are any items in the checkout
+    // Add validation for required fields
     if (!checkoutItems || checkoutItems.length === 0) {
         return res.status(400).json({message: 'No items in checkout.'});
     }
 
     try {
-        // Create a new checkout session
+        // Ensure shipping address has required fields
+        const completeShippingAddress = {
+            ...shippingAddress,
+            firstName: shippingAddress?.firstName || 'Customer',
+            lastName: shippingAddress?.lastName || 'Name'
+        };
+
+        // Create a new checkout session with the complete shipping address
         const newCheckout = await Checkout.create({
             user: req.user._id,
             checkoutItems: checkoutItems,
-            shippingAddress,
+            shippingAddress: completeShippingAddress,
             paymentMethod,
             totalPrice,
             paymentStatus: 'Pending',
             isPaid: false
         });
 
-        console.log(`Checkout created for user: ${req.user._id}`);
-
         res.status(201).json(newCheckout);
     } catch (error) {
         console.error("Error creating checkout session:", error);
-        res.status(500).json({message: 'Server Error'});
+        res.status(500).json({
+            message: 'Server Error',
+            error: error.message
+        });
     }
-})
+});
 
 // Add Pay Route
 // @route PUT /api/checkout/:id/pay
@@ -81,50 +90,74 @@ router.put('/:id/pay', protect, async (req, res) => {
 // @route POST /api/checkout/:id/finalize
 // @desc Finalize checkout and convert to an order after payment confirmation
 // @access Private
+// In checkoutRoutes.js, update the POST /:id/finalize route
 router.post('/:id/finalize', protect, async (req, res) => {
     try {
-        // retrieve the checkout by id from the URL
+        // Retrieve the checkout by id from the URL
         const checkout = await Checkout.findById(req.params.id);
+
         // If the checkout session is not present, return 404
         if (!checkout) {
             return res.status(404).json({message: 'Checkout not found'});
         }
+
+        // Ensure shipping address has required fields
+        const shippingAddress = {
+            ...checkout.shippingAddress,
+            firstName: checkout.shippingAddress?.firstName || 'Customer',
+            lastName: checkout.shippingAddress?.lastName || 'Name'
+        };
+
         // Check if checkout is paid, but not finalized
         if (checkout.isPaid && !checkout.isFinalized) {
-            // if true, create the final order
+            // Create the final order with the updated shipping address
             const finalOrder = await Order.create({
                 user: checkout.user,
                 orderItems: checkout.checkoutItems,
-                shippingAddress: checkout.shippingAddress,
+                shippingAddress: shippingAddress,  // Use the updated shipping address
                 paymentMethod: checkout.paymentMethod,
                 totalPrice: checkout.totalPrice,
                 isPaid: true,
                 paidAt: checkout.paidAt,
-                isDelivered: false,
-                paymentStatus: "paid",
-                paymentDetails: checkout.paymentDetails
+                paymentResult: {
+                    id: checkout.paymentDetails?.id || 'N/A',
+                    status: checkout.paymentStatus,
+                    update_time: checkout.paidAt,
+                    email_address: req.user.email
+                }
             });
-            // Mark the checkout as finalized to prevent duplicate orders
+
+            // Mark the checkout as finalized
             checkout.isFinalized = true;
-            checkout.finalized = Date.now();
             await checkout.save();
 
-            // once the order is finalized, delete the users cart to clean up
-            await Cart.findOneAndDelete({user: checkout.user});
-            res.status(201).json(finalOrder);
+            // Clear the user's cart
+            await Cart.findOneAndDelete({ user: req.user._id });
 
-            // If the checkout is already finalized, return 400
-        } else if (checkout.isFinalized) {
-            res.status(400).json({message: 'Checkout already finalized'});
+            // Update product counts in stock
+            for (const item of checkout.checkoutItems) {
+                await Product.updateOne(
+                    { _id: item.product },
+                    { $inc: { countInStock: -item.quantity } }
+                );
+            }
+
+            res.status(201).json(finalOrder);
         } else {
-            // If the checkout is not paid, return 400
-            res.status(400).json({message: 'Checkout is not paid'});
+            res.status(400).json({
+                message: checkout.isFinalized ?
+                    'Order already finalized' :
+                    'Payment not completed'
+            });
         }
     } catch (error) {
-        console.error(error);
-        res.status(500).json({message: 'Server Error'});
+        console.error('Error finalizing order:', error);
+        res.status(500).json({
+            message: 'Server Error',
+            error: error.message
+        });
     }
-})
+});
 
 module.exports = router
 
