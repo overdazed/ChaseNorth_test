@@ -117,6 +117,8 @@ router.post('/:id/finalize', protect, async (req, res) => {
                 shippingAddress: shippingAddress,  // Use the updated shipping address
                 paymentMethod: checkout.paymentMethod,
                 totalPrice: checkout.totalPrice,
+                // tax: tax,
+                // shippingPrice: shippingPrice,
                 isPaid: true,
                 paidAt: checkout.paidAt,
                 paymentResult: {
