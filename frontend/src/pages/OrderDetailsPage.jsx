@@ -77,17 +77,19 @@ const OrderDetailsPage = () => {
     if (error) return <p>Error: {error}</p>;
 
     // Set background and text classes based on theme
-    const bgClass = isDarkMode ? 'bg-neutral-950' : 'bg-white'
+    const bgClass = isDarkMode ? 'bg-neutral-950 min-h-screen' : 'bg-neutral-50 min-h-screen transition-colors duration-300'
     const textClass = isDarkMode ? 'text-white' : 'text-black'
+    const borderClass = isDarkMode ? 'border-neutral-500' : 'border-neutral-800'
 
     return (
-        <div className={`max-w-7xl mx-auto p-4 sm:p-6 ${bgClass}`}>
+        <div className={`min-h-screen ${bgClass} transition-colors duration-300`}>
+            <div className="max-w-7xl mx-auto p-4 sm:p-6">
             <h2 className={`text-2xl md:text-3xl font-bold mb-6 ${textClass}`}>Order Details</h2>
             {/* check if the order details are present, if so, display them */}
             {!orderDetails ? (
                 <p>No Order Details Found</p>
             ) : (
-                <div className="p-4 sm:p-6 rounded-lg border bg-white text-black">
+                <div className={`p-4 sm:p-6 rounded-lg border ${borderClass} ${bgClass} ${textClass}`}>
                     {/* Order Info */}
                     <div className="flex flex-col sm:flex-row justify-between mb-8">
                         <div className="">
@@ -266,6 +268,7 @@ const OrderDetailsPage = () => {
                 {/*    Change it in MyOrdersPage.jsx  -> onClick={() => handleRowClick(order._id)}*/}
                 </div>
             )}
+            </div>
         </div>
     )
 }
