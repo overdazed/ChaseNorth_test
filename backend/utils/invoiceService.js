@@ -2,8 +2,12 @@ const { exec } = require('child_process');
 const path = require('path');
 const { promisify } = require('util');
 const fs = require('fs');
+const os = require('os');
+const { v4: uuidv4 } = require('uuid');
 
 const execAsync = promisify(exec);
+const writeFileAsync = promisify(fs.writeFile);
+const unlinkAsync = promisify(fs.unlink);
 
 class InvoiceService {
     constructor() {
@@ -12,21 +16,25 @@ class InvoiceService {
     }
 
     async generateInvoice(orderData, companyData) {
+        const tempFile = path.join(os.tmpdir(), `invoice_${uuidv4()}.json`);
+
         try {
             // Prepare the data to send to Python script
-            const data = JSON.stringify({
+            const data = {
                 order_data: orderData,
                 company_data: companyData
-            });
+            };
 
-            // Execute the Python script
-            const { stdout, stderr } = await execAsync(
-                `"${this.pythonPath}" "${this.scriptPath}" '${data.replace(/'/g, "\\'")}'`,
-                {
-                    maxBuffer: 1024 * 1024 * 10, // 10MB buffer for larger PDFs
-                    encoding: 'utf8'
-                }
-            );
+            // Write data to a temporary file
+            await writeFileAsync(tempFile, JSON.stringify(data), 'utf8');
+
+            // Execute the Python script with the temp file path
+            const command = `"${this.pythonPath}" "${this.scriptPath}" "${tempFile}"`;
+
+            const { stdout, stderr } = await execAsync(command, {
+                maxBuffer: 1024 * 1024 * 10, // 10MB buffer for larger PDFs
+                encoding: 'utf8'
+            });
 
             if (stderr) {
                 console.error('Python script stderr:', stderr);
@@ -36,8 +44,14 @@ class InvoiceService {
             }
 
             try {
-                // Parse the JSON response
-                const result = JSON.parse(stdout.trim());
+                // Try to parse the response
+                let result;
+                try {
+                    result = JSON.parse(stdout.trim());
+                } catch (parseError) {
+                    console.error('Failed to parse Python output:', stdout);
+                    throw new Error('Invalid JSON response from Python script');
+                }
 
                 // Check for error in response
                 if (result.error) {
@@ -56,13 +70,20 @@ class InvoiceService {
                     total: result.total
                 };
             } catch (error) {
-                console.error('Failed to parse Python script output:', error);
+                console.error('Failed to process Python script output:', error);
                 console.error('Raw output:', stdout);
-                throw new Error('Invalid response from generator: ' + error.message);
+                throw new Error('Failed to process invoice: ' + error.message);
             }
         } catch (error) {
             console.error('Error in generateInvoice:', error);
             throw new Error(`Failed to generate invoice: ${error.message}`);
+        } finally {
+            // Clean up the temporary file
+            try {
+                await unlinkAsync(tempFile);
+            } catch (cleanupError) {
+                console.error('Error cleaning up temporary file:', cleanupError);
+            }
         }
     }
 }

@@ -36,6 +36,7 @@
     "streamifier": "^0.1.1",
     "tailwind-merge": "^3.3.1",
     "three": "^0.180.0",
+    "uuid": "^13.0.0",
     "zod": "^4.1.13"
   }
 }

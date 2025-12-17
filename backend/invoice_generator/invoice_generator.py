@@ -2,6 +2,7 @@ import os
 import json
 import base64
 import uuid
+import sys
 from datetime import datetime
 from jinja2 import Environment, FileSystemLoader
 from xhtml2pdf import pisa
@@ -88,45 +89,72 @@ class InvoiceGenerator:
             with open(pdf_path, 'rb') as pdf_file:
                 pdf_content = pdf_file.read()
 
-            # Convert to base64 for JSON serialization
-            pdf_base64 = base64.b64encode(pdf_content).decode('utf-8')
+            # Clean up the PDF file
+            try:
+                os.remove(pdf_path)
+            except:
+                pass
 
             # Return result as a dictionary
             result = {
-                'pdf_path': pdf_path,
-                'pdf_content': pdf_base64,
+                'pdf_content': base64.b64encode(pdf_content).decode('utf-8'),
                 'invoice_number': context['invoice_number'],
                 'invoice_date': context['invoice_date'],
                 'total': context['total']
             }
 
-            # Ensure we return a valid JSON string
             return json.dumps(result)
 
         except Exception as e:
-            # Return error as JSON
             return json.dumps({
                 'error': str(e),
                 'type': type(e).__name__
             })
 
+def read_input_file(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        return {
+            'error': f'Failed to read input file: {str(e)}',
+            'type': type(e).__name__
+        }
+
 def main():
-    import sys
     try:
         if len(sys.argv) > 1:
-            # Parse the input data
-            data = json.loads(sys.argv[1])
-            order_data = data.get('order_data', {})
-            company_data = data.get('company_data', {})
+            try:
+                # Read input from file
+                input_file = sys.argv[1]
+                if not os.path.exists(input_file):
+                    raise FileNotFoundError(f"Input file not found: {input_file}")
 
-            # Create the invoice generator
-            invoice_gen = InvoiceGenerator()
+                # Read and parse the input data
+                data = read_input_file(input_file)
+                if 'error' in data:
+                    print(json.dumps(data))
+                    sys.exit(1)
 
-            # Generate the invoice and print the result
-            result = invoice_gen.generate_invoice(order_data, company_data)
-            print(result)
+                order_data = data.get('order_data', {})
+                company_data = data.get('company_data', {})
+
+                # Create the invoice generator
+                invoice_gen = InvoiceGenerator()
+
+                # Generate the invoice and print the result
+                result = invoice_gen.generate_invoice(order_data, company_data)
+                print(result)
+
+            except Exception as e:
+                error_msg = {
+                    'error': str(e),
+                    'type': type(e).__name__
+                }
+                print(json.dumps(error_msg))
+                sys.exit(1)
         else:
-            # Default test data if no arguments provided
+            # Test with sample data if no arguments provided
             invoice_gen = InvoiceGenerator()
             company_data = {
                 'name': 'Adventure Store',
@@ -140,7 +168,7 @@ def main():
                 'tax_rate': 15.0
             }
             order = {
-                '_id': '5f8d7a6e4b5c4a3d2e1f0a9b',
+                '_id': 'test_' + str(uuid.uuid4()),
                 'createdAt': datetime.now().isoformat(),
                 'status': 'Processing',
                 'paymentMethod': 'credit_card',
@@ -149,7 +177,7 @@ def main():
                 'totalPrice': 429.97,
                 'orderItems': [
                     {
-                        'name': 'Adventure Gear',
+                        'name': 'Test Item',
                         'price': 99.99,
                         'quantity': 2,
                         'size': 'M',
@@ -157,14 +185,15 @@ def main():
                     }
                 ],
                 'shippingAddress': {
-                    'address': '456 Customer Ave',
-                    'city': 'Customer City',
-                    'postalCode': '54321',
-                    'country': 'Customerland'
+                    'address': '123 Test St',
+                    'city': 'Test City',
+                    'postalCode': '12345',
+                    'country': 'Testland'
                 }
             }
             result = invoice_gen.generate_invoice(order, company_data)
             print(result)
+
     except Exception as e:
         print(json.dumps({
             'error': str(e),
