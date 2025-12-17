@@ -33,7 +33,9 @@ router.post('/generate', protect, async (req, res) => {
                 description: item.description || '',
                 quantity: item.quantity,
                 price: item.price,
-                total: item.quantity * item.price
+                total: item.quantity * item.price,
+                size: item.size,
+                color: item.color
             })),
             subtotal: order.price || order.orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
             tax: order.tax || 0,

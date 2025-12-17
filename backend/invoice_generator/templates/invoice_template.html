@@ -109,7 +109,7 @@
         <td>{{ item.name }}</td>
         <td>
             {% if item.size or item.color %}
-            {% if item.size %}{{ item.size }}{% endif %}
+            {% if item.size %}{{ item.size }}<span> |</span>{% endif %}
             {% if item.color %}{{ item.color }}{% endif %}
             {% else %}
             -
