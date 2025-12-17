@@ -33,10 +33,10 @@ router.post('/generate', protect, async (req, res) => {
                 price: item.price,
                 total: item.quantity * item.price
             })),
-            subtotal: order.itemsPrice || order.orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-            tax: order.taxPrice || 0,
+            subtotal: order.price || order.orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+            tax: order.tax || 0,
             shipping: order.shippingPrice || 0,
-            total: order.totalPrice || (order.itemsPrice + order.taxPrice + (order.shippingPrice || 0)),
+            total: order.totalPrice || (order.price + order.tax + (order.shippingPrice || 0)),
             orderDate: order.paidAt || order.createdAt,
             orderId: order._id,
             notes: 'Thank you for your order!',
