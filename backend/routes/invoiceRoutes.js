@@ -24,7 +24,7 @@ router.post('/generate', protect, async (req, res) => {
             return res.status(401).json({ message: 'Not authorized to access this order' });
         }
 
-        // Prepare order data for invoice
+        // In invoiceRoutes.js, update the orderData preparation:
         const orderData = {
             items: order.orderItems.map(item => ({
                 name: item.name,
@@ -39,7 +39,16 @@ router.post('/generate', protect, async (req, res) => {
             total: order.totalPrice || (order.itemsPrice + order.taxPrice + (order.shippingPrice || 0)),
             orderDate: order.paidAt || order.createdAt,
             orderId: order._id,
-            notes: 'Thank you for your order!'
+            notes: 'Thank you for your order!',
+            // Add shipping address to orderData
+            shippingAddress: {
+                firstName: order.shippingAddress.firstName || '',
+                lastName: order.shippingAddress.lastName || '',
+                address: order.shippingAddress.address,
+                city: order.shippingAddress.city,
+                postalCode: order.shippingAddress.postalCode,
+                country: order.shippingAddress.country
+            }
         };
 
         // Company information
