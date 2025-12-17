@@ -35,6 +35,11 @@ class InvoiceGenerator:
                 # Add format_date filter to the environment
                 self.env.filters['format_date'] = self.format_date
 
+                print("=== Received data from Node.js ===")
+                print("Order data:", json.dumps(order, indent=2))
+                print("Company data:", json.dumps(company_data, indent=2))
+                print("================================")
+
                 # Ensure order is a dictionary
                 if not isinstance(order, dict):
                     order = order.to_dict() if hasattr(order, 'to_dict') else dict(order)
@@ -83,6 +88,10 @@ class InvoiceGenerator:
                     'due_date': (datetime.now() + relativedelta(days=30)).strftime('%B %d, %Y'),
                     'total': order.get('totalPrice', 0)
                 }
+
+                print("=== Processed shipping address ===")
+                print(json.dumps(order.get('shippingAddress', {}), indent=2))
+                print("================================")
 
                 # Rest of the method remains the same...
                 template = self.env.get_template('invoice_template.html')

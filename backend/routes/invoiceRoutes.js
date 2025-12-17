@@ -53,6 +53,8 @@ router.post('/generate', protect, async (req, res) => {
             }
         };
 
+        console.log('Prepared order data:', JSON.stringify(orderData, null, 2));
+
         // Company information
         const companyData = {
             name: process.env.COMPANY_NAME || 'Adventure Store',
