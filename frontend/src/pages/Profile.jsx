@@ -56,8 +56,8 @@ const Profile = () => {
             <div className="flex-grow container mx-auto p-4 md:p-6">
                 <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
                     {/* Left Section*/}
-                    <div className={`w-full md:w-1/3 lg:1/4 shadow-md rounded-lg p-6 bg-white`}>
-                        <h1 className="text-2xl md:text-3xl font-bold mb-4 text-black">
+                    <div className={`w-full md:w-1/3 lg:1/4 shadow-md border rounded-lg p-6 ${bgClass} ${borderClass}`}>
+                        <h1 className={`text-2xl md:text-3xl font-bold mb-4 ${textClass}`}>
                             {user?.name}
                         </h1>
                         <p className="text-lg text-gray-600 mb-4">{user?.email}</p>
