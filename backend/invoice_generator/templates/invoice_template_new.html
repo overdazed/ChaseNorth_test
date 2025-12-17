@@ -555,7 +555,7 @@
                 {% set totalAmount = totalAmount + productTotal %}
                 <tr>
                     <td class="border-b py-3 pl-3">{{ loop.index }}.</td>
-                    <td class="border-b py-3 pl-2">{{ product.name }}</td>
+                    <td class="border-b py-3 pl-2">{{ item.name }}</td>
                     <td class="border-b py-3 pl-2 text-right">{{ currencySymbol }}{{ product.price|number_format(2, '.', ',')
                         }}</td>
                     <td class="border-b py-3 pl-2 text-center">{{ product.quantity }}</td>
