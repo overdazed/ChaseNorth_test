@@ -66,7 +66,7 @@ router.post('/generate', protect, async (req, res) => {
 
         // Customer information
         const customerData = {
-            name: order.shippingAddress.address.fullName || `${order.user.name}`,
+            name: order.shippingAddress.firstName + ' ' + order.shippingAddress.lastName || `${order.user.name}`,
             address: order.shippingAddress.address,
             city: order.shippingAddress.city,
             postalCode: order.shippingAddress.postalCode,
