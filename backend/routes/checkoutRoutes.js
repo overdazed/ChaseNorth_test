@@ -118,7 +118,15 @@ router.post('/:id/finalize', protect, async (req, res) => {
             // Create the final order with the updated shipping address
             const finalOrder = await Order.create({
                 user: checkout.user,
-                orderItems: checkout.checkoutItems,
+                orderItems: checkout.checkoutItems.map(item => ({
+                    productId: item.productId,
+                    name: item.name,
+                    image: item.image,
+                    price: item.price,
+                    quantity: item.quantity,
+                    size: item.size,        // Make sure these are included
+                    color: item.color       // Make sure these are included
+                })),
                 shippingAddress: shippingAddress,  // Use the updated shipping address
                 paymentMethod: checkout.paymentMethod,
                 totalPrice: checkout.totalPrice,
