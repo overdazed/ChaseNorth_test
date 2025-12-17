@@ -23,10 +23,10 @@ router.post('/', protect, async (req, res) => {
 
     try {
         // Ensure shipping address has required fields
-        const completeShippingAddress = {
-            ...shippingAddress,
-            firstName: shippingAddress?.firstName || 'Customer',
-            lastName: shippingAddress?.lastName || 'Name'
+        const shippingAddress = {
+            ...checkout.shippingAddress,
+            firstName: checkout.shippingAddress?.firstName || 'Customer',
+            lastName: checkout.shippingAddress?.lastName || 'Name'
         };
 
         // Create a new checkout session with the complete shipping address

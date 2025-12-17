@@ -8,8 +8,7 @@ from jinja2 import Environment, FileSystemLoader
 from xhtml2pdf import pisa
 from dateutil.relativedelta import relativedelta
 import traceback
-
-# fghhffhg
+import sys
 
 class InvoiceGenerator:
     def __init__(self, output_dir='invoices'):
@@ -35,10 +34,11 @@ class InvoiceGenerator:
                 # Add format_date filter to the environment
                 self.env.filters['format_date'] = self.format_date
 
-                print("=== Received data from Node.js ===")
-                print("Order data:", json.dumps(order, indent=2))
-                print("Company data:", json.dumps(company_data, indent=2))
-                print("================================")
+                # Replace all print statements with sys.stderr.write()
+                sys.stderr.write("=== Received data from Node.js ===\n")
+                sys.stderr.write(f"Order data: {json.dumps(order, indent=2)}\n")
+                sys.stderr.write(f"Company data: {json.dumps(company_data, indent=2)}\n")
+                sys.stderr.write("================================\n")
 
                 # Ensure order is a dictionary
                 if not isinstance(order, dict):
@@ -89,9 +89,10 @@ class InvoiceGenerator:
                     'total': order.get('totalPrice', 0)
                 }
 
-                print("=== Processed shipping address ===")
-                print(json.dumps(order.get('shippingAddress', {}), indent=2))
-                print("================================")
+                # And later in the code:
+                sys.stderr.write("=== Processed shipping address ===\n")
+                sys.stderr.write(f"{json.dumps(order.get('shippingAddress', {}), indent=2)}\n")
+                sys.stderr.write("================================\n")
 
                 # Rest of the method remains the same...
                 template = self.env.get_template('invoice_template.html')
@@ -138,6 +139,14 @@ class InvoiceGenerator:
                     'type': type(e).__name__,
                     'traceback': traceback.format_exc()
                 })
+
+                # Make sure the final output is the only thing printed to stdout
+                print(json.dumps({
+                    'pdf_content': base64.b64encode(pdf_content).decode('utf-8'),
+                    'invoice_number': context['invoice_number'],
+                    'invoice_date': context['invoice_date'],
+                    'total': context['total']
+                }))
 #     def generate_invoice(self, order, company_data):
 #         try:
 #             # Add format_date filter to the environment
