@@ -124,14 +124,14 @@
 </table>
 
 <div class="total">
-    <p>Subtotal: ${{ "%.2f"|format(order.totalPrice) }}</p>
+    <p>Subtotal: ${{ "%.2f"|format(order['totalPrice'] if 'totalPrice' in order else 0) }}</p>
     {% if order.tax and order.tax > 0 %}
     <p>Tax ({{ company_data.tax_rate }}%): ${{ "%.2f"|format(order.tax) }}</p>
     {% endif %}
     {% if order.shipping and order.shipping > 0 %}
     <p>Shipping: ${{ "%.2f"|format(order.shipping) }}</p>
     {% endif %}
-    <p><strong>Total: ${{ "%.2f"|format(order.totalPrice) }}</strong></p>
+    <p><strong>Total: ${{ "%.2f"|format(order['totalPrice'] if 'totalPrice' in order else 0) }}</strong></p>
 </div>
 
 <div class="payment-info">

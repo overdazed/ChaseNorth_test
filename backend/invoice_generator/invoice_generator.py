@@ -29,58 +29,175 @@ class InvoiceGenerator:
         return value.strftime(format)
 
     def generate_invoice(self, order, company_data):
-        try:
-            # Add format_date filter to the environment
-            self.env.filters['format_date'] = self.format_date
+            try:
+                # Add format_date filter to the environment
+                self.env.filters['format_date'] = self.format_date
 
-            # Ensure order is a dictionary
-            if not isinstance(order, dict):
-                order = order.to_dict() if hasattr(order, 'to_dict') else dict(order)
+                # Ensure order is a dictionary
+                if not isinstance(order, dict):
+                    order = order.to_dict() if hasattr(order, 'to_dict') else dict(order)
 
-            # Ensure shipping address exists
-            if 'shippingAddress' not in order:
-                order['shippingAddress'] = {
-                    'firstName': order.get('shippingAddress_firstName', ''),
-                    'lastName': order.get('shippingAddress_lastName', ''),
-                    'address': order.get('shippingAddress_address', ''),
-                    'city': order.get('shippingAddress_city', ''),
-                    'postalCode': order.get('shippingAddress_postalCode', ''),
-                    'country': order.get('shippingAddress_country', '')
+                # Ensure shipping address exists
+                if 'shippingAddress' not in order:
+                    order['shippingAddress'] = {
+                        'firstName': order.get('shippingAddress_firstName', ''),
+                        'lastName': order.get('shippingAddress_lastName', ''),
+                        'address': order.get('shippingAddress_address', ''),
+                        'city': order.get('shippingAddress_city', ''),
+                        'postalCode': order.get('shippingAddress_postalCode', ''),
+                        'country': order.get('shippingAddress_country', '')
+                    }
+
+                # Ensure orderItems exists
+                if 'orderItems' not in order and 'items' in order:
+                    order['orderItems'] = order['items']
+
+                # Prepare context for template
+                context = {
+                    'order': order,
+                    'company_name': company_data.get('name', ''),
+                    'company_address': company_data.get('address', ''),
+                    'company_city': company_data.get('city', ''),
+                    'company_zip': company_data.get('zip', ''),
+                    'company_country': company_data.get('country', ''),
+                    'company_email': company_data.get('email', ''),
+                    'company_phone': company_data.get('phone', ''),
+                    'company_website': company_data.get('website', ''),
+                    'invoice_number': self.generate_invoice_number(),
+                    'invoice_date': datetime.now().strftime('%B %d, %Y'),
+                    'due_date': (datetime.now() + relativedelta(days=30)).strftime('%B %d, %Y'),
+                    'total': order.get('totalPrice', 0)
                 }
 
-            # Ensure orderItems exists
-            if 'orderItems' not in order and 'items' in order:
-                order['orderItems'] = order['items']
+                # Rest of the method remains the same...
+                template = self.env.get_template('invoice_template.html')
+                html_content = template.render(**context)
 
-            # Prepare context for template
-            context = {
-                'order': order,
-                'company_name': company_data.get('name', ''),
-                'company_address': company_data.get('address', ''),
-                'company_city': company_data.get('city', ''),
-                'company_zip': company_data.get('zip', ''),
-                'company_country': company_data.get('country', ''),
-                'company_email': company_data.get('email', ''),
-                'company_phone': company_data.get('phone', ''),
-                'company_website': company_data.get('website', ''),
-                'invoice_number': self.generate_invoice_number(),
-                'invoice_date': datetime.now().strftime('%B %d, %Y'),
-                'due_date': (datetime.now() + relativedelta(days=30)).strftime('%B %d, %Y'),
-                'total': order.get('totalPrice', 0)
-            }
+                # Generate PDF
+                pdf_filename = f"invoice_{context['invoice_number']}.pdf".replace(" ", "_")
+                pdf_path = os.path.join(self.output_dir, pdf_filename)
 
-            # Rest of the method remains the same...
-            template = self.env.get_template('invoice_template.html')
-            html_content = template.render(**context)
+                # Create PDF from HTML
+                with open(pdf_path, 'wb') as output_file:
+                    pisa_status = pisa.CreatePDF(
+                        html_content,
+                        dest=output_file,
+                        encoding='UTF-8'
+                    )
 
-            # ... rest of the PDF generation code ...
+                if pisa_status.err:
+                    raise Exception(f'Error generating PDF: {pisa_status.err}')
 
-        except Exception as e:
-            return json.dumps({
-                'error': str(e),
-                'type': type(e).__name__,
-                'traceback': traceback.format_exc()
-            })
+                # Read the generated PDF and encode as base64
+                with open(pdf_path, 'rb') as pdf_file:
+                    pdf_content = pdf_file.read()
+
+                # Clean up the PDF file
+                try:
+                    os.remove(pdf_path)
+                except:
+                    pass
+
+                # Return result as a dictionary
+                result = {
+                    'pdf_content': base64.b64encode(pdf_content).decode('utf-8'),
+                    'invoice_number': context['invoice_number'],
+                    'invoice_date': context['invoice_date'],
+                    'total': context['total']
+                }
+
+                return json.dumps(result)
+
+            except Exception as e:
+                return json.dumps({
+                    'error': str(e),
+                    'type': type(e).__name__,
+                    'traceback': traceback.format_exc()
+                })
+#     def generate_invoice(self, order, company_data):
+#         try:
+#             # Add format_date filter to the environment
+#             self.env.filters['format_date'] = self.format_date
+#
+#             # Ensure order has required fields
+#             if not isinstance(order, dict):
+#                 raise ValueError("Order must be a dictionary")
+#
+#             # Prepare order items
+#             order_items = order.get('items', [])
+#             if not order_items and 'orderItems' in order:
+#                 order_items = order['orderItems']
+#                 order['items'] = order_items
+#
+#             # Calculate totals if not provided
+#             if 'totalPrice' not in order:
+#                 subtotal = sum(item.get('price', 0) * item.get('quantity', 0) for item in order_items)
+#                 tax_rate = company_data.get('tax_rate', 0) / 100
+#                 tax = subtotal * tax_rate
+#                 order['totalPrice'] = subtotal + tax
+#
+#             # Prepare context for template
+#             context = {
+#                 'order': order,
+#                 'company_name': company_data.get('name', ''),
+#                 'company_address': company_data.get('address', ''),
+#                 'company_city': company_data.get('city', ''),
+#                 'company_zip': company_data.get('zip', ''),
+#                 'company_country': company_data.get('country', ''),
+#                 'company_email': company_data.get('email', ''),
+#                 'company_phone': company_data.get('phone', ''),
+#                 'company_website': company_data.get('website', ''),
+#                 'invoice_number': self.generate_invoice_number(),
+#                 'invoice_date': datetime.now().strftime('%B %d, %Y'),
+#                 'due_date': (datetime.now() + relativedelta(days=30)).strftime('%B %d, %Y'),
+#                 'total': order.get('totalPrice', 0)
+#             }
+#
+#             # Render the template
+#             template = self.env.get_template('invoice_template.html')
+#             html_content = template.render(**context)
+#
+#             # Generate PDF
+#             pdf_filename = f"invoice_{context['invoice_number']}.pdf".replace(" ", "_")
+#             pdf_path = os.path.join(self.output_dir, pdf_filename)
+#
+#             # Create PDF from HTML
+#             with open(pdf_path, 'wb') as output_file:
+#                 pisa_status = pisa.CreatePDF(
+#                     html_content,
+#                     dest=output_file,
+#                     encoding='UTF-8'
+#                 )
+#
+#             if pisa_status.err:
+#                 raise Exception(f'Error generating PDF: {pisa_status.err}')
+#
+#             # Read the generated PDF and encode as base64
+#             with open(pdf_path, 'rb') as pdf_file:
+#                 pdf_content = pdf_file.read()
+#
+#             # Clean up the PDF file
+#             try:
+#                 os.remove(pdf_path)
+#             except:
+#                 pass
+#
+#             # Return result as a dictionary
+#             result = {
+#                 'pdf_content': base64.b64encode(pdf_content).decode('utf-8'),
+#                 'invoice_number': context['invoice_number'],
+#                 'invoice_date': context['invoice_date'],
+#                 'total': context['total']
+#             }
+#
+#             return json.dumps(result)
+#
+#         except Exception as e:
+#             return json.dumps({
+#                 'error': str(e),
+#                 'type': type(e).__name__
+#             })
+
 
 def read_input_file(file_path):
     try:
