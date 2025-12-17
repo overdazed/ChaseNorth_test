@@ -505,20 +505,20 @@
                             <p>VAT: {{ customer.vat }}</p>
                             {% endif %}
 
-                            {% if customer.address1 %}
-                            <p>{{ customer.address1 }}</p>
+                            {% if order.shippingAddress.firstName and order.shippingAddress.lastName %}
+                            <p>{{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastName }}</p>
                             {% endif %}
 
-                            {% if customer.address2 %}
-                            <p>{{ customer.address2 }}</p>
+                            {% if order.shippingAddress.address %}
+                            <p>{{ order.shippingAddress.address }}</p>
                             {% endif %}
 
-                            {% if customer.city or customer.postCode %}
-                            <p>{{ customer.city }}{% if customer.postCode%}, {{ customer.postCode }} {% endif %}</p>
+                            {% if order.shippingAddress.postalCode and order.shippingAddress.city %}
+                            <p>{{ order.shippingAddress.postalCode }} {{ order.shippingAddress.city }} {% endif %}</p>
                             {% endif %}
 
-                            {% if customer.country %}
-                            <p>{{ customer.country }}</p>
+                            {% if order.shippingAddress.country %}
+                            <p>{{ order.shippingAddress.country }}</p>
                             {% endif %}
                         </div>
                     </td>
