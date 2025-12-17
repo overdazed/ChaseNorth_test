@@ -456,7 +456,7 @@
                                     <td class="border-r pr-4">
                                         <div>
                                             <p class="whitespace-nowrap text-slate-400 text-right">Date</p>
-                                            <p class="whitespace-nowrap font-bold text-main text-right">{{ invoiceDate|date("F j, Y") }}
+                                            <p class="whitespace-nowrap font-bold text-main text-right">{{ invoiceDate|date|invoice_date("F j, Y") }}
                                             </p>
                                         </div>
                                     </td>
@@ -482,12 +482,13 @@
                 <tr>
                     <td class="w-1/2 align-top">
                         <div class="text-sm text-neutral-600">
-                            <p class="font-bold">Supplier Company INC</p>
+                            <p class="font-bold">ChaseNorth</p>
                             <p>Number: 23456789</p>
                             <p>VAT: 23456789</p>
-                            <p>6622 Abshire Mills</p>
-                            <p>Port Orlofurt, 05820</p>
-                            <p>United States</p>
+                            <p>Svetlana Pantschenko</p>
+                            <p>Kantstr. 10</p>
+                            <p>31582 Nienburg(Weser)</p>
+                            <p>DE</p>
                         </div>
                     </td>
                     <td class="w-1/2 align-top text-right">

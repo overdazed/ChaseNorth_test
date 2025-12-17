@@ -103,14 +103,19 @@
     </div>
 </div>
 
+<!-- Order Information -->
+<div class="order-info">
+    <h2>Order #{{ order._id }}</h2>
+    <p><strong>Order Date:</strong> {{ order.createdAt|format_date }}</p>
+    <p><strong>Status:</strong> {{ order.status }}</p>
+</div>
+
 <!-- Customer Information -->
 <div class="customer-info">
-    <h3>Bill To:</h3>
-    <p>{{ customer_data.name }}<br>
-        {{ customer_data.address }}<br>
-        {{ customer_data.city }}, {{ customer_data.postalCode }}<br>
-        {{ customer_data.country }}<br>
-        {{ customer_data.email }}</p>
+    <h3>Shipping Address</h3>
+    <p>{{ order.shippingAddress.address }}</p>
+    <p>{{ order.shippingAddress.city }}, {{ order.shippingAddress.postalCode }}</p>
+    <p>{{ order.shippingAddress.country }}</p>
 </div>
 
 <!-- Order Items -->
