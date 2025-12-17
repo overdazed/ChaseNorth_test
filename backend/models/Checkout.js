@@ -63,6 +63,14 @@ const checkoutSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    // tax: {
+    //     type: Number,
+    //     required: true
+    // },
+    // shippingPrice: {
+    //     type: Number,
+    //     required: true
+    // },
     isPaid: {
         type: Boolean,
         default: false
