@@ -77,9 +77,9 @@ const OrderDetailsPage = () => {
     if (error) return <p>Error: {error}</p>;
 
     // Set background and text classes based on theme
-    const bgClass = isDarkMode ? 'bg-neutral-950 min-h-screen' : 'bg-neutral-50 min-h-screen transition-colors duration-300'
-    const textClass = isDarkMode ? 'text-white' : 'text-black'
-    const borderClass = isDarkMode ? 'border-neutral-500' : 'border-neutral-800'
+    const bgClass = isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50 transition-colors duration-300'
+    const textClass = isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
+    const borderClass = isDarkMode ? 'border-neutral-600' : 'border-neutral-250'
 
     return (
         <div className={`min-h-screen ${bgClass} transition-colors duration-300`}>

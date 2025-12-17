@@ -49,13 +49,14 @@ const Profile = () => {
     // Set background and text classes based on theme
     const bgClass = isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'
     const textClass = isDarkMode ? 'text-white' : 'text-black'
+    const borderClass = isDarkMode ? 'border-neutral-600' : 'border-neutral-250'
 
     return (
         <div className={`min-h-screen flex flex-col ${bgClass} ${textClass} transition-colors duration-500`}>
             <div className="flex-grow container mx-auto p-4 md:p-6">
                 <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
                     {/* Left Section*/}
-                    <div className="w-full md:w-1/3 lg:1/4 shadow-md rounded-lg p-6 bg-white">
+                    <div className={`w-full md:w-1/3 lg:1/4 shadow-md rounded-lg p-6 bg-white`}>
                         <h1 className="text-2xl md:text-3xl font-bold mb-4 text-black">
                             {user?.name}
                         </h1>
