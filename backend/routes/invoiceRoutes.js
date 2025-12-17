@@ -103,6 +103,7 @@ router.post('/generate', protect, async (req, res) => {
     }
 });
 
+
 // @desc    Get invoice by order ID
 // @route   GET /api/invoices/order/:id
 // @access  Private
