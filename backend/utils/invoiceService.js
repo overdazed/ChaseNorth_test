@@ -25,6 +25,9 @@ class InvoiceService {
                 company_data: companyData
             };
 
+            // Add this debug log
+            console.log('Sending order data to invoice generator:', JSON.stringify(data, null, 2));
+
             // Write data to a temporary file
             await writeFileAsync(tempFile, JSON.stringify(data), 'utf8');
 

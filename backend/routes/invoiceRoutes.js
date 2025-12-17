@@ -14,6 +14,8 @@ router.post('/generate', protect, async (req, res) => {
         // Get order details with user information
         const order = await Order.findById(orderId)
             .populate('user', 'name email');
+        // In your route handler
+        console.log('Order from DB:', JSON.stringify(order.shippingAddress, null, 2));
 
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });

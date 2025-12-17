@@ -41,15 +41,27 @@ class InvoiceGenerator:
 
                 # Ensure shipping address exists
                 if 'shippingAddress' not in order:
-                    order['shippingAddress'] = {
-                        'firstName': order.get('shippingAddress', {}).get('firstName', '') or order.get('shippingAddress_firstName', ''),
-                        # 'firstName': order.get('shippingAddress', {}).get('firstName', '')
-                        'lastName': order.get('shippingAddress_lastName', ''),
-                        'address': order.get('shippingAddress_address', ''),
-                        'city': order.get('shippingAddress_city', ''),
-                        'postalCode': order.get('shippingAddress_postalCode', ''),
-                        'country': order.get('shippingAddress_country', '')
-                    }
+                    order['shippingAddress'] = {}
+
+#                 order['shippingAddress'] = {
+#                     'firstName': order.get('shippingAddress', {}).get('firstName', '') or order.get('shippingAddress_firstName', ''),
+#                     # 'firstName': order.get('shippingAddress', {}).get('firstName', '')
+#                     'lastName': order.get('shippingAddress_lastName', ''),
+#                     'address': order.get('shippingAddress_address', ''),
+#                     'city': order.get('shippingAddress_city', ''),
+#                     'postalCode': order.get('shippingAddress_postalCode', ''),
+#                     'country': order.get('shippingAddress_country', '')
+#                 }
+
+                # Ensure all address fields exist with empty string as default
+                order['shippingAddress'].update({
+                    'firstName': order['shippingAddress'].get('firstName', '') or '',
+                    'lastName': order['shippingAddress'].get('lastName', '') or '',
+                    'address': order['shippingAddress'].get('address', '') or '',
+                    'city': order['shippingAddress'].get('city', '') or '',
+                    'postalCode': order['shippingAddress'].get('postalCode', '') or order['shippingAddress'].get('postal_code', ''),
+                    'country': order['shippingAddress'].get('country', '') or ''
+                })
 
                 # Ensure orderItems exists
                 if 'orderItems' not in order and 'items' in order:
