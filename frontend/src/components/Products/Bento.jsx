@@ -20,15 +20,21 @@ const SkeletonOne = ({ onClick }) => {
     return (
         <div
             onClick={handleClick}
-            className="absolute inset-0 w-full h-full z-10 p-6"
+            // className="absolute inset-0 w-full h-full z-10 p-6"
+            className="relative h-full w-full group overflow-hidden"
             style={{
                 pointerEvents: 'auto',
-                cursor: 'pointer'
+                // cursor: 'pointer'
             }}
         >
-            <p className="font-bold md:text-4xl text-xl text-white pl-16">
-                Women
-            </p>
+            <div className="absolute top-0 left-5 z-15">
+            {/*<p className="font-bold md:text-4xl text-xl text-white pl-16">*/}
+            {/*    Women*/}
+            {/*</p>*/}
+                <p className="font-bold text-white text-4xl md:text-4xl transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out">
+                    Women
+                </p>
+            </div>
             {/* THIS IS BEEN SHOWN */}
             {/*<p className="font-normal text-base my-4 max-w-lg text-white">*/}
             {/*    Explore our women's collection*/}
