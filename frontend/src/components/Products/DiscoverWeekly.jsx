@@ -261,90 +261,44 @@ const DiscoverWeeklyContent = () => {
             Discover Weekly
           </h1>
 
-          <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-8 px-4 max-w-7xl mx-auto">
-            {weeklyProduct && (
-                <div className="w-full h-full">
-                <a
-                    href={`/product/${weeklyProduct._id || weeklyProduct.id}`}
-                    onClick={(e) => {
-                      const scrollY =
-                          window.scrollY || document.documentElement.scrollTop;
-                      sessionStorage.setItem(
-                          `scrollPos:${window.location.pathname}`,
-                          scrollY
-                      );
-                    }}
-                    className="block w-full h-full"
-                >
-                  <Card icon={<AceternityIcon />}>
-                    <div className="absolute inset-0">
-                      <img
-                          src={
-                              weeklyProduct.images?.[0]?.url ||
-                              "https://via.placeholder.com/400x600?text=No+Image"
-                          }
-                          alt={weeklyProduct.name}
-                          className="w-full h-full object-cover"
+          <div className="relative group overflow-hidden h-full">
+            {/* Dim overlay that disappears on hover */}
+            <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:opacity-0 transition-opacity duration-500 z-0"></div>
+
+            {/* Product Image */}
+            <img
+                src={
+                    weeklyProduct.images?.[0]?.url ||
+                    "https://via.placeholder.com/400x600?text=No+Image"
+                }
+                alt={weeklyProduct.name}
+                className="w-full h-full object-cover"
+            />
+
+            {/* Hover Content - Bottom Aligned */}
+            <div className="absolute bottom-0 left-0 right-0 pt-24 pb-6 px-6 bg-gradient-to-t from-black/95 via-black/60 via-50% to-transparent">
+              <div className="space-y-2">
+                <p className="font-bold text-white text-lg transform -translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out">
+                  {weeklyProduct.brand || "Brand"}
+                </p>
+                <p className="font-medium text-white text-2xl transform -translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out delay-75">
+                  {weeklyProduct.name}
+                </p>
+              </div>
+            </div>
+
+            {/* Existing color swatches */}
+            {weeklyProduct.colors && weeklyProduct.colors.length > 0 && (
+                <div className="absolute bottom-4 right-4 flex space-x-2">
+                  {weeklyProduct.colors.map((color, i) => (
+                      <div
+                          key={i}
+                          className="w-6 h-6 rounded-full border-2 border-white shadow-md"
+                          style={{ backgroundColor: color }}
                       />
-                      <div className="absolute inset-0 bg-black/50" />
-                    </div>
-                    {weeklyProduct.colors && weeklyProduct.colors.length > 0 && (
-                        <div className="absolute bottom-4 right-4 flex space-x-2">
-                          {weeklyProduct.colors.map((color, i) => (
-                              <div
-                                  key={i}
-                                  className="w-6 h-6 rounded-full border-2 border-white shadow-md"
-                                  style={{ backgroundColor: color }}
-                              />
-                          ))}
-                        </div>
-                    )}
-                    <div className="absolute bottom-0 left-0 right-0 pt-24 pb-6 px-6 bg-gradient-to-t from-black/95 via-black/60 via-50% to-transparent">
-                      <div className="flex justify-between items-start">
-                        <h3 className="text-xl font-semibold text-white">
-                          {weeklyProduct.name}
-                        </h3>
-                        <span className="text-lg font-bold text-white">
-                      {weeklyProduct.price?.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })}
-                    </span>
-                      </div>
-                      {weeklyProduct.brand && (
-                          <p className="text-gray-200 mt-1">{weeklyProduct.brand}</p>
-                      )}
-                    </div>
-                  </Card>
-                </a>
+                  ))}
                 </div>
             )}
-
-            <div className="w-full h-full">
-              <Card title="New Arrivals" icon={<AceternityIcon />}>
-                <CanvasRevealEffect
-                    animationSpeed={3}
-                    containerClassName="bg-red-600"
-                    colors={[[239, 68, 68]]}
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white text-xl font-bold">Coming Soon</span>
-                </div>
-              </Card>
-            </div>
-
-            <div className="w-full h-full">
-              <Card title="Coming Soon" icon={<AceternityIcon />}>
-                <CanvasRevealEffect
-                    animationSpeed={3}
-                    containerClassName="bg-sky-600"
-                    colors={[[125, 211, 252]]}
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white text-xl font-bold">Stay Tuned</span>
-                </div>
-              </Card>
-            </div>
           </div>
 
           {/*{nextUpdate && (*/}

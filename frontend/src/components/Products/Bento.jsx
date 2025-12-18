@@ -235,33 +235,33 @@ const Bento = () => {
         navigate(path, { state });
     };
 
-    // const cards = [
-    //     {
-    //         id: 1,
-    //         content: <SkeletonOne onClick={() => handleCardClick('/collections/all?gender=Women', { gender: 'Women' })} />,
-    //         className: "md:col-span-2",
-    //         thumbnail: womensCollectionImage,
-    //         // objectPosition: "center 60%",
-    //     },
-    //     {
-    //         id: 2,
-    //         content: <SkeletonTwo onClick={() => navigate('/collections/all?category=Top+Wear')} />,
-    //         className: "col-span-1",
-    //         thumbnail: topCollectionImage,
-    //     },
-    //     {
-    //         id: 3,
-    //         content: <SkeletonThree onClick={() => navigate('/collections/all?category=Bottom+Wear')} />,
-    //         className: "col-span-1",
-    //         thumbnail: bottomCollectionImage,
-    //     },
-    //     {
-    //         id: 4,
-    //         content: <SkeletonFour onClick={() => navigate('/collections/all?gender=Men', { state: { gender: 'Men' } })} />,
-    //         className: "md:col-span-2",
-    //         thumbnail: mensCollectionImage,
-    //     },
-    // ];
+    const cards = [
+        {
+            id: 1,
+            content: <SkeletonOne onClick={() => handleCardClick('/collections/all?gender=Women', { gender: 'Women' })} />,
+            className: "md:col-span-2",
+            thumbnail: womensCollectionImage,
+            // objectPosition: "center 60%",
+        },
+        {
+            id: 2,
+            content: <SkeletonTwo onClick={() => navigate('/collections/all?category=Top+Wear')} />,
+            className: "col-span-1",
+            thumbnail: topCollectionImage,
+        },
+        {
+            id: 3,
+            content: <SkeletonThree onClick={() => navigate('/collections/all?category=Bottom+Wear')} />,
+            className: "col-span-1",
+            thumbnail: bottomCollectionImage,
+        },
+        {
+            id: 4,
+            content: <SkeletonFour onClick={() => navigate('/collections/all?gender=Men', { state: { gender: 'Men' } })} />,
+            className: "md:col-span-2",
+            thumbnail: mensCollectionImage,
+        },
+    ];
 
     const { scrollYProgress } = useScroll({
         target: container,

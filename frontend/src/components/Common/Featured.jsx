@@ -19,7 +19,7 @@ const Featured = () => {
           making your product feel alive from the very first glance.
         </p>
         <Link 
-          to="/#"
+          to="/blog/features-that-refuse-to-sit-still"
           className="bg-black text-white border border-black px-4 py-2 text-sm transition-all duration-300 hover:bg-white hover:text-black cursor-pointer w-fit"
         >
           LEARN MORE
