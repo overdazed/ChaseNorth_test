@@ -592,8 +592,9 @@ const Checkout = () => {
                                 }
                                 className={`w-full p-2 border rounded ${isFormSubmitted ? 'bg-gray-100' : ''}`}
                                 required
-                                pattern="^\d{5}(-\d{4})?$"  // Only digits
-                                title="Postal code must contain numbers only, e.g. 12345 or 12345-6789"
+                                pattern="^[a-zA-Z0-9\s-]{3,7}$"
+                                maxLength="8"
+                                title="Postal code must be 3-7 characters (letters, numbers, spaces)"
                                 disabled={isFormSubmitted}
                             />
                         </div>
