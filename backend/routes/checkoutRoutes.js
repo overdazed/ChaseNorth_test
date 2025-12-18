@@ -145,7 +145,7 @@ router.post('/:id/finalize', protect, async (req, res) => {
             // Mark the checkout as finalized
             checkout.isFinalized = true;
             await checkout.save();
-
+            // blaaaaa
             // Clear the user's cart
             await Cart.findOneAndDelete({ user: req.user._id });
 
