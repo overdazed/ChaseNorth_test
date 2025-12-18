@@ -6,6 +6,7 @@ const Product = require('../models/Product');
 const Order = require('../models/Order');
 const { protect } = require('../middleware/authMiddleware');
 const { generateAndSaveInvoice } = require('../utils/invoiceStorage');
+
 const router = express.Router();
 
 

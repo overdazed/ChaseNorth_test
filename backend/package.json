@@ -18,7 +18,7 @@
     "@langchain/langgraph-checkpoint-mongodb": "^1.0.0",
     "@langchain/mongodb": "^1.1.0",
     "@react-three/fiber": "^9.3.0",
-    "@supabase/supabase-js": "^2.75.1",
+    "@supabase/supabase-js": "^2.88.0",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.6.1",
     "clsx": "^2.1.1",
