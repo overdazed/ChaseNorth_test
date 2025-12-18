@@ -2,8 +2,11 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { LayoutGrid } from "../ui/layout-grid";
-import mensCollectionImage from "../../assets/Man-horizontal.jpg";
-import womensCollectionImage from "../../assets/Woman-horizontal.jpg";
+import mensCollectionImage from "../../assets/man/winter.jpg";
+import womensCollectionImage from "../../assets/woman/winter.jpg";
+import topCollectionImage from "../../assets/top/winter.jpg";
+import bottomCollectionImage from "../../assets/bottom/winter.jpg";
+
 
 const SkeletonOne = () => (
     <div>
@@ -71,15 +74,15 @@ const cards = [
         id: 2,
         content: <SkeletonTwo />,
         className: "col-span-1",
-        thumbnail:
-            "https://images.unsplash.com/photo-1464457312035-3d7d0e0c058e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        thumbnail: topCollectionImage,
+            //"https://images.unsplash.com/photo-1464457312035-3d7d0e0c058e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
         id: 3,
         content: <SkeletonThree />,
         className: "col-span-1",
-        thumbnail:
-            "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        thumbnail: bottomCollectionImage,
+            //"https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
         id: 4,
