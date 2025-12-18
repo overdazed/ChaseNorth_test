@@ -231,9 +231,9 @@ const CollectionPage = () => {
                 {products.length > 0 && (
                     <>
                         {/* First two rows of products (6 products total) */}
-                        {products.length > 6 && (
+                        {products.length > 12 && (
                             <ProductGrid 
-                                products={products.slice(0, 8)}
+                                products={products.slice(0, 12)}
                                 loading={loading} 
                                 error={error} 
                                 isDay={isDay}
@@ -253,7 +253,7 @@ const CollectionPage = () => {
                         )}
                         
                         {/* SwipeCards section */}
-                        {products.length > 6 && (
+                        {products.length > 12 && (
                             <div className="mt-12 mb-12">
                                 {/*<h3 className={`text-xl text-center font-medium mb-4 ${isDay ? 'text-gray-900' : 'text-white'}`}>*/}
                                 {/*    Featured Picks*/}
@@ -263,9 +263,9 @@ const CollectionPage = () => {
                         )}
                         
                         {/* Remaining products after first two rows */}
-                        {products.length > 6 && (
+                        {products.length > 12 && (
                             <ProductGrid 
-                                products={products.slice(6)} 
+                                products={products.slice(12)}
                                 loading={loading} 
                                 error={error} 
                                 isDay={isDay}
@@ -274,7 +274,7 @@ const CollectionPage = () => {
                         )}
                         
                         {/* If 6 or fewer products, show SwipeCards after all products */}
-                        {products.length > 0 && products.length <= 8 && (
+                        {products.length > 0 && products.length <= 6 && (
                             <div className="mt-4 mb-8">
                                 <h3 className={`text-xl text-center font-medium mb-8 ${isDay ? 'text-gray-900' : 'text-white'}`}>
                                     Featured Picks

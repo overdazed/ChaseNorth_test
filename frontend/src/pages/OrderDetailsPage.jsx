@@ -226,7 +226,7 @@ const OrderDetailsPage = () => {
                     {/* Product List */}
                     <div className="overflow-x-auto">
                         <h4 className="text-lg font-semibold mb-4">Products</h4>
-                        <table className="min-w-full text-gray-600 mb-4">
+                        <table className="min-w-full text-gray-500 mb-4">
                             <thead className="bg-gray-100">
                                 <tr>
                                     <th className="py-2 px-4 text-left">Name</th>
