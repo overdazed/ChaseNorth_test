@@ -286,7 +286,8 @@ const DiscoverWeeklyContent = () => {
                           alt={weeklyProduct.name}
                           className="w-full h-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-black/50" />
+                      {/*bg-black/50*/}
+                      <div className="absolute inset-0 bg-black/50 hover:bg-black/10 transition-colors duration-200" />
                     </div>
                     {weeklyProduct.colors && weeklyProduct.colors.length > 0 && (
                         <div className="absolute bottom-4 right-4 flex space-x-2">
