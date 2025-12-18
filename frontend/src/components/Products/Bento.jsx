@@ -27,12 +27,13 @@ const SkeletonOne = ({ onClick }) => {
             <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:opacity-0 transition-opacity duration-500 z-0"></div>
 
             {/* Content */}
-            <div className="absolute bottom-14 left-8 z-10 space-y-4">
+            <div className="absolute bottom-10 left-6 z-10 space-y-4">
                 <p className="font-bold text-white text-4xl transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out">
                     Women
                 </p>
                 <p className="font-normal text-base text-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out delay-100">
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                    sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
                 </p>
             </div>
             {/*<div className="absolute top-6 left-5 z-10 space-y-4">*/}
@@ -63,19 +64,39 @@ const SkeletonOne = ({ onClick }) => {
     );
 };
 
-const SkeletonTwo = () => (
-    // <div>
-    //     <p className="font-bold md:text-4xl text-xl text-white">
-    //         House above the clouds
-    //     </p>
-    //     <p className="font-normal text-base text-white"></p>
-    //     <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-    //         Perched high above the world, this house offers breathtaking views and a
-    //         unique living experience. It&apos;s a place where the sky meets home,
-    //         and tranquility is a way of life.
-    //     </p>
-    // </div>
+const SkeletonTwo = ({ onClick }) => {
+    const handleClick = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        console.log('SkeletonTwo clicked');
+        if (onClick) onClick();
+    };
 
+    return (
+        <div
+            onClick={handleClick}
+            className="relative h-full w-full group overflow-hidden"
+            style={{ pointerEvents: 'auto' }}
+        >
+            {/* Dim overlay with reduced opacity that becomes fully transparent on hover */}
+            <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:opacity-0 transition-opacity duration-500 z-0"></div>
+
+            {/* Content - Right Aligned */}
+            <div className="absolute bottom-10 right-4 z-10 space-y-4 text-right">
+                <p className="font-bold text-white text-4xl transform translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out">
+                    House above the clouds
+                </p>
+                <p className="font-normal text-base text-white transform translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out delay-100">
+                    Perched high above the world, this house offers breathtaking views and a
+                    unique living experience. It&apos;s a place where the sky meets home,
+                    and tranquility is a way of life.
+                </p>
+            </div>
+        </div>
+    );
+};
+
+const SkeletonThree = ({ onClick }) => {
     const handleClick = (e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -93,33 +114,18 @@ const SkeletonTwo = () => (
             <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:opacity-0 transition-opacity duration-500 z-0"></div>
 
             {/* Content */}
-            <div className="absolute bottom-14 left-8 z-10 space-y-4">
+            <div className="absolute top-10 left-5 z-10 space-y-4">
                 <p className="font-bold text-white text-4xl transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out">
-                    House above the clouds
+                    Bottom
                 </p>
                 <p className="font-normal text-base text-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out delay-100">
-                    Perched high above the world, this house offers breathtaking views and a
-                    unique living experience. It&apos;s a place where the sky meets home,
-                    and tranquility is a way of life.
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                    sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
                 </p>
             </div>
         </div>
     );
-
-);
-
-const SkeletonThree = () => (
-    <div>
-        <p className="font-bold md:text-4xl text-xl text-white">
-            Greens all over
-        </p>
-        <p className="font-normal text-base text-white"></p>
-        <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-            A house surrounded by greenery and nature&apos;s beauty. It&apos;s the
-            perfect place to relax, unwind, and enjoy life.
-        </p>
-    </div>
-);
+};
 
 const SkeletonFour = () => (
     <div>
@@ -169,7 +175,16 @@ const cards = [
     },
     {
         id: 3,
-        content: <SkeletonThree />,
+        content: (
+            <div
+                onClick={(e) => {
+                    e.stopPropagation();
+                    console.log('Navigating to Top-Wear collection');
+                    navigate('/collections/all?gender=Bottom', { state: { gender: 'Bottom-Wear' } });
+                }}
+                className="absolute inset-0 w-full h-full z-10 cursor-pointer"
+            />
+        ),
         className: "col-span-1",
         thumbnail: bottomCollectionImage,
             //"https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -251,7 +266,7 @@ const Bento = () => {
     }, []);
 
     return (
-        <motion.div 
+        <motion.div
             ref={container}
             className={`relative h-screen w-full ${isDaytime ? 'bg-neutral-50' : 'bg-neutral-950'}`}
             style={{
