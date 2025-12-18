@@ -38,21 +38,49 @@ export const LayoutGrid = ({ cards: initialCards, isDay = true }) => {
                 <div key={i} className={cn(card.className, {
                     'transition-all duration-300': selected && selected.id !== card.id
                 })}>
+                    {/*{!selected ? (*/}
+                    {/*    <WobbleCard */}
+                    {/*      containerClassName="h-full w-full rounded-xl overflow-hidden" */}
+                    {/*      className="p-0"*/}
+                    {/*      reducedBounce={i === 0 || i === 3} // Card 1 and 4 (0 and 3 index)*/}
+                    {/*      isDay={isDay}*/}
+                    {/*    >*/}
+                    {/*        <motion.div*/}
+                    {/*            onClick={() => handleClick(card)}*/}
+                    {/*            className="relative overflow-hidden group h-full w-full"*/}
+                    {/*            layoutId={`card-${card.id}`}*/}
+                    {/*        >*/}
+                    {/*            <div className="absolute inset-0 w-full h-full">*/}
+                    {/*                <ImageComponent */}
+                    {/*                    card={card} */}
+                    {/*                    className="absolute inset-0 w-full h-full object-cover"*/}
+                    {/*                    style={{*/}
+                    {/*                        minWidth: '100%',*/}
+                    {/*                        minHeight: '100%',*/}
+                    {/*                        width: 'auto',*/}
+                    {/*                        height: 'auto',*/}
+                    {/*                        objectFit: 'cover',*/}
+                    {/*                        objectPosition: card.objectPosition || 'center',*/}
+                    {/*                    }}*/}
+                    {/*                />*/}
+                    {/*            </div>*/}
+                    {/*        </motion.div>*/}
+                    {/*    </WobbleCard>*/}
+                    {/*) : (*/}
                     {!selected ? (
-                        <WobbleCard 
-                          containerClassName="h-full w-full rounded-xl overflow-hidden" 
-                          className="p-0"
-                          reducedBounce={i === 0 || i === 3} // Card 1 and 4 (0 and 3 index)
-                          isDay={isDay}
+                        <WobbleCard
+                            containerClassName="h-full w-full rounded-xl overflow-hidden"
+                            className="p-0"
+                            reducedBounce={i === 0 || i === 3}
+                            isDay={isDay}
                         >
                             <motion.div
-                                onClick={() => handleClick(card)}
                                 className="relative overflow-hidden group h-full w-full"
                                 layoutId={`card-${card.id}`}
                             >
                                 <div className="absolute inset-0 w-full h-full">
-                                    <ImageComponent 
-                                        card={card} 
+                                    <ImageComponent
+                                        card={card}
                                         className="absolute inset-0 w-full h-full object-cover"
                                         style={{
                                             minWidth: '100%',
@@ -64,6 +92,7 @@ export const LayoutGrid = ({ cards: initialCards, isDay = true }) => {
                                         }}
                                     />
                                 </div>
+                                {card.content}
                             </motion.div>
                         </WobbleCard>
                     ) : (
@@ -177,12 +206,12 @@ const SkeletonOne = ({ onClick }) => (
             <p className="font-bold md:text-4xl text-xl text-white">
                 Women
             </p>
-            <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-                Explore our women's collection
-            </p>
-            <div className="mt-4 text-white underline">
-                Shop now
-            </div>
+            {/*<p className="font-normal text-base my-4 max-w-lg text-neutral-200">*/}
+            {/*    Explore our women's collection*/}
+            {/*</p>*/}
+            {/*<div className="mt-4 text-white underline">*/}
+            {/*    Shop now*/}
+            {/*</div>*/}
         </button>
     </div>
 );

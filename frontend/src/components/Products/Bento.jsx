@@ -12,6 +12,7 @@ import {useNavigate} from "react-router-dom";
 const SkeletonOne = ({ onClick }) => {
     const handleClick = (e) => {
         e.stopPropagation();
+        e.preventDefault();
         console.log('SkeletonOne clicked');
         if (onClick) onClick();
     };
@@ -19,18 +20,28 @@ const SkeletonOne = ({ onClick }) => {
     return (
         <div
             onClick={handleClick}
-            className="absolute inset-0 w-full h-full z-10 cursor-pointer p-6"
-            style={{ pointerEvents: 'auto' }}
+            className="absolute inset-0 w-full h-full z-10 p-6"
+            style={{
+                pointerEvents: 'auto',
+                cursor: 'pointer'
+            }}
         >
-            <p className="font-bold md:text-4xl text-xl text-white">
+            <p className="font-bold md:text-4xl text-xl text-white pl-16">
                 Women
             </p>
-            <p className="font-normal text-base my-4 max-w-lg text-white">
-                Explore our women's collection
-            </p>
-            <div className="mt-4 text-white underline">
-                Shop now
-            </div>
+            {/* THIS IS BEEN SHOWN */}
+            {/*<p className="font-normal text-base my-4 max-w-lg text-white">*/}
+            {/*    Explore our women's collection*/}
+            {/*</p>*/}
+            {/*<div*/}
+            {/*    className="mt-4 text-white underline"*/}
+            {/*    onClick={(e) => {*/}
+            {/*        e.stopPropagation();*/}
+            {/*        if (onClick) onClick();*/}
+            {/*    }}*/}
+            {/*>*/}
+            {/*    Shop now*/}
+            {/*</div>*/}
         </div>
     );
 };
@@ -78,11 +89,24 @@ const SkeletonFour = () => (
 const cards = [
     {
         id: 1,
-        content: <SkeletonOne />,
+        content: (
+            <div
+                onClick={() => {
+                    console.log('Navigating to Women\'s collection');
+                    navigate('/collections/all', { state: { gender: 'Women' } });
+                }}
+                className="absolute inset-0 w-full h-full z-10 p-6 cursor-pointer"
+            >
+                <p className="font-bold md:text-4xl text-xl text-white">Women</p>
+                {/*<p className="font-normal text-base my-4 max-w-lg text-white">*/}
+                {/*    Explore our women's collection*/}
+                {/*</p>*/}
+                {/*<div className="mt-4 text-white underline">Shop now</div>*/}
+            </div>
+        ),
         className: "md:col-span-2",
         thumbnail: womensCollectionImage,
         objectPosition: "center 60%",
-        // "https://images.unsplash.com/photo-1476231682828-37e571bc172f?q=80&w=3474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
         id: 2,
