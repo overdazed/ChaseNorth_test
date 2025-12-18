@@ -552,7 +552,7 @@ const Checkout = () => {
                             className={`w-full p-2 border rounded ${isFormSubmitted ? 'bg-gray-100' : ''}`}
                             required
                             pattern="^[A-Za-zßüöäÜÖÄ.\s]+\s\d+.*$" // requires at least one digit anywhere in the string
-                            title="Address must include a street name (can include German characters like ß, ü, ö, ä) followed by a space and number"
+                            title="Address must include a street name followed by a space and number"
                             disabled={isFormSubmitted}
                         />
                     </div>
