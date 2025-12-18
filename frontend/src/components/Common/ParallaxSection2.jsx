@@ -1,8 +1,10 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import mountainImage from "../../assets/Jetski.jpg";
+import { useNavigate } from 'react-router-dom';
 
 const ParallaxSection2 = () => {
+  const navigate = useNavigate();
   const container = useRef();
   const { scrollYProgress } = useScroll({
     target: container,
@@ -35,18 +37,18 @@ const ParallaxSection2 = () => {
       </h3>
 
       {/* Text stays in its current position */}
-      <p className="absolute bottom-12 left-6 text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-3xl z-10 text-left top-[88%] xl:top-[85%] bottom-auto left-6 right-6 transform -translate-y-1/2 w-auto">
+      <p className="absolute bottom-12 left-6 text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-3xl z-10 text-left top-[88%] md:top-[86%] xl:top-[85%] bottom-auto left-6 right-6 transform -translate-y-1/2 w-auto">
         Discover the perfect blend of adventure and style with our curated collection
       </p>
 
       {/* Button matches desktop position on mobile */}
       <div className="absolute bottom-12 left-6 z-10">
-        <a
-            href="#"
+        <button
+            onClick={() => navigate('/collections/all')}
             className="inline-block bg-transparent border-2 border-white text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-white hover:text-black transition-colors duration-300"
         >
           Explore Collection
-        </a>
+        </button>
       </div>
     </div>
   );
