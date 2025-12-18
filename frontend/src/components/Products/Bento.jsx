@@ -20,23 +20,19 @@ const SkeletonOne = ({ onClick }) => {
     return (
         <div
             onClick={handleClick}
-            // className="absolute inset-0 w-full h-full z-10 p-6"
             className="relative h-full w-full group overflow-hidden"
-            style={{
-                pointerEvents: 'auto',
-                // cursor: 'pointer'
-            }}
+            style={{ pointerEvents: 'auto' }}
         >
-            {/* Dim overlay that disappears on hover */}
-            <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-0 transition-all duration-500 z-0"></div>
+            {/* Dim overlay with reduced opacity that becomes fully transparent on hover */}
+            <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:opacity-0 transition-opacity duration-500 z-0"></div>
 
             {/* Content */}
-            <div className="absolute top-6 left-5 z-10 space-y-4">
+            <div className="absolute bottom-14 left-8 z-10 space-y-4">
                 <p className="font-bold text-white text-4xl transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out">
                     Women
                 </p>
                 <p className="font-normal text-base text-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out delay-100">
-                    Explore our women's collection
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
                 </p>
             </div>
             {/*<div className="absolute top-6 left-5 z-10 space-y-4">*/}
@@ -114,7 +110,7 @@ const cards = [
             <div
                 onClick={() => {
                     console.log('Navigating to Women\'s collection');
-                    navigate('/collections/all', { state: { gender: 'Women' } });
+                    navigate('/collections/all?gender=Women', { state: { gender: 'Women' } });
                 }}
                 className="absolute inset-0 w-full h-full z-10 p-6 cursor-pointer"
             >
