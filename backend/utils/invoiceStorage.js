@@ -92,6 +92,6 @@ async function generateAndSaveInvoice(order, companyData, customerData) {
 }
 
 module.exports = {
-  saveInvoice,
+  // saveInvoice,
   generateAndSaveInvoice,
 };
