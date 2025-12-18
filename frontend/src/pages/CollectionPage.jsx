@@ -233,7 +233,7 @@ const CollectionPage = () => {
                         {/* First two rows of products (6 products total) */}
                         {products.length > 6 && (
                             <ProductGrid 
-                                products={products.slice(0, 12)}
+                                products={products.slice(0, 8)}
                                 loading={loading} 
                                 error={error} 
                                 isDay={isDay}
@@ -274,7 +274,7 @@ const CollectionPage = () => {
                         )}
                         
                         {/* If 6 or fewer products, show SwipeCards after all products */}
-                        {products.length > 0 && products.length <= 6 && (
+                        {products.length > 0 && products.length <= 8 && (
                             <div className="mt-4 mb-8">
                                 <h3 className={`text-xl text-center font-medium mb-8 ${isDay ? 'text-gray-900' : 'text-white'}`}>
                                     Featured Picks
