@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { WobbleCard } from "./wobble-card";
 
-export const LayoutGrid = ({ cards, isDay = true }) => {
+export const LayoutGrid = ({ cards: initialCards, isDay = true }) => {
     const navigate = useNavigate();
+    const [cards, setCards] = useState(initialCards);
     const [selected, setSelected] = useState(null);
     const [lastSelected, setLastSelected] = useState(null);
     const [shouldNavigate, setShouldNavigate] = useState(false);
@@ -18,13 +19,13 @@ export const LayoutGrid = ({ cards, isDay = true }) => {
     }, [shouldNavigate, selected, navigate]);
 
     const handleClick = (card) => {
-    if (selected?.id === card.id) {
-        setShouldNavigate(true);
-        return;
-    }
-    setLastSelected(selected);
-    setSelected(card);
-};
+        if (selected?.id === card.id) {
+            setShouldNavigate(true);
+            return;
+        }
+        setLastSelected(selected);
+        setSelected(card);
+    };
 
     const handleOutsideClick = () => {
         setLastSelected(selected);
@@ -126,6 +127,29 @@ const ImageComponent = ({ card, className, style }) => {
         />
     );
 };
+
+const SkeletonOne = ({ onClick }) => (
+    <div className="h-full w-full relative">
+        <button 
+            onClick={(e) => {
+                e.stopPropagation();
+                onClick?.();
+            }}
+            className="absolute inset-0 w-full h-full z-10 cursor-pointer text-left p-6"
+        >
+            <p className="font-bold md:text-4xl text-xl text-white">
+                Women
+            </p>
+            <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
+                A serene and tranquil retreat, this house in the woods offers a peaceful
+                escape from the hustle and bustle of city life.
+            </p>
+            <div className="mt-4 text-white underline">
+                Click to view collection
+            </div>
+        </button>
+    </div>
+);
 
 const SelectedCard = ({ selected }) => {
     if (!selected) return null;

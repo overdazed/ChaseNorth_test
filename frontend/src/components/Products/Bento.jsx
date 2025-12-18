@@ -6,6 +6,7 @@ import mensCollectionImage from "../../assets/man/winter.jpg";
 import womensCollectionImage from "../../assets/woman/winter.jpg";
 import topCollectionImage from "../../assets/top/winter.jpg";
 import bottomCollectionImage from "../../assets/bottom/winter-2.jpg";
+import {useNavigate} from "react-router-dom";
 
 
 const SkeletonOne = () => (
@@ -94,6 +95,36 @@ const cards = [
 ];
 
 const Bento = () => {
+    const navigate = useNavigate();
+
+    const cards = [
+        {
+            id: 1,
+            content: <SkeletonOne onClick={() => navigate('/collections/all', { state: { gender: 'Women' } })} />,
+            className: "md:col-span-2",
+            thumbnail: womensCollectionImage,
+            objectPosition: "center 60%",
+        },
+        {
+            id: 2,
+            content: <SkeletonTwo onClick={() => navigate('/collections/tops')} />,
+            className: "col-span-1",
+            thumbnail: topCollectionImage,
+        },
+        {
+            id: 3,
+            content: <SkeletonThree onClick={() => navigate('/collections/bottoms')} />,
+            className: "col-span-1",
+            thumbnail: bottomCollectionImage,
+        },
+        {
+            id: 4,
+            content: <SkeletonFour onClick={() => navigate('/collections/all', { state: { gender: 'Men' } })} />,
+            className: "md:col-span-2",
+            thumbnail: mensCollectionImage,
+        },
+    ];
+
     const container = useRef(null);
     const { scrollYProgress } = useScroll({
         target: container,
