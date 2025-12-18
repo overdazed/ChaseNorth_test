@@ -74,9 +74,9 @@ export const LayoutGrid = ({ cards: initialCards, isDay = true }) => {
                             reducedBounce={i === 0 || i === 3}
                             isDay={isDay}
                         >
-                            <motion.div
-                                className="relative overflow-hidden group h-full w-full"
-                                layoutId={`card-${card.id}`}
+                            <div
+                                className="relative h-full w-full"
+                                onClick={() => handleClick(card)}
                             >
                                 <div className="absolute inset-0 w-full h-full">
                                     <ImageComponent
@@ -93,7 +93,7 @@ export const LayoutGrid = ({ cards: initialCards, isDay = true }) => {
                                     />
                                 </div>
                                 {card.content}
-                            </motion.div>
+                            </div>
                         </WobbleCard>
                     ) : (
                         // <motion.div
