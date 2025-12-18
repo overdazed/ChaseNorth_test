@@ -5,7 +5,7 @@ import { LayoutGrid } from "../ui/layout-grid";
 import mensCollectionImage from "../../assets/man/winter.jpg";
 import womensCollectionImage from "../../assets/woman/winter.jpg";
 import topCollectionImage from "../../assets/top/winter.jpg";
-import bottomCollectionImage from "../../assets/bottom/winter.jpg";
+import bottomCollectionImage from "../../assets/bottom/winter-2.jpg";
 
 
 const SkeletonOne = () => (
