@@ -102,6 +102,14 @@ const orderSchema = new mongoose.Schema({
         type: String,
         enum: ['Processing', 'Shipped', 'Delivered', 'Cancelled'],
         default: 'Processing'
+    },
+    invoiceNumber: {
+        type: String,
+        default: ''
+    },
+    invoicePath: {
+        type: String,
+        default: ''
     }
 }, { timestamps: true }
 );

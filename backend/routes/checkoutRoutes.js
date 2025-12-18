@@ -5,6 +5,7 @@ const Cart = require('../models/Cart');
 const Product = require('../models/Product');
 const Order = require('../models/Order');
 const { protect } = require('../middleware/authMiddleware');
+const { generateAndSaveInvoice } = require('../utils/invoiceStorage');
 const router = express.Router();
 
 
@@ -141,6 +142,66 @@ router.post('/:id/finalize', protect, async (req, res) => {
                     email_address: req.user.email
                 }
             });
+
+            // Generate and save invoice
+            try {
+                const companyData = {
+                    name: process.env.COMPANY_NAME || 'Adventure Store',
+                    address: process.env.COMPANY_ADDRESS || '123 Adventure St',
+                    city: process.env.COMPANY_CITY || 'Adventure City',
+                    zip: process.env.COMPANY_ZIP || '12345',
+                    country: process.env.COMPANY_COUNTRY || 'Adventureland',
+                    email: process.env.COMPANY_EMAIL || 'billing@adventurestore.com',
+                    phone: process.env.COMPANY_PHONE || '+1 (555) 123-4567',
+                    website: process.env.COMPANY_WEBSITE || 'www.adventurestore.com',
+                    tax_rate: parseFloat(process.env.TAX_RATE) || 15.0
+                };
+
+                const customerData = {
+                    name: `${shippingAddress.firstName} ${shippingAddress.lastName}`.trim() || req.user.name,
+                    address: shippingAddress.address,
+                    city: shippingAddress.city,
+                    postalCode: shippingAddress.postalCode,
+                    country: shippingAddress.country,
+                    email: req.user.email
+                };
+
+                const orderData = {
+                    orderId: finalOrder._id.toString(),
+                    items: finalOrder.orderItems.map(item => ({
+                        name: item.name,
+                        description: item.description || '',
+                        quantity: item.quantity,
+                        price: item.price,
+                        total: item.quantity * item.price,
+                        size: item.size,
+                        color: item.color
+                    })),
+                    subtotal: finalOrder.totalPrice,
+                    tax: 0, // Update with actual tax if available
+                    shipping: 0, // Update with actual shipping if available
+                    total: finalOrder.totalPrice,
+                    orderDate: finalOrder.paidAt || finalOrder.createdAt,
+                    notes: 'Thank you for your order!',
+                    shippingAddress: shippingAddress
+                };
+
+                const { invoiceNumber, invoicePath } = await generateAndSaveInvoice(
+                    orderData,
+                    companyData,
+                    customerData
+                );
+
+                // Update order with invoice information
+                finalOrder.invoiceNumber = invoiceNumber;
+                finalOrder.invoicePath = invoicePath;
+                await finalOrder.save();
+
+                console.log(`Invoice generated and saved: ${invoicePath}`);
+            } catch (invoiceError) {
+                console.error('Error generating invoice:', invoiceError);
+                // Don't fail the order if invoice generation fails
+            }
 
             // Mark the checkout as finalized
             checkout.isFinalized = true;
