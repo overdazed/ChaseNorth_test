@@ -700,10 +700,10 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                 <button
                                                     key={color}
                                                     onClick={() => setSelectedColor(color)}
-                                                    className={`w-10 h-10 rounded-full border-2 transition-all ${
+                                                    className={`w-10 h-10 rounded-full border transition-all ${
                                                         selectedColor === color
                                                             ? `${isDay ? 'border-black' : 'border-white'} scale-105`
-                                                            : `${isDay ? 'border-white' : 'border-black'} ${isDay ? 'hover:border-gray-400' : 'hover:border-gray-400'}`
+                                                            : `${isDay ? 'border-white' : 'border-neutral-600'} ${isDay ? 'hover:border-gray-400' : 'hover:border-gray-400'}`
                                                     }`}
                                                     style={{
                                                         backgroundColor: color.toLowerCase(),
