@@ -67,8 +67,42 @@ export const LayoutGrid = ({ cards: initialCards, isDay = true }) => {
                             </motion.div>
                         </WobbleCard>
                     ) : (
+                        // <motion.div
+                        //     onClick={() => handleClick(card)}
+                        //     className={cn(
+                        //         card.className,
+                        //         "relative overflow-hidden group",
+                        //         selected?.id === card.id
+                        //             ? "rounded-lg cursor-pointer absolute inset-0 h-1/2 w-full md:w-1/2 m-auto z-40 flex justify-center items-center flex-wrap flex-col"
+                        //             : lastSelected?.id === card.id
+                        //                 ? `z-0 ${isDay ? 'bg-neutral-50' : 'bg-neutral-950'} rounded-xl h-full w-full`
+                        //                 : `${isDay ? 'bg-neutral-50' : 'bg-neutral-950'} rounded-xl h-full w-full`
+                        //     )}
+                        //     layoutId={`card-${card.id}`}
+                        // >
+                        //     {selected?.id === card.id && <SelectedCard selected={selected} />}
+                        //     <div className={cn(
+                        //         "absolute inset-0 transition-all duration-300 ease-out overflow-hidden rounded-xl",
+                        //         selected !== null && selected.id !== card.id && "blur-sm scale-[0.98]"
+                        //     )}
+                        //     style={{
+                        //         zIndex: selected?.id === card.id ? 50 : 1
+                        //     }}
+                        //     >
+                        //         <div className="h-full w-full rounded-xl overflow-hidden">
+                        //             <ImageComponent card={card} className={cn(
+                        //                 "h-full w-full object-cover",
+                        //                 selected && selected.id !== card.id ? "brightness-75" : ""
+                        //             )} />
+                        //         </div>
+                        //     </div>
+                        // </motion.div>
                         <motion.div
-                            onClick={() => handleClick(card)}
+                            onClick={(e) => {
+                                if (e.target === e.currentTarget) {
+                                    handleClick(card);
+                                }
+                            }}
                             className={cn(
                                 card.className,
                                 "relative overflow-hidden group",
@@ -83,11 +117,12 @@ export const LayoutGrid = ({ cards: initialCards, isDay = true }) => {
                             {selected?.id === card.id && <SelectedCard selected={selected} />}
                             <div className={cn(
                                 "absolute inset-0 transition-all duration-300 ease-out overflow-hidden rounded-xl",
+                                // selected.id !== card.id && "blur-sm scale-[0.98]"
                                 selected !== null && selected.id !== card.id && "blur-sm scale-[0.98]"
                             )}
-                            style={{
-                                zIndex: selected?.id === card.id ? 50 : 1
-                            }}
+                                 style={{
+                                     zIndex: selected?.id === card.id ? 50 : 1
+                                 }}
                             >
                                 <div className="h-full w-full rounded-xl overflow-hidden">
                                     <ImageComponent card={card} className={cn(
@@ -128,24 +163,25 @@ const ImageComponent = ({ card, className, style }) => {
     );
 };
 
+// In Bento.jsx
 const SkeletonOne = ({ onClick }) => (
     <div className="h-full w-full relative">
-        <button 
+        <button
             onClick={(e) => {
                 e.stopPropagation();
                 onClick?.();
             }}
             className="absolute inset-0 w-full h-full z-10 cursor-pointer text-left p-6"
+            style={{ background: 'transparent', border: 'none' }}
         >
             <p className="font-bold md:text-4xl text-xl text-white">
                 Women
             </p>
             <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-                A serene and tranquil retreat, this house in the woods offers a peaceful
-                escape from the hustle and bustle of city life.
+                Explore our women's collection
             </p>
             <div className="mt-4 text-white underline">
-                Click to view collection
+                Shop now
             </div>
         </button>
     </div>

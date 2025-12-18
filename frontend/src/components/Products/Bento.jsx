@@ -9,18 +9,31 @@ import bottomCollectionImage from "../../assets/bottom/winter-2.jpg";
 import {useNavigate} from "react-router-dom";
 
 
-const SkeletonOne = () => (
-    <div>
-        <p className="font-bold md:text-4xl text-xl text-white">
-            Women
-        </p>
-        <p className="font-normal text-base text-white"></p>
-        <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-            A serene and tranquil retreat, this house in the woods offers a peaceful
-            escape from the hustle and bustle of city life.
-        </p>
-    </div>
-);
+const SkeletonOne = ({ onClick }) => {
+    const handleClick = (e) => {
+        e.stopPropagation();
+        console.log('SkeletonOne clicked');
+        if (onClick) onClick();
+    };
+
+    return (
+        <div
+            onClick={handleClick}
+            className="absolute inset-0 w-full h-full z-10 cursor-pointer p-6"
+            style={{ pointerEvents: 'auto' }}
+        >
+            <p className="font-bold md:text-4xl text-xl text-white">
+                Women
+            </p>
+            <p className="font-normal text-base my-4 max-w-lg text-white">
+                Explore our women's collection
+            </p>
+            <div className="mt-4 text-white underline">
+                Shop now
+            </div>
+        </div>
+    );
+};
 
 const SkeletonTwo = () => (
     <div>
@@ -96,11 +109,17 @@ const cards = [
 
 const Bento = () => {
     const navigate = useNavigate();
+    const container = useRef(null);
+
+    const handleCardClick = (path, state = {}) => {
+        console.log('Navigating to:', path);
+        navigate(path, { state });
+    };
 
     const cards = [
         {
             id: 1,
-            content: <SkeletonOne onClick={() => navigate('/collections/all', { state: { gender: 'Women' } })} />,
+            content: <SkeletonOne onClick={() => handleCardClick('/collections/all', { gender: 'Women' })} />,
             className: "md:col-span-2",
             thumbnail: womensCollectionImage,
             objectPosition: "center 60%",
@@ -125,7 +144,6 @@ const Bento = () => {
         },
     ];
 
-    const container = useRef(null);
     const { scrollYProgress } = useScroll({
         target: container,
         offset: ["start start", "end start"]
