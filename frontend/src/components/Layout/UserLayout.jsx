@@ -63,11 +63,11 @@ const UserLayout = () => {
             <FeaturesSection/>
 
 
+            <Newsletter />
             {/* Parallax Section */}
             <ParallaxSection />
 
             {/*/!* Newsletter *!/*/}
-            {/*<Newsletter />*/}
 
 
         {/* Footer */}
