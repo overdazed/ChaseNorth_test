@@ -24,6 +24,13 @@ const DarkModeToggle = () => {
       localStorage.setItem('theme', shouldUseDarkMode ? 'dark' : 'light');
     }
   }, []);
+  // In your DarkModeToggle component
+  const toggleDarkMode = () => {
+    document.documentElement.classList.toggle('dark');
+    // Optional: Save preference to localStorage
+    const isDark = document.documentElement.classList.contains('dark');
+    localStorage.setItem('darkMode', isDark);
+  };
 
   const toggleTheme = () => {
     const newIsDarkMode = !isDarkMode;

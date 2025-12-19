@@ -150,32 +150,32 @@ const StyledWrapper = styled.div`
   }
 
   /* Dark Mode Styles */
-  .dark .select .selected {
-    background-color: rgb(55 65 81); /* dark:bg-gray-700 */
-    border-color: rgb(75 85 99); /* dark:border-gray-600 */
-    color: rgb(255 255 255); /* dark:text-white */
+  .dark .selected {
+    background-color: rgb(55 65 81) !important; /* dark:bg-gray-700 */
+    border-color: rgb(75 85 99) !important; /* dark:border-gray-600 */
+    color: rgb(255 255 255) !important; /* dark:text-white */
   }
 
-  .dark .select .options {
-    background-color: rgb(55 65 81); /* dark:bg-gray-700 */
-    border-color: rgb(75 85 99); /* dark:border-gray-600 */
+  .dark .options {
+    background-color: rgb(55 65 81) !important; /* dark:bg-gray-700 */
+    border-color: rgb(75 85 99) !important; /* dark:border-gray-600 */
   }
 
-  .dark .select .option {
-    color: rgb(255 255 255); /* dark:text-white */
+  .dark .option {
+    color: rgb(255 255 255) !important; /* dark:text-white */
   }
 
-  .dark .select .option:hover {
-    background-color: rgb(75 85 99); /* dark:hover:bg-gray-600 */
+  .dark .option:hover {
+    background-color: rgb(75 85 99) !important; /* dark:hover:bg-gray-600 */
   }
 
-  .dark .select .option.selected {
-    background-color: rgb(30 58 138); /* dark:bg-blue-900 */
-    color: rgb(191 219 254); /* dark:text-blue-100 */
+  .dark .option.selected {
+    background-color: rgb(30 58 138) !important; /* dark:bg-blue-900 */
+    color: rgb(191 219 254) !important; /* dark:text-blue-100 */
   }
 
-  .dark .select .arrow {
-    fill: rgb(250 250 250); /* text-neutral-50 */
+  .dark .arrow {
+    fill: rgb(250 250 250) !important; /* text-neutral-50 */
   }
 `;
 
