@@ -533,6 +533,7 @@ const ReviewList = ({ productId, productName, refreshKey, currentUser, onReviewA
           review={editingReview}
           onReviewUpdated={handleReviewUpdated}
           productId={productId}
+          productName={productName}
         />
       </>
     );
