@@ -36,7 +36,7 @@ const Newsletter = () => {
                                 if (e.target.validity.valueMissing) {
                                     e.target.setCustomValidity('Please enter an email address');
                                 } else if (e.target.validity.patternMismatch) {
-                                    e.target.setCustomValidity('Please enter a valid email address (e.g., yourname@example.com)');
+                                    e.target.setCustomValidity('Please enter a valid email address (e.g. yourname@example.com)');
                                 }
                             }}
                             onInput={(e) => e.target.setCustomValidity('')}
