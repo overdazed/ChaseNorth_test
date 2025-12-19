@@ -79,6 +79,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
         return session;
     };
 
+
     const uploadImageToSupabase = async (file, path) => {
         try {
             const { error } = await supabase.storage
