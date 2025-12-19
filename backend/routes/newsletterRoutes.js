@@ -27,7 +27,7 @@ function getRandomDiscountCode() {
 }
 
 // Subscribe to newsletter
-router.post('/api/newsletter/subscribe', async (req, res) => {
+router.post('/subscribe', async (req, res) => {
     const { email } = req.body;
 
     if (!email) {
