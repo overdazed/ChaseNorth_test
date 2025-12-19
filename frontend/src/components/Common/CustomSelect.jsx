@@ -77,9 +77,11 @@ const StyledWrapper = styled.div`
   }
 
   .selected {
-    background-color: rgb(250 250 250); /* bg-neutral-50 */
+    background-color: rgb(55 65 81);
+    //background-color: rgb(250 250 250); /* bg-neutral-50 */
     border: 1px solid rgb(209 213 219); /* border-gray-300 */
-    color: rgb(17 24 39); /* text-gray-900 */
+    color: rgb(250 250 250); /* dark:text-white */
+    //color: rgb(17 24 39); /* text-gray-900 */
     border-radius: 0.5rem; /* rounded-lg */
     padding: 0.625rem 1rem; /* p-2.5 */
     width: 100%;
@@ -126,7 +128,7 @@ const StyledWrapper = styled.div`
     margin-left: 0.5rem;
     flex-shrink: 0;
     transition: transform 0.2s;
-    fill: rgb(17 24 39); /* text-gray-900 */
+    fill: rgb(250 250 250); /* text-neutral-50 */
   }
 
   .select.open .arrow {
