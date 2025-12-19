@@ -152,12 +152,10 @@ const SubmitButtonWrapper = styled.div`
   }
 
   button.submitting {
-    transition: .4s ease-in-out .4s;
     animation: scaling 1.5s ease-in-out 0s 1 both;
   }
 
   button.submitting .txt {
-    position: absolute;
     transform: translateY(-5em);
     transition: .4s ease-in-out;
   }
@@ -167,21 +165,18 @@ const SubmitButtonWrapper = styled.div`
     transition: .3s ease-in-out 1.7s;
   }
 
-  button.submitting .loader {
-    display: block;
-    transform: translate(0);
-    transition: 2s cubic-bezier(0.2, 0.5, 0.1, 1) 0.4s;
-  }
+    button.submitting .loader {
+        transform: translateX(0);
+        transition: 4s cubic-bezier(0.1, 0.3, 0.1, 1) 0.4s;
+    }
 
   @keyframes scaling {
     20% {
       height: 1.5em;
     }
-
     80% {
       height: 1.5em;
     }
-
     100% {
       height: 3.3em;
     }
