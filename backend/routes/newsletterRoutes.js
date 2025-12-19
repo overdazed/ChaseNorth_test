@@ -7,13 +7,6 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 
-// In your route handler, replace the mailOptions.html with:
-const emailTemplatePath = path.join(__dirname, '../data/compass_newsletter.html');
-let emailTemplate = fs.readFileSync(emailTemplatePath, 'utf8');
-
-// Replace the discount code placeholder with the actual code
-emailTemplate = emailTemplate.replace('COMPASS10', discountCode);
-
 // Email transporter setup (using Gmail as an example)
 const transporter = nodemailer.createTransport({
     host: 'smtp.hostinger.com',
@@ -55,6 +48,13 @@ router.post('/subscribe', async (req, res) => {
         }
         const discountCode = getRandomDiscountCode();
 
+        // In your route handler, replace the mailOptions.html with:
+        const emailTemplatePath = path.join(__dirname, '../data/compass_newsletter.html');
+        let emailTemplate = fs.readFileSync(emailTemplatePath, 'utf8');
+
+        // Replace the discount code placeholder with the actual code
+        emailTemplate = emailTemplate.replace('COMPASS10', discountCode);
+
         // Save to database first
         const subscription = new NewsletterSubscription({
             email: email.toLowerCase(),
@@ -67,15 +67,7 @@ router.post('/subscribe', async (req, res) => {
             from: '"ChaseNorth" <compass@chasenorth.com>',
             to: email,
             subject: 'Setz deinen Kompass',
-            html: `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2>Thank you for subscribing to ChaseNorth!</h2>
-                    <p>Here's your exclusive discount code: <strong>${discountCode}</strong></p>
-                    <p>Use this code at checkout to get your discount.</p>
-                    <p>Happy shopping!</p>
-                    <p>— The ChaseNorth Team</p>
-                </div>
-            `
+            html: emailTemplate
         };
 
         await transporter.sendMail(mailOptions);

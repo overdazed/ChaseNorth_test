@@ -319,15 +319,16 @@ const Checkout = () => {
                 [import.meta.env.VITE_DISCOUNT_CODE2]: 20,
                 [import.meta.env.VITE_DISCOUNT_CODE3]: 5,
                 [import.meta.env.VITE_DISCOUNT_CODE4]: 0,
-                [import.meta.env.VITE_DISCOUNT_NL1]: 15,
-                [import.meta.env.VITE_DISCOUNT_NL2]: 15,
-                [import.meta.env.VITE_DISCOUNT_NL3]: 15,
-                [import.meta.env.VITE_DISCOUNT_NL4]: 15,
-                [import.meta.env.VITE_DISCOUNT_NL5]: 15,
-                [import.meta.env.VITE_DISCOUNT_NL6]: 15,
-                [import.meta.env.VITE_DISCOUNT_NL7]: 15,
-                [import.meta.env.VITE_DISCOUNT_NL8]: 15,
-                [import.meta.env.VITE_DISCOUNT_NL9]: 15
+                [import.meta.env.VITE_DISCOUNT_NL1]: 10,
+                [import.meta.env.VITE_DISCOUNT_NL2]: 10,
+                [import.meta.env.VITE_DISCOUNT_NL3]: 10,
+                [import.meta.env.VITE_DISCOUNT_NL4]: 10,
+                [import.meta.env.VITE_DISCOUNT_NL5]: 10,
+                [import.meta.env.VITE_DISCOUNT_NL6]: 10,
+                [import.meta.env.VITE_DISCOUNT_NL7]: 10,
+                [import.meta.env.VITE_DISCOUNT_NL8]: 10,
+                [import.meta.env.VITE_DISCOUNT_NL9]: 10,
+                [import.meta.env.VITE_DISCOUNT_NL10]: 10
             };
 
             const discount = discountCodes[code];
