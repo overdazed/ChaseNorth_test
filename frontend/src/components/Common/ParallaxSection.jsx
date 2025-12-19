@@ -55,7 +55,7 @@ const ParallaxSection = () => {
         </motion.div>
       </div>
 
-      <h3 className="absolute top-8 sm:top-12 right-4 sm:right-6 text-white uppercase z-10 text-xs sm:text-sm md:text-base lg:text-lg bg-black/50 px-2 py-1 sm:bg-transparent sm:px-0 sm:py-0">
+      <h3 className="absolute top-8 sm:top-12 right-4 sm:right-6 text-white uppercase z-10 text-xs sm:text-sm md:text-base lg:text-lg px-2 py-1 sm:bg-transparent sm:px-0 sm:py-0">
         Anatomy of Possibility
       </h3>
 
