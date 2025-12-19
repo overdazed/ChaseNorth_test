@@ -10,7 +10,7 @@ const Newsletter = () => {
             {/* Grid Layout */}
             <div className="md:col-span-4 flex justify-center">
                 {/* newsletter form*/}
-                <div className="max-w-md">
+                <div className="max-w-md mx-6 sm:mx-0">
                     <h3 className="text-lg text-gray-800 mb-4">
                         {/*Newsletter*/}
                         Get 10% off your first purchase
