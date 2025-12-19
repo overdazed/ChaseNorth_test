@@ -18,7 +18,7 @@ const Newsletter = () => {
         setStatus({ type: '', message: '' });
 
         try {
-            const response = await axios.post('/api/newsletter/subscribe', { email });
+            const response = await axios.post('http://localhost:9000/api/newsletter/subscribe', { email });
             setStatus({
                 type: 'success',
                 message: response.data.message || 'Thank you for subscribing! Check your email for a discount code.'

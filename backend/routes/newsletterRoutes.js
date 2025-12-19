@@ -43,7 +43,7 @@ router.post('/subscribe', async (req, res) => {
         if (existingSubscription) {
             return res.status(400).json({
                 success: false,
-                message: 'This email is already subscribed.'
+                message: 'Oh you are thought you are sneaky, did ya? You are already subscribed.'
             });
         }
         const discountCode = getRandomDiscountCode();
