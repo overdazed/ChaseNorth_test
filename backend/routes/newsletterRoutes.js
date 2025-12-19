@@ -21,7 +21,7 @@ const transporter = nodemailer.createTransport({
 // Get a random discount code from environment variables
 function getRandomDiscountCode() {
     const codes = [];
-    for (let i = 1; i <= 9; i++) {
+    for (let i = 1; i <= 10; i++) {
         if (process.env[`VITE_DISCOUNT_NL${i}`]) {
             codes.push(process.env[`VITE_DISCOUNT_NL${i}`]);
         }
