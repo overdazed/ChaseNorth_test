@@ -76,10 +76,11 @@ const StyledWrapper = styled.div`
     font-size: 0.875rem; /* text-sm */
   }
 
+  /* Day mode styles (default) */
   .selected {
-    background-color: rgb(55 65 81);
+    background-color: rgb(250 250 250); /* bg-neutral-50 */
     border: 1px solid rgb(209 213 219); /* border-gray-300 */
-    color: rgb(250 250 250); /* dark:text-white */
+    color: rgb(17 24 39); /* text-gray-900 */
     border-radius: 0.5rem; /* rounded-lg */
     padding: 0.625rem 1rem; /* p-2.5 */
     width: 100%;
@@ -96,37 +97,13 @@ const StyledWrapper = styled.div`
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25); /* focus:ring-primary-500 */
   }
 
-  .dark .selected {
-    background-color: rgb(55 65 81); /* dark:bg-gray-700 */
-    border-color: rgb(75 85 99); /* dark:border-gray-600 */
-    color: rgb(255 255 255); /* dark:text-white */
-  }
-
-  .dark .options {
-    background-color: rgb(55 65 81); /* dark:bg-gray-700 */
-    border-color: rgb(75 85 99); /* dark:border-gray-600 */
-    color: rgb(255 255 255); /* dark:text-white */
-  }
-
-  .dark .option {
-    color: rgb(255 255 255); /* dark:text-white */
-  }
-
-  .dark .option:hover {
-    background-color: rgb(75 85 99); /* dark:hover:bg-gray-600 */
-  }
-
-  .dark .select:focus-within .selected {
-    border-color: rgb(59 130 246); /* dark:focus:border-primary-500 */
-  }
-
   .arrow {
     width: 1rem;
     height: 1rem;
     margin-left: 0.5rem;
     flex-shrink: 0;
     transition: transform 0.2s;
-    fill: rgb(250 250 250); /* text-neutral-50 */
+    fill: rgb(17 24 39); /* text-gray-900 */
   }
 
   .select.open .arrow {
@@ -138,7 +115,7 @@ const StyledWrapper = styled.div`
     top: 100%;
     left: 0;
     right: 0;
-    background-color: rgb(55 65 81);
+    background-color: rgb(250 250 250); /* bg-neutral-50 */
     border: 1px solid rgb(209 213 219); /* border-gray-300 */
     border-radius: 0.5rem; /* rounded-lg */
     margin-top: 0.25rem;
@@ -151,26 +128,30 @@ const StyledWrapper = styled.div`
 
   .select.open .options {
     display: block;
-    background-color: rgb(55 65 81);
   }
 
   .option {
     padding: 0.5rem 1rem;
-    color: rgb(250 250 250);
     cursor: pointer;
-    transition: background-color 0.15s;
+    transition: background-color 0.2s;
+    color: rgb(17 24 39); /* text-gray-900 */
   }
 
   .option:hover {
-    background-color: rgb(75 85 99); /* dark:hover:bg-gray-600 */
+    background-color: rgb(243 244 246); /* hover:bg-gray-100 */
   }
 
   .option.selected {
-    background-color: rgb(30 58 138); /* dark:bg-blue-900 */
-    color: rgb(191 219 254); /* dark:text-blue-100 */
+    background-color: rgb(239 246 255); /* bg-blue-50 */
+    color: rgb(29 78 216); /* text-blue-700 */
     font-weight: 600;
-    font-size: 0.9375rem;
-    line-height: 1.5;
+  }
+
+  /* Dark mode styles */
+  .dark .selected {
+    background-color: rgb(55 65 81); /* dark:bg-gray-700 */
+    border-color: rgb(75 85 99); /* dark:border-gray-600 */
+    color: rgb(255 255 255); /* dark:text-white */
   }
 
   .dark .options {
@@ -184,6 +165,10 @@ const StyledWrapper = styled.div`
 
   .dark .option:hover {
     background-color: rgb(75 85 99); /* dark:hover:bg-gray-600 */
+  }
+
+  .dark .select:focus-within .selected {
+    border-color: rgb(59 130 246); /* dark:focus:border-primary-500 */
   }
 
   .dark .option.selected {
