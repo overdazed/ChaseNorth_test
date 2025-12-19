@@ -237,7 +237,18 @@ const HorizontalScrollCarousel = ({ products, isNightMode }) => {
 
 const Card = ({ product, isFirst, isLast }) => {
     const [isHovered, setIsHovered] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const isNightMode = new Date().getHours() >= 18 || new Date().getHours() < 6;
+
+    useEffect(() => {
+        const checkIfMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        
+        checkIfMobile();
+        window.addEventListener('resize', checkIfMobile);
+        return () => window.removeEventListener('resize', checkIfMobile);
+    }, []);
 
     const handleClick = (e) => {
         // Prevent default to ensure we capture the scroll position
@@ -269,9 +280,13 @@ const Card = ({ product, isFirst, isLast }) => {
 
     return (
         <div
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            className={`relative h-[560px] w-[448px] ${isNightMode ? 'ring-[0.5px] ring-neutral-50/80 bg-neutral-900' : 'border-[0.5px] border-black/10 bg-white'} group`}
+            onMouseEnter={() => !isMobile && setIsHovered(true)}
+            onMouseLeave={() => !isMobile && setIsHovered(false)}
+            className={`relative h-[400px] w-[300px] md:h-[500px] md:w-[400px] lg:h-[560px] lg:w-[448px] ${
+                isNightMode 
+                    ? 'ring-[0.5px] ring-neutral-50/80 bg-neutral-900' 
+                    : 'border-[0.5px] border-black/10 bg-white'
+            } group transition-transform duration-300 active:scale-95`}
         >
             {/* Corner Icons - Show based on position */}
             {isFirst && (
@@ -296,7 +311,7 @@ const Card = ({ product, isFirst, isLast }) => {
                 <img
                     src="/new-star.svg"
                     alt="New Arrival"
-                    className="absolute -top-2 -left-2 z-10 h-20 w-20"
+                    className="absolute -top-2 -left-2 z-10 h-16 w-16 md:h-20 md:w-20"
                 />
 
                 {/* Product Image with Contained Zoom */}
@@ -318,12 +333,14 @@ const Card = ({ product, isFirst, isLast }) => {
                     <div
                         className="absolute inset-0"
                         style={{
-                            background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0) 50%)'
+                            background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0) 50%)',
+                            WebkitTapHighlightColor: 'transparent',
+                            WebkitTouchCallout: 'none'
                         }}
                     >
-                        <div className="absolute bottom-0 left-0 right-0 pt-16 pb-6 px-6">
-                            <h4 className="font-medium text-white">{product.name}</h4>
-                            <p className="mt-1 text-white">${product.price}</p>
+                        <div className="absolute bottom-0 left-0 right-0 pt-12 pb-4 px-4 md:pt-16 md:pb-6 md:px-6">
+                            <h4 className="font-medium text-white text-sm md:text-base">{product.name}</h4>
+                            <p className="mt-1 text-white text-sm md:text-base">${product.price}</p>
                         </div>
                     </div>
                 </div>
