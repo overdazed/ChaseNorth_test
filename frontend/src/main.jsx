@@ -2,13 +2,12 @@ import { StrictMode, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
-import { ThemeProvider } from './context/ThemeContext'
 
 // Function to update favicon based on color scheme
 const updateFavicon = (isDark) => {
   const favicon = document.getElementById('favicon');
   if (favicon) {
-    favicon.href = isDark
+    favicon.href = isDark 
       ? '/src/assets/ChaseNorth-white.svg'
       : '/src/assets/ChaseNorth-black.svg';
   }
@@ -17,10 +16,10 @@ const updateFavicon = (isDark) => {
 // Check system color scheme and set up listener
 if (typeof window !== 'undefined') {
   const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
+  
   // Set initial favicon
   updateFavicon(darkModeMediaQuery.matches);
-
+  
   // Update favicon when color scheme changes
   darkModeMediaQuery.addEventListener('change', (e) => {
     updateFavicon(e.matches);
@@ -29,8 +28,6 @@ if (typeof window !== 'undefined') {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
+    <App />
   </StrictMode>,
 )
