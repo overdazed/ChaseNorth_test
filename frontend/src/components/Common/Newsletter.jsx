@@ -6,7 +6,7 @@ import { FiPhoneCall } from "react-icons/fi"
 
 const Newsletter = () => {
     return (
-        <footer className="border-t border-gray-200 dark:border-neutral-800 py-12 bg-white dark:bg-neutral-950 transition-colors duration-200">
+        <footer className="border-t border-gray-200 dark:border-neutral-800 py-12 bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
             {/* Grid Layout */}
             <div className="md:col-span-4 flex justify-center">
                 {/* newsletter form*/}
@@ -26,16 +26,26 @@ const Newsletter = () => {
                         <input
                             type="email"
                             placeholder="Enter your email"
-                            className="p-3 w-full text-sm pl-5 border border-gray-300 dark:border-gray-600 rounded-full
-                            focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all
-                            bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                            className="p-3 w-full text-sm pl-5 border border-neutral-200 dark:border-neutral-800 rounded-full
+                            focus:outline-none focus:ring-0.5 focus:ring-gray-500 transition-all
+                            bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400"
                             required
+                            pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                            title="Please enter a valid email address (e.g. yourname@example.com)"
+                            onInvalid={(e) => {
+                                if (e.target.validity.valueMissing) {
+                                    e.target.setCustomValidity('Please enter an email address');
+                                } else if (e.target.validity.patternMismatch) {
+                                    e.target.setCustomValidity('Please enter a valid email address (e.g., yourname@example.com)');
+                                }
+                            }}
+                            onInput={(e) => e.target.setCustomValidity('')}
                         />
                         {/* NewsletterSubmit Button */}
                         <button 
                             type="submit" 
                             className="w-full bg-black dark:black text-white dark:text-white px-6 py-3 text-sm rounded-full
-                            hover:bg-gray-800 dark:hover:bg-gray-200 mb-4 transition-colors duration-200"
+                            hover:bg-gray-800 dark:hover:bg-neutral-900 mb-4 transition-colors duration-200"
                         >
                             Subscribe
                         </button>
