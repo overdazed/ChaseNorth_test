@@ -215,11 +215,11 @@ const HorizontalScrollCarousel = ({ products, isNightMode }) => {
                     <motion.div
                         ref={containerRef}
                         style={{
-                            x: window.innerWidth < 1024 ? 0 : x,
-                            position: window.innerWidth < 1024 ? 'relative' : 'absolute',
-                            left: window.innerWidth < 1024 ? '1rem' : '50%',
-                            transform: window.innerWidth < 1024 ? 'none' : 'translateX(-50%)',
-                            paddingRight: window.innerWidth < 1024 ? '2rem' : '0'
+                            x: window.innerWidth < 768 ? 0 : x,
+                            position: window.innerWidth < 768 ? 'relative' : 'absolute',
+                            left: window.innerWidth < 768 ? '1rem' : '50%',
+                            transform: window.innerWidth < 768 ? 'none' : 'translateX(-50%)',
+                            paddingRight: window.innerWidth < 768 ? '2rem' : '0'
                         }}
                         className="flex items-center h-full"
                     >
