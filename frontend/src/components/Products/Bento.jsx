@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { LayoutGrid } from "../ui/layout-grid";
 import mensCollectionImage from "../../assets/man/winter.jpg";
-import womensCollectionImage from "../../assets/woman/wi";
+import womensCollectionImage from "../../assets/woman/winter-2.jpg";
 import topCollectionImage from "../../assets/top/winter.jpg";
 import bottomCollectionImage from "../../assets/bottom/winter-2.jpg";
 import {useNavigate} from "react-router-dom";

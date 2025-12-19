@@ -250,7 +250,7 @@ const VelocityText = () => {
                   zIndex: 20
                 }}
               >
-                <div className="mt-3 md:mt-0 sm:mt-20">
+                <div className="mt-6 sm:mt-20 md:mt-6">
                   <span>chase</span>
                   <motion.span
                     style={{
