@@ -64,11 +64,15 @@ const Newsletter = () => {
                             title="Please enter a valid email address (e.g. yourname@example.com)"
                         />
                         <SubmitButtonWrapper>
-                            <button type="submit" disabled={isSubmitting} className={isSubmitting ? 'submitting' : ''}>
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className={isSubmitting ? 'submitting' : ''}
+                            >
                                 <span className="txt">subscribe</span>
                                 <span className="txt2">sent!</span>
                                 <span className="loader-container">
-                                    <span className="loader" />
+                                <span className="loader" />
                                 </span>
                             </button>
                         </SubmitButtonWrapper>
