@@ -78,7 +78,8 @@ const StyledWrapper = styled.div`
 
   .selected {
     background-color: rgb(55 65 81);
-    border: 1px solid rgb(209 213 219); /* border-gray-300 */
+    //border: 1px solid rgb(209 213 219); /* border-gray-300 */
+    border: 1px solid rgb(100 100 100); /* border-gray-300 */
     color: rgb(250 250 250); /* dark:text-white */
     border-radius: 0.5rem; /* rounded-lg */
     padding: 0.625rem 1rem; /* p-2.5 */
