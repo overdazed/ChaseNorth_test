@@ -51,6 +51,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const invoiceRoutes = require('./routes/invoiceRoutes');
 const productAdminRoutes = require('./routes/productAdminRoutes');
 const adminOrderRoutes = require('./routes/adminOrderRoutes');
+const newsletterRoutes = require('./routes/newsletterRoutes');
 
 // Test route from minimal.js
 app.get('/api/test', (req, res) => {
@@ -73,6 +74,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/checkout', checkoutRoutes);
 app.use('/api/invoices', invoiceRoutes);
+app.use('/api/newsletter', newsletterRoutes);
 
 // Additional routes (commented out for now - enable one by one as needed)
 // app.use('/api/upload', uploadRoutes);

@@ -48,7 +48,7 @@ router.post('/api/newsletter/subscribe', async (req, res) => {
                     <p>Here's your exclusive discount code: <strong>${discountCode}</strong></p>
                     <p>Use this code at checkout to get your discount.</p>
                     <p>Happy shopping!</p>
-                    <p>— The Chase North Team</p>
+                    <p>— The ChaseNorth Team</p>
                 </div>
             `
         };
