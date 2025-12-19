@@ -170,7 +170,7 @@ const NewFooter = () => {
               </div>
               <div className="ml-auto">
                 {/*<h3 className="text-lg text-gray-800 mb-4">Follow Us</h3>*/}
-                <div className="flex items-center space-x-4 mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0 mb-6">
                   <a
                       href="http://www.facebook.com"
                       target="_blank"
@@ -211,11 +211,18 @@ const NewFooter = () => {
                 {/*</p>*/}
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 sm:gap-0">
-              <h1 className="text-[16vw] xs:text-[18vw] sm:text-[16vw] lg:text-[14vw] leading-[0.8] mt-4 sm:mt-6 lg:mt-10 text-white font-bold tracking-tight">
-                ChaseNorth
-              </h1>
-              <p className="text-white text-sm sm:text-base">© {new Date().getFullYear()} All Rights Reserved</p>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 sm:gap-0 w-full">
+              <div className="w-full sm:w-auto">
+                <h1 className="text-[16vw] xs:text-[18vw] sm:text-[16vw] lg:text-[14vw] leading-[0.8] mt-4 sm:mt-6 lg:mt-10 text-white font-bold tracking-tight">
+                  ChaseNorth
+                </h1>
+                <p className="text-white text-sm sm:text-base mt-2 sm:mt-0 sm:hidden">
+                  © {new Date().getFullYear()} All Rights Reserved
+                </p>
+              </div>
+              <p className="hidden sm:block text-white text-sm sm:text-base text-right">
+                © {new Date().getFullYear()} All Rights Reserved
+              </p>
             </div>
         </div>
       </div>
