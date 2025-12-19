@@ -86,7 +86,7 @@ const NewArrivals = () => {
     }, []);
 
     return (
-        <div className={`${isNightMode ? 'bg-neutral-950' : 'bg-neutral-50'} -mt-28 transition-colors duration-300`}>
+        <div className={`${isNightMode ? 'bg-neutral-950' : 'bg-neutral-50'} lg:-mt-28 -mt-20 transition-colors duration-300`}>
             <motion.section
                 ref={ref}
                 initial="hidden"
@@ -198,26 +198,32 @@ const HorizontalScrollCarousel = ({ products, isNightMode }) => {
     );
 
     return (
-        <section ref={targetRef} style={{ height: '180vh' }} className="mt-0">
-            <div className="sticky top-40 h-screen flex flex-col justify-center">
-                <div className="absolute top-10 w-full pt-8">
+        <section ref={targetRef} className="mt-0 lg:h-[180vh] h-[120vh]">
+            <div className="sticky top-20 lg:top-40 h-screen flex flex-col justify-center">
+                <div className="absolute top-4 lg:top-10 w-full pt-4 lg:pt-8">
                     <div className="container mx-auto text-center px-4">
-                        <h2 className={`text-3xl font-bold mb-2 mt-20 ${isNightMode ? 'text-neutral-50' : 'text-neutral-950'}`}>
+                        <h2 className={`text-2xl lg:text-3xl font-bold mb-2 mt-4 lg:mt-20 ${isNightMode ? 'text-neutral-50' : 'text-neutral-950'}`}>
                             Explore New Arrivals
                         </h2>
-                        <p className={`text-md max-w-2xl mx-auto ${isNightMode ? 'text-neutral-400' : 'text-neutral-600'}`}>
+                        <p className={`text-sm lg:text-md max-w-2xl mx-auto px-2 ${isNightMode ? 'text-neutral-400' : 'text-neutral-600'}`}>
                             Discover the latest styles straight off the runway, freshly added to
                             keep your wardrobe on the cutting edge of fashion.
                         </p>
                     </div>
                 </div>
-                <div className="relative h-[400vh] w-full flex items-center">
+                <div className="relative h-[300vh] lg:h-[400vh] w-full flex items-center overflow-x-auto lg:overflow-visible">
                     <motion.div
                         ref={containerRef}
-                        style={{ x, position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}
-                        className="flex items-center"
+                        style={{
+                            x: window.innerWidth < 1024 ? 0 : x,
+                            position: window.innerWidth < 1024 ? 'relative' : 'absolute',
+                            left: window.innerWidth < 1024 ? '1rem' : '50%',
+                            transform: window.innerWidth < 1024 ? 'none' : 'translateX(-50%)',
+                            paddingRight: window.innerWidth < 1024 ? '2rem' : '0'
+                        }}
+                        className="flex items-center h-full"
                     >
-                        <div className="flex gap-8 pl-2 pr-2">
+                        <div className="flex gap-4 lg:gap-8 pl-4 pr-4 lg:pl-2 lg:pr-2">
                             {products.map((product, index) => (
                                 <Card
                                     key={product._id}
@@ -237,18 +243,7 @@ const HorizontalScrollCarousel = ({ products, isNightMode }) => {
 
 const Card = ({ product, isFirst, isLast }) => {
     const [isHovered, setIsHovered] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
     const isNightMode = new Date().getHours() >= 18 || new Date().getHours() < 6;
-
-    useEffect(() => {
-        const checkIfMobile = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
-        
-        checkIfMobile();
-        window.addEventListener('resize', checkIfMobile);
-        return () => window.removeEventListener('resize', checkIfMobile);
-    }, []);
 
     const handleClick = (e) => {
         // Prevent default to ensure we capture the scroll position
@@ -266,8 +261,8 @@ const Card = ({ product, isFirst, isLast }) => {
 
     const CornerIcon = ({ className, isNightMode }) => {
         const iconSrc = isNightMode
-            ? "/src/assets/ChaseNorth_x-white.svg"
-            : "/src/assets/ChaseNorth_x-black.svg";
+            ? "/src/assets/ChaseNorth_x-black.svg"
+            : "/src/assets/ChaseNorth_x-white.svg";
 
         return (
             <img
@@ -280,13 +275,9 @@ const Card = ({ product, isFirst, isLast }) => {
 
     return (
         <div
-            onMouseEnter={() => !isMobile && setIsHovered(true)}
-            onMouseLeave={() => !isMobile && setIsHovered(false)}
-            className={`relative h-[400px] w-[300px] md:h-[500px] md:w-[400px] lg:h-[560px] lg:w-[448px] ${
-                isNightMode 
-                    ? 'ring-[0.5px] ring-neutral-50/80 bg-neutral-900' 
-                    : 'border-[0.5px] border-black/10 bg-white'
-            } group transition-transform duration-300 active:scale-95`}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className={`relative h-[400px] w-[300px] lg:h-[560px] lg:w-[448px] flex-shrink-0 ${isNightMode ? 'ring-[0.5px] ring-neutral-50/80 bg-neutral-900' : 'border-[0.5px] border-black/10 bg-white'} group`}
         >
             {/* Corner Icons - Show based on position */}
             {isFirst && (
@@ -311,7 +302,7 @@ const Card = ({ product, isFirst, isLast }) => {
                 <img
                     src="/new-star.svg"
                     alt="New Arrival"
-                    className="absolute -top-2 -left-2 z-10 h-16 w-16 md:h-20 md:w-20"
+                    className="absolute -top-2 -left-2 z-10 h-20 w-20"
                 />
 
                 {/* Product Image with Contained Zoom */}
@@ -333,14 +324,12 @@ const Card = ({ product, isFirst, isLast }) => {
                     <div
                         className="absolute inset-0"
                         style={{
-                            background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0) 50%)',
-                            WebkitTapHighlightColor: 'transparent',
-                            WebkitTouchCallout: 'none'
+                            background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0) 50%)'
                         }}
                     >
-                        <div className="absolute bottom-0 left-0 right-0 pt-12 pb-4 px-4 md:pt-16 md:pb-6 md:px-6">
-                            <h4 className="font-medium text-white text-sm md:text-base">{product.name}</h4>
-                            <p className="mt-1 text-white text-sm md:text-base">${product.price}</p>
+                        <div className="absolute bottom-0 left-0 right-0 pt-10 lg:pt-16 pb-4 lg:pb-6 px-4 lg:px-6">
+                            <h4 className="font-medium text-white text-sm lg:text-base">{product.name}</h4>
+                            <p className="mt-1 text-white text-sm lg:text-base">${product.price}</p>
                         </div>
                     </div>
                 </div>
