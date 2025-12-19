@@ -7,6 +7,7 @@ const newsletterSubscriptionSchema = new mongoose.Schema({
         unique: true,
         trim: true,
         lowercase: true
+        // match: [/.+@.+\..+/, 'Please fill a valid email address']
     },
     discountCode: {
         type: String,
@@ -18,4 +19,4 @@ const newsletterSubscriptionSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('NewsletterSubscription', newsletterSubscriptionSchema);
+module.exports = mongoose.model('Subscription', newsletterSubscriptionSchema);

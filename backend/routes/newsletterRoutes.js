@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
-const NewsletterSubscription = require('../models/NewsletterSubscription');
+const Subscription = require('../models/Subscription');
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
@@ -39,7 +39,7 @@ router.post('/subscribe', async (req, res) => {
 
     try {
         // Check if email already exists
-        const existingSubscription = await NewsletterSubscription.findOne({ email: email.toLowerCase() });
+        const existingSubscription = await Subscription.findOne({ email: email.toLowerCase() });
         if (existingSubscription) {
             return res.status(400).json({
                 success: false,
@@ -56,7 +56,7 @@ router.post('/subscribe', async (req, res) => {
         emailTemplate = emailTemplate.replace('COMPASS10', discountCode);
 
         // Save to database first
-        const subscription = new NewsletterSubscription({
+        const subscription = new Subscription({
             email: email.toLowerCase(),
             discountCode
         });
