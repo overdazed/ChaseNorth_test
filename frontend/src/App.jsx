@@ -1,4 +1,4 @@
-// LAST WORKING: 2025-12-19 14:46 made the productName work in EditReviewModal
+// LAST WORKING: 2025-12-19 20:52 making Newsletter
 import React from 'react'
 import { BrowserRouter, Route, Routes, useLocation, useNavigationType } from "react-router-dom";
 import { useEffect, useRef } from 'react';
