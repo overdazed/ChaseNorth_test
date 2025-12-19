@@ -6,6 +6,7 @@ import { FiPhoneCall } from "react-icons/fi"
 
 import { useState } from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
 
 const Newsletter = () => {
     const [email, setEmail] = useState('');
@@ -62,15 +63,15 @@ const Newsletter = () => {
                             pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
                             title="Please enter a valid email address (e.g. yourname@example.com)"
                         />
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className={`w-full bg-black text-white px-6 py-3 text-sm rounded-full
-                            hover:bg-gray-800 dark:hover:bg-neutral-900 mb-4 transition-colors duration-200
-                            ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
-                        >
-                            {isSubmitting ? 'Subscribing...' : 'Subscribe'}
-                        </button>
+                        <SubmitButtonWrapper>
+                            <button type="submit" disabled={isSubmitting} className={isSubmitting ? 'submitting' : ''}>
+                                <span className="txt">subscribe</span>
+                                <span className="txt2">sent!</span>
+                                <span className="loader-container">
+                                    <span className="loader" />
+                                </span>
+                            </button>
+                        </SubmitButtonWrapper>
 
                         {status.message && (
                             <p className={`text-sm ${status.type === 'error' ? 'text-red-500' : 'text-green-500'}`}>
@@ -88,5 +89,99 @@ const Newsletter = () => {
         </footer>
     );
 };
+
+const SubmitButtonWrapper = styled.div`
+  button {
+    background-color: transparent;
+    width: 100%;
+    height: 3.3em;
+    border: 2px solid #1abc9c;
+    border-radius: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #1abc9c;
+    padding: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  button .txt {
+    transition: .4s ease-in-out;
+    position: absolute;
+  }
+
+  button .txt2 {
+    transform: translateY(1em) scale(0);
+    color: #fff;
+    position: absolute;
+  }
+
+  button .loader-container {
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    border-radius: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  button .loader-container .loader {
+    height: 100%;
+    width: 100%;
+    background-color: #1abc9c;
+    border-radius: inherit;
+    transform: translateX(-100%);
+  }
+
+  button.submitting {
+    transition: .4s ease-in-out .4s;
+    animation: scaling 1.5s ease-in-out 0s 1 both;
+  }
+
+  button.submitting .txt {
+    position: absolute;
+    transform: translateY(-5em);
+    transition: .4s ease-in-out;
+  }
+
+  button.submitting .txt2 {
+    transform: translateY(0) scale(1);
+    transition: .3s ease-in-out 1.7s;
+  }
+
+  button.submitting .loader {
+    display: block;
+    transform: translate(0);
+    transition: 2s cubic-bezier(0.2, 0.5, 0.1, 1) 0.4s;
+  }
+
+  @keyframes scaling {
+    20% {
+      height: 1.5em;
+    }
+
+    80% {
+      height: 1.5em;
+    }
+
+    100% {
+      height: 3.3em;
+    }
+  }
+`;
 
 export default Newsletter;
