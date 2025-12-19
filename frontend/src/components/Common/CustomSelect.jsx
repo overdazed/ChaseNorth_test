@@ -78,10 +78,8 @@ const StyledWrapper = styled.div`
 
   .selected {
     background-color: rgb(55 65 81);
-    //background-color: rgb(250 250 250); /* bg-neutral-50 */
     border: 1px solid rgb(209 213 219); /* border-gray-300 */
     color: rgb(250 250 250); /* dark:text-white */
-    //color: rgb(17 24 39); /* text-gray-900 */
     border-radius: 0.5rem; /* rounded-lg */
     padding: 0.625rem 1rem; /* p-2.5 */
     width: 100%;
@@ -140,7 +138,7 @@ const StyledWrapper = styled.div`
     top: 100%;
     left: 0;
     right: 0;
-    background-color: rgb(250 250 250); /* bg-neutral-50 */
+    background-color: rgb(55 65 81);
     border: 1px solid rgb(209 213 219); /* border-gray-300 */
     border-radius: 0.5rem; /* rounded-lg */
     margin-top: 0.25rem;
@@ -158,8 +156,7 @@ const StyledWrapper = styled.div`
 
   .option {
     padding: 0.5rem 1rem;
-    color: rgb(250 250 250); /* text-gray-900 */
-    //color: rgb(17 24 39); /* text-gray-900 */
+    color: rgb(250 250 250);
     cursor: pointer;
     transition: background-color 0.15s;
   }
@@ -169,11 +166,11 @@ const StyledWrapper = styled.div`
   }
 
   .option.selected {
-    background-color: rgb(239 246 255); /* bg-blue-50 */
-    color: rgb(29 29 29); /* text-gray-900 */
-    font-weight: 600; /* Make text bold */
-    font-size: 0.9375rem; /* Explicitly set font size to match parent */
-    line-height: 1.5; /* Match line height for consistency */
+    background-color: rgb(30 58 138); /* dark:bg-blue-900 */
+    color: rgb(191 219 254); /* dark:text-blue-100 */
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.5;
   }
 
   .dark .options {
@@ -192,6 +189,10 @@ const StyledWrapper = styled.div`
   .dark .option.selected {
     background-color: rgb(30 58 138); /* dark:bg-blue-900 */
     color: rgb(191 219 254); /* dark:text-blue-100 */
+  }
+
+  .dark .arrow {
+    fill: rgb(250 250 250); /* text-neutral-50 */
   }
 `;
 
