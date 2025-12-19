@@ -74,16 +74,22 @@ const StyledWrapper = styled.div`
     cursor: pointer;
     position: relative;
     font-size: 0.875rem; /* text-sm */
+    height: 42px; /* Match input height */
+    display: flex;
+    align-items: center;
   }
 
   .selected {
     background-color: rgb(55 65 81);
     //border: 1px solid rgb(209 213 219); /* border-gray-300 */
-    border: 1px solid rgb(100 100 100); /* border-gray-300 */
+    //border: 1px solid rgb(100 100 100); /* border-gray-300 */
+    border: 1px solid rgb(75 85 99); /* border-gray-300 */
     color: rgb(250 250 250); /* dark:text-white */
     border-radius: 0.5rem; /* rounded-lg */
-    padding: 0.625rem 1rem; /* p-2.5 */
+    //padding: 0.625rem 1rem; /* p-2.5 */
+    padding: 0.5rem 1rem; /* p-2.5 */
     width: 100%;
+    height: 100%;
     text-align: left;
     display: flex;
     align-items: center;
@@ -127,7 +133,7 @@ const StyledWrapper = styled.div`
     margin-left: 0.5rem;
     flex-shrink: 0;
     transition: transform 0.2s;
-    fill: rgb(250 250 250); /* text-neutral-50 */
+    fill: rgb(75 85 99); /* text-neutral-50 */
   }
 
   .select.open .arrow {
