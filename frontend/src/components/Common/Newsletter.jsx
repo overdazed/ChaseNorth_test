@@ -19,11 +19,17 @@ const Newsletter = () => {
 
         try {
             const response = await axios.post('/api/newsletter/subscribe', { email });
-            setStatus({ type: 'success', message: 'Thank you for subscribing! Check your email for a discount code.' });
+            setStatus({
+                type: 'success',
+                message: response.data.message || 'Thank you for subscribing! Check your email for a discount code.'
+            });
             setEmail('');
         } catch (error) {
             const message = error.response?.data?.message || 'Failed to subscribe. Please try again.';
-            setStatus({ type: 'error', message });
+            setStatus({
+                type: 'error',
+                message
+            });
         } finally {
             setIsSubmitting(false);
         }

@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
+const NewsletterSubscription = require('../models/NewsletterSubscription');
 require('dotenv').config();
 
 // Email transporter setup (using Gmail as an example)
@@ -35,16 +36,31 @@ router.post('/subscribe', async (req, res) => {
     }
 
     try {
+        // Check if email already exists
+        const existingSubscription = await NewsletterSubscription.findOne({ email: email.toLowerCase() });
+        if (existingSubscription) {
+            return res.status(400).json({
+                success: false,
+                message: 'This email is already subscribed.'
+            });
+        }
         const discountCode = getRandomDiscountCode();
+
+        // Save to database first
+        const subscription = new NewsletterSubscription({
+            email: email.toLowerCase(),
+            discountCode
+        });
+        await subscription.save();
 
         // Send email
         const mailOptions = {
-            from: '"Chase North" <compass@chasenorth.com>',
+            from: '"ChaseNorth" <compass@chasenorth.com>',
             to: email,
             subject: 'Your Exclusive Discount Code',
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2>Thank you for subscribing to Chase North!</h2>
+                    <h2>Thank you for subscribing to ChaseNorth!</h2>
                     <p>Here's your exclusive discount code: <strong>${discountCode}</strong></p>
                     <p>Use this code at checkout to get your discount.</p>
                     <p>Happy shopping!</p>
@@ -58,10 +74,23 @@ router.post('/subscribe', async (req, res) => {
         // Here you would typically save the email and code to your database
         // await saveToDatabase(email, discountCode);
 
-        res.json({ success: true, message: 'Subscription successful' });
+        res.json({
+            success: true,
+            message: 'Subscription successful'
+        });
+
     } catch (error) {
-        console.error('Error sending email:', error);
-        res.status(500).json({ message: 'Failed to process subscription' });
+        console.error('Error processing subscription:', error);
+        if (error.code === 11000) { // MongoDB duplicate key error
+            return res.status(400).json({
+                success: false,
+                message: 'This email is already subscribed.'
+            });
+        }
+        res.status(500).json({
+            success: false,
+            message: 'Failed to process subscription. Please try again.'
+        });
     }
 });
 
