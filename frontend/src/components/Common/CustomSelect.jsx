@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-const CustomSelect = ({ value, onChange, options, placeholder, className, isNightMode = false }) => {
-// const CustomSelect = ({ options = [], value, onChange, placeholder = 'Select...' }) => {
+const CustomSelect = ({ options = [], value, onChange, placeholder = 'Select...' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(value || '');
   const selectRef = useRef(null);
@@ -180,6 +179,5 @@ const StyledWrapper = styled.div`
     fill: rgb(250 250 250); /* text-neutral-50 */
   }
 `;
-
 
 export default CustomSelect;
