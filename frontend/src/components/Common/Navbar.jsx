@@ -381,7 +381,11 @@ const Navbar = ({ transparent = false }) => {
                     navDrawerOpen ? "translate-x-0" : "-translate-x-full"
                 }`}
             >
-                {/*    add close button */}
+                {/* Dark Mode Toggle for Mobile */}
+                <div className="flex justify-end p-4">
+                    <DarkModeToggle />
+                </div>
+                {/*    close button */}
                 <div className="flex justify-end p-4">
                     {/* close button to work, onClick event handler*/}
                     {/*<button*/}
