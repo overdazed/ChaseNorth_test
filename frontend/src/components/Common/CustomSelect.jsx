@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-
 const CustomSelect = ({ options = [], value, onChange, placeholder = 'Select...' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(value || '');
@@ -30,42 +29,42 @@ const CustomSelect = ({ options = [], value, onChange, placeholder = 'Select...'
     setIsOpen(false);
   };
 
-  const displayText = selectedValue ? 
-    options.find(opt => opt.value === selectedValue)?.label : placeholder;
+  const displayText = selectedValue ?
+      options.find(opt => opt.value === selectedValue)?.label : placeholder;
 
   return (
-    <StyledWrapper ref={selectRef}>
-      <div className={`select ${isOpen ? 'open' : ''}`}>
-        <div 
-          className="selected" 
-          onClick={() => setIsOpen(!isOpen)}
-          data-value={selectedValue}
-        >
-          <span>{displayText}</span>
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            height="1em" 
-            viewBox="0 0 512 512" 
-            className="arrow"
+      <StyledWrapper ref={selectRef}>
+        <div className={`select ${isOpen ? 'open' : ''}`}>
+          <div
+              className="selected"
+              onClick={() => setIsOpen(!isOpen)}
+              data-value={selectedValue}
           >
-            <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
-          </svg>
-        </div>
-        {isOpen && (
-          <div className="options">
-            {options.map((option) => (
-              <div 
-                key={option.value} 
-                className={`option ${selectedValue === option.value ? 'selected' : ''}`}
-                onClick={() => handleSelect(option.value)}
-              >
-                {option.label}
-              </div>
-            ))}
+            <span>{displayText}</span>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 512 512"
+                className="arrow"
+            >
+              <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+            </svg>
           </div>
-        )}
-      </div>
-    </StyledWrapper>
+          {isOpen && (
+              <div className="options">
+                {options.map((option) => (
+                    <div
+                        key={option.value}
+                        className={`option ${selectedValue === option.value ? 'selected' : ''}`}
+                        onClick={() => handleSelect(option.value)}
+                    >
+                      {option.label}
+                    </div>
+                ))}
+              </div>
+          )}
+        </div>
+      </StyledWrapper>
   );
 };
 
@@ -78,11 +77,9 @@ const StyledWrapper = styled.div`
   }
 
   .selected {
-    background-color: rgb(55 65 81);
-    //background-color: rgb(250 250 250); /* bg-neutral-50 */
+    background-color: rgb(250 250 250); /* bg-neutral-50 */
     border: 1px solid rgb(209 213 219); /* border-gray-300 */
-    color: rgb(250 250 250); /* dark:text-white */
-    //color: rgb(17 24 39); /* text-gray-900 */
+    color: rgb(17 24 39); /* text-gray-900 */
     border-radius: 0.5rem; /* rounded-lg */
     padding: 0.625rem 1rem; /* p-2.5 */
     width: 100%;
@@ -104,17 +101,17 @@ const StyledWrapper = styled.div`
     border-color: rgb(75 85 99); /* dark:border-gray-600 */
     color: rgb(255 255 255); /* dark:text-white */
   }
-  
+
   .dark .options {
     background-color: rgb(55 65 81); /* dark:bg-gray-700 */
     border-color: rgb(75 85 99); /* dark:border-gray-600 */
     color: rgb(255 255 255); /* dark:text-white */
   }
-  
+
   .dark .option {
     color: rgb(255 255 255); /* dark:text-white */
   }
-  
+
   .dark .option:hover {
     background-color: rgb(75 85 99); /* dark:hover:bg-gray-600 */
   }
@@ -129,7 +126,7 @@ const StyledWrapper = styled.div`
     margin-left: 0.5rem;
     flex-shrink: 0;
     transition: transform 0.2s;
-    fill: rgb(250 250 250); /* text-neutral-50 */
+    fill: rgb(17 24 39); /* text-gray-900 */
   }
 
   .select.open .arrow {
