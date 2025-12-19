@@ -74,22 +74,15 @@ const StyledWrapper = styled.div`
     cursor: pointer;
     position: relative;
     font-size: 0.875rem; /* text-sm */
-    height: 42px; /* Match input height */
-    display: flex;
-    align-items: center;
   }
 
   .selected {
     background-color: rgb(55 65 81);
-    //border: 1px solid rgb(209 213 219); /* border-gray-300 */
-    //border: 1px solid rgb(100 100 100); /* border-gray-300 */
-    border: 1px solid rgb(75 85 99); /* border-gray-300 */
+    border: 1px solid rgb(209 213 219); /* border-gray-300 */
     color: rgb(250 250 250); /* dark:text-white */
     border-radius: 0.5rem; /* rounded-lg */
-    //padding: 0.625rem 1rem; /* p-2.5 */
-    padding: 0.5rem 1rem; /* p-2.5 */
+    padding: 0.625rem 1rem; /* p-2.5 */
     width: 100%;
-    height: 100%;
     text-align: left;
     display: flex;
     align-items: center;
@@ -133,35 +126,20 @@ const StyledWrapper = styled.div`
     margin-left: 0.5rem;
     flex-shrink: 0;
     transition: transform 0.2s;
-    fill: rgb(75 85 99); /* text-neutral-50 */
+    fill: rgb(250 250 250); /* text-neutral-50 */
   }
 
   .select.open .arrow {
     transform: rotate(180deg);
   }
 
-  //.select.open .selected {
-  //  border-color: rgb(59 130 246); /* primary-500 */
-  //  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25); /* focus:ring-primary-500 */
-  //}
-
-  .select:focus-within .selected {
-    border-color: rgb(59 130 246); /* primary-500 */
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25); /* focus:ring-primary-500 */
-  }
-
-  //.select.open .selected {
-  //  border-bottom-left-radius: 0;
-  //  border-bottom-right-radius: 0;
-  //}
-  
   .options {
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
     background-color: rgb(55 65 81);
-    border: 1px solid rgb(75 85 99); /* border-gray-300 */
+    border: 1px solid rgb(209 213 219); /* border-gray-300 */
     border-radius: 0.5rem; /* rounded-lg */
     margin-top: 0.25rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -184,12 +162,12 @@ const StyledWrapper = styled.div`
   }
 
   .option:hover {
-    background-color: rgba(87, 17, 0, 0.5); /* dark:hover:bg-gray-600 */
+    background-color: rgb(75 85 99); /* dark:hover:bg-gray-600 */
   }
 
   .option.selected {
-    background-color: rgb(87 17 0); /* dark:bg-blue-900 */
-    color: rgb(250 250 250); /* dark:text-blue-100 */
+    background-color: rgb(30 58 138); /* dark:bg-blue-900 */
+    color: rgb(191 219 254); /* dark:text-blue-100 */
     font-weight: 600;
     font-size: 0.9375rem;
     line-height: 1.5;
