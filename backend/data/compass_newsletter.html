@@ -1,56 +1,11 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <script>
-        function copyToClipboard(text) {
-            // Create a temporary textarea element
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            textarea.setAttribute('readonly', '');
-            textarea.style.position = 'absolute';
-            textarea.style.left = '-9999px';
-            document.body.appendChild(textarea);
-
-            // Select and copy the text
-            textarea.select();
-            document.execCommand('copy');
-
-            // Clean up
-            document.body.removeChild(textarea);
-
-            // Show feedback to the user
-            const codeElement = document.querySelector('.discount-code');
-            if (codeElement) {
-                const originalText = codeElement.textContent;
-                codeElement.textContent = 'Copied!';
-                codeElement.style.cursor = 'default';
-                codeElement.style.opacity = '0.7';
-
-                // Reset after 2 seconds
-                setTimeout(() => {
-                    codeElement.textContent = originalText;
-                    codeElement.style.opacity = '1';
-                    codeElement.style.cursor = 'pointer';
-                }, 2000);
-            }
-        }
-    </script>
     <meta charset="UTF-8">
     <meta name="color-scheme" content="light dark">
     <meta name="supported-color-schemes" content="light dark">
     <title>Setz deinen Kompass</title>
     <style>
-        .discount-code {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .discount-code:hover {
-            background-color: rgba(87, 17, 0, 0.1);
-        }
-
         /* Reset for email clients */
         body, p, h1, h2, h3, h4, h5, h6 {
             margin: 0;
@@ -138,9 +93,8 @@
                             Zum Start bekommst du etwas mit auf den Weg:
                         </p>
 
-                        <p style="font-size:22px; font-weight:600; letter-spacing:1.5px; margin-bottom:16px; cursor: pointer;"
-                           class="accent discount-code"
-                           onclick="copyToClipboard('COMPASS10')">
+                        <!-- Discount code with accent color -->
+                        <p style="font-size:22px; font-weight:600; letter-spacing:1.5px; margin-bottom:16px;" class="accent">
                             COMPASS10
                         </p>
 
