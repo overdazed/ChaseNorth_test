@@ -1,4 +1,4 @@
-// LAST WORKING: 2025-12-19 21:30 Newsletter sends Code
+// LAST WORKING: 2025-12-19 21:30 GMX Spam & Tuta nicht
 import React from 'react'
 import { BrowserRouter, Route, Routes, useLocation, useNavigationType } from "react-router-dom";
 import { useEffect, useRef } from 'react';
