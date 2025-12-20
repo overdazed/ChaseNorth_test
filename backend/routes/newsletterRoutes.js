@@ -77,7 +77,7 @@ router.post('/subscribe', async (req, res) => {
 
         res.json({
             success: true,
-            message: 'Subscription successful'
+            // message: 'Subscription successful'
         });
 
     } catch (error) {
