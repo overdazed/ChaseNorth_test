@@ -2,65 +2,82 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="color-scheme" content="light dark">
+    <meta name="supported-color-schemes" content="light dark">
     <title>Setz deinen Kompass</title>
     <style>
+        /* Fallback for email clients that don't support dark mode */
+        .fallback-text { color: #111111; }
+        .fallback-accent { color: #571100; }
+        .fallback-bg { background-color: #ffffff; }
+        
+        /* Dark mode styles for supporting clients */
         @media (prefers-color-scheme: dark) {
-            body, table { background-color: #121212 !important; color: #EEEEEE !important; }
-            a { color: #FFD966 !important; }
-            .content-table { background-color: #1E1E1E !important; }
+            .fallback-text { color: #e0e0e0 !important; }
+            .fallback-accent { color: #ffffff !important; }
+            .fallback-bg { background-color: #121212 !important; }
         }
     </style>
 </head>
-<body style="margin:0; padding:0; background-color:#f6f6f6; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, Helvetica, Arial, sans-serif; color:#111111; line-height:1.6;">
+<body style="margin:0; padding:0; background-color:#f6f6f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, Helvetica, Arial, sans-serif; line-height:1.6; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;">
+    <!--[if mso]>
+    <style type="text/css">
+        body, .fallback-text { color: #111111 !important; }
+        .fallback-accent { color: #571100 !important; }
+        .fallback-bg { background-color: #ffffff !important; }
+    </style>
+    <![endif]-->
+    
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f6f6f6" style="background-color: #f6f6f6;">
+        <tr>
+            <td align="center" valign="top">
+                <table class="fallback-bg" width="600" border="0" cellspacing="0" cellpadding="40" bgcolor="#ffffff" style="background-color: #ffffff; max-width: 600px; width: 100%;">
+                    <tr>
+                        <td style="font-size:16px; line-height:1.6;" class="fallback-text">
+                            <!-- Header with accent color -->
+                            <p style="margin-top:0; margin-bottom:20px; font-size:20px; font-weight:500; letter-spacing:0.2px; color: #571100;" class="fallback-accent">
+                                Willkommen bei <strong style="color: inherit;">Compass</strong> – deinem inneren Kreis von ChaseNorth
+                            </p>
 
-<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f6f6f6;">
-    <tr>
-        <td align="center">
-            <table class="content-table" width="600" cellpadding="40" cellspacing="0" style="background-color:#ffffff;">
-                <tr>
-                    <td style="font-size:16px; line-height:1.6;">
+                            <!-- Main content -->
+                            <p style="margin-bottom:20px; font-size:16px;" class="fallback-text">
+                                Wir stehen für <strong style="color: inherit;">bewusst ausgewählte Produkte</strong>: fair, vegan, mit Respekt vor Mensch, Tier und Umwelt.
+                                Alles, was wir teilen, ist sorgfältig geprüft.
+                            </p>
 
-                        <p style="margin-top:0; margin-bottom:20px; font-size:20px; font-weight:500; letter-spacing:0.2px;">
-                            Willkommen bei <strong>Compass</strong> – deinem inneren Kreis von ChaseNorth.
-                        </p>
+                            <p style="margin-bottom:16px; font-size:16px;" class="fallback-text">
+                                Zum Start bekommst du etwas mit auf den Weg:
+                            </p>
 
-                        <p style="margin-bottom:20px; font-size:16px;">
-                            Wir stehen für <strong>bewusst ausgewählte Produkte</strong>: fair, vegan, mit Respekt vor Mensch, Tier und Umwelt.
-                            Alles, was wir teilen, ist sorgfältig geprüft – nicht perfekt, aber aufmerksam.
-                        </p>
+                            <!-- Discount code with accent color -->
+                            <p style="font-size:22px; font-weight:600; letter-spacing:1.5px; margin-bottom:16px; color: #571100;" class="fallback-accent">
+                                COMPASS10
+                            </p>
 
-                        <p style="margin-bottom:16px; font-size:16px;">
-                            Zum Start bekommst du etwas mit auf den Weg:
-                        </p>
+                            <p style="margin-bottom:20px; font-size:16px;" class="fallback-text">
+                                10&nbsp;% auf deine erste Bestellung.<br>
+                                Dein Weg beginnt hier. Der Rabattcode wartet, wenn du ihn brauchst.
+                            </p>
 
-                        <p style="font-size:22px; font-weight:600; letter-spacing:1.5px; margin-bottom:16px;">
-                            COMPASS10
-                        </p>
+                            <p style="margin-bottom:20px; font-size:16px; line-height:1.6;" class="fallback-text">
+                                Lass dich treiben.<br>
+                                Zieh weiter, wenn es Zeit ist.<br>
+                                Willkommen an Bord. Dein Kompass zeigt nach Norden.
+                            </p>
 
-                        <p style="margin-bottom:20px; font-size:16px;">
-                            10&nbsp;% auf deine erste Bestellung.<br>
-                            Dein Weg beginnt hier. Der Rabattcode wartet, wenn du ihn brauchst.
-                        </p>
-
-                        <p style="margin-bottom:20px; font-size:16px; line-height:1.6;">
-                            Lass dich treiben.<br>
-                            Zieh weiter, wenn es Zeit ist.<br>
-                            Willkommen an Bord. Dein Kompass zeigt nach Norden.
-                        </p>
-
-                        <p style="margin-top:30px; font-size:14px; color:#555555;">
-                            —<br>
-                            ChaseNorth<br>
-                            <a href="mailto:compass@chasenorth.com" style="color:#555555; text-decoration:none;">
-                                compass@chasenorth.com
-                            </a>
-                        </p>
-
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+                            <!-- Footer -->
+                            <p style="margin-top:30px; font-size:14px; color: #5f6368;" class="fallback-text">
+                                —<br>
+                                ChaseNorth<br>
+                                <a href="mailto:compass@chasenorth.com" style="color: #571100; text-decoration: none;" class="fallback-accent">
+                                    compass@chasenorth.com
+                                </a>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
