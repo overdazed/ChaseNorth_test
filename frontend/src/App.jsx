@@ -1,4 +1,5 @@
-// LAST WORKING: 2025-12-19 21:30 GMX Spam & Tuta nicht
+// LAST WORKING: 2025-12-20 02:24 GMX Spam & Tuta nicht
+// Farben
 import React from 'react'
 import { BrowserRouter, Route, Routes, useLocation, useNavigationType } from "react-router-dom";
 import { useEffect, useRef } from 'react';
