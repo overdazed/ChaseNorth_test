@@ -67,7 +67,13 @@ router.post('/subscribe', async (req, res) => {
             from: '"ChaseNorth" <compass@chasenorth.com>',
             to: email,
             subject: 'Setz deinen Kompass',
-            html: emailTemplate
+            text: 'Plain text version of your email'
+            html: emailTemplate,
+            headers: {
+                'List-Unsubscribe': '<mailto:support@chasenorth.com>',
+                'Precedence': 'bulk',
+                'X-Entity-Ref-ID': Date.now().toString()
+            }
         };
 
         await transporter.sendMail(mailOptions);
