@@ -8,7 +8,7 @@ import FeaturesSection from "../components/Products/FeaturesSection.jsx";
 import DiscoverWeekly from "../components/Products/DiscoverWeekly.jsx";
 import SwipeCards from "../components/Products/SwipeCards.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState } from "react";
+import {useEffect, useState, useRef } from "react";
 // import { useLayoutEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import { fetchProductsByFilters } from '../redux/slices/productsSlice';
@@ -138,18 +138,29 @@ const Home = () => {
     return () => window.removeEventListener('themeChange', handleThemeChange);
   }, []);
 
+    const isInitialMount = useRef(true);
+
+    // Handle scroll position on route changes
     useEffect(() => {
-        // Scroll to top on pathname change (new page load or navigation)
+      // Don't run on initial mount
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+            window.scrollTo(0, 0);
+            return;
+        }
+
+        // For regular navigation, scroll to top
         window.scrollTo(0, 0);
     }, [location.pathname]);
-
 
     // Handle back/forward navigation
     useEffect(() => {
         const handlePopState = () => {
             const savedPosition = sessionStorage.getItem('scrollPosition');
             if (savedPosition) {
-                window.scrollTo(0, parseInt(savedPosition));
+                requestAnimationFrame(() => {
+                    window.scrollTo(0, parseInt(savedPosition));
+                });
             }
         };
 
@@ -157,14 +168,35 @@ const Home = () => {
         return () => window.removeEventListener('popstate', handlePopState);
     }, []);
 
-    // Save scroll position before leaving the page
+    // Save scroll position on scroll
     useEffect(() => {
-        const handleBeforeUnload = () => {
+        const handleScroll = () => {
             sessionStorage.setItem('scrollPosition', window.scrollY);
         };
 
-        window.addEventListener('beforeunload', handleBeforeUnload);
-        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+        // Throttle the scroll event for better performance
+        let scrollTimeout;
+        const throttledScroll = () => {
+            if (!scrollTimeout) {
+                scrollTimeout = setTimeout(() => {
+                    handleScroll();
+                    scrollTimeout = null;
+                }, 100);
+            }
+        };
+
+        window.addEventListener('scroll', throttledScroll);
+        return () => {
+            window.removeEventListener('scroll', throttledScroll);
+            clearTimeout(scrollTimeout);
+        };
+    }, []);
+
+    // Clear scroll position on component unmount
+    useEffect(() => {
+      return () => {
+        sessionStorage.removeItem('scrollPosition');
+      };
     }, []);
 
   // Empty dependency array means this runs once on mount
