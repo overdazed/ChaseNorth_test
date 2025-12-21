@@ -36,15 +36,29 @@ const Report = () => {
     const fetchOrderDetails = async () => {
       console.log('Fetching order details for order ID:', location.state?.orderId);
       try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.error('No token found');
+          return;
+        }
+
         // const response = await fetch(`/api/orders/${location.state?.orderId}`);
         const response = await fetch(`${API_URL}/api/orders/${location.state?.orderId}`, {
-          method: 'POST',
-          body: formData,
+          method: 'GET',  // Changed from POST to GET
           headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
           }
         });
+
         console.log('Order API response status:', response.status);
+
+        if (response.status === 401) {
+          console.error('Unauthorized - token might be invalid or expired');
+          // Handle unauthorized (e.g., redirect to login)
+          return;
+        }
+
         if (response.ok) {
           const data = await response.json();
           console.log('Order data received:', data);
