@@ -87,6 +87,20 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                                     }`}
                                 />
                             )}
+
+                            {/* Color Indicators */}
+                            {product.colors?.length > 0 && (
+                                <div className="absolute bottom-4 right-4 z-10 flex space-x-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                    {product.colors.map((color, i) => (
+                                        <div
+                                            key={i}
+                                            className="w-4 h-4 rounded-full border border-neutral-400 shadow-sm"
+                                            style={{ backgroundColor: color }}
+                                            title={color}
+                                        />
+                                    ))}
+                                </div>
+                            )}
                             
                             {/* Product Image with Contained Zoom */}
                             <div className="absolute inset-0 overflow-hidden">

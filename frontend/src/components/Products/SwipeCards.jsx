@@ -588,11 +588,11 @@ function SwipeCards() {
                         draggable="false"
                       />
                       {index === 0 && (
-                        <div className="absolute bottom-4 right-4 flex space-x-2">
+                        <div className="absolute bottom-4 right-4 flex space-x-2 z-30">
                           {card.colors.map((color, i) => (
                             <div
                               key={i}
-                              className="w-6 h-6 rounded-full border-2 border-white shadow-md"
+                              className="w-6 h-6 rounded-full border-2 border-neutral-400 shadow-md"
                               style={{ backgroundColor: color }}
                             />
                           ))}
