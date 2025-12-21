@@ -6,67 +6,67 @@ import { useEffect, useRef } from 'react';
 
 // This component handles scroll restoration
 const ScrollRestoration = () => {
-  const { pathname, state } = useLocation();
-  const navType = useNavigationType();
-  const isInitialMount = useRef(true);
-  
-  useEffect(() => {
-    // Handle initial page load or refresh
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      
-      // Check if this is a refresh
-      const navigationEntries = performance.getEntriesByType('navigation');
-      const isPageRefresh = navigationEntries.length > 0 && 
-                          navigationEntries[0].type === 'reload';
-      
-      if (isPageRefresh) {
-        // On refresh, scroll to top and clear saved positions
-        window.scrollTo(0, 0);
-        sessionStorage.removeItem(`scrollPos:${pathname}`);
-      }
-      return;
-    }
+    const { pathname, state } = useLocation();
+    const navType = useNavigationType();
+    const isInitialMount = useRef(true);
 
-    // Handle back/forward navigation
-    if (navType === 'POP') {
-      const savedPosition = sessionStorage.getItem(`scrollPos:${pathname}`);
-      if (savedPosition) {
-        // Use requestAnimationFrame to ensure DOM is ready
-        const scrollToPosition = () => {
-          window.scrollTo({
-            top: parseInt(savedPosition, 10),
-            behavior: 'instant'
-          });
+    useEffect(() => {
+        // Handle initial page load or refresh
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+
+            // Check if this is a refresh
+            const navigationEntries = performance.getEntriesByType('navigation');
+            const isPageRefresh = navigationEntries.length > 0 &&
+                navigationEntries[0].type === 'reload';
+
+            if (isPageRefresh) {
+                // On refresh, scroll to top and clear saved positions
+                window.scrollTo(0, 0);
+                sessionStorage.removeItem(`scrollPos:${pathname}`);
+            }
+            return;
+        }
+
+        // Handle back/forward navigation
+        if (navType === 'POP') {
+            const savedPosition = sessionStorage.getItem(`scrollPos:${pathname}`);
+            if (savedPosition) {
+                // Use requestAnimationFrame to ensure DOM is ready
+                const scrollToPosition = () => {
+                    window.scrollTo({
+                        top: parseInt(savedPosition, 10),
+                        behavior: 'instant'
+                    });
+                };
+
+                // Small delay to ensure the page has rendered
+                const timer = setTimeout(scrollToPosition, 50);
+                return () => clearTimeout(timer);
+            } else {
+                window.scrollTo(0, 0);
+            }
+        } else if (navType === 'PUSH') {
+            // For new navigations, scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Save scroll position when leaving the page
+        const handleBeforeUnload = () => {
+            sessionStorage.setItem(`scrollPos:${pathname}`, window.scrollY);
         };
-        
-        // Small delay to ensure the page has rendered
-        const timer = setTimeout(scrollToPosition, 50);
-        return () => clearTimeout(timer);
-      } else {
-        window.scrollTo(0, 0);
-      }
-    } else if (navType === 'PUSH') {
-      // For new navigations, scroll to top
-      window.scrollTo(0, 0);
-    }
-    
-    // Save scroll position when leaving the page
-    const handleBeforeUnload = () => {
-      sessionStorage.setItem(`scrollPos:${pathname}`, window.scrollY);
-    };
-    
-    // Save scroll position when the page is about to be unloaded
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    
-    // Also save scroll position when the component unmounts
-    return () => {
-      handleBeforeUnload();
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [pathname, navType]);
-  
-  return null;
+
+        // Save scroll position when the page is about to be unloaded
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        // Also save scroll position when the component unmounts
+        return () => {
+            handleBeforeUnload();
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [pathname, navType]);
+
+    return null;
 };
 import UserLayout from "./components/Layout/UserLayout";
 import Home from "./pages/Home";
@@ -88,8 +88,6 @@ import UserManagement from "./components/Admin/UserManagement.jsx";
 import ProductManagement from "./components/Admin/ProductManagement.jsx";
 import EditProductPage from "./components/Admin/EditProductPage.jsx";
 import OrderManagement from "./components/Admin/OrderManagement.jsx";
-import Report from "./pages/Report";
-import ReportConfirmation from "./pages/ReportConfirmation";
 
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -102,7 +100,7 @@ const App = () => {
             {/* open Login.jsx file > import { loginUser } from '../redux/slices/authSlice' */}
             {/*// enables the client side routing*/}
             <BrowserRouter>
-            {/*    make sure it gets imported from the react-router-dom */}
+                {/*    make sure it gets imported from the react-router-dom */}
 
                 {/*Client side routing. What is this? Why do we need it?*/}
                 {/*React apps are basically single page applications.*/}
@@ -144,15 +142,13 @@ const App = () => {
                         <Route path="my-orders" element={<MyOrdersPage />} />
                         <Route path="wishlist" element={<Wishlist />} />
                         <Route path="faq" element={<FAQPage />} />
-                        <Route path="report" element={<Report />} />
-                        <Route path="report/confirmation" element={<ReportConfirmation />} />
                     </Route>
                     <Route
                         path="/admin"
                         element={
-                        <ProtectedRoute role="admin">
-                            <AdminLayout />
-                        </ProtectedRoute>
+                            <ProtectedRoute role="admin">
+                                <AdminLayout />
+                            </ProtectedRoute>
                         }
                     >
                         {/* Admin Layout */}
