@@ -52,6 +52,7 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
             try {
                 await sendReportConfirmation({
                     to: recipientEmail,
+                    referenceNumber: report.referenceNumber,  // Make sure this is included
                     reportId: report._id,
                     orderId: report.orderId,
                     problemType: report.problemType,

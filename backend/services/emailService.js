@@ -60,7 +60,7 @@ const sendReportConfirmation = async (emailData) => {
             to: emailData.to,
             subject: `Your Report Has Been Submitted - Reference #${emailData.referenceNumber || 'Pending'}`,
             html: html,
-            text: `Your report has been submitted successfully.\n\nReference Number: ${emailData.referenceNumber}\nProblem Type: ${emailData.problemType}\n\nWe'll get back to you soon.`
+            text: `Your report has been submitted successfully.\n\nReference Number: ${emailData.referenceNumber || 'Pending'}\nOrder ID: ${emailData.orderId}\nProblem Type: ${emailData.problemType}\n\nWe'll get back to you soon.`
         });
 
         console.log('Message sent: %s', info.messageId);

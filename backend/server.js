@@ -54,6 +54,7 @@ const productAdminRoutes = require('./routes/productAdminRoutes');
 const adminOrderRoutes = require('./routes/adminOrderRoutes');
 const newsletterRoutes = require('./routes/newsletterRoutes');
 const reportRoutes = require('./routes/reportRoutes');
+const initializeCounters = require('./initializeCounter');
 
 // Test route from minimal.js
 app.get('/api/test', (req, res) => {

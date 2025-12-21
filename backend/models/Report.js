@@ -38,14 +38,21 @@ const reportSchema = new mongoose.Schema({
 
 reportSchema.pre('save', async function(next) {
     if (!this.referenceNumber) {
-        const counter = await Counter.findByIdAndUpdate(
-            { _id: 'reportRef' },
-            { $inc: { seq: 1 } },
-            { new: true, upsert: true }
-        );
-        this.referenceNumber = `REF-${counter.seq}`;
+        try {
+            const counter = await Counter.findByIdAndUpdate(
+                { _id: 'reportRef' },
+                { $inc: { seq: 1 } },
+                { new: true, upsert: true }
+            );
+            this.referenceNumber = `REF-${counter.seq}`;
+        } catch (error) {
+            console.error('Error generating reference number:', error);
+            // Fallback to timestamp if counter fails
+            this.referenceNumber = `REF-${Date.now()}`;
+        }
     }
     next();
 });
 
+const Report = mongoose.model('Report', reportSchema);
 module.exports = mongoose.model('Report', reportSchema);
