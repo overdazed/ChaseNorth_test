@@ -20,8 +20,6 @@ const desiredOutcomes = [
   'Just reporting the issue'
 ];
 
-const API_URL = import.meta.env.VITE_API_URL
-
 const Report = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -36,16 +34,7 @@ const Report = () => {
     const fetchOrderDetails = async () => {
       console.log('Fetching order details for order ID:', location.state?.orderId);
       try {
-        // const response = await fetch(`/api/orders/${location.state?.orderId}`);
-
-        const response = await fetch(`${API_URL}/api/reports`, {  // Update this line
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        });
-
+        const response = await fetch(`/api/orders/${location.state?.orderId}`);
         console.log('Order API response status:', response.status);
         if (response.ok) {
           const data = await response.json();
