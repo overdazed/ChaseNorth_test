@@ -42,16 +42,17 @@ const Home = () => {
         return () => window.removeEventListener('themeChange', handleThemeChange);
     }, []);
 
+
     // ---------- SCROLL HANDLING ----------
 
-    // 1️⃣ Take manual control of scroll restoration
+    // Manual scroll restoration
     useEffect(() => {
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
         }
     }, []);
 
-    // 2️⃣ Save scroll position before leaving the page
+    // Save scroll before leaving
     useEffect(() => {
         const saveScrollPosition = () => {
             sessionStorage.setItem('scrollPosition', String(window.scrollY));
@@ -60,20 +61,27 @@ const Home = () => {
         return () => window.removeEventListener('beforeunload', saveScrollPosition);
     }, []);
 
-    // 3️⃣ Restore scroll on back/forward, reset to top on refresh/direct visit
+    // Restore scroll after loader
     useEffect(() => {
-        const navEntry = performance.getEntriesByType('navigation')[0];
-        if (navEntry?.type === 'back_forward') {
-            const savedPosition = sessionStorage.getItem('scrollPosition');
-            if (savedPosition !== null) {
+        if (!isLoading) {
+            const navEntry = performance.getEntriesByType('navigation')[0];
+
+            if (navEntry?.type === 'back_forward') {
+                // Back/forward → restore previous scroll
+                const savedPosition = sessionStorage.getItem('scrollPosition');
+                if (savedPosition !== null) {
+                    requestAnimationFrame(() => {
+                        window.scrollTo(0, parseInt(savedPosition, 10));
+                    });
+                }
+            } else {
+                // Refresh / direct visit → scroll to top
                 requestAnimationFrame(() => {
-                    window.scrollTo(0, parseInt(savedPosition, 10));
+                    window.scrollTo(0, 0);
                 });
             }
-        } else {
-            window.scrollTo(0, 0);
         }
-    }, []);
+    }, [isLoading]);
 
     // ---------- DATA FETCHING ----------
     useEffect(() => {
