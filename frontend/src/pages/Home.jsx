@@ -113,25 +113,27 @@ import ParallaxSection2 from "@/components/Common/ParallaxSection2.jsx";
 
 const Home = () => {
   const { pathname } = useLocation();
-  const [isNightMode, setIsNightMode] = useState(false);
+  const [isNightMode, setIsNightMode] = useState(() => {
+    // Set initial theme based on the current time
+    const hours = new Date().getHours();
+    // Night mode from 6 PM (18:00) to 6 AM (06:00)
+    return hours >= 18 || hours < 6;
+  });
+  
   const [isLoading, setIsLoading] = useState(true);
   const [showContent, setShowContent] = useState(false);
-
+  
+  // Handle manual theme changes
+  const handleThemeChange = (e) => {
+    if (e?.detail?.isDarkMode !== undefined) {
+      setIsNightMode(e.detail.isDarkMode);
+    }
+  };
+  
+  // Listen for theme changes
   useEffect(() => {
-    const updateTheme = () => {
-      const hours = new Date().getHours();
-      // Night mode from 6 PM (18:00) to 6 AM (06:00)
-      const isNight = hours >= 18 || hours < 6;
-      setIsNightMode(isNight);
-    };
-
-    // Set initial theme
-    updateTheme();
-
-    // Update theme every minute to handle day/night transitions
-    const intervalId = setInterval(updateTheme, 60000);
-
-    return () => clearInterval(intervalId);
+    window.addEventListener('themeChange', handleThemeChange);
+    return () => window.removeEventListener('themeChange', handleThemeChange);
   }, []);
 
   // Scroll to top on initial load and prevent scroll restoration
