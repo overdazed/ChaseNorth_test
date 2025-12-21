@@ -410,4 +410,48 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// @route   GET /api/products/weekly
+// @desc    Get a random featured product for the weekly showcase
+// @access  Public
+router.get('/weekly', async (req, res) => {
+    try {
+        // Get the count of all featured products
+        const count = await Product.countDocuments({ isFeatured: true });
+
+        // Get a random skip value
+        const random = Math.floor(Math.random() * count);
+
+        // Find one random featured product
+        const weeklyProduct = await Product.findOne({ isFeatured: true })
+            .skip(random)
+            .select('-reviews -__v') // Exclude reviews and version key
+            .populate('user', 'name email'); // Include basic user info
+
+        if (!weeklyProduct) {
+            return res.status(404).json({
+                message: "No featured products found"
+            });
+        }
+
+        // Calculate next update time (next Friday at 19:00)
+        const now = new Date();
+        const nextFriday = new Date(now);
+        const daysUntilFriday = (5 - now.getDay() + 7) % 7 || 7; // 5 is Friday (0 is Sunday)
+        nextFriday.setDate(now.getDate() + daysUntilFriday);
+        nextFriday.setHours(19, 0, 0, 0); // Set to 7 PM
+
+        res.json({
+            product: weeklyProduct,
+            nextUpdate: nextFriday.toISOString()
+        });
+
+    } catch (error) {
+        console.error('Error in /api/products/weekly:', error);
+        res.status(500).json({
+            message: "Server error while fetching weekly product",
+            error: error.message
+        });
+    }
+});
+
 module.exports = router;

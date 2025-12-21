@@ -54,9 +54,7 @@ const Card = ({ title, icon, children, className = "", isDarkMode }) => {
           <div className="absolute inset-0 flex items-center justify-center group-hover/canvas-card:-translate-y-4 group-hover/canvas-card:opacity-0 transition duration-200">
             {icon}
           </div>
-          <h2 className={`text-xl opacity-0 group-hover/canvas-card:opacity-100 relative z-10 ${
-              isDarkMode ? 'text-white' : 'text-black'
-          } -mt-8 font-bold group-hover/canvas-card:-translate-y-2 transition duration-200`}>
+          <h2 className={`text-xl opacity-0 group-hover/canvas-card:opacity-100 relative z-10 text-white -mt-8 font-bold group-hover/canvas-card:-translate-y-2 transition duration-200`}>
             {title}
           </h2>
         </div>
@@ -114,15 +112,31 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
   useEffect(() => {
     const fetchWeeklyProduct = async () => {
       try {
+        // First try the API endpoint
         const response = await fetch(`${API_BASE}/api/products/weekly`);
         if (!response.ok) {
-          throw new Error('Failed to fetch weekly product');
+          throw new Error(`API returned ${response.status}`);
         }
         const data = await response.json();
         setWeeklyProduct(data.product);
         setNextUpdate(data.nextUpdate);
       } catch (err) {
-        setError(err.message || 'An error occurred while fetching the weekly product');
+        console.error('Error fetching weekly product:', err);
+        // Fallback to a local featured product
+        const response = await fetch(`${API_BASE}/api/products?isFeatured=true&limit=1`);
+        if (response.ok) {
+          const products = await response.json();
+          if (products.length > 0) {
+            setWeeklyProduct(products[0]);
+            // Set next update to tomorrow at 7 PM
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(19, 0, 0, 0);
+            setNextUpdate(tomorrow.toISOString());
+          }
+        } else {
+          setError('Could not load weekly product. Please try again later.');
+        }
       } finally {
         setLoading(false);
       }

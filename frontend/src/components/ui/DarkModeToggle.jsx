@@ -2,64 +2,50 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const DarkModeToggle = () => {
-  // Initialize state with a function to prevent hydration mismatch
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
 
-  // Initialize theme based on time and localStorage
+  // Check for saved theme preference on mount
   useEffect(() => {
-    // Only run on client side
-    if (typeof window === 'undefined') return;
-
+    const savedTheme = localStorage.getItem('theme');
     const hour = new Date().getHours();
     const isNightTime = hour < 6 || hour >= 18; // 6pm to 6am is night time
 
-    // Check if user has explicitly set a preference
-    const hasUserPreference = localStorage.getItem('hasUserPreference') === 'true';
-    const savedTheme = localStorage.getItem('theme');
+    // Use saved theme if it exists, otherwise use time-based theme
+    const shouldUseDarkMode = savedTheme
+        ? savedTheme === 'dark'
+        : isNightTime;
 
-    let shouldUseDarkMode;
-
-    if (hasUserPreference && savedTheme) {
-      // Use saved preference if it exists
-      shouldUseDarkMode = savedTheme === 'dark';
-    } else {
-      // Otherwise use time-based theme
-      shouldUseDarkMode = isNightTime;
-      // Save the initial time-based theme
-      localStorage.setItem('theme', isNightTime ? 'dark' : 'light');
-    }
-
-    // Apply the theme
+    // Update the theme
     document.documentElement.classList.toggle('dark', shouldUseDarkMode);
     setIsDarkMode(shouldUseDarkMode);
-    setIsInitialized(true);
-  }, []);
 
-  // Listen for theme changes from other components
-  useEffect(() => {
-    const handleThemeChange = (e) => {
-      if (e.detail?.isDarkMode !== undefined) {
-        const newIsDarkMode = e.detail.isDarkMode;
-        document.documentElement.classList.toggle('dark', newIsDarkMode);
-        setIsDarkMode(newIsDarkMode);
-      }
-    };
-
-    window.addEventListener('themeChange', handleThemeChange);
-    return () => window.removeEventListener('themeChange', handleThemeChange);
+    // Save the initial theme if it wasn't set
+    if (!savedTheme) {
+      localStorage.setItem('theme', shouldUseDarkMode ? 'dark' : 'light');
+    }
   }, []);
+  // In your DarkModeToggle component
+  const toggleDarkMode = () => {
+    document.documentElement.classList.toggle('dark');
+    // Optional: Save preference to localStorage
+    const isDark = document.documentElement.classList.contains('dark');
+    localStorage.setItem('darkMode', isDark);
+  };
 
   const toggleTheme = () => {
     const newIsDarkMode = !isDarkMode;
 
     // Update the theme
-    document.documentElement.classList.toggle('dark', newIsDarkMode);
-    setIsDarkMode(newIsDarkMode);
+    if (newIsDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
 
-    // Save to localStorage and mark that user has set a preference
-    localStorage.setItem('theme', newIsDarkMode ? 'dark' : 'light');
-    localStorage.setItem('hasUserPreference', 'true');
+    // Update the state
+    setIsDarkMode(newIsDarkMode);
 
     // Notify other components about the theme change
     const event = new CustomEvent('themeChange', {
@@ -68,10 +54,29 @@ const DarkModeToggle = () => {
     window.dispatchEvent(event);
   };
 
-  // Don't render until we've determined the initial theme
-  if (!isInitialized) {
-    return null;
-  }
+  // Theme context style toggle function
+  const toggleThemeContext = () => {
+    const newTheme = isDarkMode ? 'light' : 'dark';
+
+    // Update the theme
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
+    // Save to localStorage
+    localStorage.setItem('theme', newTheme);
+
+    // Update state
+    setIsDarkMode(!isDarkMode);
+
+    // Notify other components
+    const event = new CustomEvent('themeChange', {
+      detail: { isDarkMode: !isDarkMode }
+    });
+    window.dispatchEvent(event);
+  };
 
   return (
       <div className="ml-4 relative">
@@ -81,8 +86,7 @@ const DarkModeToggle = () => {
               id="darkModeToggle"
               className="hidden"
               checked={isDarkMode}
-              onChange={toggleTheme}
-              aria-label="Toggle dark mode"
+              onChange={toggleTheme}  // Using the original toggle function
           />
           <div className="relative w-6 h-6">
             <AnimatePresence mode="wait">
@@ -94,6 +98,7 @@ const DarkModeToggle = () => {
                       exit={{ opacity: 0, rotate: 90 }}
                       transition={{ duration: 0.3 }}
                       className="group"
+                      style={{ position: 'relative' }}
                   >
                     <div className="text-gray-700 group-hover:text-black transition-colors duration-200">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -109,6 +114,7 @@ const DarkModeToggle = () => {
                       exit={{ opacity: 0, rotate: -90 }}
                       transition={{ duration: 0.3 }}
                       className="group"
+                      style={{ position: 'relative' }}
                   >
                     <div className="text-gray-700 group-hover:text-black transition-colors duration-200">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
