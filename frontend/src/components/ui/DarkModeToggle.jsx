@@ -3,32 +3,36 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const DarkModeToggle = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+  const [hasUserToggled, setHasUserToggled] = useState(false);
 
   // Initialize theme on mount
   useEffect(() => {
-    // Get saved theme from localStorage
+    // Check if user has manually toggled the theme before
+    const userHasToggled = localStorage.getItem('hasUserToggled') === 'true';
+    setHasUserToggled(userHasToggled);
+    
     const savedTheme = localStorage.getItem('theme');
     
-    // If we have a saved theme, use it
-    if (savedTheme) {
+    if (userHasToggled && savedTheme) {
+      // If user has toggled before, use their preference
       const isDark = savedTheme === 'dark';
       setIsDarkMode(isDark);
       document.documentElement.classList.toggle('dark', isDark);
     } else {
-      // No saved theme, use time-based theme
+      // First load - use time-based theme
       const hour = new Date().getHours();
       const isNightTime = hour < 6 || hour >= 18; // 6pm to 6am is night time
       
       // Set initial theme based on time
-      setIsDarkMode(isNightTime);
-      document.documentElement.classList.toggle('dark', isNightTime);
+      const initialTheme = isNightTime ? 'dark' : 'light';
+      const isDark = initialTheme === 'dark';
+      
+      setIsDarkMode(isDark);
+      document.documentElement.classList.toggle('dark', isDark);
       
       // Save the initial theme
-      localStorage.setItem('theme', isNightTime ? 'dark' : 'light');
+      localStorage.setItem('theme', initialTheme);
     }
-    
-    setIsMounted(true);
   }, []);
 
   const toggleTheme = () => {
@@ -37,13 +41,16 @@ const DarkModeToggle = () => {
     // Update the theme
     document.documentElement.classList.toggle('dark', newIsDarkMode);
     
-    // Save the preference
-    localStorage.setItem('theme', newIsDarkMode ? 'dark' : 'light');
+    // Save the preference and mark that user has toggled
+    const theme = newIsDarkMode ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+    localStorage.setItem('hasUserToggled', 'true');
     
     // Update the state
     setIsDarkMode(newIsDarkMode);
+    setHasUserToggled(true);
 
-    // Dispatch theme change event
+    // Notify other components about the theme change
     const event = new CustomEvent('themeChange', {
       detail: { isDarkMode: newIsDarkMode }
     });
