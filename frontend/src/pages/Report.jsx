@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -26,6 +26,35 @@ const Report = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
+  const [orderItems, setOrderItems] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState('');
+
+  useEffect(() => {
+    const fetchOrderDetails = async () => {
+      console.log('Fetching order details for order ID:', location.state?.orderId);
+      try {
+        const response = await fetch(`/api/orders/${location.state?.orderId}`);
+        console.log('Order API response status:', response.status);
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Order data received:', data);
+          const items = data.orderItems || [];
+          console.log('Order items:', items);
+          setOrderItems(items);
+          if (items.length > 0) {
+            console.log('Setting selected product to first item:', items[0]._id);
+            setSelectedProduct(items[0]._id);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching order details:', error);
+      }
+    };
+
+    if (location.state?.orderId) {
+      fetchOrderDetails();
+    }
+  }, [location.state?.orderId]);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
@@ -36,15 +65,12 @@ const Report = () => {
     }
   });
 
-  // Get order details from location state
+  // Get order details from location state or query params
   const orderDetails = {
     orderNumber: location.state?.orderId || 'N/A',
-    productNames: location.state?.productNames || ['N/A'],
+    deliveryDate: location.state?.deliveryDate || new Date().toISOString().split('T')[0],
     sellerName: location.state?.sellerName || 'Adventure Store'
   };
-
-  // Set default product name (first product in the list)
-  const [selectedProduct, setSelectedProduct] = useState(orderDetails.productNames[0] || '');
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -79,19 +105,31 @@ const Report = () => {
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
-      // In a real app, you would send this data to your backend
-      console.log('Form data:', {
+      const selectedProductItem = orderItems.find(item => item._id === selectedProduct);
+      
+      // Here you would typically send the form data to your backend
+      console.log('Submitting report:', {
         ...data,
         orderId: orderDetails.orderNumber,
-        productName: selectedProduct,
-        files: selectedFiles
+        productId: selectedProduct,
+        productName: selectedProductItem?.name || 'Unknown Product',
+        attachments: selectedFiles.map(f => f.file)
       });
-      
+
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Show success message
       toast.success('Report submitted successfully!');
-      navigate('/orders');
+
+      // Redirect to confirmation page or home
+      navigate('/report/confirmation', {
+        state: {
+          referenceNumber: `REF-${Math.floor(Math.random() * 1000000)}`,
+          email: data.email,
+          productName: selectedProductItem?.name || 'the product'
+        }
+      });
     } catch (error) {
       console.error('Error submitting report:', error);
       toast.error('Failed to submit report. Please try again.');
@@ -118,6 +156,7 @@ const Report = () => {
               <p className="text-sm text-gray-500 dark:text-gray-400">Order Number</p>
               <p className="font-medium text-gray-900 dark:text-white">{orderDetails.orderNumber}</p>
             </div>
+            {/* Product selection temporarily disabled
             <div>
               <label htmlFor="product" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Product
@@ -128,23 +167,31 @@ const Report = () => {
                 onChange={(e) => setSelectedProduct(e.target.value)}
                 className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
               >
-                {orderDetails.productNames.map((product, index) => (
-                  <option key={index} value={product}>
-                    {product}
-                  </option>
-                ))}
+                {orderItems.length > 0 ? (
+                  orderItems.map((item) => (
+                    <option key={item._id || item.productId} value={item._id || item.productId}>
+                      {item.name || `Product ${item.productId}`} {item.quantity ? `(Qty: ${item.quantity})` : ''}
+                    </option>
+                  ))
+                ) : (
+                  <option value="">No products found</option>
+                )}
               </select>
+              <div className="text-xs text-gray-500 mt-1">
+                {orderItems.length} product(s) found for this order
+              </div>
             </div>
+            */}
             <div>
               <p className="text-sm text-gray-500 dark:text-gray-400">Delivery Date</p>
               <p className="font-medium text-gray-900 dark:text-white">
                 {new Date(orderDetails.deliveryDate).toLocaleDateString()}
               </p>
             </div>
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Seller</p>
-              <p className="font-medium text-gray-900 dark:text-white">{orderDetails.sellerName}</p>
-            </div>
+            {/*<div>*/}
+            {/*  <p className="text-sm text-gray-500 dark:text-gray-400">Seller</p>*/}
+            {/*  <p className="font-medium text-gray-900 dark:text-white">{orderDetails.sellerName}</p>*/}
+            {/*</div>*/}
           </div>
         </div>
 
