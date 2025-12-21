@@ -119,12 +119,19 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
 
                             {/* Product Info Overlay */}
                             <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 bg-gradient-to-t from-black/70 to-transparent">
+                                {/* Brand Name - Hidden by default, shown on hover */}
+                                <div className="absolute bottom-4 left-2 p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <p className="text-neutral-300 text-sm font-normal">
+                                        {product.brand || 'Chase North'}
+                                    </p>
+                                </div>
+
                                 <div className="flex flex-col">
                                     <div className="flex justify-between items-start">
-                                        <h3 className="text-white font-bold text-sm md:text-lg md:mt-1 -translate-y-8 transition-transform duration-300">
+                                        <h3 className="text-white font-bold text-sm md:text-lg md:mt-1 group-hover:-translate-y-8 transition-transform duration-300">
                                             {product.name}
                                         </h3>
-                                        <p className="text-white font-bold text-sm md:text-lg md:mt-1 group-hover:-translate-y-8 transition-transform duration-300">
+                                        <p className="text-white font-bold text-sm md:text-lg md:mt-1 -translate-y-8 md:translate-y-0 group-hover:-translate-y-8 transition-transform duration-300">
                                             ${product.price}
                                         </p>
                                     </div>
