@@ -138,28 +138,44 @@ const Home = () => {
     return () => window.removeEventListener('themeChange', handleThemeChange);
   }, []);
 
-  // Handle back/forward navigation
+  // Handle refresh and initial scroll position
+  useEffect(() => {
+    // Save scroll position before refresh
+      const handleKeyDown = (e) => {
+          if ((e.key === 'F5') || (e.ctrlKey && e.key === 'r')) {
+              // Set scroll position to 0
+              window.scrollTo(0, 0);
+              // Also save it to session storage
+              sessionStorage.setItem('scrollPosition', '0');
+          }
+      };
+
+    // Set initial scroll position to top
+    sessionStorage.setItem('scrollPosition', '0');
+    window.scrollTo(0, 0);
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  // Handle back/forward navigation and refresh case
   useEffect(() => {
     const handlePopState = () => {
       const savedPosition = sessionStorage.getItem('scrollPosition');
       if (savedPosition) {
-        // Use requestAnimationFrame to ensure the page has rendered
         requestAnimationFrame(() => {
           window.scrollTo({
             top: parseInt(savedPosition),
-            behavior: 'auto'  // Use 'auto' for instant scroll
+            behavior: 'auto'
           });
         });
       }
     };
 
-    // Add event listener for popstate
     window.addEventListener('popstate', handlePopState);
-
-    // Clean up
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   // Save scroll position when leaving the page
