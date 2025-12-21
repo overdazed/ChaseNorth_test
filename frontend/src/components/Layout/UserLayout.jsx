@@ -7,6 +7,7 @@ import Loader from "../Common/Loader";
 import Newsletter from "../Common/Newsletter.jsx";
 import Featured from '../Common/Featured.jsx';
 import FeaturesSection from "@/components/Products/FeaturesSection.jsx";
+import Breadcrumbs from "./Breadcrumbs"; // Add this import
 
 const useScrollToBottom = () => {
     const [isAtBottom, setIsAtBottom] = useState(false);
@@ -27,19 +28,18 @@ const useScrollToBottom = () => {
 };
 
 const UserLayout = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  
-  const handleBugReportClick = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    // Small delay to show the loader
-    await new Promise(resolve => setTimeout(resolve, 2500));
-    navigate('/bug-report');
-  };
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
     const location = useLocation();
     const isHomePage = location.pathname === '/';
     const isAtBottom = useScrollToBottom();
+
+    const handleBugReportClick = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        await new Promise(resolve => setTimeout(resolve, 2500));
+        navigate('/bug-report');
+    };
     
     return (
         <>
