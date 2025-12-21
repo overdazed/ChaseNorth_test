@@ -163,9 +163,10 @@ const Report = () => {
 
       // Show success message
       toast.success('Report submitted successfully!');
+
       navigate('/report/confirmation', {
         state: {
-          referenceNumber: responseData.referenceNumber,
+          referenceNumber: responseData.data?.referenceNumber || `REF-${Date.now()}`, // Fallback to timestamp if not available
           email: data.email
         }
       });

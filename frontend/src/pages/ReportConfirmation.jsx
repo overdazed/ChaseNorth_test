@@ -6,7 +6,7 @@ const ReportConfirmation = () => {
   const location = useLocation();
   const { referenceNumber, email } = location.state || {
     referenceNumber: 'REF-000000',
-    email: 'your@email.com'
+    email: 'support@chasenorth.com'
   };
 
   return (
@@ -27,10 +27,10 @@ const ReportConfirmation = () => {
             </div>
 
             <div className="mt-8 border-t border-gray-200 dark:border-gray-700 pt-8">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Reference Number</h3>
-              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                {referenceNumber}
-              </p>
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Reference Number: {referenceNumber}</h3>
+              {/*<p className="mt-1 text-sm text-gray-500 dark:text-gray-400">*/}
+              {/*  {referenceNumber}*/}
+              {/*</p>*/}
               <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 A copy has been sent to {email}
               </p>
@@ -121,7 +121,7 @@ const ReportConfirmation = () => {
         <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
           <p>
             Need immediate assistance?{' '}
-            <a href="mailto:support@example.com" className="font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300">
+            <a href="mailto:support@c.com" className="font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300">
               Contact our support team
             </a>
           </p>

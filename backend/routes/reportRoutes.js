@@ -67,7 +67,10 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
 
         res.status(201).json({
             success: true,
-            data: report,
+            data: {
+                ...report.toObject(),
+                referenceNumber: report.referenceNumber // Make sure this is included
+            },
             message: 'Report submitted successfully'
         });
 
