@@ -23,6 +23,7 @@ const Breadcrumbs = () => {
     'clothing': 'Clothing',
     'top-wear': 'Top Wear',
     'bottom-wear': 'Bottom Wear',
+    'faq': 'FAQs',
     // Add more mappings as needed
   };
 
@@ -39,6 +40,9 @@ const Breadcrumbs = () => {
       }
     }
 
+    // Don't show the last part if it's 'all' and there are no filters
+    const showLastPart = !(category_path === 'all' && !gender && !category);
+    
     return (
         <nav className="text-sm py-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full">
           <ol className="flex items-center space-x-1 md:space-x-2">
@@ -50,20 +54,22 @@ const Breadcrumbs = () => {
             <li className="flex items-center">
               <ChevronRight className="h-4 w-4 text-gray-400 mx-1" />
               <Link
-                  to="/collections"
+                  to="/collections/all"
                   className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
               >
                 Collections
               </Link>
             </li>
-            <li className="flex items-center">
-              <ChevronRight className="h-4 w-4 text-gray-400 mx-1" />
-              <span className="text-gray-700 dark:text-gray-200 font-medium">
-              {displayNames[category_path] || category.split('-').map(word =>
-                  word.charAt(0).toUpperCase() + word.slice(1)
-              ).join(' ')}
-            </span>
-            </li>
+            {showLastPart && (
+              <li className="flex items-center">
+                <ChevronRight className="h-4 w-4 text-gray-400 mx-1" />
+                <span className="text-gray-700 dark:text-gray-200 font-medium">
+                  {displayNames[category_path] || category_path.split('-').map(word =>
+                      word.charAt(0).toUpperCase() + word.slice(1)
+                  ).join(' ')}
+                </span>
+              </li>
+            )}
           </ol>
         </nav>
     );
