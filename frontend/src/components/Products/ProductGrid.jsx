@@ -54,7 +54,7 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
 
     return (
         <div className="w-full">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 w-full max-w-[1600px] mx-auto px-4">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full max-w-[1600px] mx-auto px-4">
             {products.map((product, index) => (
                 <div 
                     key={index} 
