@@ -40,13 +40,13 @@ const Newsletter = () => {
             <div className="md:col-span-4 flex justify-center">
                 <div className="max-w-md mx-8 sm:mx-0">
                     <h3 className="text-lg text-gray-800 dark:text-white mb-4">
-                        Get your compass and set a clear direction.
+                        Get your compass and set a clear direction
                     </h3>
                     <p className="text-gray-500 dark:text-gray-300 mb-4">
-                        Be the first to know about new products, exclusive events, and special offers.
+                        Carefully chosen releases, honest stories and things we truly stand behind.
                     </p>
                     <p className="font-medium text-sm text-gray-600 dark:text-gray-300 mb-6">
-                        Sign up and get 10% off your first purchase!
+                        And a small thank you when you arrive.
                     </p>
 
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -79,8 +79,9 @@ const Newsletter = () => {
                         )}
 
                         <p className="text-gray-500 dark:text-gray-400 text-xs">
-                            Data is not given to third parties and unsubscription is possible at any time.
-                            With the subscription you accept our privacy policy.
+                            We respect your privacy.
+                            No third parties. Unsubscribe anytime.
+                            By signing up, you agree to our privacy policy.
                         </p>
                     </form>
                 </div>

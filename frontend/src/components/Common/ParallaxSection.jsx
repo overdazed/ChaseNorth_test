@@ -59,10 +59,12 @@ const ParallaxSection = () => {
         Anatomy of Possibility
       </h3>
 
-      <p className="absolute left-4 right-4 sm:right-6 bottom-20 sm:bottom-12 text-white text-base sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-5xl z-10 text-right">
-        Every section is a frame for your story. Shape it, remix it, and let your content spill into unexpected patterns
-        that keep people scrolling.
-      </p>
+      <div className="absolute right-4 sm:right-6 bottom-20 sm:bottom-12 z-10 w-full flex justify-end">
+        <p className="text-white text-base sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-5xl text-right">
+          Every section is a frame for your story. Shape it, remix it, and let your content spill into unexpected patterns
+          that keep people scrolling.
+        </p>
+      </div>
     </div>
   );
 };
