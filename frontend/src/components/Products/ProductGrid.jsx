@@ -95,7 +95,7 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                                         <div
                                             key={i}
                                             className="w-4 h-4 rounded-full border border-neutral-400 shadow-sm"
-                                            style={{ backgroundColor: color }}
+                                            style={{ backgroundColor: color, filter: 'saturate(0.7)' }}
                                             title={color}
                                         />
                                     ))}
