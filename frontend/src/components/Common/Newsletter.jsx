@@ -80,8 +80,13 @@ const Newsletter = () => {
 
                         <p className="text-gray-500 dark:text-gray-400 text-xs">
                             We respect your privacy.
-                            No third parties. Unsubscribe anytime.
-                            By signing up, you agree to our privacy policy.
+                            No third parties. Unsubscribe anytime.<br/>
+                            By signing up, you agree to our{' '}
+                            <a href="#" className="text-gray-500 hover:underline dark:text-gray-400">
+                                privacy policy
+                            </a>
+                            .
+
                         </p>
                     </form>
                 </div>
