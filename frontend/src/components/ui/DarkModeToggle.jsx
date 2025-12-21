@@ -3,83 +3,46 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const DarkModeToggle = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [hasUserToggled, setHasUserToggled] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   // Initialize theme on mount
   useEffect(() => {
-    // Check if user has manually toggled the theme before
-    const userHasToggled = localStorage.getItem('hasUserToggled') === 'true';
-    setHasUserToggled(userHasToggled);
-    
-    const savedTheme = localStorage.getItem('theme');
-    
-    if (userHasToggled && savedTheme) {
-      // If user has toggled before, use their preference
-      const isDark = savedTheme === 'dark';
-      setIsDarkMode(isDark);
-      document.documentElement.classList.toggle('dark', isDark);
-    } else {
-      // First load - use time-based theme
-      const hour = new Date().getHours();
-      const isNightTime = hour < 6 || hour >= 18; // 6pm to 6am is night time
-      
-      // Set initial theme based on time
-      const initialTheme = isNightTime ? 'dark' : 'light';
-      const isDark = initialTheme === 'dark';
-      
-      setIsDarkMode(isDark);
-      document.documentElement.classList.toggle('dark', isDark);
-      
-      // Save the initial theme
-      localStorage.setItem('theme', initialTheme);
-    }
+    // Check for saved theme, default to light (day mode)
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    const isDark = savedTheme === 'dark';
+
+    // Apply the theme
+    setIsDarkMode(isDark);
+    document.documentElement.classList.toggle('dark', isDark);
+    setIsMounted(true);
   }, []);
 
   const toggleTheme = () => {
     const newIsDarkMode = !isDarkMode;
-    
+
     // Update the theme
     document.documentElement.classList.toggle('dark', newIsDarkMode);
-    
-    // Save the preference and mark that user has toggled
-    const theme = newIsDarkMode ? 'dark' : 'light';
-    localStorage.setItem('theme', theme);
-    localStorage.setItem('hasUserToggled', 'true');
-    
+
+    // Save the preference
+    localStorage.setItem('theme', newIsDarkMode ? 'dark' : 'light');
+
     // Update the state
     setIsDarkMode(newIsDarkMode);
-    setHasUserToggled(true);
 
     // Notify other components about the theme change
-    const event = new CustomEvent('themeChange', {
+    window.dispatchEvent(new CustomEvent('themeChange', {
       detail: { isDarkMode: newIsDarkMode }
-    });
-    window.dispatchEvent(event);
+    }));
   };
 
-  // Theme context style toggle function
-  const toggleThemeContext = () => {
-    const newTheme = isDarkMode ? 'light' : 'dark';
-
-    // Update the theme
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-
-    // Save to localStorage
-    localStorage.setItem('theme', newTheme);
-
-    // Update state
-    setIsDarkMode(!isDarkMode);
-
-    // Notify other components
-    const event = new CustomEvent('themeChange', {
-      detail: { isDarkMode: !isDarkMode }
-    });
-    window.dispatchEvent(event);
-  };
+  // Prevent hydration mismatch by only rendering after mount
+  if (!isMounted) {
+    return (
+        <div className="ml-4 w-6 h-6">
+          {/* Empty div with same dimensions to prevent layout shift */}
+        </div>
+    );
+  }
 
   return (
       <div className="ml-4 relative">
@@ -89,7 +52,7 @@ const DarkModeToggle = () => {
               id="darkModeToggle"
               className="hidden"
               checked={isDarkMode}
-              onChange={toggleTheme}  // Using the original toggle function
+              onChange={toggleTheme}
           />
           <div className="relative w-6 h-6">
             <AnimatePresence mode="wait">
