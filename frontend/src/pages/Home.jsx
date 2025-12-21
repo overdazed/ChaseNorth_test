@@ -137,28 +137,43 @@ const Home = () => {
   }, []);
 
   // Scroll to top on initial load and prevent scroll restoration
-  useEffect(() => {
-    // This will run once when the component mounts
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
-    }
-    
-    // Scroll to top on refresh
-    window.onbeforeunload = function() {
-      window.scrollTo(0, 0);
-    };
-    
-    // Initial scroll to top
-    window.scrollTo(0, 0);
+    // Scroll position management
+    // Scroll position management
+    // Scroll position management
+    useEffect(() => {
+        // Always scroll to top on initial load
+        window.scrollTo(0, 0);
 
-    // Clean up
-    return () => {
-      if ('scrollRestoration' in window.history) {
-        window.history.scrollRestoration = 'auto';
-      }
-      window.onbeforeunload = null;
-    };
-  }, []); // Empty dependency array means this runs once on mount
+        // Clear any saved scroll position
+        sessionStorage.removeItem('homeScrollY');
+
+        // Save scroll position when leaving the page
+        const handleBeforeUnload = () => {
+            sessionStorage.setItem('homeScrollY', window.scrollY);
+        };
+
+        // For back/forward navigation, restore scroll position
+        const handlePopState = () => {
+            const savedScrollY = sessionStorage.getItem('homeScrollY');
+            if (savedScrollY) {
+                requestAnimationFrame(() => {
+                    window.scrollTo(0, parseInt(savedScrollY, 10));
+                    sessionStorage.removeItem('homeScrollY');
+                });
+            }
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        window.addEventListener('popstate', handlePopState);
+
+        // Clean up
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, []);
+
+  // Empty dependency array means this runs once on mount
     // We will making use of the useDispatch hook
     const dispatch = useDispatch();
     // Get the products, loading and error using the useSelector hook, that allows us to access data from the reduxstore
