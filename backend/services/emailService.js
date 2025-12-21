@@ -5,17 +5,17 @@ const { promisify } = require('util');
 const { compile } = require('handlebars');
 
 console.log('SMTP Config:', {
-    host: process.env.SMTP_HOST,
+    host: process.env.SMTP_HOST || 'smtp.hostinger.com',
     port: process.env.SMTP_PORT,
     secure: process.env.SMTP_SECURE,
-    user: process.env.SUPPORT_EMAIL || process.env.EMAIL_USER
+    user: process.env.SUPPORT_EMAIL
 });
 
 // Create a transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport({
-    host: ''process.env.SMTP_HOST'',
-    port: process.env.SMTP_PORT,
-    secure: process.env.SMTP_SECURE,
+    host: process.env.SMTP_HOST || 'smtp.hostinger.com',
+    port:  process.env.SMTP_PORT,
+    secure: true,
     auth: {
         user: process.env.SUPPORT_EMAIL,
         pass: process.env.SUPPORT_PASS
@@ -45,11 +45,11 @@ const sendReportConfirmation = async (toEmail, referenceNumber) => {
 
         // Send mail with defined transport object
         const info = await transporter.sendMail({
-            from: `"ChaseNorth Support" <support@chasenorth.com>`, // Sender address
-            to: toEmail, // List of receivers
-            subject: 'Your Report Has Been Submitted - Reference #' + referenceNumber, // Subject line
-            html, // HTML body
-            text: `Your report has been submitted successfully.\n\nReference Number: ${referenceNumber}\n\nWe'll get back to you soon.` // Plain text version
+            from: '"ChaseNorth Support" <support@chasenorth.com>',
+            to: toEmail,
+            subject: 'Your Report Has Been Submitted - Reference #' + referenceNumber,
+            html,
+            text: `Your report has been submitted successfully.\n\nReference Number: ${referenceNumber}\n\nWe'll get back to you soon.`
         });
 
         console.log('Message sent: %s', info.messageId);
