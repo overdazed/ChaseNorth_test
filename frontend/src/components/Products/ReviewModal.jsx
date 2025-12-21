@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import xMarkIcon from '../../assets/x-mark.svg';
 import CustomSelect from '../Common/CustomSelect';
 import { supabase } from '../../services/superbaseClient';
+import { Link } from 'react-router-dom';
 
 const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, user, sizes = [] }) => {
     // State hooks at the top level
@@ -458,9 +459,9 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                             {/* Report */}
                             <p className="mt-4 text-xs text-gray-500 dark:text-gray-400">
                                 Problems with the product or delivery?{' '}
-                                <a href="#" className="text-primary-600 hover:underline dark:text-primary-500">
+                                <Link to="/report" className="text-primary-600 hover:underline dark:text-primary-500">
                                     Send a report
-                                </a>
+                                </Link>
                             </p>
                             <div className="mt-4 grid grid-cols-3 gap-4">
                                 {/* Quality Rating */}
@@ -823,9 +824,9 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                 />
                                 <label htmlFor="review-checkbox" className="ms-2 text-sm font-medium text-gray-500 dark:text-gray-400">
                                     By publishing this review you agree with the{' '}
-                                    <a href="#" className="text-primary-600 hover:underline dark:text-primary-500">
+                                    <Link to="/terms-and-conditions" className="text-primary-600 hover:underline dark:text-primary-500">
                                         terms and conditions
-                                    </a>
+                                    </Link>
                                 </label>
                             </div>
                         </div>

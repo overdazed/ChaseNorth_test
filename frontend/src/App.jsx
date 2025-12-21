@@ -88,6 +88,8 @@ import UserManagement from "./components/Admin/UserManagement.jsx";
 import ProductManagement from "./components/Admin/ProductManagement.jsx";
 import EditProductPage from "./components/Admin/EditProductPage.jsx";
 import OrderManagement from "./components/Admin/OrderManagement.jsx";
+import Report from "./pages/Report";
+import ReportConfirmation from "./pages/ReportConfirmation";
 
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -142,6 +144,8 @@ const App = () => {
                         <Route path="my-orders" element={<MyOrdersPage />} />
                         <Route path="wishlist" element={<Wishlist />} />
                         <Route path="faq" element={<FAQPage />} />
+                        <Route path="report" element={<Report />} />
+                        <Route path="report/confirmation" element={<ReportConfirmation />} />
                     </Route>
                     <Route
                         path="/admin"
