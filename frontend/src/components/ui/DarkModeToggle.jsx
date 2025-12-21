@@ -3,51 +3,47 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const DarkModeToggle = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-  // Check for saved theme preference on mount
+  // Initialize theme on mount
   useEffect(() => {
+    // Get saved theme from localStorage
     const savedTheme = localStorage.getItem('theme');
-    const hour = new Date().getHours();
-    const isNightTime = hour < 6 || hour >= 18; // 6pm to 6am is night time
-
-    // Use saved theme if it exists, otherwise use time-based theme
-    const shouldUseDarkMode = savedTheme
-        ? savedTheme === 'dark'
-        : isNightTime;
-
-    // Update the theme
-    document.documentElement.classList.toggle('dark', shouldUseDarkMode);
-    setIsDarkMode(shouldUseDarkMode);
-
-    // Save the initial theme if it wasn't set
-    if (!savedTheme) {
-      localStorage.setItem('theme', shouldUseDarkMode ? 'dark' : 'light');
+    
+    // If we have a saved theme, use it
+    if (savedTheme) {
+      const isDark = savedTheme === 'dark';
+      setIsDarkMode(isDark);
+      document.documentElement.classList.toggle('dark', isDark);
+    } else {
+      // No saved theme, use time-based theme
+      const hour = new Date().getHours();
+      const isNightTime = hour < 6 || hour >= 18; // 6pm to 6am is night time
+      
+      // Set initial theme based on time
+      setIsDarkMode(isNightTime);
+      document.documentElement.classList.toggle('dark', isNightTime);
+      
+      // Save the initial theme
+      localStorage.setItem('theme', isNightTime ? 'dark' : 'light');
     }
+    
+    setIsMounted(true);
   }, []);
-  // In your DarkModeToggle component
-  const toggleDarkMode = () => {
-    document.documentElement.classList.toggle('dark');
-    // Optional: Save preference to localStorage
-    const isDark = document.documentElement.classList.contains('dark');
-    localStorage.setItem('darkMode', isDark);
-  };
 
   const toggleTheme = () => {
     const newIsDarkMode = !isDarkMode;
-
+    
     // Update the theme
-    if (newIsDarkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-
+    document.documentElement.classList.toggle('dark', newIsDarkMode);
+    
+    // Save the preference
+    localStorage.setItem('theme', newIsDarkMode ? 'dark' : 'light');
+    
     // Update the state
     setIsDarkMode(newIsDarkMode);
 
-    // Notify other components about the theme change
+    // Dispatch theme change event
     const event = new CustomEvent('themeChange', {
       detail: { isDarkMode: newIsDarkMode }
     });
