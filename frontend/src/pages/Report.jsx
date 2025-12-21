@@ -20,6 +20,8 @@ const desiredOutcomes = [
   'Just reporting the issue'
 ];
 
+const API_URL = import.meta.env.VITE_API_URL
+
 const Report = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -34,7 +36,16 @@ const Report = () => {
     const fetchOrderDetails = async () => {
       console.log('Fetching order details for order ID:', location.state?.orderId);
       try {
-        const response = await fetch(`/api/orders/${location.state?.orderId}`);
+        // const response = await fetch(`/api/orders/${location.state?.orderId}`);
+
+        const response = await fetch(`${API_URL}/api/reports`, {  // Update this line
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
         console.log('Order API response status:', response.status);
         if (response.ok) {
           const data = await response.json();
@@ -114,35 +125,57 @@ const Report = () => {
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
+    const formData = new FormData();
+    const selectedProductItem = orderItems.find(item => item._id === selectedProduct);
+
+    // Add form data
+    formData.append('orderId', orderDetails.orderNumber);
+    formData.append('problemType', data.otherProblem ? `Other: ${data.otherProblem}` : data.problemType);
+    formData.append('details', data.details);
+    formData.append('desiredOutcome', data.desiredOutcome);
+    formData.append('email', data.email);
+
+    // Add product information if available
+    if (selectedProductItem) {
+      formData.append('productId', selectedProduct);
+      formData.append('productName', selectedProductItem.name || 'Unknown Product');
+    }
+
+    // Add files
+    selectedFiles.forEach(file => {
+      formData.append('attachments', file.file);
+    });
+
     try {
-      const selectedProductItem = orderItems.find(item => item._id === selectedProduct);
-      
-      // Here you would typically send the form data to your backend
-      console.log('Submitting report:', {
-        ...data,
-        orderId: orderDetails.orderNumber,
-        productId: selectedProduct,
-        productName: selectedProductItem?.name || 'Unknown Product',
-        attachments: selectedFiles.map(f => f.file)
+      const response = await fetch('/api/reports', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
       });
 
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.message || 'Failed to submit report');
+      }
 
       // Show success message
       toast.success('Report submitted successfully!');
 
-      // Redirect to confirmation page or home
+      // Redirect to confirmation with the reference number from the server
       navigate('/report/confirmation', {
         state: {
-          referenceNumber: `REF-${Math.floor(Math.random() * 1000000)}`,
+          referenceNumber: responseData.referenceNumber,
           email: data.email,
           productName: selectedProductItem?.name || 'the product'
         }
       });
+
     } catch (error) {
       console.error('Error submitting report:', error);
-      toast.error('Failed to submit report. Please try again.');
+      toast.error(error.message || 'Failed to submit report. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
