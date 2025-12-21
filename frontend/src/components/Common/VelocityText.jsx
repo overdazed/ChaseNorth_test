@@ -7,24 +7,20 @@ import {
 } from "framer-motion";
 import React, { useRef, useState, useLayoutEffect, useEffect } from "react";
 
-const VelocityText = () => {
+const VelocityText = ({ isNightMode = false }) => {
   const targetRef = useRef(null);
   const textRef = useRef(null);
 
   const [textWidth, setTextWidth] = useState(0);
   const [viewportWidth, setViewportWidth] = useState(0);
-  const [transformOrigin, setTransformOrigin] = useState('35.7% 60%');
+  const [transformOrigin, setTransformOrigin] = useState('35% 35%');
+
+  // Update transform origin when isNightMode changes
+  useEffect(() => {
+    setTransformOrigin(isNightMode ? 'center' : '35% 35%');
+  }, [isNightMode]);
 
   useLayoutEffect(() => {
-    // Set transform origin based on time of day
-    const updateTransformOrigin = () => {
-      const hours = new Date().getHours();
-      const isNightTime = hours >= 18 || hours < 6; // 6 PM to 6 AM
-      setTransformOrigin(isNightTime ? 'center' : '35% 35%');
-    };
-
-    updateTransformOrigin();
-    
     if (textRef.current) {
       setTextWidth(textRef.current.scrollWidth);
       setViewportWidth(window.innerWidth);
@@ -148,16 +144,22 @@ const VelocityText = () => {
     return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
   };
 
-  // Zoom effect that starts at 85% scroll
+  // Zoom effect that changes based on day/night mode
   const zoomScale = useTransform(
     scrollYProgress,
-    [0.7, 1.2],  // Start zooming at 65% scroll
-    [1, 400],    // Scale from 1x to 10x (increased from 5x)
+    [0.7, 1.2],
+    [1, isNightMode ? 200 : 400],
     {
       clamp: true,
       ease: smoothEase
     }
   );
+
+  // Force re-render when isNightMode changes to update animations
+  const [key, setKey] = useState(0);
+  useEffect(() => {
+    setKey(prev => prev + 1);
+  }, [isNightMode]);
 
   // Text fade-out effect that starts at 80% scroll
   const textFadeOut = useTransform(

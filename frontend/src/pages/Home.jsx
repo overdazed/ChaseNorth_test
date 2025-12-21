@@ -142,6 +142,13 @@ const Home = () => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
+    
+    // Scroll to top on refresh
+    window.onbeforeunload = function() {
+      window.scrollTo(0, 0);
+    };
+    
+    // Initial scroll to top
     window.scrollTo(0, 0);
 
     // Clean up
@@ -149,6 +156,7 @@ const Home = () => {
       if ('scrollRestoration' in window.history) {
         window.history.scrollRestoration = 'auto';
       }
+      window.onbeforeunload = null;
     };
   }, []); // Empty dependency array means this runs once on mount
     // We will making use of the useDispatch hook
@@ -213,7 +221,7 @@ const Home = () => {
     return (
         <div className={showContent ? 'fade-in' : 'opacity-0'}>
             <Hero/>
-            <VelocityText />
+            <VelocityText isNightMode={isNightMode}/>
             <Bento/>
             <Featured/>
             <DiscoverWeekly />
