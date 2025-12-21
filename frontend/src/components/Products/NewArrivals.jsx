@@ -261,7 +261,7 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
     };
 
 const CornerIcon = ({ className, isNightMode }) => {
-    console.log('CornerIcon - isNightMode:', isNightMode);
+    // console.log('CornerIcon - isNightMode:', isNightMode);
     
     return (
         <img
