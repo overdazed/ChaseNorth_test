@@ -20,6 +20,8 @@ const desiredOutcomes = [
   'Just reporting the issue'
 ];
 
+const API_URL = import.meta.env.VITE_API_URL
+
 const Report = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -34,7 +36,14 @@ const Report = () => {
     const fetchOrderDetails = async () => {
       console.log('Fetching order details for order ID:', location.state?.orderId);
       try {
-        const response = await fetch(`/api/orders/${location.state?.orderId}`);
+        // const response = await fetch(`/api/orders/${location.state?.orderId}`);
+        const response = await fetch(`${API_URL}/api/orders/${location.state?.orderId}`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         console.log('Order API response status:', response.status);
         if (response.ok) {
           const data = await response.json();
@@ -115,7 +124,7 @@ const Report = () => {
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     const formData = new FormData();
-    const selectedProductItem = orderItems.find(item => item._id === selectedProduct);
+    const token = localStorage.getItem('token');
 
     // Add form data
     formData.append('orderId', orderDetails.orderNumber);
@@ -124,25 +133,22 @@ const Report = () => {
     formData.append('desiredOutcome', data.desiredOutcome);
     formData.append('email', data.email);
 
-    // Add product information if available
-    if (selectedProductItem) {
-      formData.append('productId', selectedProduct);
-      formData.append('productName', selectedProductItem.name || 'Unknown Product');
-    }
-
-    // Add files
-    selectedFiles.forEach(file => {
-      formData.append('attachments', file.file);
-    });
-
     try {
       const response = await fetch('/api/reports', {
         method: 'POST',
         body: formData,
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${token}`
         }
       });
+
+      // First check if the response is JSON
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await response.text();
+        console.error('Non-JSON response:', text);
+        throw new Error('Server returned an invalid response');
+      }
 
       const responseData = await response.json();
 
@@ -152,13 +158,10 @@ const Report = () => {
 
       // Show success message
       toast.success('Report submitted successfully!');
-
-      // Redirect to confirmation with the reference number from the server
       navigate('/report/confirmation', {
         state: {
           referenceNumber: responseData.referenceNumber,
-          email: data.email,
-          productName: selectedProductItem?.name || 'the product'
+          email: data.email
         }
       });
 
