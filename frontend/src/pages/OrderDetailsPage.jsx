@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchOrderDetails } from "../redux/slices/orderSlice"
 import {TbFileEuro} from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 const OrderDetailsPage = () => {
 
@@ -121,20 +122,24 @@ const OrderDetailsPage = () => {
                                 // Add !oderDetails to test if not paid
                             >{orderDetails.isDelivered ? "Delivered" : "Pending Delivery"}
                             </span>
-                            <Link
-                                to={`/report`}
-                                state={{ 
-                                    orderId: orderDetails._id,
-                                    shippingAddress: orderDetails.shippingAddress
-                                }}
-                                className="text-sm text-blue-600 hover:underline mt-2"
+                            <button
+                                onClick={() => navigate('/report', {
+                                    state: {
+                                        orderId: orderDetails._id,
+                                        shippingAddress: orderDetails.shippingAddress
+                                    }
+                                })}
+                                className="flex items-center gap-2 bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"
                             >
-                                Send a report
-                            </Link>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <span>Send a report</span>
+                            </button>
                             {/*/!* Add this Download Invoice button *!/*/}
                             {/*{orderDetails.isPaid && (*/}
                             {/*    <button*/}
-                            {/*        onClick={() => window.open(`/api/orders/${orderDetails._id}/invoice`, '_blank')}*/}
+                            {/*        onClsick={() => window.open(`/api/orders/${orderDetails._id}/invoice`, '_blank')}*/}
                             {/*        alert={ ("here will be a function")}*/}
                             {/*        className="flex items-center gap-2 bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"*/}
                             {/* Add this Download Invoice button */}
