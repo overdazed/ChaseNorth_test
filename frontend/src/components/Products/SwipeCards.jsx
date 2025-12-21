@@ -56,46 +56,35 @@ const fetchProducts = async () => {
 
 function SwipeCards() {
   const [isDay, setIsDay] = useState(() => {
-    // Initial check for dark mode
     if (typeof window !== 'undefined') {
       const savedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
-      return !isDark; // isDay is the opposite of isDark
+      // Default to light theme if no theme is saved
+      return savedTheme === 'light' || savedTheme === null;
     }
     return true; // Default to day mode if can't determine
   });
 
-  // Listen for theme changes and time of day
+// Listen for theme changes
   useEffect(() => {
     const updateTheme = () => {
       if (typeof window !== 'undefined') {
-        const isDark = document.documentElement.classList.contains('dark');
-        setIsDay(!isDark);
+        const savedTheme = localStorage.getItem('theme');
+        setIsDay(savedTheme === 'light' || savedTheme === null);
       }
     };
 
     // Initial check
     updateTheme();
 
-    // Listen for theme changes
+    // Listen for theme changes from DarkModeToggle
     const handleThemeChange = () => {
       updateTheme();
     };
 
-    // Add event listener for theme changes
     window.addEventListener('themeChange', handleThemeChange);
-
-    // Set up interval to check time every minute
-    const interval = setInterval(() => {
-      const hours = new Date().getHours();
-      const isDaytimeNow = hours >= 6 && hours < 18;
-      setIsDay(isDaytimeNow);
-    }, 60000);
 
     return () => {
       window.removeEventListener('themeChange', handleThemeChange);
-      clearInterval(interval);
     };
   }, []);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -592,7 +581,7 @@ function SwipeCards() {
                           {card.colors.map((color, i) => (
                             <div
                               key={i}
-                              className="w-6 h-6 rounded-full border-2 border-neutral-400 shadow-md"
+                              className="w-6 h-6 rounded-full border border-neutral-400 shadow-md"
                               style={{ backgroundColor: color }}
                             />
                           ))}
