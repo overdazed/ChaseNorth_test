@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
 
 const problemTypes = [
   'Item not delivered',
@@ -26,7 +27,8 @@ const Report = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
-  
+  const { orderId } = useParams();
+
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       problemType: '',
@@ -38,7 +40,7 @@ const Report = () => {
 
   // Get order details from location state or query params
   const orderDetails = location.state?.orderDetails || {
-    orderNumber: '12345', // Replace with actual order number
+    orderNumber: orderId, // Replace with actual order number
     productName: 'Sample Product', // Replace with actual product name
     deliveryDate: '2023-12-15', // Replace with actual delivery date
     sellerName: 'Adventure Store' // Replace with actual seller name
