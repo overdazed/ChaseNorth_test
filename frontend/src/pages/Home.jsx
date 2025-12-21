@@ -138,66 +138,57 @@ const Home = () => {
     return () => window.removeEventListener('themeChange', handleThemeChange);
   }, []);
 
-    const isInitialMount = useRef(true);
+  // Handle back/forward navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      const savedPosition = sessionStorage.getItem('scrollPosition');
+      if (savedPosition) {
+        // Use requestAnimationFrame to ensure the page has rendered
+        requestAnimationFrame(() => {
+          window.scrollTo({
+            top: parseInt(savedPosition),
+            behavior: 'auto'  // Use 'auto' for instant scroll
+          });
+        });
+      }
+    };
 
-    // Handle scroll position on route changes
-    useEffect(() => {
-      // Don't run on initial mount
-        if (isInitialMount.current) {
-            isInitialMount.current = false;
-            window.scrollTo(0, 0);
-            return;
-        }
+    // Add event listener for popstate
+    window.addEventListener('popstate', handlePopState);
 
-        // For regular navigation, scroll to top
-        window.scrollTo(0, 0);
-    }, [location.pathname]);
+    // Clean up
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
 
-    // Handle back/forward navigation
-    useEffect(() => {
-        const handlePopState = () => {
-            const savedPosition = sessionStorage.getItem('scrollPosition');
-            if (savedPosition) {
-                requestAnimationFrame(() => {
-                    window.scrollTo(0, parseInt(savedPosition));
-                });
-            }
-        };
+  // Save scroll position when leaving the page
+  useEffect(() => {
+    const saveScrollPosition = () => {
+      sessionStorage.setItem('scrollPosition', window.scrollY);
+    };
 
-        window.addEventListener('popstate', handlePopState);
-        return () => window.removeEventListener('popstate', handlePopState);
-    }, []);
+    // Save scroll position when the page is about to unload
+    window.addEventListener('beforeunload', saveScrollPosition);
 
-    // Save scroll position on scroll
-    useEffect(() => {
-        const handleScroll = () => {
-            sessionStorage.setItem('scrollPosition', window.scrollY);
-        };
+    // Clean up
+    return () => {
+      window.removeEventListener('beforeunload', saveScrollPosition);
+    };
+  }, []);
 
-        // Throttle the scroll event for better performance
-        let scrollTimeout;
-        const throttledScroll = () => {
-            if (!scrollTimeout) {
-                scrollTimeout = setTimeout(() => {
-                    handleScroll();
-                    scrollTimeout = null;
-                }, 100);
-            }
-        };
+  // Handle initial load and refresh
+  useEffect(() => {
+    // Check if this is a back/forward navigation
+    const navigationEntries = performance.getEntriesByType('navigation');
+    const isBackForward = navigationEntries.length > 0 &&
+                         navigationEntries[0].type === 'back_forward';
 
-        window.addEventListener('scroll', throttledScroll);
-        return () => {
-            window.removeEventListener('scroll', throttledScroll);
-            clearTimeout(scrollTimeout);
-        };
-    }, []);
-
-    // Clear scroll position on component unmount
-    useEffect(() => {
-      return () => {
-        sessionStorage.removeItem('scrollPosition');
-      };
-    }, []);
+    if (!isBackForward) {
+      // Only scroll to top on initial load or refresh
+      window.scrollTo(0, 0);
+    }
+  }, []);
 
   // Empty dependency array means this runs once on mount
     // We will making use of the useDispatch hook
