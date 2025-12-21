@@ -82,7 +82,7 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                                     alt="New Arrival" 
                                     className={`absolute -top-2 -left-2 z-10 ${
                                         newStarBadgeSize === 'sm' ? 'h-20 w-20 md:h-16 md:w-16' : 
-                                        newStarBadgeSize === 'md' ? 'h-14 w-14 md:h-16 md:w-16' :
+                                        newStarBadgeSize === 'md' ? 'h-12 w-12 md:h-16 md:w-16' :
                                         'h-24 w-24 md:h-24 md:w-24'
                                     }`}
                                 />
@@ -119,12 +119,12 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
 
                             {/* Product Info Overlay */}
                             <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 bg-gradient-to-t from-black/70 to-transparent">
-                                <div className="flex justify-between items-end">
-                                    <div>
-                                        <h3 className="text-white font-medium text-xs md:text-sm">
+                                <div className="flex flex-col">
+                                    <div className="flex justify-between items-start">
+                                        <h3 className="text-white font-bold text-sm md:text-lg md:mt-1 -translate-y-8 transition-transform duration-300">
                                             {product.name}
                                         </h3>
-                                        <p className="text-white font-bold text-sm md:text-lg">
+                                        <p className="text-white font-bold text-sm md:text-lg md:mt-1 group-hover:-translate-y-8 transition-transform duration-300">
                                             ${product.price}
                                         </p>
                                     </div>
@@ -132,10 +132,10 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                             </div>
                         </div>
                     </Link>
-                    
+
                     {/* Heart Icon */}
-                    <div className="absolute top-2 right-2 z-10 w-8 h-8 md:w-6 md:h-6">
-                        <HeartIcon 
+                    <div className="absolute top-2 right-0 md:top-2 md:right-2 z-10 w-8 h-8 md:w-6 md:h-6">
+                        <HeartIcon
                             productId={product._id}
                             className="w-full h-full text-white"
                             containerClass="w-full h-full"
