@@ -1,30 +1,21 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
 const Counter = require('./models/Counter');
 
-async function initializeCounter() {
+const initializeCounters = async () => {
     try {
-        // Connect to MongoDB
-        await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/your-db-name', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        // Check if the report counter exists
+        const reportCounter = await Counter.findById('reportRef');
+        if (!reportCounter) {
+            await Counter.create({ _id: 'reportRef', seq: 0 });
+            console.log('Initialized report counter');
+        }
 
-        console.log('Connected to MongoDB');
-
-        // Initialize or update the counter
-        const counter = await Counter.findOneAndUpdate(
-            { _id: 'reportRef' },
-            { $setOnInsert: { seq: 1 } },
-            { upsert: true, new: true }
-        );
-
-        console.log('Counter initialized/updated:', counter);
-        process.exit(0);
+        console.log('Counters initialized successfully');
+        return true;
     } catch (error) {
-        console.error('Error initializing counter:', error);
-        process.exit(1);
+        console.error('Error initializing counters:', error);
+        return false;
     }
-}
+};
 
-initializeCounter();
+module.exports = initializeCounters;

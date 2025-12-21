@@ -102,6 +102,11 @@ mongoose.connect(process.env.MONGO_URI)
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
     console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    initializeCounters().then(initialized => {
+      if (initialized) {
+        console.log('Counters initialized successfully');
+      }
+    });
   });
 })
 .catch(err => {

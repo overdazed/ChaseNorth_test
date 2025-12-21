@@ -47,7 +47,7 @@ const sendReportConfirmation = async (emailData) => {
 
         // Compile the email template with the provided data
         const html = await compileTemplate('reportEmail', {
-            referenceNumber: emailData.reportId,
+            referenceNumber: emailData.referenceNumber || 'N/A',
             orderId: emailData.orderId,
             problemType: emailData.problemType,
             details: emailData.details,
@@ -58,9 +58,9 @@ const sendReportConfirmation = async (emailData) => {
         const info = await transporter.sendMail({
             from: '"ChaseNorth Support" <support@chasenorth.com>',
             to: emailData.to,
-            subject: `Your Report Has Been Submitted - Order #${emailData.orderId}`,
+            subject: `Your Report Has Been Submitted - Reference #${emailData.referenceNumber || 'Pending'}`,
             html: html,
-            text: `Your report has been submitted successfully.\n\nOrder ID: ${emailData.orderId}\nProblem Type: ${emailData.problemType}\n\nWe'll get back to you soon.`
+            text: `Your report has been submitted successfully.\n\nReference Number: ${emailData.referenceNumber}\nProblem Type: ${emailData.problemType}\n\nWe'll get back to you soon.`
         });
 
         console.log('Message sent: %s', info.messageId);
