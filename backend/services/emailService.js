@@ -6,12 +6,12 @@ const { compile } = require('handlebars');
 
 // Create a transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.example.com', // Replace with your SMTP host
-    port: process.env.SMTP_PORT || 587,
-    secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: process.env.SMTP_SECURE,
     auth: {
-        user: process.env.SMTP_USER || 'support@chasenorth.com',
-        pass: process.env.SMTP_PASS
+        user: process.env.SUPPORT_EMAIL,
+        pass: process.env.SUPPORT_PASS
     }
 });
 
@@ -36,7 +36,7 @@ const sendReportConfirmation = async (toEmail, referenceNumber) => {
 
         // Send mail with defined transport object
         const info = await transporter.sendMail({
-            from: `"Adventure Store Support" <support@chasenorth.com>`, // Sender address
+            from: `"ChaseNorth Support" <support@chasenorth.com>`, // Sender address
             to: toEmail, // List of receivers
             subject: 'Your Report Has Been Submitted - Reference #' + referenceNumber, // Subject line
             html, // HTML body

@@ -9,9 +9,9 @@ const path = require('path');
 
 // Email transporter setup (using Gmail as an example)
 const transporter = nodemailer.createTransport({
-    host: 'smtp.hostinger.com',
-    port: 465,
-    secure: true, // true for 465, false for 587
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: process.env.SMTP_SECURE,
     auth: {
         user: process.env.EMAIL_USER, // e.g. newsletter@yourdomain.com
         pass: process.env.EMAIL_PASS  // mailbox password
