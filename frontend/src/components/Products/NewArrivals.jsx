@@ -15,32 +15,22 @@ const NewArrivals = () => {
     });
     const [newArrivals, setNewArrivals] = useState([]);
 
-    // In NewArrivals.jsx, update the time-based theme effect to respect manual changes
+    // Sync with global theme
     useEffect(() => {
-        const handleThemeChange = (e) => {
-            setIsNightMode(e.detail.isDarkMode);
+        const checkDarkMode = () => {
+            setIsNightMode(document.documentElement.classList.contains('dark'));
         };
 
-        window.addEventListener('themeChange', handleThemeChange);
+        // Initial check
+        checkDarkMode();
 
-        // Only set initial theme if no manual theme is set
-        const savedTheme = localStorage.getItem('theme');
-        if (!savedTheme) {
-            const hours = new Date().getHours();
-            const isNight = hours >= 18 || hours < 6;
-            setIsNightMode(isNight);
-        }
+        // Listen for theme changes
+        const handleThemeChange = () => checkDarkMode();
+        window.addEventListener('themeChange', handleThemeChange);
 
         return () => {
             window.removeEventListener('themeChange', handleThemeChange);
         };
-    }, []);
-
-    // Set initial theme based on time
-    useEffect(() => {
-        const hours = new Date().getHours();
-        const isNight = hours >= 18 || hours < 6;
-        setIsNightMode(isNight);
     }, []);
 
     useEffect(() => {
@@ -48,24 +38,6 @@ const NewArrivals = () => {
             controls.start("visible");
         }
     }, [controls, inView]);
-
-    // useEffect(() => {
-    //     const updateTheme = () => {
-    //         const hours = new Date().getHours();
-    //         // Night mode from 6 PM (18:00) to 6 AM (06:00)
-    //         const isNight = hours >= 18 || hours < 6;
-    //         console.log(`Current hour: ${hours}, isNightMode: ${isNight}`);
-    //         setIsNightMode(isNight);
-    //     };
-    //
-    //     // Set initial theme
-    //     updateTheme();
-    //
-    //     // Update theme every minute to handle day/night transitions
-    //     const intervalId = setInterval(updateTheme, 60000);
-    //
-    //     return () => clearInterval(intervalId);
-    // }, []);
 
     const sectionClass = isNightMode
         ? "pt-0 pb-0 px-4 lg:px-0 bg-neutral-950"
@@ -99,8 +71,8 @@ const NewArrivals = () => {
                         opacity: 1,
                         y: 0,
                         transition: {
-                            duration: 4.0,  // Increased from 0.8 to 1.5 seconds
-                            delay: 0.5,     // Added a small delay
+                            duration: 4.0,
+                            delay: 0.5,
                             ease: [0.16, 0.77, 0.47, 0.97]
                         }
                     }
@@ -140,7 +112,6 @@ const HorizontalScrollCarousel = ({ products, isNightMode }) => {
             setIsRestoringScroll(true);
             window.scrollTo(0, parseInt(savedScrollY, 10));
             sessionStorage.removeItem('carouselScrollY');
-            // Small delay to ensure the scroll position is applied
             const timer = setTimeout(() => {
                 setIsRestoringScroll(false);
             }, 100);
@@ -163,10 +134,6 @@ const HorizontalScrollCarousel = ({ products, isNightMode }) => {
     const [scrollRange, setScrollRange] = useState(0);
     const [sectionHeight, setSectionHeight] = useState("100vh");
 
-    const leftPadding = 32; // px, same as container gap-left
-    const rightPadding = 32; // px, same as container gap-right
-
-
     useLayoutEffect(() => {
         const container = containerRef.current;
         if (container) {
@@ -174,29 +141,21 @@ const HorizontalScrollCarousel = ({ products, isNightMode }) => {
                 const viewportWidth = window.innerWidth;
                 const viewportHeight = window.innerHeight;
                 const totalWidth = container.scrollWidth;
-
-                // Calculate the scrollable width (total width - viewport width + padding on both sides)
-                const scrollableWidth = totalWidth - viewportWidth + 32; // Only add right padding (32px)
-
-                // Set the section height to match the scrollable area plus viewport height
+                const scrollableWidth = totalWidth - viewportWidth + 32;
                 setScrollRange(scrollableWidth);
                 setSectionHeight(`${scrollableWidth + viewportHeight}px`);
             };
 
-            // Initial calculation
             updateDimensions();
-
-            // Update on window resize
             window.addEventListener('resize', updateDimensions);
             return () => window.removeEventListener('resize', updateDimensions);
         }
     }, [products]);
 
-    // Adjust transform to start 16px from left edge
     const x = useTransform(
         scrollYProgress,
         [0, 1],
-        [-window.innerWidth/2 + 20, -scrollRange - window.innerWidth/2 +12 ] // Start 16px from left, end 16px from right
+        [-window.innerWidth/2 + 20, -scrollRange - window.innerWidth/2 + 12]
     );
 
     return (
@@ -204,10 +163,14 @@ const HorizontalScrollCarousel = ({ products, isNightMode }) => {
             <div className="sticky top-20 lg:top-40 h-screen flex flex-col justify-center">
                 <div className="absolute top-4 lg:top-10 w-full pt-4 lg:pt-8">
                     <div className="container mx-auto text-center px-4">
-                        <h2 className={`text-2xl lg:text-3xl font-bold mb-2 mt-4 lg:mt-20 ${isNightMode ? 'text-neutral-50' : 'text-neutral-950'}`}>
+                        <h2 className={`text-2xl lg:text-3xl font-bold mb-2 mt-4 lg:mt-20 ${
+                            isNightMode ? 'text-neutral-50' : 'text-neutral-950'
+                        }`}>
                             Explore New Arrivals
                         </h2>
-                        <p className={`text-sm lg:text-md max-w-2xl mx-auto px-2 ${isNightMode ? 'text-neutral-400' : 'text-neutral-600'}`}>
+                        <p className={`text-sm lg:text-md max-w-2xl mx-auto px-2 ${
+                            isNightMode ? 'text-neutral-400' : 'text-neutral-600'
+                        }`}>
                             Discover the latest styles straight off the runway, freshly added to
                             keep your wardrobe on the cutting edge of fashion.
                         </p>
@@ -247,23 +210,15 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
     const [isHovered, setIsHovered] = useState(false);
 
     const handleClick = (e) => {
-        // Prevent default to ensure we capture the scroll position
         e.preventDefault();
-
-        // Save scroll position with current path as key
         const scrollY = window.scrollY || document.documentElement.scrollTop;
         sessionStorage.setItem(`scrollPos:${window.location.pathname}`, scrollY);
-
-        // Use a small timeout to ensure the scroll position is saved before navigation
         setTimeout(() => {
             window.location.href = `/product/${product._id}`;
         }, 0);
     };
 
-const CornerIcon = ({ className, isNightMode }) => {
-    // console.log('CornerIcon - isNightMode:', isNightMode);
-    
-    return (
+    const CornerIcon = ({ className, isNightMode }) => (
         <img
             src={isNightMode ? ChaseNorthWhite : ChaseNorthBlack}
             alt=""
@@ -274,37 +229,25 @@ const CornerIcon = ({ className, isNightMode }) => {
             }}
         />
     );
-};
 
     return (
         <div
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className={`relative h-[400px] w-[300px] lg:h-[560px] lg:w-[448px] flex-shrink-0 ${isNightMode ? 'ring-[0.5px] ring-neutral-50/80 bg-neutral-900' : 'border-[0.5px] border-black/10 bg-white'} group`}
+            className={`relative h-[400px] w-[300px] lg:h-[560px] lg:w-[448px] flex-shrink-0 ${
+                isNightMode ? 'ring-[0.5px] ring-neutral-50/80 bg-neutral-900' : 'border-[0.5px] border-black/10 bg-white'
+            } group`}
         >
-            {/* Corner Icons - Show based on position */}
             {isFirst && (
                 <>
-                    <CornerIcon
-                        className="absolute -top-3 -left-3 z-20"
-                        isNightMode={isNightMode}
-                    />
-                    <CornerIcon
-                        className="absolute -bottom-3 -left-3 z-20"
-                        isNightMode={isNightMode}
-                    />
+                    <CornerIcon className="absolute -top-3 -left-3 z-20" isNightMode={isNightMode} />
+                    <CornerIcon className="absolute -bottom-3 -left-3 z-20" isNightMode={isNightMode} />
                 </>
             )}
             {isLast && (
                 <>
-                    <CornerIcon
-                        className="absolute -top-3 -right-3 z-20"
-                        isNightMode={isNightMode}
-                    />
-                    <CornerIcon
-                        className="absolute -bottom-3 -right-3 z-20"
-                        isNightMode={isNightMode}
-                    />
+                    <CornerIcon className="absolute -top-3 -right-3 z-20" isNightMode={isNightMode} />
+                    <CornerIcon className="absolute -bottom-3 -right-3 z-20" isNightMode={isNightMode} />
                 </>
             )}
 
@@ -313,14 +256,12 @@ const CornerIcon = ({ className, isNightMode }) => {
                 onClick={handleClick}
                 className="block h-full w-full relative overflow-hidden"
             >
-                {/* New Product Badge */}
                 <img
                     src="/new-star.svg"
                     alt="New Arrival"
                     className="absolute -top-2 -left-2 z-10 h-20 w-20"
                 />
 
-                {/* Product Image with Contained Zoom */}
                 <div className="absolute inset-0 overflow-hidden">
                     <div
                         style={{
@@ -334,7 +275,6 @@ const CornerIcon = ({ className, isNightMode }) => {
                     />
                 </div>
 
-                {/* Product Info Overlay with Middle Gradient */}
                 <div className="absolute inset-0 flex flex-col justify-end">
                     <div
                         className="absolute inset-0"
