@@ -121,6 +121,17 @@ const OrderDetailsPage = () => {
                                 // Add !oderDetails to test if not paid
                             >{orderDetails.isDelivered ? "Delivered" : "Pending Delivery"}
                             </span>
+                            <Link
+                                to={`/report`}
+                                state={{ 
+                                    orderId: orderDetails._id,
+                                    productNames: orderDetails.orderItems.map(item => item.name),
+                                    sellerName: 'Adventure Store'
+                                }}
+                                className="text-sm text-blue-600 hover:underline mt-2 block"
+                            >
+                                Send a report
+                            </Link>
                             {/*/!* Add this Download Invoice button *!/*/}
                             {/*{orderDetails.isPaid && (*/}
                             {/*    <button*/}
