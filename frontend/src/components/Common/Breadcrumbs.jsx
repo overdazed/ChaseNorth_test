@@ -4,6 +4,9 @@ import { ChevronRight } from 'lucide-react';
 const Breadcrumbs = () => {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
+  const searchParams = new URLSearchParams(location.search);
+  const gender = searchParams.get('gender');
+  const category = searchParams.get('category');
 
   // Don't show breadcrumbs on home page
   if (pathnames.length === 0) return null;
@@ -25,7 +28,17 @@ const Breadcrumbs = () => {
 
   // Special handling for category pages
   if (location.pathname.startsWith('/collections/')) {
-    const category = pathnames[1]; // Get the category part (men, women, etc.)
+    let category_path = pathnames[1]; // Get the category part (men, women, etc.)
+    
+    // If we're on /collections/all with a gender filter, use that instead of 'all'
+    if (category_path === 'all') {
+      if (gender) {
+        category_path = gender.toLowerCase();
+      } else if (category) {
+        category_path = category.toLowerCase();
+      }
+    }
+
     return (
         <nav className="text-sm py-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full">
           <ol className="flex items-center space-x-1 md:space-x-2">
@@ -46,7 +59,7 @@ const Breadcrumbs = () => {
             <li className="flex items-center">
               <ChevronRight className="h-4 w-4 text-gray-400 mx-1" />
               <span className="text-gray-700 dark:text-gray-200 font-medium">
-              {displayNames[category] || category.split('-').map(word =>
+              {displayNames[category_path] || category.split('-').map(word =>
                   word.charAt(0).toUpperCase() + word.slice(1)
               ).join(' ')}
             </span>
