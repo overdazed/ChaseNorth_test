@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const auth = require('../middleware/auth');
+const { protect } = require('../middleware/authMiddleware');
 const Report = require('../models/Report');
 
 const router = express.Router();
@@ -9,7 +9,7 @@ const upload = multer({ dest: 'uploads/' });
 // @route   POST /api/reports
 // @desc    Create a new report
 // @access  Private
-router.post('/', auth, upload.array('attachments', 5), async (req, res) => {
+router.post('/', protect, upload.array('attachments', 5), async (req, res) => {
     try {
         const { orderId, problemType, details, desiredOutcome, email } = req.body;
         const attachments = req.files || [];
@@ -42,7 +42,7 @@ router.post('/', auth, upload.array('attachments', 5), async (req, res) => {
 // @route   GET /api/reports/order/:orderId
 // @desc    Get reports for an order
 // @access  Private
-router.get('/order/:orderId', auth, async (req, res) => {
+router.get('/order/:orderId', protect, async (req, res) => {
     try {
         const reports = await Report.find({
             orderId: req.params.orderId,
