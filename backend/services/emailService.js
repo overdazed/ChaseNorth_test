@@ -38,18 +38,29 @@ const compileTemplate = async (templateName, data) => {
 };
 
 // Send email function
-const sendReportConfirmation = async (toEmail, referenceNumber) => {
+const sendReportConfirmation = async (emailData) => {
     try {
+        if (!emailData.to) {
+            console.error('No recipient email provided');
+            throw new Error('No recipient email provided');
+        }
+
         // Compile the email template with the provided data
-        const html = await compileTemplate('reportEmail', { referenceNumber });
+        const html = await compileTemplate('reportEmail', {
+            referenceNumber: emailData.reportId,
+            orderId: emailData.orderId,
+            problemType: emailData.problemType,
+            details: emailData.details,
+            desiredOutcome: emailData.desiredOutcome
+        });
 
         // Send mail with defined transport object
         const info = await transporter.sendMail({
             from: '"ChaseNorth Support" <support@chasenorth.com>',
-            to: toEmail,
-            subject: 'Your Report Has Been Submitted - Reference #' + referenceNumber,
-            html,
-            text: `Your report has been submitted successfully.\n\nReference Number: ${referenceNumber}\n\nWe'll get back to you soon.`
+            to: emailData.to,
+            subject: `Your Report Has Been Submitted - Order #${emailData.orderId}`,
+            html: html,
+            text: `Your report has been submitted successfully.\n\nOrder ID: ${emailData.orderId}\nProblem Type: ${emailData.problemType}\n\nWe'll get back to you soon.`
         });
 
         console.log('Message sent: %s', info.messageId);

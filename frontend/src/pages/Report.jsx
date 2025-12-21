@@ -35,28 +35,17 @@ const Report = () => {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       console.log('Fetching order details for order ID:', location.state?.orderId);
+      if (!location.state?.orderId) {
+        console.error('No order ID found');
+        return;
+      }
+      
       try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          console.error('No token found');
-          return;
-        }
-
-        // const response = await fetch(`/api/orders/${location.state?.orderId}`);
-        const response = await fetch(`${API_URL}/api/orders/${location.state?.orderId}`, {
-          method: 'GET',  // Changed from POST to GET
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-
+        const response = await fetch(`${API_URL}/api/orders/${location.state.orderId}`);
         console.log('Order API response status:', response.status);
 
-        if (response.status === 401) {
-          console.error('Unauthorized - token might be invalid or expired');
-          // Handle unauthorized (e.g., redirect to login)
-          return;
+        if (!response.ok) {
+          throw new Error('Failed to fetch order details');
         }
 
         if (response.ok) {
@@ -138,7 +127,6 @@ const Report = () => {
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     const formData = new FormData();
-    const token = localStorage.getItem('token');
 
     // Add form data
     formData.append('orderId', orderDetails.orderNumber);
@@ -147,13 +135,16 @@ const Report = () => {
     formData.append('desiredOutcome', data.desiredOutcome);
     formData.append('email', data.email);
 
+    // Add files if any
+    selectedFiles.forEach((fileObj, index) => {
+      formData.append('attachments', fileObj.file);
+    });
+
     try {
-      const response = await fetch('/api/reports', {
+      const response = await fetch(`${API_URL}/api/reports`, {
         method: 'POST',
         body: formData,
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        // No Authorization header needed
       });
 
       // First check if the response is JSON
