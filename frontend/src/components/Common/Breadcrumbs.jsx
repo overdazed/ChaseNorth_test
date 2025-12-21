@@ -61,10 +61,9 @@ const Breadcrumbs = () => {
     const showLastPart = !(category_path === 'all' && !gender && !category);
 
     return (
-        <nav className={`text-sm py-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full ${
-            isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'
-        }`}>
-          <ol className="flex items-center space-x-1 md:space-x-2">
+        <div className={`${isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'}`}>
+          <nav className="text-sm py-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+            <ol className="flex items-center space-x-1 md:space-x-2">
             <li>
               <Link to="/" className={`${
                   isDarkMode
@@ -105,60 +104,63 @@ const Breadcrumbs = () => {
             )}
           </ol>
         </nav>
+        </div>
     );
   }
 
   // Default breadcrumb generation for other pages
   return (
-      <nav className={`text-sm py-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full ${
-          isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'
-      }`}>
-        <ol className="flex items-center space-x-1 md:space-x-2">
-          <li>
-            <Link to="/" className={`${
-                isDarkMode
-                    ? 'text-gray-400 hover:text-gray-200'
-                    : 'text-gray-500 hover:text-gray-700'
-            } transition-colors`}>
-              Home
-            </Link>
-          </li>
-          {pathnames.map((name, index) => {
-            const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
-            const isLast = index === pathnames.length - 1;
-            const displayName = displayNames[name.toLowerCase()] ||
-                name.split('-').map(word =>
-                    word.charAt(0).toUpperCase() + word.slice(1)
-                ).join(' ');
+      <div className={`${isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'}`}>
+        <nav className={`text-sm py-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full ${
+            isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'
+        }`}>
+          <ol className="flex items-center space-x-1 md:space-x-2">
+            <li>
+              <Link to="/" className={`${
+                  isDarkMode
+                      ? 'text-gray-400 hover:text-gray-200'
+                      : 'text-gray-500 hover:text-gray-700'
+              } transition-colors`}>
+                Home
+              </Link>
+            </li>
+            {pathnames.map((name, index) => {
+              const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
+              const isLast = index === pathnames.length - 1;
+              const displayName = displayNames[name.toLowerCase()] ||
+                  name.split('-').map(word =>
+                      word.charAt(0).toUpperCase() + word.slice(1)
+                  ).join(' ');
 
-            return (
-                <li key={name} className="flex items-center">
-                  <ChevronRight className={`h-4 w-4 mx-1 ${
-                      isDarkMode ? 'text-gray-600' : 'text-gray-400'
-                  }`} />
-                  {isLast ? (
-                      <span className={`font-medium ${
-                          isDarkMode ? 'text-gray-200' : 'text-gray-700'
-                      }`}>
-                        {displayName}
-                      </span>
-                  ) : (
-                      <Link
-                          to={routeTo}
-                          className={`${
-                              isDarkMode
-                                  ? 'text-gray-400 hover:text-gray-200'
-                                  : 'text-gray-500 hover:text-gray-700'
-                          } transition-colors`}
-                      >
-                        {displayName}
-                      </Link>
-                  )}
-                </li>
-            );
-          })}
-        </ol>
-      </nav>
+              return (
+                  <li key={name} className="flex items-center">
+                    <ChevronRight className={`h-4 w-4 mx-1 ${
+                        isDarkMode ? 'text-gray-600' : 'text-gray-400'
+                    }`} />
+                    {isLast ? (
+                        <span className={`font-medium ${
+                            isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                        }`}>
+                          {displayName}
+                        </span>
+                    ) : (
+                        <Link
+                            to={routeTo}
+                            className={`${
+                                isDarkMode
+                                    ? 'text-gray-400 hover:text-gray-200'
+                                    : 'text-gray-500 hover:text-gray-700'
+                            } transition-colors`}
+                        >
+                          {displayName}
+                        </Link>
+                    )}
+                  </li>
+              );
+            })}
+          </ol>
+        </nav>
+      </div>
   );
 };
 
