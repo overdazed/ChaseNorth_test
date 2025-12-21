@@ -10,4 +10,6 @@ backend/node_modules/
 frontend/.env
 backend/.env
 
+uploads/
+
 .DS_Store
