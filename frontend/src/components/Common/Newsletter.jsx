@@ -78,16 +78,17 @@ const Newsletter = () => {
                             </p>
                         )}
 
-                        <p className="text-gray-500 dark:text-gray-400 text-xs">
-                            We respect your privacy.
-                            No third parties. Unsubscribe anytime.<br/>
-                            By signing up, you agree to our{' '}
-                            <a href="#" className="text-gray-500 hover:underline dark:text-gray-400">
-                                privacy policy
-                            </a>
-                            .
-
-                        </p>
+                        <div className="text-center">
+                            <p className="text-gray-500 dark:text-gray-400 text-xs">
+                                We respect your privacy.
+                                No third parties. Unsubscribe anytime.<br/>
+                                By signing up, you agree to our{' '}
+                                <Link to="/privacy-policy" className="text-gray-500 hover:underline dark:text-gray-400">
+                                    privacy policy
+                                </Link>
+                                .
+                            </p>
+                        </div>
                     </form>
                 </div>
             </div>
