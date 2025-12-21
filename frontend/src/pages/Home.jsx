@@ -25,6 +25,14 @@ const Home = () => {
         return hours >= 18 || hours < 6;
     });
 
+    useEffect(() => {
+        if (isNightMode) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [isNightMode]);
+
     const [isLoading, setIsLoading] = useState(true);
     const [showContent, setShowContent] = useState(false);
     const dispatch = useDispatch();
