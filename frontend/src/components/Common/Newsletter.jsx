@@ -40,7 +40,7 @@ const Newsletter = () => {
             <div className="md:col-span-4 flex justify-center">
                 <div className="max-w-md mx-8 sm:mx-0">
                     <h3 className="text-lg text-gray-800 dark:text-white mb-4">
-                        Get 15% off your first purchase
+                        Get your compass and set a clear direction.
                     </h3>
                     <p className="text-gray-500 dark:text-gray-300 mb-4">
                         Be the first to know about new products, exclusive events, and special offers.

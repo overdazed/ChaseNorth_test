@@ -79,8 +79,9 @@ const Breadcrumbs = () => {
               }`} />
               <Link
                   to="/collections/all"
-                  className={`${
-                      isDarkMode
+                  className={`${location.pathname === '/collections/all' && !gender && !category
+                      ? isDarkMode ? 'text-gray-200' : 'text-gray-700 font-medium'
+                      : isDarkMode
                           ? 'text-gray-400 hover:text-gray-200'
                           : 'text-gray-500 hover:text-gray-700'
                   } transition-colors`}
