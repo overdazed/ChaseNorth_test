@@ -32,6 +32,8 @@ const Report = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
 
+  console.log('Submitting report with orderId:', orderId);
+
   // Fetch order details when component mounts
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -99,27 +101,28 @@ const Report = () => {
     setIsSubmitting(true);
     try {
       const formData = new FormData();
-      formData.append('orderId', orderId);
+      formData.append('orderId', orderId);  // Make sure orderId is in scope
       formData.append('problemType', data.problemType);
-      formData.append('details', data.details);
+      formData.append('details', data.details || '');
       formData.append('desiredOutcome', data.desiredOutcome);
       formData.append('email', data.email);
 
-      selectedFiles.forEach((fileObj, index) => {
+      // Add files to formData
+      selectedFiles.forEach((fileObj) => {
         formData.append('attachments', fileObj.file);
       });
 
-      await axios.post('/api/reports', formData, {
+      const response = await axios.post('/api/reports', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       });
 
       toast.success('Report submitted successfully!');
       navigate('/report/confirmation', {
         state: {
-          referenceNumber: `REF-${Math.floor(Math.random() * 1000000)}`,
+          referenceNumber: `REF-${Date.now()}`,
           email: data.email
         }
       });

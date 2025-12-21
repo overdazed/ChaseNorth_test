@@ -10,6 +10,8 @@ const upload = multer({ dest: 'uploads/' });
 // @desc    Create a new report
 // @access  Private
 router.post('/', protect, upload.array('attachments', 5), async (req, res) => {
+    console.log('Request body:', req.body);
+    console.log('Request files:', req.files);
     try {
         const { orderId, problemType, details, desiredOutcome, email } = req.body;
         const attachments = req.files || [];
