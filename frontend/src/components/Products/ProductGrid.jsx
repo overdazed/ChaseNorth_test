@@ -82,7 +82,7 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                                     alt="New Arrival" 
                                     className={`absolute -top-2 -left-2 z-10 ${
                                         newStarBadgeSize === 'sm' ? 'h-20 w-20 md:h-16 md:w-16' : 
-                                        newStarBadgeSize === 'md' ? 'h-16 w-16 md:h-16 md:w-16' :
+                                        newStarBadgeSize === 'md' ? 'h-14 w-14 md:h-16 md:w-16' :
                                         'h-24 w-24 md:h-24 md:w-24'
                                     }`}
                                 />
@@ -90,7 +90,7 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
 
                             {/* Color Indicators */}
                             {product.colors?.length > 0 && (
-                                <div className="absolute bottom-4 right-4 z-10 flex space-x-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-10 flex space-x-1.5 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
                                     {product.colors.map((color, i) => (
                                         <div
                                             key={i}
@@ -116,15 +116,15 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                                     className="transition-transform duration-500 ease-out group-hover:scale-105"
                                 />
                             </div>
-                            
+
                             {/* Product Info Overlay */}
-                            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
+                            <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 bg-gradient-to-t from-black/70 to-transparent">
                                 <div className="flex justify-between items-end">
                                     <div>
-                                        <h3 className="text-white font-medium text-sm">
+                                        <h3 className="text-white font-medium text-xs md:text-sm">
                                             {product.name}
                                         </h3>
-                                        <p className="text-white font-bold text-lg">
+                                        <p className="text-white font-bold text-sm md:text-lg">
                                             ${product.price}
                                         </p>
                                     </div>
