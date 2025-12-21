@@ -4,15 +4,24 @@ const fs = require('fs').promises;
 const { promisify } = require('util');
 const { compile } = require('handlebars');
 
+console.log('SMTP Config:', {
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: process.env.SMTP_SECURE,
+    user: process.env.SUPPORT_EMAIL || process.env.EMAIL_USER
+});
+
 // Create a transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
+    host: ''process.env.SMTP_HOST'',
     port: process.env.SMTP_PORT,
     secure: process.env.SMTP_SECURE,
     auth: {
         user: process.env.SUPPORT_EMAIL,
         pass: process.env.SUPPORT_PASS
-    }
+    },
+    debug: true, // Enable debug output
+    logger: true // Log to console
 });
 
 // Compile email template

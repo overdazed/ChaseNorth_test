@@ -2,9 +2,15 @@ const express = require('express');
 const multer = require('multer');
 const { protect } = require('../middleware/authMiddleware');
 const Report = require('../models/Report');
+const { sendReportConfirmation } = require('../services/emailService');
 
 const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
+
+// Helper function to generate a reference number
+const generateReferenceNumber = () => {
+    return 'REF-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+};
 
 // @route   POST /api/reports
 // @desc    Create a new report
@@ -28,8 +34,32 @@ router.post('/', protect, upload.array('attachments', 5), async (req, res) => {
             }))
         });
 
+        // Generate a reference number
+        const referenceNumber = generateReferenceNumber();
+        
+        // Save the report with reference number
+        report.referenceNumber = referenceNumber;
         await report.save();
-        res.status(201).json({ message: 'Report submitted successfully' });
+        
+        try {
+            // Send confirmation email
+            await sendReportConfirmation(email, referenceNumber);
+            console.log(`Confirmation email sent to ${email} for report ${referenceNumber}`);
+            
+            res.status(201).json({ 
+                success: true,
+                message: 'Report submitted successfully',
+                referenceNumber
+            });
+        } catch (emailError) {
+            console.error('Error sending confirmation email:', emailError);
+            // Still return success since the report was saved, but log the email error
+            res.status(201).json({ 
+                success: true,
+                message: 'Report submitted, but there was an issue sending the confirmation email',
+                referenceNumber
+            });
+        }
     } catch (error) {
         console.error('Error submitting report:', error);
         res.status(500).json({

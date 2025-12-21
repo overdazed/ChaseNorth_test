@@ -28,6 +28,10 @@ const reportSchema = new mongoose.Schema({
         type: String,
         enum: ['Open', 'In Progress', 'Resolved', 'Closed'],
         default: 'Open'
+    },
+    referenceNumber: {
+        type: String,
+        unique: true
     }
 }, { timestamps: true });
 
