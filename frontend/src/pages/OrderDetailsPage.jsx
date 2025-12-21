@@ -123,7 +123,10 @@ const OrderDetailsPage = () => {
                             </span>
                             <Link
                                 to={`/report`}
-                                state={{ orderId: orderDetails._id }}
+                                state={{ 
+                                    orderId: orderDetails._id,
+                                    shippingAddress: orderDetails.shippingAddress
+                                }}
                                 className="text-sm text-blue-600 hover:underline mt-2"
                             >
                                 Send a report

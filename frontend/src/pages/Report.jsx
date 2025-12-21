@@ -8,7 +8,7 @@ const problemTypes = [
   'Delivered late',
   'Wrong item',
   'Damaged item',
-  'Missing parts',
+  'Missing item',
   'Quality not as described',
   'Other'
 ];
@@ -28,6 +28,7 @@ const Report = () => {
   const [previewUrls, setPreviewUrls] = useState([]);
   const [orderItems, setOrderItems] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedProblemType, setSelectedProblemType] = useState('');
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -56,21 +57,30 @@ const Report = () => {
     }
   }, [location.state?.orderId]);
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors }, watch } = useForm({
     defaultValues: {
       problemType: '',
+      otherProblem: '',
       details: '',
       desiredOutcome: '',
       email: localStorage.getItem('userEmail') || ''
     }
   });
+  
+  const problemType = watch('problemType');
 
   // Get order details from location state or query params
   const orderDetails = {
     orderNumber: location.state?.orderId || 'N/A',
     deliveryDate: location.state?.deliveryDate || new Date().toISOString().split('T')[0],
-    sellerName: location.state?.sellerName || 'Adventure Store'
+    sellerName: location.state?.sellerName || 'Adventure Store',
+    shippingAddress: location.state?.shippingAddress || null
   };
+
+  // Debug log to check what's in location.state
+  useEffect(() => {
+    console.log('Location state:', location.state);
+  }, [location.state]);
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -153,7 +163,7 @@ const Report = () => {
           <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-3">Order Details</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Order Number</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Order ID</p>
               <p className="font-medium text-gray-900 dark:text-white">{orderDetails.orderNumber}</p>
             </div>
             {/* Product selection temporarily disabled
@@ -188,10 +198,24 @@ const Report = () => {
                 {new Date(orderDetails.deliveryDate).toLocaleDateString()}
               </p>
             </div>
-            {/*<div>*/}
-            {/*  <p className="text-sm text-gray-500 dark:text-gray-400">Seller</p>*/}
-            {/*  <p className="font-medium text-gray-900 dark:text-white">{orderDetails.sellerName}</p>*/}
-            {/*</div>*/}
+            <div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Shipping Address</p>
+              <div className="font-medium text-gray-900 dark:text-white">
+                {orderDetails.shippingAddress ? (
+                  <>
+                    {orderDetails.shippingAddress.address && <div>{orderDetails.shippingAddress.address}</div>}
+                    {(orderDetails.shippingAddress.city || orderDetails.shippingAddress.postalCode) && (
+                      <div>
+                        {orderDetails.shippingAddress.postalCode} {orderDetails.shippingAddress.city}
+                      </div>
+                    )}
+                    {orderDetails.shippingAddress.country && <div>{orderDetails.shippingAddress.country}</div>}
+                  </>
+                ) : (
+                  'No shipping address available'
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -201,19 +225,39 @@ const Report = () => {
             <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-3">What's the problem?</h2>
             <div className="space-y-2">
               {problemTypes.map((type) => (
-                <div key={type} className="flex items-center">
-                  <input
-                    id={type}
-                    type="radio"
-                    value={type}
-                    {...register('problemType', { required: 'Please select a problem type' })}
-                    className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-gray-600"
-                  />
+                <div key={type} className="flex items-start">
+                  <div className="flex items-center h-5">
+                    <input
+                      id={type}
+                      type="radio"
+                      value={type}
+                      className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
+                      {...register('problemType', { 
+                        required: 'Please select a problem type',
+                        onChange: (e) => setSelectedProblemType(e.target.value)
+                      })}
+                    />
+                  </div>
                   <label htmlFor={type} className="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {type}
                   </label>
                 </div>
               ))}
+              {problemType === 'Other' && (
+                <div className="mt-2 ml-7">
+                  <input
+                    type="text"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    placeholder="Please specify the problem"
+                    {...register('otherProblem', { 
+                      required: problemType === 'Other' ? 'Please specify the problem' : false
+                    })}
+                  />
+                  {errors.otherProblem && (
+                    <p className="mt-1 text-sm text-red-600">{errors.otherProblem.message}</p>
+                  )}
+                </div>
+              )}
               {errors.problemType && (
                 <p className="mt-1 text-sm text-red-600">{errors.problemType.message}</p>
               )}
