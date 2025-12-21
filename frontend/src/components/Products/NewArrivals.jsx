@@ -3,6 +3,8 @@ import { useRef, useState, useEffect, useLayoutEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useInView } from "react-intersection-observer";
+import ChaseNorthBlack from "../../assets/ChaseNorth_x-black.svg";
+import ChaseNorthWhite from "../../assets/ChaseNorth_x-white.svg";
 
 const NewArrivals = () => {
     const [isNightMode, setIsNightMode] = useState(false);
@@ -259,19 +261,21 @@ const Card = ({ product, isFirst, isLast }) => {
         }, 0);
     };
 
-    const CornerIcon = ({ className, isNightMode }) => {
-        const iconSrc = isNightMode
-            ? "/src/assets/ChaseNorth_x-white.svg"
-            : "/src/assets/ChaseNorth_x-black.svg";
-
-        return (
-            <img
-                src={iconSrc}
-                alt=""
-                className={`${className} w-6 h-6`}
-            />
-        );
-    };
+const CornerIcon = ({ className, isNightMode }) => {
+    console.log('CornerIcon - isNightMode:', isNightMode);
+    
+    return (
+        <img
+            src={isNightMode ? ChaseNorthWhite : ChaseNorthBlack}
+            alt=""
+            className={`${className} w-6 h-6`}
+            onError={(e) => {
+                console.error('Failed to load image:', e.target.src);
+                e.target.style.visibility = 'hidden';
+            }}
+        />
+    );
+};
 
     return (
         <div
@@ -282,14 +286,26 @@ const Card = ({ product, isFirst, isLast }) => {
             {/* Corner Icons - Show based on position */}
             {isFirst && (
                 <>
-                    <CornerIcon className="absolute -top-3 -left-3 z-20" />
-                    <CornerIcon className="absolute -bottom-3 -left-3 z-20" />
+                    <CornerIcon
+                        className="absolute -top-3 -left-3 z-20"
+                        isNightMode={isNightMode}
+                    />
+                    <CornerIcon
+                        className="absolute -bottom-3 -left-3 z-20"
+                        isNightMode={isNightMode}
+                    />
                 </>
             )}
             {isLast && (
                 <>
-                    <CornerIcon className="absolute -top-3 -right-3 z-20" />
-                    <CornerIcon className="absolute -bottom-3 -right-3 z-20" />
+                    <CornerIcon
+                        className="absolute -top-3 -right-3 z-20"
+                        isNightMode={isNightMode}
+                    />
+                    <CornerIcon
+                        className="absolute -bottom-3 -right-3 z-20"
+                        isNightMode={isNightMode}
+                    />
                 </>
             )}
 
