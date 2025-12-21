@@ -261,8 +261,8 @@ const Card = ({ product, isFirst, isLast }) => {
 
     const CornerIcon = ({ className, isNightMode }) => {
         const iconSrc = isNightMode
-            ? "/src/assets/ChaseNorth_x-black.svg"
-            : "/src/assets/ChaseNorth_x-white.svg";
+            ? "/src/assets/ChaseNorth_x-white.svg"
+            : "/src/assets/ChaseNorth_x-black.svg";
 
         return (
             <img
