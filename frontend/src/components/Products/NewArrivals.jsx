@@ -243,9 +243,8 @@ const HorizontalScrollCarousel = ({ products, isNightMode }) => {
     );
 };
 
-const Card = ({ product, isFirst, isLast }) => {
+const Card = ({ product, isFirst, isLast, isNightMode }) => {
     const [isHovered, setIsHovered] = useState(false);
-    const isNightMode = new Date().getHours() >= 18 || new Date().getHours() < 6;
 
     const handleClick = (e) => {
         // Prevent default to ensure we capture the scroll position
