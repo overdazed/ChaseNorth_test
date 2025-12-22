@@ -63,7 +63,7 @@ const Profile = () => {
                         <p className="text-lg text-gray-600 mb-4">{user?.email}</p>
                         <button
                             onClick={handleLogout}
-                            className="w-full bg-red-800 text-white py-2 px-4 rounded-full hover:bg-accent flex items-center justify-center gap-2">
+                            className="w-full bg-red-800 text-white py-3 px-4 rounded-full hover:bg-accent flex items-center justify-center gap-2">
                             <FaSignOutAlt/>
                             Logout
                         </button>
