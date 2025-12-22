@@ -8,7 +8,7 @@ console.log('SMTP Config:', {
     host: process.env.SMTP_HOST || 'smtp.hostinger.com',
     port: process.env.SMTP_PORT,
     secure: process.env.SMTP_SECURE,
-    user: process.env.SUPPORT_EMAIL
+    user: process.env.SYSTEM_EMAIL
 });
 
 // Create a transporter object using the default SMTP transport
@@ -17,8 +17,8 @@ const transporter = nodemailer.createTransport({
     port:  process.env.SMTP_PORT,
     secure: true,
     auth: {
-        user: process.env.SUPPORT_EMAIL,
-        pass: process.env.SUPPORT_PASS
+        user: process.env.SYSTEM_EMAIL,
+        pass: process.env.SYSTEM_PASS
     },
     debug: true, // Enable debug output
     logger: true // Log to console

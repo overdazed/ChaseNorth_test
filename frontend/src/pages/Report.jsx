@@ -474,9 +474,9 @@ const Report = () => {
             >
               {isSubmitting ? 'Submitting...' : 'Send report'}
             </button>
-            <p className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
-              You'll receive a confirmation email shortly.
-            </p>
+            {/*<p className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">*/}
+            {/*  You'll receive a confirmation email shortly.*/}
+            {/*</p>*/}
           </div>
         </form>
       </div>
