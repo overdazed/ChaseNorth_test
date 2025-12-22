@@ -75,9 +75,7 @@ const VelocityText = ({ isNightMode = false }) => {
   const stickyX = useTransform(
     scrollYProgress,
     [0.25, 0.33],  // Start at 10%, complete by 30% of scroll
-      isNightMode
-          ? ['100%', '-17.85%']   // Different end position for night mode
-          : ['120%', '-17.85%'], // Original position for day mode
+    ['120%', '-17.85%'],
     { clamp: true }
   );
 
@@ -147,15 +145,45 @@ const VelocityText = ({ isNightMode = false }) => {
   };
 
   // Zoom effect that changes based on day/night mode
-  const zoomScale = useTransform(
-    scrollYProgress,
-    [0.7, 1.2],
-    [1, isNightMode ? 200 : 400],
-    {
-      clamp: true,
-      ease: smoothEase
-    }
-  );
+  // const zoomScale = useTransform(
+  //   scrollYProgress,
+  //   [0.7, 1.2],
+  //   [1, isNightMode ? 200 : 400],
+  //   {
+  //     clamp: true,
+  //     ease: smoothEase
+  //   }
+  // );
+    const zoomScale = useTransform(
+        scrollYProgress,
+        [0.7, 1.2],
+        [1, isNightMode ?
+            (typeof window !== 'undefined' && window.innerWidth < 768 ? 100 : 200) :
+            (typeof window !== 'undefined' && window.innerWidth < 768 ? 200 : 400)
+        ],
+        {
+            clamp: true,
+            ease: smoothEase
+        }
+    );
+
+    // Add a resize effect to update the zoom scale when the viewport changes
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkIfMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        // Initial check
+        checkIfMobile();
+
+        // Add event listener for window resize
+        window.addEventListener('resize', checkIfMobile);
+
+        // Cleanup
+        return () => window.removeEventListener('resize', checkIfMobile);
+    }, []);
 
   // Force re-render when isNightMode changes to update animations
   const [key, setKey] = useState(0);
