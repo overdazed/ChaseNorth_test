@@ -854,37 +854,16 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                         <div className="md:hidden">
                                             {recentlyViewed.filter(p => p._id !== selectedProduct?._id).length > 0 && (
                                                 <div className="mt-8">
-                                                    <h3 className={`text-lg font-medium mb-4 ${!isDay ? 'text-neutral-50' : 'text-neutral-950'}`}>Recently Viewed</h3>
-                                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                                                        {recentlyViewed
-                                                            .filter(product => product._id !== selectedProduct?._id)
-                                                            .slice(0, 8)
-                                                            .map((product) => (
-                                                                <Link
-                                                                    to={`/product/${product._id}`}
-                                                                    key={product._id}
-                                                                    className="group block"
-                                                                >
-                                                                    <div className="w-full aspect-[4/5] overflow-hidden bg-gray-100 mb-2">
-                                                                        <img
-                                                                            src={product.images?.[0]?.url || `https://picsum.photos/150/150?random=${product._id}`}
-                                                                            alt={product.name || 'Product'}
-                                                                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                                                            onError={(e) => {
-                                                                                e.target.onerror = null;
-                                                                                e.target.src = 'https://placehold.co/150x150?text=Product';
-                                                                            }}
-                                                                        />
-                                                                    </div>
-                                                                    <p className={`text-xs font-medium text-center ${!isDay ? 'text-neutral-50' : 'text-neutral-950'}`}>
-                                                                        {product.name?.length > 30 ? `${product.name.substring(0, 30)}...` : product.name || 'Product'}
-                                                                    </p>
-                                                                    <p className={`text-xs text-center ${!isDay ? 'text-neutral-400' : 'text-gray-500'}`}>
-                                                                        ${product.price || '0.00'}
-                                                                    </p>
-                                                                </Link>
-                                                            ))}
-                                                    </div>
+                                                    <h2 className={`text-2xl text-center font-medium mb-8 ${themeClasses.text}`}>
+                                                        Recently Viewed
+                                                    </h2>
+                                                    <ProductGrid
+                                                        products={recentlyViewed.filter(p => p._id !== selectedProduct?._id)}
+                                                        loading={false}
+                                                        error={null}
+                                                        isDay={isDay}
+                                                        newStarBadgeSize="md"
+                                                    />
                                                 </div>
                                             )}
                                         </div>
