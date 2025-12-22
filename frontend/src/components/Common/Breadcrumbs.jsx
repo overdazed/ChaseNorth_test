@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import store from "@/redux/store.js";
 
 const Breadcrumbs = () => {
   const location = useLocation();
@@ -14,8 +15,15 @@ const Breadcrumbs = () => {
   );
 
   // Get the current product from Redux store
-  const { product } = useSelector((state) => state.products || {});
+  const product = useSelector((state) => state.products?.productDetails?.data || null);
   const isProductPage = pathnames[0] === 'product' && pathnames[1];
+
+  // Debug logs
+  console.log('Current pathnames:', pathnames);
+  console.log('Is product page:', isProductPage);
+  console.log('Current product from Redux:', product);
+  console.log('Product ID from URL:', pathnames[1]);
+  console.log('Product ID from Redux:', product?._id);
 
   // Listen for theme changes
   useEffect(() => {
@@ -64,6 +72,8 @@ const Breadcrumbs = () => {
         category_path = category.toLowerCase().replace(/ /g, '-');
       }
     }
+
+    console.log(store.getState())
 
     const showLastPart = !(category_path === 'all' && !gender && !category);
 
@@ -138,8 +148,15 @@ const Breadcrumbs = () => {
 
               // For product pages, use the product name if available
               let displayName;
-              if (isProductPage && index === 1 && product?.name) {
-                displayName = product.name;
+              if (isProductPage && index === 1) {
+                if (product && product._id === name) {
+                  displayName = product.name;
+                } else {
+                  displayName = displayNames[name.toLowerCase()] ||
+                      name.split('-').map(word =>
+                          word.charAt(0).toUpperCase() + word.slice(1)
+                      ).join(' ');
+                }
               } else {
                 displayName = displayNames[name.toLowerCase()] ||
                     name.split('-').map(word =>
