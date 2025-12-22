@@ -26,7 +26,7 @@ const reportSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Submitted', 'In Review', 'Needs Info', 'Resolved', 'Closed', 'Rejected'],
+        enum: ['Submitted', 'In Review', 'Needs Info', 'Closed', 'Rejected'],
         default: 'Submitted'
     },
     attachments: [{

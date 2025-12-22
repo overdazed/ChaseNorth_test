@@ -156,83 +156,85 @@ const OrderDetailsPage = () => {
                             {/*        alert={ ("here will be a function")}*/}
                             {/*        className="flex items-center gap-2 bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"*/}
                             {/* Add this Download Invoice button */}
-                            {orderDetails.isPaid && (
-                                <button
-                                    onClick={async () => {
-                                        try {
-                                            // Check for token in common storage locations
-                                            const getAuthToken = () => {
-                                                // Check common token storage keys
-                                                const possibleKeys = ['token', 'userToken', 'authToken', 'accessToken', 'jwt'];
-                                                for (const key of possibleKeys) {
-                                                    const token = localStorage.getItem(key) || sessionStorage.getItem(key);
-                                                    if (token) {
-                                                        console.log(`Found token with key: ${key}`);
-                                                        return token;
+                            <div className="mb-2">
+                                {orderDetails.isPaid && (
+                                    <button
+                                        onClick={async () => {
+                                            try {
+                                                // Check for token in common storage locations
+                                                const getAuthToken = () => {
+                                                    // Check common token storage keys
+                                                    const possibleKeys = ['token', 'userToken', 'authToken', 'accessToken', 'jwt'];
+                                                    for (const key of possibleKeys) {
+                                                        const token = localStorage.getItem(key) || sessionStorage.getItem(key);
+                                                        if (token) {
+                                                            console.log(`Found token with key: ${key}`);
+                                                            return token;
+                                                        }
                                                     }
+                                                    return null;
+                                                };
+
+                                                const token = getAuthToken();
+                                                if (!token) {
+                                                    console.log('Available localStorage keys:', Object.keys(localStorage));
+                                                    throw new Error('You need to be logged in to download invoices');
                                                 }
-                                                return null;
-                                            };
 
-                                            const token = getAuthToken();
-                                            if (!token) {
-                                                console.log('Available localStorage keys:', Object.keys(localStorage));
-                                                throw new Error('You need to be logged in to download invoices');
+                                                console.log('Token found, length:', token.length);
+
+                                                const response = await fetch(`/api/api/invoices/generate`, {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'Authorization': `Bearer ${token}`
+                                                    },
+                                                    body: JSON.stringify({ orderId: orderDetails._id })
+                                                });
+
+                                                if (response.status === 401) {
+                                                    throw new Error('Session expired. Please log in again.');
+                                                }
+
+                                                if (!response.ok) {
+                                                    const errorData = await response.json().catch(() => ({}));
+                                                    throw new Error(errorData.message || 'Failed to generate invoice');
+                                                }
+
+                                                // Create a blob from the response
+                                                const blob = await response.blob();
+
+                                                // Create a URL for the blob
+                                                const url = window.URL.createObjectURL(blob);
+
+                                                // Create a temporary anchor element
+                                                const a = document.createElement('a');
+                                                a.href = url;
+                                                a.download = `invoice_${orderDetails._id}.pdf`;
+
+                                                // Trigger the download
+                                                document.body.appendChild(a);
+                                                a.click();
+
+                                                // Clean up
+                                                window.URL.revokeObjectURL(url);
+                                                document.body.removeChild(a);
+                                            } catch (error) {
+                                                console.error('Error downloading invoice:', error);
+                                                alert(error.message || 'Failed to download invoice. Please try again.');
                                             }
-
-                                            console.log('Token found, length:', token.length);
-
-                                            const response = await fetch(`/api/api/invoices/generate`, {
-                                                method: 'POST',
-                                                headers: {
-                                                    'Content-Type': 'application/json',
-                                                    'Authorization': `Bearer ${token}`
-                                                },
-                                                body: JSON.stringify({ orderId: orderDetails._id })
-                                            });
-
-                                            if (response.status === 401) {
-                                                throw new Error('Session expired. Please log in again.');
-                                            }
-
-                                            if (!response.ok) {
-                                                const errorData = await response.json().catch(() => ({}));
-                                                throw new Error(errorData.message || 'Failed to generate invoice');
-                                            }
-
-                                            // Create a blob from the response
-                                            const blob = await response.blob();
-
-                                            // Create a URL for the blob
-                                            const url = window.URL.createObjectURL(blob);
-
-                                            // Create a temporary anchor element
-                                            const a = document.createElement('a');
-                                            a.href = url;
-                                            a.download = `invoice_${orderDetails._id}.pdf`;
-
-                                            // Trigger the download
-                                            document.body.appendChild(a);
-                                            a.click();
-
-                                            // Clean up
-                                            window.URL.revokeObjectURL(url);
-                                            document.body.removeChild(a);
-                                        } catch (error) {
-                                            console.error('Error downloading invoice:', error);
-                                            alert(error.message || 'Failed to download invoice. Please try again.');
-                                        }
-                                    }}
-                                    className="flex items-center gap-2 bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"
-                                >
-                                    <TbFileEuro size={14}/>
-                                    <span>Download Invoice</span>
-                                </button>
-                            )}
+                                        }}
+                                        className="flex items-center gap-2 bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"
+                                    >
+                                        <TbFileEuro size={14}/>
+                                        <span>Download Invoice</span>
+                                    </button>
+                                )}
+                            </div>
                             {/* Replace the existing button with this */}
                             {existingReport ? (
-                                <div className="mt-3">
-        <span className={`px-3 py-1.5 rounded-full text-sm font-medium ${
+                                <div className="flex flex-col items-start sm:items-end mt-4 sm:mt-0">
+        <span className={`px-3 py-1 rounded-full text-sm font-medium ${
             existingReport.status === 'Resolved'
                 ? 'bg-green-100 text-green-700'
                 : existingReport.status === 'In Review'
@@ -249,20 +251,22 @@ const OrderDetailsPage = () => {
         </span>
                                 </div>
                             ) : (
-                                <button
-                                    onClick={() => navigate('/report', {
-                                        state: {
-                                            orderId: orderDetails._id,
-                                            shippingAddress: orderDetails.shippingAddress
-                                        }
-                                    })}
-                                    className="flex items-center gap-2 bg-red-100 text-red-700 hover:bg-red-200 px-3 py-1 rounded-full text-sm font-medium transition-colors mt-2"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                    </svg>
-                                    <span>Report a problem</span>
-                                </button>
+                                <div className="flex flex-col items-start sm:items-end">
+                                    <button
+                                        onClick={() => navigate('/report', {
+                                            state: {
+                                                orderId: orderDetails._id,
+                                                shippingAddress: orderDetails.shippingAddress
+                                            }
+                                        })}
+                                        className="flex items-center gap-2 bg-red-100 text-red-700 hover:bg-red-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                        <span>Report a problem</span>
+                                    </button>
+                                </div>
                             )}
                         </div>
                     </div>
