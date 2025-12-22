@@ -4,6 +4,12 @@ const { protect } = require('../middleware/authMiddleware');
 const Report = require('../models/Report');
 const { sendReportConfirmation } = require('../services/emailService');
 
+const { createClient } = require('@supabase/supabase-js');
+const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+);
+
 const router = express.Router();
 
 // Configure multer for file uploads
@@ -17,7 +23,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ 
-    storage: storage,
+    storage: multer.memoryStorage(),
     limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
 });
 
@@ -28,6 +34,33 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
     try {
         const { orderId, problemType, details, desiredOutcome, email } = req.body;
         const attachments = req.files || [];
+        const uploadedFiles = [];
+
+        // Upload files to Supabase
+        for (const file of attachments) {
+            const fileExt = file.originalname.split('.').pop();
+            const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+
+            const { data, error } = await supabase.storage
+                .from('reports')
+                .upload(`attachments/${fileName}`, file.buffer, {
+                    contentType: file.mimetype,
+                    upsert: false
+                });
+
+            if (error) throw error;
+
+            // Get public URL
+            const { data: { publicUrl } } = supabase.storage
+                .from('reports')
+                .getPublicUrl(`attachments/${fileName}`);
+
+            uploadedFiles.push({
+                filename: file.originalname,
+                path: `attachments/${fileName}`,
+                url: publicUrl
+            });
+        }
 
         // Create and save report
         const report = new Report({
@@ -37,11 +70,7 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
             desiredOutcome,
             email: email || req.user.email,
             userId: req.user.id,
-            attachments: attachments.map(file => ({
-                filename: file.filename,
-                path: file.path,
-                mimetype: file.mimetype
-            }))
+            attachments: uploadedFiles
         });
 
         await report.save();
