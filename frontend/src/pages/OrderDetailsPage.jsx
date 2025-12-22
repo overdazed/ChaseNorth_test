@@ -231,30 +231,22 @@ const OrderDetailsPage = () => {
                             )}
                             {/* Replace the existing button with this */}
                             {existingReport ? (
-                                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <h4 className="font-medium text-gray-900">Report Status</h4>
-                                            <p className="text-sm text-gray-500">
-                                                {existingReport.status} - {new Date(existingReport.createdAt).toLocaleDateString()}
-                                            </p>
-                                        </div>
-                                        <span className={`px-2 py-1 text-xs rounded-full ${
-                                            existingReport.status === 'Resolved'
-                                                ? 'bg-green-100 text-green-800'
-                                                : existingReport.status === 'In Review'
-                                                    ? 'bg-blue-100 text-blue-800'
-                                                    : existingReport.status === 'Needs Info'
-                                                        ? 'bg-purple-100 text-purple-800'
-                                                        : existingReport.status === 'Closed'
-                                                            ? 'bg-gray-100 text-gray-800'
-                                                            : existingReport.status === 'Rejected'
-                                                                ? 'bg-red-100 text-red-800'
-                                                                : 'bg-yellow-100 text-yellow-800' // Default for 'Submitted' and any other cases
-                                        }`}>
-                                            {existingReport.status || 'Submitted'}
-                                    </span>
-                                    </div>
+                                <div className="mt-3">
+        <span className={`px-3 py-1.5 rounded-full text-sm font-medium ${
+            existingReport.status === 'Resolved'
+                ? 'bg-green-100 text-green-700'
+                : existingReport.status === 'In Review'
+                    ? 'bg-blue-100 text-blue-700'
+                    : existingReport.status === 'Needs Info'
+                        ? 'bg-purple-100 text-purple-700'
+                        : existingReport.status === 'Closed'
+                            ? 'bg-gray-100 text-gray-700'
+                            : existingReport.status === 'Rejected'
+                                ? 'bg-red-100 text-red-700'
+                                : 'bg-yellow-100 text-yellow-700' // Default for 'Submitted'
+        }`}>
+            {existingReport.status || 'Submitted'} • {new Date(existingReport.createdAt).toLocaleDateString()}
+        </span>
                                 </div>
                             ) : (
                                 <button
