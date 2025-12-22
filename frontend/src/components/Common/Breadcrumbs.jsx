@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import store from "@/redux/store.js";
 
+
 const Breadcrumbs = ({ product = null }) => {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
@@ -60,6 +61,11 @@ const Breadcrumbs = ({ product = null }) => {
     'product': 'Product',
     // Add more display names as needed
   };
+
+  // Get the product from Redux if we're on a product page
+  const product = useSelector((state) =>
+      pathnames[0] === 'product' ? state.products?.productDetails?.data : null
+  );
 
   // Special handling for category pages
   if (location.pathname.startsWith('/collections/')) {
@@ -145,6 +151,7 @@ const Breadcrumbs = ({ product = null }) => {
             {pathnames.map((name, index) => {
               const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
               const isLast = index === pathnames.length - 1;
+              const isProductId = pathnames[0] === 'product' && index === 1;
 
               // For product pages, use the product name if available
               let displayName;
