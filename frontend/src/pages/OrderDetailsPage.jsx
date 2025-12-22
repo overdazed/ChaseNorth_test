@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchOrderDetails } from "../redux/slices/orderSlice"
 import {TbFileEuro} from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
+// import {userInfo} from "node:os";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const OrderDetailsPage = () => {
 
@@ -52,6 +55,7 @@ const OrderDetailsPage = () => {
     const dispatch = useDispatch();
     const { orderDetails, loading, error } = useSelector((state) => state.orders);
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const [reportStatus, setReportStatus] = useState(null);
 
     useEffect(() => {
         dispatch(fetchOrderDetails(id));
@@ -73,7 +77,32 @@ const OrderDetailsPage = () => {
         return () => {
             window.removeEventListener('themeChange', handleThemeChange)
         }
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        const fetchReportStatus = async () => {
+            try {
+                const response = await fetch(`${API_URL}/api/reports/order/${orderId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${userInfo?.token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        setReportStatus(data.data);
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching report status:', error);
+            }
+        };
+
+        if (orderId) {
+            fetchReportStatus();
+        }
+    }, [orderId, userInfo?.token]);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -218,6 +247,34 @@ const OrderDetailsPage = () => {
                                 </svg>
                                 <span>Report a problem</span>
                             </button>
+                            {reportStatus && (
+                                <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Report Status</h3>
+                                    <div className="flex items-center">
+            <span className="px-3 py-1 rounded-full text-sm font-medium" style={{
+                backgroundColor:
+                    reportStatus.status === 'submitted' ? 'rgb(254, 243, 199)' :
+                        reportStatus.status === 'in_review' ? 'rgb(219, 234, 254)' :
+                            reportStatus.status === 'needs_info' ? 'rgb(254, 226, 226)' :
+                                reportStatus.status === 'resolved' ? 'rgb(220, 252, 231)' :
+                                    'rgb(254, 202, 202)',
+                color:
+                    reportStatus.status === 'submitted' ? 'rgb(146, 64, 14)' :
+                        reportStatus.status === 'in_review' ? 'rgb(30, 58, 138)' :
+                            reportStatus.status === 'needs_info' ? 'rgb(185, 28, 28)' :
+                                reportStatus.status === 'resolved' ? 'rgb(22, 101, 52)' :
+                                    'rgb(153, 27, 27)'
+            }}>
+                {reportStatus.status.split('_').map(word =>
+                    word.charAt(0).toUpperCase() + word.slice(1)
+                ).join(' ')}
+            </span>
+                                        <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
+                Reference: {reportStatus.referenceNumber}
+            </span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
 

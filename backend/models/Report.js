@@ -31,8 +31,8 @@ const reportSchema = new mongoose.Schema({
     }],
     status: {
         type: String,
-        enum: ['Open', 'In Progress', 'Resolved', 'Closed'],
-        default: 'Open'
+        enum: ['Submitted', 'In Review', 'Needs Info', 'Resolved', 'Closed', 'Rejected'],
+        default: 'Submitted'
     }
 }, { timestamps: true });
 
