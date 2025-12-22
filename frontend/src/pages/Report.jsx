@@ -181,7 +181,7 @@ const Report = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 md:p-8">
+      <div className="bg-white dark:bg-neutral-950 rounded-lg shadow-md p-6 md:p-8">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
           Report a problem with your order
         </h1>

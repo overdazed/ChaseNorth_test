@@ -11,6 +11,7 @@ const OrderDetailsPage = () => {
 
     // this will provide the order id that we pass in the url
     const { id } = useParams();
+    const navigate = useNavigate();
 
     // declare a state variable to store the order details
     // const [orderDetails, setOrderDetails] = useState(null);
@@ -118,24 +119,11 @@ const OrderDetailsPage = () => {
                                     orderDetails.isDelivered
                                         ? "bg-green-100 text-green-700"
                                         : "bg-yellow-100 text-yellow-700"
-                                } px-3 py-1 rounded-full text-sm font-medium mb-2`}
+                                } px-3 py-1 rounded-full text-sm font-medium mb-4`}
                                 // Add !oderDetails to test if not paid
                             >{orderDetails.isDelivered ? "Delivered" : "Pending Delivery"}
                             </span>
-                            <button
-                                onClick={() => navigate('/report', {
-                                    state: {
-                                        orderId: orderDetails._id,
-                                        shippingAddress: orderDetails.shippingAddress
-                                    }
-                                })}
-                                className="flex items-center gap-2 bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                                <span>Send a report</span>
-                            </button>
+
                             {/*/!* Add this Download Invoice button *!/*/}
                             {/*{orderDetails.isPaid && (*/}
                             {/*    <button*/}
@@ -216,6 +204,20 @@ const OrderDetailsPage = () => {
                                     <span>Download Invoice</span>
                                 </button>
                             )}
+                            <button
+                                onClick={() => navigate('/report', {
+                                    state: {
+                                        orderId: orderDetails._id,
+                                        shippingAddress: orderDetails.shippingAddress
+                                    }
+                                })}
+                                className="flex items-center gap-2 bg-red-100 text-red-700 hover:bg-red-200 px-3 py-1 rounded-full text-sm font-medium transition-colors mt-2"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <span>Report a problem</span>
+                            </button>
                         </div>
                     </div>
 
