@@ -83,8 +83,9 @@ const MyOrdersPage = () => {
 
     const bgClass = isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'
     const textClass = isDarkMode ? 'text-neutral-50' : 'text-neutral-950'
-    const linkClass = isDarkMode ? 'text-neutral-400' : 'text-neutral-950'
+    const linkClass = isDarkMode ? 'text-red-800' : 'text-accent'
     const innerBgClass = isDarkMode ? 'bg-neutral-700' : 'bg-neutral-50'
+    const borderClass = isDarkMode ? 'border-neutral-700' : 'border-neutral-50'
 
     return (
         <div className="max-w-7xl mx-auto p-4 sm:p-6">
@@ -110,7 +111,7 @@ const MyOrdersPage = () => {
                             <tr
                             key={order._id}
                             onClick={() => handleRowClick(order._id)}
-                            className="border-b hover:border-gray-50 cursor-pointer">
+                            className={`border-b hover:border-gray-50 cursor-pointer ${borderClass}`}>
                                 {/* Order Image */}
                                 <td className="py-2 px-2 sm:py-4 sm:px-4">
                                     <img
