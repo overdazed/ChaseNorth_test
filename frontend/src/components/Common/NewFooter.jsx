@@ -12,7 +12,7 @@ const NewFooter = () => {
       className="relative w-full bg-neutral-900"
       style={{
         clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)",
-        minHeight: '400px',
+        minHeight: '300px',
         height: 'auto',
         marginTop: 'auto' // This helps push the footer to the bottom
       }}
