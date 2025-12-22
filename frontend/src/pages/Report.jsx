@@ -446,16 +446,19 @@ const Report = () => {
               Contact email
             </label>
             <div className="mt-1">
+
+
               <input
-                type="email"
+                type="text"
                 id="email"
                 className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-1/3 sm:text-sm border-gray-300 dark:border-gray-600 rounded-md dark:bg-neutral-800 dark:text-white py-2 px-3 h-10"
                 style={{ minHeight: '2rem' }}
+                title="Please enter a valid email address (e.g. yourname@example.com)"
                 {...register('email', {
                   required: 'Email is required',
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: 'Invalid email address'
+                    message: 'Please enter a valid email address'
                   }
                 })}
               />
@@ -470,7 +473,7 @@ const Report = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full flex justify-center py-3 px-4 rounded-full shadow-sm text-sm font-slim text-white bg-black hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex justify-center py-3 px-4 rounded-full shadow-sm text-sm font-slim text-neutral-50 bg-black hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Submitting...' : 'Send report'}
             </button>

@@ -22,7 +22,9 @@ const ReportConfirmation = () => {
                 Report received
               </h2>
               <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                Thank you for reporting this issue. We've received your submission and our team is on it.
+                Thank you for reporting this issue.
+                <br />
+                We've received your submission and our team is on it.
               </p>
             </div>
 
