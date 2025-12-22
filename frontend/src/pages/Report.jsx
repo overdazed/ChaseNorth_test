@@ -190,7 +190,7 @@ const Report = () => {
         </p>
 
         {/* Order Context */}
-        <div className="bg-neutral-100 dark:bg-neutral-900 p-4 rounded-lg mb-8">
+        <div className="bg-neutral-100 dark:bg-neutral-800 p-4 rounded-lg mb-8">
           <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-3">Order Details</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -278,7 +278,7 @@ const Report = () => {
                 <div className="mt-2 ml-7">
                   <input
                     type="text"
-                    className="mt-1 block w-1/4 rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm dark:bg-neutral-900 dark:border-gray-600 dark:text-white py-2 px-3 h-10"
+                    className="mt-1 block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm dark:bg-neutral-800 dark:border-gray-600 dark:text-white py-2 px-3 h-10"
                     placeholder="Please specify the problem"
                     style={{ minHeight: '2rem' }}
                     {...register('otherProblem', { 
@@ -286,12 +286,12 @@ const Report = () => {
                     })}
                   />
                   {errors.otherProblem && (
-                    <p className="mt-1 text-sm text-red-600">{errors.otherProblem.message}</p>
+                    <p className="mt-1 text-sm text-red-700">{errors.otherProblem.message}</p>
                   )}
                 </div>
               )}
               {errors.problemType && (
-                <p className="mt-1 text-sm text-red-600">{errors.problemType.message}</p>
+                <p className="mt-1 text-sm text-red-700">{errors.problemType.message}</p>
               )}
             </div>
           </div>
@@ -317,7 +317,7 @@ const Report = () => {
                   })}
               />
               {errors.details && (
-                <p className="mt-1 text-sm text-red-600">{errors.details.message}</p>
+                <p className="mt-1 text-sm text-red-700">{errors.details.message}</p>
               )}
             </div>
           </div>
@@ -435,7 +435,7 @@ const Report = () => {
                 </div>
               ))}
               {errors.desiredOutcome && (
-                <p className="mt-1 text-sm text-red-600">{errors.desiredOutcome.message}</p>
+                <p className="mt-1 text-sm text-red-700">{errors.desiredOutcome.message}</p>
               )}
             </div>
           </div>
@@ -449,7 +449,7 @@ const Report = () => {
               <input
                 type="email"
                 id="email"
-                className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-1/3 sm:text-sm border-gray-300 dark:border-gray-600 rounded-md dark:bg-neutral-900 dark:text-white py-2 px-3 h-10"
+                className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-1/3 sm:text-sm border-gray-300 dark:border-gray-600 rounded-md dark:bg-neutral-800 dark:text-white py-2 px-3 h-10"
                 style={{ minHeight: '2rem' }}
                 {...register('email', {
                   required: 'Email is required',
@@ -460,7 +460,7 @@ const Report = () => {
                 })}
               />
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                <p className="mt-1 text-sm text-red-700">{errors.email.message}</p>
               )}
             </div>
           </div>
@@ -470,7 +470,7 @@ const Report = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-slim text-white bg-black hover:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex justify-center py-3 px-4 rounded-full shadow-sm text-sm font-slim text-white bg-black hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Submitting...' : 'Send report'}
             </button>
