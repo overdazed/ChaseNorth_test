@@ -24,16 +24,16 @@ const reportSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    attachments: [{
-        filename: String,
-        path: String,
-        mimetype: String
-    }],
     status: {
         type: String,
         enum: ['Submitted', 'In Review', 'Needs Info', 'Resolved', 'Closed', 'Rejected'],
         default: 'Submitted'
-    }
+    },
+    attachments: [{
+        filename: String,
+        path: String,
+        mimetype: String
+    }]
 }, { timestamps: true });
 
 reportSchema.pre('save', async function(next) {

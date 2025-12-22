@@ -118,4 +118,39 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
     }
 });
 
+// Add this route before module.exports
+// @route   GET /api/reports/order/:orderId
+// @desc    Get report by order ID
+// @access  Private
+router.get('/order/:orderId', protect, async (req, res) => {
+    try {
+        const report = await Report.findOne({
+            orderId: req.params.orderId,
+            $or: [
+                { userId: req.user.id },
+                { email: req.user.email }
+            ]
+        });
+
+        if (!report) {
+            return res.status(404).json({
+                success: false,
+                message: 'No report found for this order'
+            });
+        }
+
+        res.json({
+            success: true,
+            data: report
+        });
+    } catch (error) {
+        console.error('Error fetching report:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error fetching report',
+            error: error.message
+        });
+    }
+});
+
 module.exports = router;
