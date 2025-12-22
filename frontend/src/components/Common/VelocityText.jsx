@@ -75,7 +75,9 @@ const VelocityText = ({ isNightMode = false }) => {
   const stickyX = useTransform(
     scrollYProgress,
     [0.25, 0.33],  // Start at 10%, complete by 30% of scroll
-    ['120%', '-17.85%'],
+      isNightMode
+          ? ['100%', '-17.85%']   // Different end position for night mode
+          : ['120%', '-17.85%'], // Original position for day mode
     { clamp: true }
   );
 

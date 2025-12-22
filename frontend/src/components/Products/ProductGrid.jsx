@@ -130,14 +130,11 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                                     <div className="flex justify-between items-start">
                                         <h3 className="text-white font-bold text-xs md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300">
                                             <>
-                                                <span className="max-[435px]:hidden">
-                                                    {product.name.length > 14 ? `${product.name.substring(0, 14)}...` : product.name}
-                                                </span>
-                                                <span className="hidden max-[435px]:inline">
-                                                    {product.name.length > 12 ? `${product.name.substring(0, 12)}...` : product.name}
-                                                </span>
-                                                <span className="hidden min-[550px]:inline">
+                                                <span className="max-[550px]:hidden">
                                                     {product.name}
+                                                </span>
+                                                <span className="hidden max-[550px]:inline">
+                                                    {product.name.length > 12 ? `${product.name.substring(0, 12)}...` : product.name}
                                                 </span>
                                             </>
                                         </h3>
