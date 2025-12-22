@@ -12,7 +12,10 @@ const router = express.Router();
 // @route GET /api/admin/users
 // @desc Get all users (Admin only)
 // @access Private/Admin, only admin can get all users
-router.get("/", protect, admin, async (req, res) => {
+// @route GET /api/admin/users
+// @desc Get all users (Admin only)
+// @access Private/Admin, only admin can get all users
+router.get("/users", protect, admin, async (req, res) => {
     try {
         // Fetch all users found in the database
         const users = await User.find({});
@@ -32,7 +35,10 @@ router.get("/", protect, admin, async (req, res) => {
 // @route POST /api/admin/users
 // @desc Create a new user (Admin only)
 // @access Private/Admin, only admin can create new users
-router.post("/", protect, admin, async (req, res) => {
+// @route POST /api/admin/users
+// @desc Create a new user (Admin only)
+// @access Private/Admin, only admin can create new users
+router.post("/users", protect, admin, async (req, res) => {
     // we will search for user details in req.body
     const { name, email, password, role } = req.body;
     try {

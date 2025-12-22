@@ -83,9 +83,9 @@ app.use('/api/reports', reportRoutes);
 // Additional routes (commented out for now - enable one by one as needed)
 // app.use('/api/upload', uploadRoutes);
 // app.use('/api/subscribe', subscribeRoute);
-// app.use('/api/admin', adminRoutes);
-// app.use('/api/admin/products', productAdminRoutes);
-// app.use('/api/admin/orders', adminOrderRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/admin/products', productAdminRoutes);
+app.use('/api/admin/orders', adminOrderRoutes);
 
 // Error handling middleware (from minimal.js)
 app.use((err, req, res, next) => {
