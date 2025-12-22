@@ -87,11 +87,7 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
                     problemType: report.problemType,
                     details: report.details,
                     desiredOutcome: report.desiredOutcome,
-                    attachments: attachments.map(file => ({
-                        filename: file.originalname,
-                        path: file.path,
-                        url: `${process.env.APP_URL || 'http://localhost:5000'}/${file.path.replace(/\\/g, '/')}`
-                    }))
+                    attachments: uploadedFiles
                 });
             } catch (emailError) {
                 console.error('Failed to send confirmation email:', emailError);
