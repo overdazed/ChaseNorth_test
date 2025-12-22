@@ -94,7 +94,7 @@ const MyOrdersPage = () => {
             </h2>
             <div className="relative shadow-md sm:rounded-lg overflow-hidden">
                 <table className={`min-w-full text-left ${textClass}`}>
-                    <thead className={`bg-gray-100 text-xs uppercase text-gray-700 ${textClass} ${innerBgClass}`}>
+                    <thead className={`text-xs uppercase ${textClass} ${innerBgClass}`}>
                         <tr>
                             <th className="py-2 px-4 sm:py-3">Image</th>
                             <th className="py-2 px-4 sm:py-3">Order ID</th>

@@ -293,15 +293,15 @@ const OrderDetailsPage = () => {
                     </div>
 
                     {/* Product List */}
-                    <div className="overflow-x-auto">
                         <h4 className="text-lg font-semibold mb-4">Products</h4>
-                        <table className="min-w-full text-gray-500 mb-4">
-                            <thead className="bg-gray-100">
+                    <div className="relative shadow-md sm:rounded-lg overflow-hidden mb-6">
+                        <table className={`min-w-full text-left ${textClass}`}>
+                            <thead className={`uppercase text-left text-xs ${innerBgClass} ${textClass}`}>
                                 <tr>
-                                    <th className="py-2 px-4 text-left">Name</th>
-                                    <th className="py-2 px-4 text-left">Unit Price</th>
-                                    <th className="py-2 px-4 text-left">Quantity</th>
-                                    <th className="py-2 px-4 text-left">Total</th>
+                                    <th className="py-2 px-4 sm:py-3">Name</th>
+                                    <th className="py-2 px-4 sm:py-3">Unit Price</th>
+                                    <th className="py-2 px-4 sm:py-3">Quantity</th>
+                                    <th className="py-2 px-4 sm:py-3">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
