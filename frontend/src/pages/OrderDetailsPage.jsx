@@ -91,7 +91,7 @@ const OrderDetailsPage = () => {
             {!orderDetails ? (
                 <p>No Order Details Found</p>
             ) : (
-                <div className={`p-4 sm:p-6 rounded-lg border ${borderClass} ${bgClass} ${textClass}`}>
+                <div className={` dark:bg-neutral-900 bg-neutral-50 p-4 sm:p-6 rounded-lg  ${borderClass} ${bgClass} ${textClass}`}>
                     {/* Order Info */}
                     <div className="flex flex-col sm:flex-row justify-between mb-8">
                         <div className="">

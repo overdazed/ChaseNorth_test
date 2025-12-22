@@ -180,8 +180,9 @@ const Report = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 bg-neutral-50 dark:bg-neutral-950">
-      <div className="bg-neutral-50 dark:bg-neutral-900 rounded-lg shadow-md p-6 md:p-8">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        <div className="bg-neutral-50 dark:bg-neutral-900 rounded-lg shadow-md p-6 md:p-8">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
           Report a problem with your order
         </h1>
@@ -482,6 +483,7 @@ const Report = () => {
             {/*</p>*/}
           </div>
         </form>
+        </div>
       </div>
     </div>
   );
