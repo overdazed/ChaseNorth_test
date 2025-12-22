@@ -118,7 +118,7 @@ const OrderDetailsPage = () => {
             {!orderDetails ? (
                 <p>No Order Details Found</p>
             ) : (
-                <div className={` dark:bg-neutral-900 bg-neutral-50 p-4 border border-neutral-200 dark:border-neutral-900 sm:p-6 rounded-lg ${bgClass} ${textClass}`}>
+                <div className={`shadow-md dark:bg-neutral-900 bg-neutral-50 p-4 sm:p-6 rounded-lg ${bgClass} ${textClass}`}>
                     {/* Order Info */}
                     <div className="flex flex-col sm:flex-row justify-between mb-8">
                         <div className="">
@@ -306,7 +306,7 @@ const OrderDetailsPage = () => {
                             </thead>
                             <tbody>
                                 {orderDetails.orderItems.map((item) => (
-                                    <tr key={item.productId} className="border-b">
+                                    <tr key={item.productId} className={`border-b cursor-pointer ${borderClass}`}>
                                         <td className="py-2 px-4 flex items-center">
                                             <img
                                                 src={item.image}
@@ -314,7 +314,7 @@ const OrderDetailsPage = () => {
                                                 className="w-12 h-12 object-cover rounded-lg mr-4"
                                             />
                                             <Link to={`/product/${item.productId}`}
-                                                  className="text-blue-500 hover:underline"
+                                                  className="text-red-800 hover:text-accent"
                                             >
                                                 {item.name}
                                             </Link>
