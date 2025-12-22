@@ -36,10 +36,23 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
         const attachments = req.files || [];
         const uploadedFiles = [];
 
-        // Upload files to Supabase
-        for (const file of attachments) {
+        // First create the report to get the reference number
+        const report = new Report({
+            orderId,
+            problemType,
+            details,
+            desiredOutcome,
+            email: email || (req.user ? req.user.email : null),
+            userId: req.user?.id,
+            attachments: []
+        });
+
+        await report.save();
+
+        // Upload files to Supabase with reference number in filenames
+        for (const [index, file] of attachments.entries()) {
             const fileExt = file.originalname.split('.').pop();
-            const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+            const fileName = `${report.referenceNumber}${attachments.length > 1 ? `_${index}` : ''}.${fileExt.toLowerCase()}`;
 
             const { data, error } = await supabase.storage
                 .from('reports')
@@ -62,20 +75,11 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
             });
         }
 
-        // Create and save report
-        const report = new Report({
-            orderId,
-            problemType,
-            details,
-            desiredOutcome,
-            email: email || req.user.email,
-            userId: req.user.id,
-            attachments: uploadedFiles
-        });
-
+        // Update report with attachments
+        report.attachments = uploadedFiles;
         await report.save();
 
-        // Send confirmation email if email is provided
+        // Rest of the code remains the same...
         const recipientEmail = email || (req.user ? req.user.email : null);
         if (recipientEmail) {
             try {
@@ -99,7 +103,7 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
             success: true,
             data: {
                 ...report.toObject(),
-                referenceNumber: report.referenceNumber // Make sure this is included
+                referenceNumber: report.referenceNumber
             },
             message: 'Report submitted successfully'
         });
