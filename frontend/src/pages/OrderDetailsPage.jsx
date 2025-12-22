@@ -12,6 +12,7 @@ const OrderDetailsPage = () => {
     // this will provide the order id that we pass in the url
     const { id } = useParams();
     const navigate = useNavigate();
+    const API_URL = import.meta.env.VITE_API_URL;
 
     // declare a state variable to store the order details
     // const [orderDetails, setOrderDetails] = useState(null);
@@ -55,21 +56,21 @@ const OrderDetailsPage = () => {
     const [existingReport, setExistingReport] = useState(null);
 
     // Add this inside the existing useEffect that fetches order details
-    useEffect(() => {
-        const checkExistingReport = async () => {
-            try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/reports/order/${id}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.success && data.data) {
-                        setExistingReport(data.data);
-                    }
+    const checkExistingReport = async () => {
+        try {
+            const response = await fetch(`${API_URL}/api/reports/order/${id}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success && data.data) {
+                    setExistingReport(data.data);
                 }
-            } catch (error) {
-                console.error('Error checking for existing report:', error);
             }
-        };
+        } catch (error) {
+            console.error('Error checking for existing report:', error);
+        }
+    };
 
+    useEffect(() => {
         checkExistingReport();
     }, [id]);
 

@@ -118,11 +118,10 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
     }
 });
 
-// Add this route before module.exports
 // @route   GET /api/reports/order/:orderId
 // @desc    Get report by order ID
-// @access  Private
-router.get('/order/:orderId', protect, async (req, res) => {
+// @access  Public
+router.get('/order/:orderId', async (req, res) => {
     try {
         const report = await Report.findOne({
             orderId: req.params.orderId,
@@ -131,6 +130,15 @@ router.get('/order/:orderId', protect, async (req, res) => {
                 { email: req.user.email }
             ]
         });
+
+        // Return minimal public information
+        const publicReport = {
+            _id: report._id,
+            orderId: report.orderId,
+            status: report.status,
+            createdAt: report.createdAt,
+            updatedAt: report.updatedAt
+        };
 
         if (!report) {
             return res.status(404).json({
