@@ -249,7 +249,7 @@ const OrderDetailsPage = () => {
                                 ? 'bg-red-100 text-red-700'
                                 : 'bg-yellow-100 text-yellow-700' // Default for 'Submitted'
         }`}>
-            {existingReport.status || 'Submitted'} • {new Date(existingReport.createdAt).toLocaleDateString()}
+            Report: {existingReport.status || 'Submitted'} • {new Date(existingReport.createdAt).toLocaleDateString()}
         </span>
                                 </div>
                             ) : (
