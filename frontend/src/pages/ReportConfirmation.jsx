@@ -26,7 +26,7 @@ const ReportConfirmation = () => {
               </p>
             </div>
 
-            <div className="mt-8 border-t border-gray-200 dark:border-gray-700 pt-8">
+            <div className="mt-8 border-t border-neutral-200 dark:border-neutral-800 pt-8">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">Reference Number: {referenceNumber}</h3>
               {/*<p className="mt-1 text-sm text-gray-500 dark:text-gray-400">*/}
               {/*  {referenceNumber}*/}
@@ -37,7 +37,7 @@ const ReportConfirmation = () => {
               </p>
             </div>
 
-            <div className="mt-6 border-t border-gray-200 dark:border-gray-700 pt-6">
+            <div className="mt-6 border-t border-neutral-200 dark:border-neutral-800 pt-6">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">What happens next?</h3>
               <ul className="mt-2 text-sm text-gray-500 dark:text-gray-400 space-y-2">
                 <li className="flex items-start">
@@ -100,17 +100,17 @@ const ReportConfirmation = () => {
               </ul>
             </div>
 
-            <div className="mt-10 border-t border-gray-200 dark:border-gray-700 pt-6">
+            <div className="mt-10 border-t border-neutral-200 dark:border-neutral-800 pt-6">
               <div className="flex justify-center">
                 <Link
                   to="/my-orders"
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                  className="inline-flex items-center px-4 py-2 text-sm font-slim rounded-full shadow-sm text-neutral-50 bg-black hover:bg-neutral-900"
                 >
                   View my orders
                 </Link>
                 <Link
                   to="/"
-                  className="ml-3 inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                  className="ml-3 inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-full text-neutral-950 dark:text-gray-300 bg-white dark:bg-neutral-900 hover:bg-gray-50 dark:hover:bg-black"
                 >
                   Back to home
                 </Link>
