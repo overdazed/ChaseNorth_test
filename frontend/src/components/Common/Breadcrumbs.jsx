@@ -15,7 +15,7 @@ const Breadcrumbs = () => {
 
   // Get the product from Redux if we're on a product page
   const product = useSelector((state) => {
-    const productData = pathnames[0] === 'product' ? state.products?.productDetails?.data : null;
+    const productData = pathnames[0] === 'product' ? state.products?.selectedProduct : null;
     console.log('Product data in breadcrumb:', productData); // Debug log
     return productData;
   });
