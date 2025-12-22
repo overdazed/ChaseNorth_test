@@ -45,27 +45,13 @@ const sendReportConfirmation = async (emailData) => {
             throw new Error('No recipient email provided');
         }
 
-        // Helper function to format file size
-        const formatFileSize = (bytes) => {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        };
-
         // Compile the email template with the provided data
         const html = await compileTemplate('reportEmail', {
             referenceNumber: emailData.referenceNumber || 'N/A',
             orderId: emailData.orderId,
             problemType: emailData.problemType,
             details: emailData.details,
-            desiredOutcome: emailData.desiredOutcome,
-            hasAttachments: emailData.attachments && emailData.attachments.length > 0,
-            attachments: (emailData.attachments || []).map(file => ({
-                ...file,
-                isImage: file.mimetype && file.mimetype.startsWith('image/')
-            }))
+            desiredOutcome: emailData.desiredOutcome
         });
 
         // Send confirmation email to customer

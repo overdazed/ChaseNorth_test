@@ -2,191 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Received - ChaseNorth</title>
+    <title>Report received</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+            Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
             color: #111111;
             max-width: 600px;
             margin: 0 auto;
-            padding: 0;
+            padding: 32px 20px;
             background-color: #f6f6f6;
         }
-        .container {
-            background-color: #ffffff;
-            margin: 0;
-            padding: 0;
-        }
-        .header {
-            background-color: #000000;
-            padding: 24px 32px;
-            text-align: center;
-        }
-        .logo {
-            max-width: 180px;
-            height: auto;
-        }
         .content {
+            /*background-color: #ffffff;*/
             padding: 32px;
-            background-color: #ffffff;
         }
-        .reference-box {
-            background-color: #f8f9fa;
-            border-left: 4px solid #000000;
+        .reference {
+            background-color: rgba(87, 17, 0, 0.2);
             padding: 16px;
             margin: 24px 0;
-            font-size: 16px;
-        }
-        .reference-number {
-            font-weight: 600;
-            color: #000000;
-        }
-        .order-details {
-            background-color: #f8f9fa;
-            border-radius: 6px;
-            padding: 16px;
-            margin: 24px 0;
-        }
-        .order-details p {
-            margin: 8px 0;
-        }
-        .attachments {
-            margin: 24px 0;
-        }
-        .attachment-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 12px;
-            margin-top: 12px;
-        }
-        .attachment-item {
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            overflow: hidden;
-            background: white;
-        }
-        .attachment-preview {
-            height: 120px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f5f5f5;
-        }
-        .attachment-preview img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-        .attachment-info {
-            padding: 10px;
-            border-top: 1px solid #f0f0f0;
-        }
-        .attachment-name {
-            font-size: 13px;
-            color: #2563eb;
-            text-decoration: none;
-            word-break: break-all;
-            display: block;
-            margin-bottom: 4px;
-        }
-        .attachment-meta {
-            font-size: 11px;
-            color: #666666;
+            text-align: center;
+            font-size: 17px;
+            letter-spacing: 0.5px;
         }
         .footer {
             margin-top: 32px;
-            padding-top: 16px;
-            border-top: 1px solid #e0e0e0;
-            font-size: 12px;
+            font-size: 13px;
             color: #666666;
-            text-align: center;
-        }
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #000000;
-            color: #ffffff !important;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: 500;
-            margin: 16px 0;
-        }
-        @media (max-width: 480px) {
-            .content {
-                padding: 24px 16px;
-            }
-            .attachment-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <img src="https://www.chasenorth.com/logo.png" alt="ChaseNorth" class="logo">
-        </div>
-        
-        <div class="content">
-            <p>Hello,</p>
 
-            <p>Thank you for contacting ChaseNorth support. We've received your report and our team is already looking into it.</p>
+<div class="content">
+    <p>Hello,</p>
 
-            <div class="reference-box">
-                Your reference number: <span class="reference-number">{{referenceNumber}}</span>
-            </div>
+    <p>
+        we’ve received your report and added it to our system.<br>
+        Our support team will take a closer look and get back to you shortly.
+    </p>
 
-            <div class="order-details">
-                <p><strong>Order ID:</strong> {{orderId}}</p>
-                <p><strong>Issue Type:</strong> {{problemType}}</p>
-                <p><strong>Desired Outcome:</strong> {{desiredOutcome}}</p>
-            </div>
-
-            <h3>Report Details:</h3>
-            <p style="white-space: pre-line;">{{details}}</p>
-
-            {{#if hasAttachments}}
-            <div class="attachments">
-                <h3>Attached Files ({{attachments.length}}):</h3>
-                <div class="attachment-grid">
-                    {{#each attachments}}
-                    <div class="attachment-item">
-                        {{#if isImage}}
-                        <div class="attachment-preview">
-                            <img src="{{this.url}}" alt="{{this.filename}}">
-                        </div>
-                        {{/if}}
-                        <div class="attachment-info">
-                            <a href="{{this.url}}" class="attachment-name" target="_blank">
-                                {{this.filename}}
-                            </a>
-                            <div class="attachment-meta">
-                                {{this.mimetype}} • {{formatFileSize this.size}}
-                            </div>
-                        </div>
-                    </div>
-                    {{/each}}
-                </div>
-            </div>
-            {{/if}}
-
-            <p>We'll review your report and get back to you as soon as possible. You can expect to hear from us within 24-48 hours.</p>
-
-            <p>If you need immediate assistance, please don't hesitate to contact our support team directly.</p>
-
-            <a href="mailto:support@chasenorth.com" class="btn">Contact Support</a>
-
-            <div class="footer">
-                <p>This is an automated message. Please do not reply to this email.</p>
-                <p>© {{currentYear}} ChaseNorth. All rights reserved.</p>
-            </div>
-        </div>
+    <div class="reference">
+        Reference <strong style="color: #571100;">{{referenceNumber}}</strong>
     </div>
-</body>
-</html>
+
+    <p>
         Keep this reference if you need to follow up or add details.
         Typical response time is within 24-48 hours.
     </p>

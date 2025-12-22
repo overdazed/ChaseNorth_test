@@ -1,11 +1,8 @@
 const express = require('express');
 const multer = require('multer');
-const fs = require('fs').promises;
-const path = require('path');
 const { protect } = require('../middleware/authMiddleware');
 const Report = require('../models/Report');
 const { sendReportConfirmation } = require('../services/emailService');
-const { uploadToSupabase, deleteFromSupabase } = require('../utils/supabase');
 
 const router = express.Router();
 
@@ -32,85 +29,45 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
         const { orderId, problemType, details, desiredOutcome, email } = req.body;
         const attachments = req.files || [];
 
-        // Upload files to Supabase
-        const uploadedFiles = [];
-        
-        try {
-            for (const file of attachments) {
-                const fileBuffer = await fs.readFile(file.path);
-                const fileExt = path.extname(file.originalname);
-                const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}${fileExt}`;
-                const filePath = `reports/${orderId || 'unknown'}/${fileName}`;
-                
-                const { data: uploadData, error: uploadError } = await uploadToSupabase(
-                    'reports',
-                    filePath,
-                    fileBuffer,
-                    file.mimetype
-                );
+        // Create and save report
+        const report = new Report({
+            orderId,
+            problemType,
+            details,
+            desiredOutcome,
+            email: email || req.user.email,
+            userId: req.user.id,
+            attachments: attachments.map(file => ({
+                filename: file.filename,
+                path: file.path,
+                mimetype: file.mimetype
+            }))
+        });
 
-                if (uploadError) throw uploadError;
+        await report.save();
 
-                uploadedFiles.push({
-                    filename: file.originalname,
-                    path: filePath,
-                    url: uploadData.publicUrl,
-                    mimetype: file.mimetype
+        // Send confirmation email if email is provided
+        const recipientEmail = email || (req.user ? req.user.email : null);
+        if (recipientEmail) {
+            try {
+                await sendReportConfirmation({
+                    to: recipientEmail,
+                    referenceNumber: report.referenceNumber,
+                    reportId: report._id,
+                    orderId: report.orderId,
+                    problemType: report.problemType,
+                    details: report.details,
+                    desiredOutcome: report.desiredOutcome,
+                    attachments: attachments.map(file => ({
+                        filename: file.originalname,
+                        path: file.path,
+                        url: `${process.env.APP_URL || 'http://localhost:5000'}/${file.path.replace(/\\/g, '/')}`
+                    }))
                 });
-
-                // Remove the local file after upload
-                await fs.unlink(file.path);
+            } catch (emailError) {
+                console.error('Failed to send confirmation email:', emailError);
+                // Don't fail the request if email fails
             }
-
-            // Create and save report with Supabase file references
-            const report = new Report({
-                orderId,
-                problemType,
-                details,
-                desiredOutcome,
-                email: email || (req.user ? req.user.email : null),
-                userId: req.user?.id,
-                attachments: uploadedFiles
-            });
-
-            await report.save();
-
-            // Send confirmation email if email is provided
-            const recipientEmail = email || (req.user ? req.user.email : null);
-            if (recipientEmail) {
-                try {
-                    await sendReportConfirmation({
-                        to: recipientEmail,
-                        referenceNumber: report.referenceNumber,
-                        reportId: report._id,
-                        orderId: report.orderId,
-                        problemType: report.problemType,
-                        details: report.details,
-                        desiredOutcome: report.desiredOutcome,
-                        attachments: uploadedFiles
-                    });
-                } catch (emailError) {
-                    console.error('Failed to send confirmation email:', emailError);
-                    // Don't fail the request if email fails
-                }
-            }
-
-            return res.status(201).json({
-                success: true,
-                data: {
-                    ...report.toObject(),
-                    referenceNumber: report.referenceNumber
-                },
-                message: 'Report submitted successfully'
-            });
-
-        } catch (error) {
-            // Clean up any uploaded files if there was an error
-            for (const file of uploadedFiles) {
-                await deleteFromSupabase('reports', file.path).catch(console.error);
-            }
-            throw error;
-        }
         }
 
         res.status(201).json({
