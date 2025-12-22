@@ -42,7 +42,6 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
             problemType,
             details,
             desiredOutcome,
-            status: 'Submitted',
             email: email || (req.user ? req.user.email : null),
             userId: req.user?.id,
             attachments: []
@@ -114,38 +113,6 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
         res.status(500).json({
             success: false,
             message: 'Error submitting report',
-            error: error.message
-        });
-    }
-});
-
-// In reportRoutes.js
-// @route   GET /api/reports/order/:orderId
-// @desc    Get report status for an order
-// @access  Private
-router.get('/order/:orderId', protect, async (req, res) => {
-    try {
-        const report = await Report.findOne({
-            orderId: req.params.orderId,
-            userId: req.user.id
-        }).select('status referenceNumber createdAt updatedAt');
-
-        if (!report) {
-            return res.status(404).json({
-                success: false,
-                message: 'No report found for this order'
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            data: report
-        });
-    } catch (error) {
-        console.error('Error fetching report status:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Error fetching report status',
             error: error.message
         });
     }
