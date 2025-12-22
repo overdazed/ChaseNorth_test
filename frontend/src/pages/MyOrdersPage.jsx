@@ -55,8 +55,22 @@ const MyOrdersPage = () => {
     const { orders, loading, error } = useSelector((state) => state.orders);
     const [isDarkMode, setIsDarkMode] = useState(false)
 
+
     useEffect(() => {
         dispatch(fetchUserOrders());
+        const handleThemeChange = (e) => {
+            setIsDarkMode(e.detail.isDarkMode);
+        };
+        // Set initial theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            setIsDarkMode(true);
+        }
+
+        window.addEventListener('themeChange', handleThemeChange);
+        return () => {
+            window.removeEventListener('themeChange', handleThemeChange);
+        };
     }, [dispatch])
 
     const handleRowClick = (orderId) => {
@@ -68,7 +82,9 @@ const MyOrdersPage = () => {
 
 
     const bgClass = isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'
-    const textClass = isDarkMode ? 'text-white' : 'text-black'
+    const textClass = isDarkMode ? 'text-neutral-50' : 'text-neutral-950'
+    const linkClass = isDarkMode ? 'text-neutral-400' : 'text-neutral-950'
+    const innerBgClass = isDarkMode ? 'bg-neutral-700' : 'bg-neutral-50'
 
     return (
         <div className="max-w-7xl mx-auto p-4 sm:p-6">
@@ -76,8 +92,8 @@ const MyOrdersPage = () => {
                 My Orders
             </h2>
             <div className="relative shadow-md sm:rounded-lg overflow-hidden">
-                <table className="min-w-full text-left text-gray-500">
-                    <thead className="bg-gray-100 text-xs uppercase text-gray-700">
+                <table className={`min-w-full text-left ${textClass}`}>
+                    <thead className={`bg-gray-100 text-xs uppercase text-gray-700 ${textClass} ${innerBgClass}`}>
                         <tr>
                             <th className="py-2 px-4 sm:py-3">Image</th>
                             <th className="py-2 px-4 sm:py-3">Order ID</th>
@@ -104,7 +120,7 @@ const MyOrdersPage = () => {
                                 </td>
                                 {/* Order ID */}
                                 <td
-                                    className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap"
+                                    className={`py-2 px-2 sm:py-4 sm:px-4 font-medium ${linkClass} whitespace-nowrap`}
                                 >
                                     #{order._id}
                                 </td>
