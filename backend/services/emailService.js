@@ -56,7 +56,7 @@ const sendReportConfirmation = async (emailData) => {
 
         // Send mail with defined transport object
         const info = await transporter.sendMail({
-            from: '"ChaseNorth Support" <support@chasenorth.com>',
+            from: `"ChaseNorth Support" <${process.env.SYSTEM_EMAIL}>`,
             to: emailData.to,
             subject: `Your Report Has Been Submitted - Reference #${emailData.referenceNumber || 'Pending'}`,
             html: html,
