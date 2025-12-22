@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const Breadcrumbs = () => {
   const location = useLocation();
@@ -11,6 +12,10 @@ const Breadcrumbs = () => {
   const [isDarkMode, setIsDarkMode] = useState(
       typeof window !== 'undefined' && document.documentElement.classList.contains('dark')
   );
+
+  // Get the current product from Redux store
+  const { product } = useSelector((state) => state.products || {});
+  const isProductPage = pathnames[0] === 'product' && pathnames[1];
 
   // Listen for theme changes
   useEffect(() => {
@@ -31,7 +36,7 @@ const Breadcrumbs = () => {
   // Don't show breadcrumbs on home page
   if (pathnames.length === 0) return null;
 
-  // Rest of your component remains the same...
+  // Display names mapping
   const displayNames = {
     'collections': 'Collections',
     'men': 'Men',
@@ -44,6 +49,8 @@ const Breadcrumbs = () => {
     'top-wear': 'Top Wear',
     'bottom-wear': 'Bottom Wear',
     'faq': 'FAQs',
+    'product': 'Product',
+    // Add more display names as needed
   };
 
   // Special handling for category pages
@@ -64,47 +71,47 @@ const Breadcrumbs = () => {
         <div className={`${isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'}`}>
           <nav className="text-sm py-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full">
             <ol className="flex items-center space-x-1 md:space-x-2">
-            <li>
-              <Link to="/" className={`${
-                  isDarkMode
-                      ? 'text-gray-400 hover:text-gray-200'
-                      : 'text-gray-500 hover:text-gray-700'
-              } transition-colors`}>
-                Home
-              </Link>
-            </li>
-            <li className="flex items-center">
-              <ChevronRight className={`h-4 w-4 mx-1 ${
-                  isDarkMode ? 'text-gray-600' : 'text-gray-400'
-              }`} />
-              <Link
-                  to="/collections/all"
-                  className={`${location.pathname === '/collections/all' && !gender && !category
-                      ? isDarkMode ? 'text-gray-200' : 'text-gray-700 font-medium'
-                      : isDarkMode
-                          ? 'text-gray-400 hover:text-gray-200'
-                          : 'text-gray-500 hover:text-gray-700'
-                  } transition-colors`}
-              >
-                Collections
-              </Link>
-            </li>
-            {showLastPart && (
-                <li className="flex items-center">
-                  <ChevronRight className={`h-4 w-4 mx-1 ${
-                      isDarkMode ? 'text-gray-600' : 'text-gray-400'
-                  }`} />
-                  <span className={`font-medium ${
-                      isDarkMode ? 'text-gray-200' : 'text-gray-700'
-                  }`}>
-                  {displayNames[category_path] || category_path.split('-').map(word =>
-                      word.charAt(0).toUpperCase() + word.slice(1)
-                  ).join(' ')}
-                </span>
-                </li>
-            )}
-          </ol>
-        </nav>
+              <li>
+                <Link to="/" className={`${
+                    isDarkMode
+                        ? 'text-gray-400 hover:text-gray-200'
+                        : 'text-gray-500 hover:text-gray-700'
+                } transition-colors`}>
+                  Home
+                </Link>
+              </li>
+              <li className="flex items-center">
+                <ChevronRight className={`h-4 w-4 mx-1 ${
+                    isDarkMode ? 'text-gray-600' : 'text-gray-400'
+                }`} />
+                <Link
+                    to="/collections/all"
+                    className={`${location.pathname === '/collections/all' && !gender && !category
+                        ? isDarkMode ? 'text-gray-200' : 'text-gray-700 font-medium'
+                        : isDarkMode
+                            ? 'text-gray-400 hover:text-gray-200'
+                            : 'text-gray-500 hover:text-gray-700'
+                    } transition-colors`}
+                >
+                  Collections
+                </Link>
+              </li>
+              {showLastPart && (
+                  <li className="flex items-center">
+                    <ChevronRight className={`h-4 w-4 mx-1 ${
+                        isDarkMode ? 'text-gray-600' : 'text-gray-400'
+                    }`} />
+                    <span className={`font-medium ${
+                        isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                    }`}>
+                      {displayNames[category_path] || category_path.split('-').map(word =>
+                          word.charAt(0).toUpperCase() + word.slice(1)
+                      ).join(' ')}
+                    </span>
+                  </li>
+              )}
+            </ol>
+          </nav>
         </div>
     );
   }
@@ -128,10 +135,17 @@ const Breadcrumbs = () => {
             {pathnames.map((name, index) => {
               const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
               const isLast = index === pathnames.length - 1;
-              const displayName = displayNames[name.toLowerCase()] ||
-                  name.split('-').map(word =>
-                      word.charAt(0).toUpperCase() + word.slice(1)
-                  ).join(' ');
+
+              // For product pages, use the product name if available
+              let displayName;
+              if (isProductPage && index === 1 && product?.name) {
+                displayName = product.name;
+              } else {
+                displayName = displayNames[name.toLowerCase()] ||
+                    name.split('-').map(word =>
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                    ).join(' ');
+              }
 
               return (
                   <li key={name} className="flex items-center">
