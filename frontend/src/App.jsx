@@ -1,6 +1,11 @@
-// LAST WORKING: 2025-12-22 22:51 ORD NUM = INV NUM
+// LAST WORKING: 2025-12-22 23:43 ORD NUM = INV NUM
 // To FIX:
-// 
+// Admin Panel
+    // Farben
+    // Report Tab
+    // Shipped Status
+// Preise überall
+
 
 // Farben
 import React from 'react'
