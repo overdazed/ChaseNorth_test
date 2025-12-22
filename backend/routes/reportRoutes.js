@@ -52,12 +52,17 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
             try {
                 await sendReportConfirmation({
                     to: recipientEmail,
-                    referenceNumber: report.referenceNumber,  // Make sure this is included
+                    referenceNumber: report.referenceNumber,
                     reportId: report._id,
                     orderId: report.orderId,
                     problemType: report.problemType,
                     details: report.details,
-                    desiredOutcome: report.desiredOutcome
+                    desiredOutcome: report.desiredOutcome,
+                    attachments: attachments.map(file => ({
+                        filename: file.originalname,
+                        path: file.path,
+                        url: `${process.env.APP_URL || 'http://localhost:5000'}/${file.path.replace(/\\/g, '/')}`
+                    }))
                 });
             } catch (emailError) {
                 console.error('Failed to send confirmation email:', emailError);

@@ -54,17 +54,68 @@ const sendReportConfirmation = async (emailData) => {
             desiredOutcome: emailData.desiredOutcome
         });
 
-        // Send mail with defined transport object
-        const info = await transporter.sendMail({
+        // Send confirmation email to customer
+        const customerEmail = {
             from: `"ChaseNorth Support" <${process.env.SYSTEM_EMAIL}>`,
             to: emailData.to,
             subject: `Your Report Has Been Submitted - Reference #${emailData.referenceNumber || 'Pending'}`,
             html: html,
             text: `Your report has been submitted successfully.\n\nReference Number: ${emailData.referenceNumber || 'Pending'}\nOrder ID: ${emailData.orderId}\nProblem Type: ${emailData.problemType}\n\nWe'll get back to you soon.`
-        });
+        };
 
-        console.log('Message sent: %s', info.messageId);
-        return info;
+        // Prepare support email with all report details
+        const supportEmail = {
+            from: `"ChaseNorth Support" <${process.env.SYSTEM_EMAIL}>`,
+            to: 'support@chasenorth.com',
+            subject: `New Report Submitted - #${emailData.referenceNumber || 'Pending'}`,
+            html: `
+                <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
+                    <h2>New Report Submitted</h2>
+                    <p><strong>Reference Number:</strong> ${emailData.referenceNumber || 'Pending'}</p>
+                    <p><strong>Order ID:</strong> ${emailData.orderId || 'N/A'}</p>
+                    <p><strong>Problem Type:</strong> ${emailData.problemType || 'N/A'}</p>
+                    <p><strong>Details:</strong><br>${emailData.details || 'N/A'}</p>
+                    <p><strong>Desired Outcome:</strong> ${emailData.desiredOutcome || 'N/A'}</p>
+                    <p><strong>Contact Email:</strong> ${emailData.to || 'N/A'}</p>
+                    ${emailData.attachments && emailData.attachments.length > 0 ? 
+                        `<p><strong>Attachments (${emailData.attachments.length}):</strong><br>` + 
+                        emailData.attachments.map(file => 
+                            `<a href="${file.url || file.path}" target="_blank">${file.filename || 'Attachment'}</a>`
+                        ).join('<br>') + '</p>' : 
+                        '<p>No attachments included.</p>'
+                    }
+                </div>
+            `,
+            text: `New Report Submitted
+
+Reference Number: ${emailData.referenceNumber || 'Pending'}
+Order ID: ${emailData.orderId || 'N/A'}
+Problem Type: ${emailData.problemType || 'N/A'}
+
+Details:
+${emailData.details || 'N/A'}
+
+Desired Outcome: ${emailData.desiredOutcome || 'N/A'}
+Contact Email: ${emailData.to || 'N/A'}
+
+${emailData.attachments && emailData.attachments.length > 0 ? 
+    `Attachments (${emailData.attachments.length}):\n` + 
+    emailData.attachments.map(file => 
+        `- ${file.filename || 'Attachment'}: ${file.url || file.path}`
+    ).join('\n') : 
+    'No attachments included.'
+}`
+        };
+
+        // Send both emails
+        const [customerInfo, supportInfo] = await Promise.all([
+            transporter.sendMail(customerEmail),
+            transporter.sendMail(supportEmail)
+        ]);
+
+        console.log('Confirmation email sent:', customerInfo.messageId);
+        console.log('Support notification sent:', supportInfo.messageId);
+        return { customerInfo, supportInfo };
     } catch (error) {
         console.error('Error sending email:', error);
         throw error;
