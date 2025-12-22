@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import { useState } from "react"
+import React, { useState } from "react"
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
@@ -91,7 +91,7 @@ const OrderDetailsPage = () => {
             {!orderDetails ? (
                 <p>No Order Details Found</p>
             ) : (
-                <div className={` dark:bg-neutral-900 bg-neutral-50 p-4 sm:p-6 rounded-lg  ${borderClass} ${bgClass} ${textClass}`}>
+                <div className={` dark:bg-neutral-900 bg-neutral-50 p-4 border border-neutral-200 dark:border-neutral-900 sm:p-6 rounded-lg ${bgClass} ${textClass}`}>
                     {/* Order Info */}
                     <div className="flex flex-col sm:flex-row justify-between mb-8">
                         <div className="">
@@ -278,9 +278,20 @@ const OrderDetailsPage = () => {
 
                     {/* Back to Orders Link */}
                     {/* Add Route to /my-orders in App.jsx*/}
-                    <Link to="/my-orders" className="text-blue-500 hover:underline">
+
+                    <Link
+                        to="/my-orders"
+                        className="flex-1 h-12 flex items-center justify-center rounded-full text-sm font-slim transition-colors duration-200 bg-black text-neutral-50 hover:bg-neutral-800"
+                    >
                         Back to My Orders
                     </Link>
+
+                    {/*<Link*/}
+                    {/*    to="/my-orders"*/}
+                    {/*    className="inline-flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-black hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"*/}
+                    {/*>*/}
+                    {/*    Back to My Orders*/}
+                    {/*</Link>*/}
                 {/*    If I click an Order ID in My Orders Page, nothing happens, because we haven't added the Link  */}
                 {/*    Change it in MyOrdersPage.jsx  -> onClick={() => handleRowClick(order._id)}*/}
                 </div>
