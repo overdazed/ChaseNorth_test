@@ -347,7 +347,7 @@ const Navbar = ({ transparent = false }) => {
                         {/* to display the count of items in the cart */}
                         {/* FIX: position on top of the cart -> -top-1*/}
                         {cartItemCount > 0 && (
-                            <span className="absolute -top-1 bg-custom-red text-white text-xs rounded-full px-2 py-0.5">
+                            <span className="absolute -top-1 bg-accent text-white text-xs rounded-full px-2 py-0.5">
                                 {cartItemCount}
                             </span>
                         )}
