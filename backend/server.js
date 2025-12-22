@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:4173', 'https://domain.com', 'https://www.domain.com'];
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:4173', 'https://chasenorth.com', 'https://www.chasenorth.com'];
 
 // CORS configuration - using the working config from minimal.js
 app.use(cors({
