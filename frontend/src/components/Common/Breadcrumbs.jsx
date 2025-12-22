@@ -2,10 +2,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import store from "@/redux/store.js";
 
-
-const Breadcrumbs = ({ product = null }) => {
+const Breadcrumbs = () => {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
   const searchParams = new URLSearchParams(location.search);
@@ -15,16 +13,21 @@ const Breadcrumbs = ({ product = null }) => {
       typeof window !== 'undefined' && document.documentElement.classList.contains('dark')
   );
 
-  // Get the current product from Redux store
-  //const product = useSelector((state) => state.products?.productDetails?.data || null);
+  // Get the product from Redux if we're on a product page
+  const product = useSelector((state) => {
+    const productData = pathnames[0] === 'product' ? state.products?.productDetails?.data : null;
+    console.log('Product data in breadcrumb:', productData); // Debug log
+    return productData;
+  });
+
   const isProductPage = pathnames[0] === 'product' && pathnames[1];
+  const productId = pathnames[1];
 
   // Debug logs
   console.log('Current pathnames:', pathnames);
   console.log('Is product page:', isProductPage);
-  console.log('Current product from Redux:', product);
-  console.log('Product ID from URL:', pathnames[1]);
-  console.log('Product ID from Redux:', product?._id);
+  console.log('Product ID from URL:', productId);
+  console.log('Product from Redux:', product);
 
   // Listen for theme changes
   useEffect(() => {
@@ -34,10 +37,7 @@ const Breadcrumbs = ({ product = null }) => {
       setIsDarkMode(isDark);
     };
 
-    // Initial check
     handleThemeChange({});
-
-    // Listen for theme changes
     window.addEventListener('themeChange', handleThemeChange);
     return () => window.removeEventListener('themeChange', handleThemeChange);
   }, []);
@@ -59,13 +59,7 @@ const Breadcrumbs = ({ product = null }) => {
     'bottom-wear': 'Bottom Wear',
     'faq': 'FAQs',
     'product': 'Product',
-    // Add more display names as needed
   };
-
-  // Get the product from Redux if we're on a product page
-  const product = useSelector((state) =>
-      pathnames[0] === 'product' ? state.products?.productDetails?.data : null
-  );
 
   // Special handling for category pages
   if (location.pathname.startsWith('/collections/')) {
@@ -78,8 +72,6 @@ const Breadcrumbs = ({ product = null }) => {
         category_path = category.toLowerCase().replace(/ /g, '-');
       }
     }
-
-    console.log(store.getState())
 
     const showLastPart = !(category_path === 'all' && !gender && !category);
 
@@ -120,10 +112,10 @@ const Breadcrumbs = ({ product = null }) => {
                     <span className={`font-medium ${
                         isDarkMode ? 'text-gray-200' : 'text-gray-700'
                     }`}>
-                      {displayNames[category_path] || category_path.split('-').map(word =>
-                          word.charAt(0).toUpperCase() + word.slice(1)
-                      ).join(' ')}
-                    </span>
+                    {displayNames[category_path] || category_path.split('-').map(word =>
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                    ).join(' ')}
+                  </span>
                   </li>
               )}
             </ol>
@@ -155,8 +147,9 @@ const Breadcrumbs = ({ product = null }) => {
 
               // For product pages, use the product name if available
               let displayName;
-              if (isProductPage && index === 1) {
-                displayName = product?.name || name; // Use product name if available, otherwise fall back to ID
+              if (isProductId) {
+                console.log('Setting display name for product. Name:', product?.name, 'ID:', name); // Debug log
+                displayName = product?.name || name;
               } else {
                 displayName = displayNames[name.toLowerCase()] ||
                     name.split('-').map(word =>
@@ -165,7 +158,7 @@ const Breadcrumbs = ({ product = null }) => {
               }
 
               return (
-                  <li key={name} className="flex items-center">
+                  <li key={`${name}-${index}`} className="flex items-center">
                     <ChevronRight className={`h-4 w-4 mx-1 ${
                         isDarkMode ? 'text-gray-600' : 'text-gray-400'
                     }`} />
@@ -173,8 +166,8 @@ const Breadcrumbs = ({ product = null }) => {
                         <span className={`font-medium ${
                             isDarkMode ? 'text-gray-200' : 'text-gray-700'
                         }`}>
-                          {displayName}
-                        </span>
+                    {displayName}
+                  </span>
                     ) : (
                         <Link
                             to={routeTo}
