@@ -59,11 +59,15 @@ const OrderDetailsPage = () => {
     const checkExistingReport = async () => {
         try {
             const response = await fetch(`${API_URL}/api/reports/order/${id}`);
-            if (response.ok) {
-                const data = await response.json();
-                if (data.success && data.data) {
-                    setExistingReport(data.data);
-                }
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error('Error fetching report:', data.message || 'Unknown error');
+                return;
+            }
+
+            if (data.success && data.data) {
+                setExistingReport(data.data);
             }
         } catch (error) {
             console.error('Error checking for existing report:', error);
@@ -236,12 +240,20 @@ const OrderDetailsPage = () => {
                                             </p>
                                         </div>
                                         <span className={`px-2 py-1 text-xs rounded-full ${
-                                            existingReport.status === 'Resolved' ? 'bg-green-100 text-green-800' :
-                                                existingReport.status === 'In Review' ? 'bg-blue-100 text-blue-800' :
-                                                    'bg-yellow-100 text-yellow-800'
+                                            existingReport.status === 'Resolved'
+                                                ? 'bg-green-100 text-green-800'
+                                                : existingReport.status === 'In Review'
+                                                    ? 'bg-blue-100 text-blue-800'
+                                                    : existingReport.status === 'Needs Info'
+                                                        ? 'bg-purple-100 text-purple-800'
+                                                        : existingReport.status === 'Closed'
+                                                            ? 'bg-gray-100 text-gray-800'
+                                                            : existingReport.status === 'Rejected'
+                                                                ? 'bg-red-100 text-red-800'
+                                                                : 'bg-yellow-100 text-yellow-800' // Default for 'Submitted' and any other cases
                                         }`}>
-                                            {existingReport.status}
-                                        </span>
+                                            {existingReport.status || 'Submitted'}
+                                    </span>
                                     </div>
                                 </div>
                             ) : (

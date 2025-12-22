@@ -121,24 +121,50 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
 // @route   GET /api/reports/order/:orderId
 // @desc    Get report by order ID
 // @access  Public
+// router.get('/order/:orderId', async (req, res) => {
+//     try {
+//         const report = await Report.findOne({
+//             orderId: req.params.orderId,
+//             $or: [
+//                 { userId: req.user.id },
+//                 { email: req.user.email }
+//             ]
+//         });
+//
+//         // Return minimal public information
+//         const publicReport = {
+//             _id: report._id,
+//             orderId: report.orderId,
+//             status: report.status,
+//             createdAt: report.createdAt,
+//             updatedAt: report.updatedAt
+//         };
+//
+//         if (!report) {
+//             return res.status(404).json({
+//                 success: false,
+//                 message: 'No report found for this order'
+//             });
+//         }
+//
+//         res.json({
+//             success: true,
+//             data: report
+//         });
+//     } catch (error) {
+//         console.error('Error fetching report:', error);
+//         res.status(500).json({
+//             success: false,
+//             message: 'Error fetching report',
+//             error: error.message
+//         });
+//     }
+// });
 router.get('/order/:orderId', async (req, res) => {
     try {
-        const report = await Report.findOne({
-            orderId: req.params.orderId,
-            $or: [
-                { userId: req.user.id },
-                { email: req.user.email }
-            ]
-        });
-
-        // Return minimal public information
-        const publicReport = {
-            _id: report._id,
-            orderId: report.orderId,
-            status: report.status,
-            createdAt: report.createdAt,
-            updatedAt: report.updatedAt
-        };
+        const report = await Report.findOne({ orderId: req.params.orderId })
+            .select('_id orderId status createdAt updatedAt')
+            .lean();
 
         if (!report) {
             return res.status(404).json({
