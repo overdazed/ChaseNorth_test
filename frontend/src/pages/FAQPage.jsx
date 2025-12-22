@@ -50,12 +50,18 @@ const FAQPage = () => {
               If you can't find the answer to your question, our customer support team is here to help.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                  href="mailto:support@chasenorth.com"
-                  className="px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors text-center dark:bg-white dark:text-black dark:hover:bg-gray-200"
+              <button
+                  onClick={() => window.location.href = "#"}
+                  className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-gray-800 dark:hover:bg-neutral-900 transition-colors duration-200"
+              >
+                Start Chat
+              </button>
+              <button
+                  onClick={() => window.location.href = "mailto:support@chasenorth.com"}
+                  className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-gray-800 dark:hover:bg-neutral-900 transition-colors duration-200"
               >
                 Contact Us
-              </a>
+              </button>
             </div>
           </div>
         </div>
