@@ -10,9 +10,9 @@ const ReportConfirmation = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
-        <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">
+        <div className="bg-white dark:bg-neutral-900 shadow overflow-hidden sm:rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <div className="text-center">
               <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
@@ -32,7 +32,8 @@ const ReportConfirmation = () => {
               {/*  {referenceNumber}*/}
               {/*</p>*/}
               <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                A copy has been sent to {email}
+                A copy has been sent to {email} <br />
+                <p className="text-[0.6rem]">(If you don’t see it, please check your spam or junk folder.)</p>
               </p>
             </div>
 
@@ -118,14 +119,14 @@ const ReportConfirmation = () => {
           </div>
         </div>
 
-        {/*<div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">*/}
-        {/*  <p>*/}
-        {/*    Need immediate assistance?{' '}*/}
-        {/*    <a href="mailto:support@chasenorth.com" className="font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300">*/}
-        {/*      Contact our support team*/}
-        {/*    </a>*/}
-        {/*  </p>*/}
-        {/*</div>*/}
+        <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+          <p>
+            Need immediate assistance?{' '}
+            <a href="mailto:support@chasenorth.com" className="font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300">
+              Contact our support team
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
