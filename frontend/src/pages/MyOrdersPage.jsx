@@ -53,6 +53,7 @@ const MyOrdersPage = () => {
 
     const dispatch = useDispatch();
     const { orders, loading, error } = useSelector((state) => state.orders);
+    const [isDarkMode, setIsDarkMode] = useState(false)
 
     useEffect(() => {
         dispatch(fetchUserOrders());
@@ -65,9 +66,13 @@ const MyOrdersPage = () => {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
 
+
+    const bgClass = isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'
+    const textClass = isDarkMode ? 'text-white' : 'text-black'
+
     return (
         <div className="max-w-7xl mx-auto p-4 sm:p-6">
-            <h2 className="text-xl sm:text-2xl font-bold mb-6 text-black">
+            <h2 className={`text-xl sm:text-2xl font-bold mb-6 ${textClass}`}>
                 My Orders
             </h2>
             <div className="relative shadow-md sm:rounded-lg overflow-hidden">
