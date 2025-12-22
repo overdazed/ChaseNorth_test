@@ -99,7 +99,7 @@ const MyOrdersPage = () => {
                             <th className="py-2 px-4 sm:py-3">Image</th>
                             <th className="py-2 px-4 sm:py-3">Order ID</th>
                             <th className="py-2 px-4 sm:py-3">Created</th>
-                            <th className="py-2 px-4 sm:py-3">Shipping Address</th>
+                            {/*<th className="py-2 px-4 sm:py-3">Shipping Address</th>*/}
                             <th className="py-2 px-4 sm:py-3">Items</th>
                             <th className="py-2 px-4 sm:py-3">Price</th>
                             <th className="py-2 px-4 sm:py-3">Status</th>
@@ -132,11 +132,11 @@ const MyOrdersPage = () => {
                                     {new Date(order.createdAt).toLocaleTimeString()}
                                 </td>
                                 {/* check if order shipping address is present */}
-                                <td className="py-2 px-2 sm:py-4 sm:px-4">
-                                    {/* if it is present, show the shipping address */}
-                                    {order.shippingAddress ? `${order.shippingAddress.city}, 
-                                    ${order.shippingAddress.country}` : "N/A"}
-                                </td>
+                                {/*<td className="py-2 px-2 sm:py-4 sm:px-4">*/}
+                                {/*    /!* if it is present, show the shipping address *!/*/}
+                                {/*    {order.shippingAddress ? `${order.shippingAddress.city}, */}
+                                {/*    ${order.shippingAddress.country}` : "N/A"}*/}
+                                {/*</td>*/}
                                 <td className="py-2 px-2 sm:py-4 sm:px-4">
                                     {order.orderItems.length}
                                 </td>

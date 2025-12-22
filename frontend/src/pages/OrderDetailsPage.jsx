@@ -106,7 +106,9 @@ const OrderDetailsPage = () => {
     // Set background and text classes based on theme
     const bgClass = isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50 transition-colors duration-300'
     const textClass = isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
-    const borderClass = isDarkMode ? 'border-neutral-600' : 'border-neutral-250'
+    const linkClass = isDarkMode ? 'text-red-800' : 'text-accent'
+    const innerBgClass = isDarkMode ? 'bg-neutral-800 p-4 rounded-lg' : 'bg-neutral-100 p-4 rounded-lg'
+    const borderClass = isDarkMode ? 'border-neutral-700' : 'border-neutral-50'
 
     return (
         <div className={`min-h-screen ${bgClass} transition-colors duration-300`}>
@@ -272,7 +274,7 @@ const OrderDetailsPage = () => {
                     </div>
 
                     {/* Customer, Payment, Shipping Info */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8">
+                    <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8 ${innerBgClass}`}>
                         {/* Payment Info*/}
                         <div>
                             <h4 className="text-lg font-semibold mb-2">Payment Info</h4>
