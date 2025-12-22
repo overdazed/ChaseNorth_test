@@ -5,7 +5,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Loader from "../Common/Loader";
 import Newsletter from "../Common/Newsletter.jsx";
-import Featured from '../Common/Featured.jsx';
+//import Featured from '../Common/Featured.jsx';
 import FeaturesSection from "@/components/Products/FeaturesSection.jsx";
 import Breadcrumbs from "../Common/Breadcrumbs"; // Add this import
 
@@ -15,7 +15,7 @@ const useScrollToBottom = () => {
     useEffect(() => {
         const handleScroll = () => {
             const scrollPosition = window.innerHeight + window.scrollY;
-            // Increased from 200px to 500px from bottom to make the button appear sooner
+            // Increased from 200 px to 500 px from bottom to make the button appear sooner
             const bottomPosition = document.documentElement.offsetHeight - 800;
             setIsAtBottom(scrollPosition >= bottomPosition);
         };
@@ -43,26 +43,29 @@ const UserLayout = () => {
     
     return (
         <div className="min-h-screen flex flex-col">
-            {/* Header */}
-            <div className="flex-shrink-0">
-                <Header transparent={isHomePage} />
-            </div>
-            
-            {/* Main Content */}
-            <div className="flex-grow flex flex-col">
-                <main className="flex-grow">
-                    {!isHomePage && <Breadcrumbs />}
-                    <div className="min-h-[calc(100vh-300px)]">
-                        <Outlet/>
-                    </div>
-                    <Newsletter />
-                    <FeaturesSection/>
-                    <ParallaxSection />
-                </main>
-                
-                {/* Footer */}
-                <NewFooter className="mt-auto" />
-            </div>
+        {/* Header */}
+            <Header transparent={isHomePage}/>
+        {/* Main Content */}
+            <main className="flex-grow">
+                {!isHomePage && <Breadcrumbs />}
+                <Outlet/>
+
+
+            {/*/!* Featured Section *!/*/}
+            {/*<Featured />*/}
+                <Newsletter />
+
+            {/* Features Section */}
+                <FeaturesSection/>
+
+            {/* Parallax Section */}
+                <ParallaxSection />
+            </main>
+            {/*/!* Newsletter *!/*/}
+
+
+        {/* Footer */}
+            <NewFooter />
             {isLoading && <Loader />}
 
             {/* Scroll-based Bug Report Button */}

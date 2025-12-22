@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {TbBrandMeta} from "react-icons/tb";
 import {IoLogoInstagram} from "react-icons/io";
 import {RiTwitterXLine} from "react-icons/ri";
-import {FiPhoneCall} from "react-icons/fi";
+//import {FiPhoneCall} from "react-icons/fi";
 import {TbMail} from "react-icons/tb"
 
 const NewFooter = () => {
@@ -63,7 +63,6 @@ const NewFooter = () => {
                     to="/sdfgdsfg"
                     className="text-white hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base"
                 >
-                  sdfgdsfg
                 </Link>
               </div>
               <div className="flex flex-col gap-1 sm:gap-2">
@@ -172,7 +171,7 @@ const NewFooter = () => {
                 {/*<h3 className="text-lg text-gray-800 mb-4">Follow Us</h3>*/}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0 mb-6">
                   <a
-                      href="http://www.facebook.com"
+                      href="https://www.facebook.com"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-neutral-400 hover:text-gray-600"
@@ -180,7 +179,7 @@ const NewFooter = () => {
                     <TbBrandMeta className="h-5 w-5" />
                   </a>
                   <a
-                      href="http://www.facebook.com"
+                      href="https://www.facebook.com"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-neutral-400 hover:text-gray-600"
@@ -188,7 +187,7 @@ const NewFooter = () => {
                     <IoLogoInstagram className="h-5 w-5" />
                   </a>
                   <a
-                      href="http://www.facebook.com"
+                      href="https://www.facebook.com"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-neutral-400 hover:text-gray-600"
@@ -198,7 +197,7 @@ const NewFooter = () => {
                   <a
                       href="mailto:shop@chasenorth.com"
                       // target="_blank"
-                      // rel="noopener noreferrer"
+                      // rel="no opener no referrer"
                       className="text-neutral-400 hover:text-gray-600"
                   >
                     <TbMail className="h-5 w-5" />
