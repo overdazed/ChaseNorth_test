@@ -22,7 +22,7 @@ const VelocityText = ({ isNightMode = false }) => {
 
             if (window.innerWidth < 768) {
                 // On mobile, set transform origin to 30% from left (zoom more to the left)
-                setTransformOrigin('30% 50%');
+                setTransformOrigin('24% 60%');
             } else {
                 // On desktop, use the original logic
                 setTransformOrigin(isNightMode ? 'center' : '35% 35%');
@@ -38,9 +38,9 @@ const VelocityText = ({ isNightMode = false }) => {
     }, [isNightMode]); // Re-run when isNightMode change
 
   // Update transform origin when isNightMode changes
-  useEffect(() => {
-    setTransformOrigin(isNightMode ? 'center' : '35% 35%');
-  }, [isNightMode]);
+  // useEffect(() => {
+  //   setTransformOrigin(isNightMode ? 'center' : '35% 35%');
+  // }, [isNightMode]);
 
   useLayoutEffect(() => {
     if (textRef.current) {
