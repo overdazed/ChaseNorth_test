@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import store from "@/redux/store.js";
 
-const Breadcrumbs = () => {
+const Breadcrumbs = ({ product = null }) => {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
   const searchParams = new URLSearchParams(location.search);
@@ -15,7 +15,7 @@ const Breadcrumbs = () => {
   );
 
   // Get the current product from Redux store
-  const product = useSelector((state) => state.products?.productDetails?.data || null);
+  //const product = useSelector((state) => state.products?.productDetails?.data || null);
   const isProductPage = pathnames[0] === 'product' && pathnames[1];
 
   // Debug logs
@@ -149,14 +149,7 @@ const Breadcrumbs = () => {
               // For product pages, use the product name if available
               let displayName;
               if (isProductPage && index === 1) {
-                if (product && product._id === name) {
-                  displayName = product.name;
-                } else {
-                  displayName = displayNames[name.toLowerCase()] ||
-                      name.split('-').map(word =>
-                          word.charAt(0).toUpperCase() + word.slice(1)
-                      ).join(' ');
-                }
+                displayName = product?.name || name; // Use product name if available, otherwise fall back to ID
               } else {
                 displayName = displayNames[name.toLowerCase()] ||
                     name.split('-').map(word =>

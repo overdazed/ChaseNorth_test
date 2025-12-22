@@ -16,6 +16,7 @@ import PartialStarRating from '../ui/PartialStarRating';
 import ReviewModal from './ReviewModal';
 import ReviewList from '../Reviews/ReviewList';
 import { isDaytime, isProductNew } from "../../utils/productUtils";
+import Breadcrumbs from "@/components/Common/Breadcrumbs.jsx";
 
 // Helper function to check if it's daytime (between 6 AM and 6 PM)
 // const isDaytime = () => {

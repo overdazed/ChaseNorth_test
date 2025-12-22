@@ -16,6 +16,7 @@ import PartialStarRating from '../ui/PartialStarRating';
 import ReviewModal from './ReviewModal';
 import ReviewList from '../Reviews/ReviewList';
 import { isDaytime, isProductNew } from "../../utils/productUtils";
+import Breadcrumbs from "@/components/Common/Breadcrumbs.jsx";
 
 // Helper function to check if it's daytime (between 6 AM and 6 PM)
 // const isDaytime = () => {
@@ -468,6 +469,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
     return (
         <div className={`min-h-screen py-20 px-4 transition-colors duration-300 ${themeClasses.background} ${themeClasses.text}`}>
+            <Breadcrumbs product={product} />
             <div className="max-w-6xl mx-auto">
                 {selectedProduct ? (
                     <div className={`relative ${themeClasses.background} ${themeClasses.text}`}>
