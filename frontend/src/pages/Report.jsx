@@ -180,8 +180,8 @@ const Report = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      <div className="bg-neutral-50 dark:bg-neutral-950 rounded-lg shadow-md p-6 md:p-8">
+    <div className="max-w-4xl mx-auto px-4 py-12 bg-neutral-50 dark:bg-neutral-950">
+      <div className="bg-neutral-50 dark:bg-neutral-900 rounded-lg shadow-md p-6 md:p-8">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
           Report a problem with your order
         </h1>
@@ -305,7 +305,7 @@ const Report = () => {
               <textarea
                   id="details"
                   rows={4}
-                  className="pt-3 pl-3 shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md dark:bg-neutral-900 dark:text-white"
+                  className="pt-3 pl-3 shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md dark:bg-neutral-800 dark:text-white"
                   placeholder="Provide details about the issue..."
                   style={{ textAlign: 'left' }}
                   {...register('details', {
@@ -470,7 +470,7 @@ const Report = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-slim text-white bg-black hover:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Submitting...' : 'Send report'}
             </button>

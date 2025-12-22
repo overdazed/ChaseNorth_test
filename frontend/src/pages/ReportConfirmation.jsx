@@ -101,16 +101,16 @@ const ReportConfirmation = () => {
             </div>
 
             <div className="mt-10 border-t border-neutral-200 dark:border-neutral-800 pt-6">
-              <div className="flex justify-center">
+              <div className="flex justify-center gap-6">
                 <Link
                   to="/my-orders"
-                  className="inline-flex items-center px-4 py-2 text-sm font-slim rounded-full shadow-sm text-neutral-50 bg-black hover:bg-neutral-900"
+                  className="flex-1 h-12 flex items-center justify-center rounded-full text-sm font-slim transition-colors duration-200 bg-black text-neutral-50 hover:bg-neutral-800"
                 >
                   View my orders
                 </Link>
                 <Link
                   to="/"
-                  className="ml-3 inline-flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-full text-neutral-950 dark:text-gray-300 bg-white dark:bg-neutral-900 hover:bg-gray-50 dark:hover:bg-black"
+                  className="flex-1 h-12 flex items-center justify-center rounded-full text-sm font-slim transition-colors duration-200 hover:bg-black text-neutral-50 bg-neutral-800"
                 >
                   Back to home
                 </Link>
