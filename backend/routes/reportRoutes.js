@@ -46,13 +46,13 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
 
         await report.save();
 
-        // Send confirmation email if email is provided
+        // Send confirmation email to the user if email is provided
         const recipientEmail = email || (req.user ? req.user.email : null);
         if (recipientEmail) {
             try {
                 await sendReportConfirmation({
                     to: recipientEmail,
-                    referenceNumber: report.referenceNumber,  // Make sure this is included
+                    referenceNumber: report.referenceNumber,
                     reportId: report._id,
                     orderId: report.orderId,
                     problemType: report.problemType,
@@ -60,9 +60,26 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
                     desiredOutcome: report.desiredOutcome
                 });
             } catch (emailError) {
-                console.error('Failed to send confirmation email:', emailError);
+                console.error('Failed to send confirmation email to user:', emailError);
                 // Don't fail the request if email fails
             }
+        }
+
+        // Send report details to support@chasenorth.com
+        try {
+            await sendReportConfirmation({
+                to: 'support@chasenorth.com',
+                referenceNumber: report.referenceNumber,
+                reportId: report._id,
+                orderId: report.orderId,
+                problemType: report.problemType,
+                details: report.details,
+                desiredOutcome: report.desiredOutcome,
+                isSupportEmail: true
+            });
+        } catch (supportEmailError) {
+            console.error('Failed to send report to support email:', supportEmailError);
+            // Don't fail the request if support email fails
         }
 
         res.status(201).json({

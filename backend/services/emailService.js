@@ -45,25 +45,67 @@ const sendReportConfirmation = async (emailData) => {
             throw new Error('No recipient email provided');
         }
 
-        // Compile the email template with the provided data
-        const html = await compileTemplate('reportEmail', {
+        const isSupportEmail = emailData.isSupportEmail || false;
+        const templateName = isSupportEmail ? 'supportReportEmail' : 'reportEmail';
+        
+        // Prepare template data
+        const templateData = {
             referenceNumber: emailData.referenceNumber || 'N/A',
-            orderId: emailData.orderId,
-            problemType: emailData.problemType,
-            details: emailData.details,
-            desiredOutcome: emailData.desiredOutcome
-        });
+            orderId: emailData.orderId || 'N/A',
+            problemType: emailData.problemType || 'Not specified',
+            details: emailData.details || 'No additional details provided',
+            desiredOutcome: emailData.desiredOutcome || 'Not specified',
+            email: emailData.email || emailData.to,
+            currentYear: new Date().getFullYear(),
+            adminUrl: process.env.ADMIN_URL || 'https://admin.chasenorth.com'
+        };
 
-        // Send mail with defined transport object
-        const info = await transporter.sendMail({
+        // Add attachments info for support emails
+        if (isSupportEmail && emailData.attachments) {
+            templateData.attachments = emailData.attachments;
+        }
+
+        // Compile the appropriate email template
+        const html = await compileTemplate(templateName, templateData);
+
+        // Set email subject based on recipient
+        let subject;
+        if (isSupportEmail) {
+            subject = `[Action Required] New Report #${emailData.referenceNumber} - ${emailData.problemType || 'Issue Reported'}`;
+        } else {
+            subject = `Your Report Has Been Submitted - Reference #${emailData.referenceNumber || 'Pending'}`;
+        }
+
+        // Prepare email options
+        const mailOptions = {
             from: `"ChaseNorth Support" <${process.env.SYSTEM_EMAIL}>`,
             to: emailData.to,
-            subject: `Your Report Has Been Submitted - Reference #${emailData.referenceNumber || 'Pending'}`,
+            subject: subject,
             html: html,
-            text: `Your report has been submitted successfully.\n\nReference Number: ${emailData.referenceNumber || 'Pending'}\nOrder ID: ${emailData.orderId}\nProblem Type: ${emailData.problemType}\n\nWe'll get back to you soon.`
-        });
+            // Add text version for email clients that don't support HTML
+            text: isSupportEmail 
+                ? `New Report Submitted - Reference #${templateData.referenceNumber}
+                   
+                   Order ID: ${templateData.orderId}
+                   Problem Type: ${templateData.problemType}
+                   Details: ${templateData.details}
+                   Desired Outcome: ${templateData.desiredOutcome}
+                   Customer Email: ${templateData.email}
+                   
+                   View full report: ${templateData.adminUrl}/reports/${emailData.reportId || ''}
+                   `
+                : `Your report has been submitted successfully.
+                   
+                   Reference Number: ${templateData.referenceNumber}
+                   Order ID: ${templateData.orderId}
+                   Problem Type: ${templateData.problemType}
+                   
+                   We'll review your report and get back to you within 24 hours.`
+        };
 
-        console.log('Message sent: %s', info.messageId);
+        // Send mail with defined transport object
+        const info = await transporter.sendMail(mailOptions);
+        console.log(`Email sent to ${emailData.to}: ${info.messageId}`);
         return info;
     } catch (error) {
         console.error('Error sending email:', error);
