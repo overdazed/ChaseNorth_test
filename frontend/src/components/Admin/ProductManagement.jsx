@@ -55,7 +55,7 @@ const ProductManagement = () => {
                         products.map((product) =>
                             <tr
                                 key={product._id}
-                                className="group border-b hover:bg-neutral-200 hover:dark:bg-accent"
+                                className="group border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-accent"
                             >
                                 <td className="p-4 font-medium text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">
                                     <Link to={`/product/${product._id}`} className="hover:underline">
@@ -63,7 +63,7 @@ const ProductManagement = () => {
                                     </Link>
                                 </td>
                                 <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">${product.price}</td>
-                                <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300"">{product.sku}</td>
+                                <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{product.sku}</td>
                                 <td className="p-4">
                                     <div className="flex justify-center">
                                         <div className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
