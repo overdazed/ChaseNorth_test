@@ -63,7 +63,7 @@ const UserManagement = () => {
         theme === 'dark'
             ? 'bg-neutral-800 text-neutral-50'
             : 'bg-neutral-100'
-    } focus:ring-2 focus:ring-blue-500 focus:border-blue-500`;
+    } focus:ring-2 focus:ring-accent focus:border-accent`;
 
     const cardClasses ="p-6 rounded-lg mb-6";
 
@@ -182,12 +182,12 @@ const UserManagement = () => {
                                     onChange={(e) => handleRoleChange(user._id, e.target.value)}
                                     className={`p-1.5 rounded border ${
                                         theme === 'dark'
-                                            ? 'bg-gray-700 border-gray-600 text-white'
+                                            ? 'bg-transparent border-gray-600 text-neutral-400'
                                             : 'bg-white border-gray-300 text-gray-900'
                                     }`}
                                 >
-                                    <option value="customer">Customer</option>
-                                    <option value="admin">Admin</option>
+                                    <option value="customer" className={theme === 'dark' ? 'bg-neutral-900 text-neutral-100' : 'bg-white text-gray-900'}>Customer</option>
+                                    <option value="admin" className={theme === 'dark' ? 'bg-neutral-900 text-neutral-100' : 'bg-white text-gray-900'}>Admin</option>
                                 </select>
                             </td>
                             <td className="px-4 py-4 whitespace-nowrap">
