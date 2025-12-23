@@ -51,34 +51,43 @@ const ProductManagement = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.length > 0 ? (
-                            products.map((product) =>
-                                <tr
-                                    key={product._id}
-                                    className="border-b hover:bg-neutral-200 hover:dark:bg-accent cursor-pointer"
-                                >
-                                    <td className="p-4 font-medium text-gray-900 hover:dark:text-neutral-900 whitespace-nowrap dark:text-neutral-300">
+                    {products.length > 0 ? (
+                        products.map((product) =>
+                            <tr
+                                key={product._id}
+                                className="group border-b hover:bg-neutral-200 hover:dark:bg-accent"
+                            >
+                                <td className="p-4 font-medium text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">
+                                    <Link to={`/product/${product._id}`} className="hover:underline">
                                         {product.name}
-                                    </td>
-                                    <td className="p-4">${product.price}</td>
-                                    <td className="p-4">{product.sku}</td>
-                                    <td className="p-4">
-                                        <div className="flex flex-wrap gap-2">
-                                            <button
-                                                onClick={() => navigate(`/admin/products/${product._id}/edit`)}
-                                                className="flex items-center justify-center gap-1 bg-yellow-500 text-white px-4 py-1 rounded-full hover:bg-yellow-600 w-24"
-                                            >
-                                                <span>Edit</span> <FiEdit2 className="text-sm" />
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(product._id)}
-                                                className="flex items-center justify-center bg-red-500 text-white px-4 py-1 rounded-full hover:bg-red-600 w-24"
-                                            >
-                                                <span>Delete</span> <BiTrash className="text-md"/>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>)
+                                    </Link>
+                                </td>
+                                <td className="p-4">${product.price}</td>
+                                <td className="p-4">{product.sku}</td>
+                                <td className="p-4">
+                                    <div className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                navigate(`/admin/products/${product._id}/edit`);
+                                            }}
+                                            className="flex items-center justify-center gap-1 bg-yellow-500 text-white px-1 py-2 rounded-full hover:bg-yellow-600 w-8"
+                                        >
+                                            <FiEdit2 className="text-md" />
+                                        </button>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleDelete(product._id);
+                                            }}
+                                            className="flex items-center justify-center bg-red-500 text-white px-1 py-2 rounded-full hover:bg-red-600 w-8"
+                                        >
+                                            <BiTrash className="text-md"/>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        )
                         ) : (
                             <tr>
                                 <td colSpan={4} className="p-4 text-center text-gray-500">
