@@ -1,9 +1,13 @@
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useOutletContext} from "react-router-dom";
 import {useEffect} from "react";
 import {fetchAllOrders, updateOrderStatus} from "../../redux/slices/adminOrderSlice.js";
 
+const { theme } = useOutletContext();
+
 const OrderManagement = () => {
+
+    const theme = useOutletContext();
 
     // const orders = [
     //     {
@@ -65,21 +69,24 @@ const OrderManagement = () => {
                             orders.map((order) => (
                                 <tr
                                     key={order._id}
-                                    className="border-b hover:bg-gray-50 cursor-pointer"
+                                    className="border-b border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-accent cursor-pointer"
                                 >
-                                    <td className="px-4 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                    <td className="p-4 font-medium text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">
                                         #{order._id}
                                     </td>
-                                    <td className="p-4">{order.user?.name}</td>
-                                    <td className="p-4">${order.totalPrice.toFixed(2)}</td>
-                                    <td className="p-4">
+                                    <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{order.user?.name}</td>
+                                    <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">${order.totalPrice.toFixed(2)}</td>
+                                    <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">
                                         <select
                                             value={order.status}
                                             onChange={(e) =>
                                                 handleStatusChange(order._id, e.target.value)
                                         }
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm
-                                        rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                                        className={`p-1.5 rounded border ${
+                                            theme === 'dark'
+                                                ? 'bg-transparent border-gray-600 text-neutral-400'
+                                                : 'bg-white border-gray-300 text-gray-900'
+                                        }`}
                                         >
                                             <option value="Processing">Processing</option>
                                             <option value="Shipped">Shipped</option>
@@ -90,7 +97,7 @@ const OrderManagement = () => {
                                     <td className="p-4">
                                         <button
                                             onClick={() => handleStatusChange(order._id, "Delivered")}
-                                            className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+                                            className="bg-green-600 text-white py-2 px-4 rounded-full hover:bg-green-700"
                                         >Mark as Delivered</button>
                                     </td>
                                 </tr>
