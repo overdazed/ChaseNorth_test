@@ -161,7 +161,7 @@ const EditProductPage = () => {
                         name="name"
                         value={productData.name}
                         onChange={handleChange}
-                        className="w-full p-2 rounded-md dark:bg-neutral-800 dark:text-neutral-50"
+                        className="w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50"
                         required
                     />
                 </div>
@@ -172,7 +172,7 @@ const EditProductPage = () => {
                         name="description"
                         value={productData.description}
                         onChange={handleChange}
-                        className="w-full p-2 rounded-md dark:bg-neutral-800 dark:text-neutral-50"
+                        className="w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50"
                         rows={4}
                         required
                     />
@@ -186,7 +186,7 @@ const EditProductPage = () => {
                         name="price"
                         value={productData.price}
                         onChange={handleChange}
-                        className="w-full p-2 rounded-md dark:bg-neutral-800 dark:text-neutral-50"
+                        className="w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50"
                     />
                 </div>
 
@@ -198,7 +198,7 @@ const EditProductPage = () => {
                         name="countInStock"
                         value={productData.countInStock}
                         onChange={handleChange}
-                        className="w-full p-2 rounded-md dark:bg-neutral-800 dark:text-neutral-50"
+                        className="w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50"
                     />
                 </div>
 
@@ -210,7 +210,7 @@ const EditProductPage = () => {
                         name="sku"
                         value={productData.sku}
                         onChange={handleChange}
-                        className="w-full p-2 rounded-md dark:bg-neutral-800 dark:text-neutral-50"
+                        className="w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50"
                     />
                 </div>
 
@@ -230,7 +230,7 @@ const EditProductPage = () => {
                             setSizesInput(uppercased);
                         }}
                         onKeyDown={(e) => handleCommaInput(e, setSizesInput)}
-                        className="w-full p-2 rounded-md dark:bg-neutral-800 dark:text-neutral-50"
+                        className="w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50"
                     />
                 </div>
                 {/* Colors */}
@@ -253,7 +253,7 @@ const EditProductPage = () => {
                             setColorsInput(capitalized);
                         }}
                         onKeyDown={(e) => handleCommaInput(e, setColorsInput)}
-                        className="w-full p-2 rounded-md dark:bg-neutral-800 dark:text-neutral-50"
+                        className="w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50"
                     />
                 </div>
 
@@ -278,7 +278,7 @@ const EditProductPage = () => {
 
                 <button
                     type="submit"
-                    className="w-full py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
+                    className="w-full py-2 bg-green-700 text-white rounded-full hover:bg-green-800 transition-colors"
                 >
                     Update Product
                 </button>
