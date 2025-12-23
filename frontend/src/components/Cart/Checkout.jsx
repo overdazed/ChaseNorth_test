@@ -226,15 +226,12 @@ const Checkout = () => {
 
     const handlePaymentSuccess = async (details) => {
         try {
-            console.log('Payment successful, updating order status...', details);
-
-            // First, update the order status to paid
-            const updateResponse = await axios.put(
+            const response = await axios.put(
                 `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/pay`,
                 {
                     paymentStatus: "paid",
                     paymentDetails: details,
-                    paymentId: details.id || details.payerID
+                    paymentId: details.id || details.payerID || details.paymentID
                 },
                 {
                     headers: {
@@ -244,10 +241,7 @@ const Checkout = () => {
                 }
             );
 
-            console.log('Payment update response:', updateResponse.data);
-
-            // If payment update is successful, finalize the checkout
-            if (updateResponse.data && updateResponse.data.success) {
+            if (response.data) {
                 await handleFinalizeCheckout(checkoutId);
             } else {
                 throw new Error('Failed to update payment status');
@@ -258,15 +252,7 @@ const Checkout = () => {
                 response: error.response?.data,
                 status: error.response?.status
             });
-
-            // Show user-friendly error message
-            const errorMessage = error.response?.data?.message ||
-                'Payment was successful, but there was an error updating your order. Please contact support with your payment details.';
-
-            alert(`Payment Error: ${errorMessage}`);
-
-            // Optionally navigate to a payment error page or show an error state
-            // navigate('/payment-error', { state: { error: errorMessage } });
+            alert('Payment was successful, but there was an error updating your order. Please contact support with your payment details.');
         }
     }
 
@@ -420,10 +406,17 @@ const Checkout = () => {
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/finalize`,
                 {
-                    // Include any necessary data for the finalize endpoint
                     discountCode: discountApplied ? discountCode : null,
                     discountAmount: discountApplied ? discountPercentage : 0,
-                    shippingCost: shippingCost
+                    shippingCost: shippingCost,
+                    totalPrice: cart.totalPrice,
+                    items: cart.products.map(item => ({
+                        product: item.productId,
+                        quantity: item.quantity,
+                        size: item.size,
+                        color: item.color,
+                        price: item.price
+                    }))
                 },
                 {
                     headers: {
@@ -432,7 +425,6 @@ const Checkout = () => {
                     }
                 }
             );
-            console.log('Finalize response:', response.data);
 
             // Clear the cart after successful order
             dispatch(clearCart());
@@ -461,9 +453,6 @@ const Checkout = () => {
                 'There was an error finalizing your order. Please contact support.';
 
             alert(`Error: ${errorMessage}`);
-
-            // Optionally, you could set an error state to show in the UI
-            // setOrderError(errorMessage);
         }
     }
 

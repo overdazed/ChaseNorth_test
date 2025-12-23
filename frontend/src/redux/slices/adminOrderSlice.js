@@ -25,31 +25,29 @@ export const fetchAllOrders = createAsyncThunk(
 )
 
 // Update the order delivery status
-// In the updateOrderStatus thunk, add these logs:
 export const updateOrderStatus = createAsyncThunk(
     'adminOrders/updateOrderStatus',
     async ({ id, status }, { rejectWithValue }) => {
         try {
-            console.log('Sending update request with:', { id, status });
+            // get request to fetch all orders
             const response = await axios.put(
                 `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
                 { status },
                 {
+                    // add authorization header
                     headers: {
-                        'Content-Type': 'application/json',
                         Authorization: `Bearer ${localStorage.getItem("userToken")}`
                     }
                 }
             );
-            console.log('Update response:', response.data);
-            // Return the order from the response, not the entire response
-            return response.data.order || response.data;
+            // return the orders
+            return response.data;
         } catch (error) {
-            console.error('Update error:', error.response?.data || error.message);
-            return rejectWithValue(error.response?.data || { message: error.message });
+            // Return the error
+            return rejectWithValue(error.response.data);
         }
     }
-);
+)
 
 
 // Delete an order
@@ -112,24 +110,15 @@ const adminOrderSlice = createSlice({
             })
             // Update order status
             .addCase(updateOrderStatus.fulfilled, (state, action) => {
-                console.log('Updating order in Redux:', action.payload);
-                const updatedOrder = action.payload.order || action.payload; // Handle both formats
-                if (!updatedOrder) {
-                    console.error('No order data in response');
-                    return;
-                }
-
-                const index = state.orders.findIndex(order => order._id === updatedOrder._id);
-                console.log('Found order at index:', index, 'Order ID:', updatedOrder._id);
-
-                if (index !== -1) {
-                    state.orders[index] = {
-                        ...state.orders[index],
-                        ...updatedOrder
-                    };
-                } else {
-                    console.warn('Order not found in state. Current order IDs:',
-                        state.orders.map(o => o._id));
+                const updatedOrder = action.payload;
+                // console.log(action.payload);
+                // find the order that needs to be updated
+                const orderIndex = state.orders.findIndex(
+                    (order) => order._id === updatedOrder._id
+                );
+                // update the order
+                if (orderIndex !== -1) {
+                    state.orders[orderIndex] = updatedOrder;
                 }
             })
             // Delete an order
