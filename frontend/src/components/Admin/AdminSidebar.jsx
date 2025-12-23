@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { NavLink } from "react-router-dom"
 import { FaChartLine } from "react-icons/fa"
 import { FaUsers } from "react-icons/fa"
+import { FaUserGear } from "react-icons/fa6";
 import { FaBoxOpen } from "react-icons/fa"
 import { FaClipboardList } from "react-icons/fa"
 import { FaStore } from "react-icons/fa"
@@ -45,23 +46,23 @@ const AdminSidebar = () => {
                         : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
                     }
                 >
-                    <FaChartLine />
+                    <FaChartLine size={20}/>
                     <span>Dashboard</span>
                 </NavLink>
                 <NavLink to="/admin/users" className={({isActive}) => isActive ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2" : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"}>
-                    <FaUsers />
+                    <FaUserGear size={20}/>
                     <span>Users</span>
                 </NavLink>
                 <NavLink to="/admin/products" className={({isActive}) => isActive ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2" : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"}>
-                    <FaBoxOpen />
+                    <FaBoxOpen size={20}/>
                     <span>Products</span>
                 </NavLink>
                 <NavLink to="/admin/orders" className={({isActive}) => isActive ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2" : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"}>
-                    <FaClipboardList />
+                    <FaClipboardList size={20}/>
                     <span>Orders</span>
                 </NavLink>
                 <NavLink to="/" className={({isActive}) => isActive ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2" : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"}>
-                    <FaStore />
+                    <FaStore size={20}/>
                     <span>Shop</span>
                 </NavLink>
                 
