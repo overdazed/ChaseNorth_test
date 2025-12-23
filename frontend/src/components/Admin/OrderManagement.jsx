@@ -37,29 +37,11 @@ const OrderManagement = () => {
     }, [dispatch, user, navigate]);
 
 
-    // const handleStatusChange = (orderId, status) => {
-    //     // TODO: Implement the logic to update the order status in the backend
-    //     // For now, let's just log the new status
-    //     // console.log({id: orderId, status});
-    //     dispatch(updateOrderStatus({ id: orderId, status }));
-    // };
-
-    const handleStatusChange = async (orderId, status) => {
-        try {
-            // Dispatch the updateOrderStatus action and wait for it to complete
-            const resultAction = await dispatch(updateOrderStatus({ id: orderId, status }));
-
-            // Check if the action was successful
-            if (updateOrderStatus.fulfilled.match(resultAction)) {
-                // Refresh the orders list to get the latest data
-                await dispatch(fetchAllOrders());
-                console.log('Order status updated and list refreshed');
-            } else if (updateOrderStatus.rejected.match(resultAction)) {
-                console.error('Failed to update order status:', resultAction.error.message);
-            }
-        } catch (error) {
-            console.error('Error updating order status:', error);
-        }
+    const handleStatusChange = (orderId, status) => {
+        // TODO: Implement the logic to update the order status in the backend
+        // For now, let's just log the new status
+        // console.log({id: orderId, status});
+        dispatch(updateOrderStatus({ id: orderId, status }));
     };
 
     if (loading) return <div>Loading...</div>;

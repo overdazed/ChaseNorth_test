@@ -111,14 +111,12 @@ const adminOrderSlice = createSlice({
             // Update order status
             .addCase(updateOrderStatus.fulfilled, (state, action) => {
                 const updatedOrder = action.payload;
-                // console.log(action.payload);
-                // find the order that needs to be updated
-                const orderIndex = state.orders.findIndex(
-                    (order) => order._id === updatedOrder._id
-                );
-                // update the order
-                if (orderIndex !== -1) {
-                    state.orders[orderIndex] = updatedOrder;
+                const index = state.orders.findIndex(order => order._id === updatedOrder._id);
+                if (index !== -1) {
+                    state.orders[index] = {
+                        ...state.orders[index],
+                        ...updatedOrder
+                    };
                 }
             })
             // Delete an order
