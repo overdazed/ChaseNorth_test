@@ -60,6 +60,8 @@ const EditProductPage = () => {
     const [sizesInput, setSizesInput] = useState("");
     const [colorsInput, setColorsInput] = useState("");
 
+    const inputClasses = "w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50";
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProductData(prevData => (
@@ -149,11 +151,7 @@ const EditProductPage = () => {
         }
     };
 
-    const inputClasses =`w-full p-2 rounded-md ${
-        theme === 'dark'
-            ? 'bg-neutral-800 text-neutral-50'
-            : 'bg-neutral-100'
-    };
+
 
     return (
         <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md">
@@ -178,7 +176,7 @@ const EditProductPage = () => {
                         name="description"
                         value={productData.description}
                         onChange={handleChange}
-                        className="w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50"
+                        className={inputClasses}
                         rows={4}
                         required
                     />
@@ -192,7 +190,7 @@ const EditProductPage = () => {
                         name="price"
                         value={productData.price}
                         onChange={handleChange}
-                        className="w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50"
+                        className={inputClasses}
                     />
                 </div>
 
@@ -204,7 +202,7 @@ const EditProductPage = () => {
                         name="countInStock"
                         value={productData.countInStock}
                         onChange={handleChange}
-                        className="w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50"
+                        className={inputClasses}
                     />
                 </div>
 
@@ -216,7 +214,7 @@ const EditProductPage = () => {
                         name="sku"
                         value={productData.sku}
                         onChange={handleChange}
-                        className="w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50"
+                        className={inputClasses}
                     />
                 </div>
 
@@ -236,7 +234,7 @@ const EditProductPage = () => {
                             setSizesInput(uppercased);
                         }}
                         onKeyDown={(e) => handleCommaInput(e, setSizesInput)}
-                        className="w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50"
+                        className={inputClasses}
                     />
                 </div>
                 {/* Colors */}
@@ -259,7 +257,7 @@ const EditProductPage = () => {
                             setColorsInput(capitalized);
                         }}
                         onKeyDown={(e) => handleCommaInput(e, setColorsInput)}
-                        className="w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50"
+                        className={inputClasses}
                     />
                 </div>
 

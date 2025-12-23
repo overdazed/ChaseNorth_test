@@ -59,10 +59,10 @@ const UserManagement = () => {
         }
     };
 
-    const inputClasses = `w-full p-2 rounded ${
+    const inputClasses = `w-full p-2 rounded-md ${
         theme === 'dark'
             ? 'bg-neutral-800 text-neutral-50'
-            : 'bg-neutral-50 text-gray-900'
+            : 'bg-neutral-100'
     } focus:ring-2 focus:ring-blue-500 focus:border-blue-500`;
 
     const cardClasses ="p-6 rounded-lg mb-6";
