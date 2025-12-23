@@ -59,15 +59,13 @@ const UserManagement = () => {
         }
     };
 
-    const inputClasses = `w-full p-2 rounded border ${
+    const inputClasses = `w-full p-2 rounded ${
         theme === 'dark'
-            ? 'bg-gray-700 border-gray-600 text-white'
-            : 'bg-white border-gray-300 text-gray-900'
+            ? 'bg-neutral-800 text-neutral-50'
+            : 'bg-neutral-50 text-gray-900'
     } focus:ring-2 focus:ring-blue-500 focus:border-blue-500`;
 
-    const cardClasses = `p-6 rounded-lg mb-6 ${
-        theme === 'dark' ? 'bg-gray-800' : 'bg-white shadow'
-    }`;
+    const cardClasses ="p-6 rounded-lg mb-6";
 
     return (
         <div className="w-full">
