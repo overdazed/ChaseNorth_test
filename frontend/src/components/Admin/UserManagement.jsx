@@ -183,8 +183,8 @@ const UserManagement = () => {
                                     disabled={user.email === 'admin@chasenorth.com'}
                                     className={`p-1.5 rounded border ${
                                         theme === 'dark'
-                                            ? 'bg-transparent border-gray-600 text-neutral-400'
-                                            : 'bg-white border-gray-300 text-gray-900'
+                                            ? 'bg-transparent border-neutral-600 text-neutral-400'
+                                            : 'bg-white border-neutral-300 text-neutral-900'
                                     } ${user.email === 'admin@chasenorth.com' ? 'opacity-70 cursor-not-allowed' : ''}`}
                                 >
                                     <option

@@ -3,8 +3,6 @@ import {useNavigate, useOutletContext} from "react-router-dom";
 import {useEffect} from "react";
 import {fetchAllOrders, updateOrderStatus} from "../../redux/slices/adminOrderSlice.js";
 
-const { theme } = useOutletContext();
-
 const OrderManagement = () => {
 
     const theme = useOutletContext();
@@ -69,7 +67,7 @@ const OrderManagement = () => {
                             orders.map((order) => (
                                 <tr
                                     key={order._id}
-                                    className="border-b border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-accent cursor-pointer"
+                                    className="border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-accent cursor-pointer"
                                 >
                                     <td className="p-4 font-medium text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">
                                         #{order._id}
@@ -82,11 +80,11 @@ const OrderManagement = () => {
                                             onChange={(e) =>
                                                 handleStatusChange(order._id, e.target.value)
                                         }
-                                        className={`p-1.5 rounded border ${
-                                            theme === 'dark'
-                                                ? 'bg-transparent border-gray-600 text-neutral-400'
-                                                : 'bg-white border-gray-300 text-gray-900'
-                                        }`}
+                                            className={`p-1.5 rounded border ${
+                                                theme === 'dark'
+                                                    ? 'bg-neutral-800 text-neutral-100 border-neutral-600'
+                                                    : 'bg-neutral-900 text-neutral-100 border-neutral-600'
+                                            }`}
                                         >
                                             <option value="Processing">Processing</option>
                                             <option value="Shipped">Shipped</option>
