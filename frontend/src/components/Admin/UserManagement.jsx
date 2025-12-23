@@ -81,8 +81,8 @@ const UserManagement = () => {
                     Add New User
                 </h3>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className={`block mb-1 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+                    <div className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+                        <label className={`block mb-1`}>
                             Name
                         </label>
                         <input
@@ -95,7 +95,7 @@ const UserManagement = () => {
                         />
                     </div>
                     <div>
-                        <label className={`block mb-1 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+                        <label className={`block mb-1`}>
                             Email
                         </label>
                         <input
@@ -108,7 +108,7 @@ const UserManagement = () => {
                         />
                     </div>
                     <div>
-                        <label className={`block mb-1 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+                        <label className={`block mb-1`}>
                             Password
                         </label>
                         <input
@@ -121,7 +121,7 @@ const UserManagement = () => {
                         />
                     </div>
                     <div>
-                        <label className={`block mb-1 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+                        <label className={`block mb-1`}>
                             Role
                         </label>
                         <select
@@ -136,7 +136,7 @@ const UserManagement = () => {
                     </div>
                     <button
                         type="submit"
-                        className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 pr-6 rounded-full transition-colors flex items-center gap-2"
+                        className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 pr-6 rounded-full transition-colors flex items-center gap-2"
                     >
                         <FiPlus size={18}/>
                         <span>Add User</span>
@@ -146,26 +146,18 @@ const UserManagement = () => {
 
             <div className={`overflow-x-auto rounded-lg ${theme === 'dark' ? 'bg-gray-800' : 'bg-white shadow'}`}>
                 <table className="min-w-full">
-                    <thead className={theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}>
+                    <thead className="bg-neutral-300 text-left text-xs text-neutral-800 uppercase">
                     <tr>
-                        <th className={`px-4 py-3 text-left text-xs font-medium uppercase tracking-wider ${
-                            theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                        }`}>
+                        <th className={`px-4 py-3 uppercase tracking-wider`}>
                             Name
                         </th>
-                        <th className={`px-4 py-3 text-left text-xs font-medium uppercase tracking-wider ${
-                            theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                        }`}>
+                        <th className={`px-4 py-3 font-medium uppercase tracking-wider`}>
                             Email
                         </th>
-                        <th className={`px-4 py-3 text-left text-xs font-medium uppercase tracking-wider ${
-                            theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                        }`}>
+                        <th className={`px-4 py-3 font-medium uppercase tracking-wider`}>
                             Role
                         </th>
-                        <th className={`px-4 py-3 text-center text-xs font-medium uppercase tracking-wider ${
-                            theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                        }`}>
+                        <th className={`px-4 py-3 text-center font-medium uppercase tracking-wider`}>
                             Actions
                         </th>
                     </tr>
@@ -211,7 +203,7 @@ const UserManagement = () => {
                                             e.stopPropagation();
                                             handleDeleteUser(user._id);
                                         }}
-                                        className="flex items-center justify-center bg-red-500 text-white px-1 py-2 rounded-full hover:bg-red-600 w-9 h-9"
+                                        className="flex items-center justify-center bg-red-800 text-white px-1 py-2 rounded-full hover:bg-accent w-9 h-9"
                                     >
                                         <BiTrash className="text-xl"/>
                                     </button>
