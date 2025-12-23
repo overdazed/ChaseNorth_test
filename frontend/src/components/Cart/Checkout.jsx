@@ -224,20 +224,49 @@ const Checkout = () => {
         }
     }
 
-    const handlePaymentSuccess = async(details) => {
+    const handlePaymentSuccess = async (details) => {
         try {
-            const response = await axios.put(
+            console.log('Payment successful, updating order status...', details);
+
+            // First, update the order status to paid
+            const updateResponse = await axios.put(
                 `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/pay`,
-                { paymentStatus: "paid", paymentDetails: details},
+                {
+                    paymentStatus: "paid",
+                    paymentDetails: details,
+                    paymentId: details.id || details.payerID
+                },
                 {
                     headers: {
+                        'Content-Type': 'application/json',
                         Authorization: `Bearer ${localStorage.getItem('userToken')}`
                     }
                 }
             );
-            await handleFinalizeCheckout(checkoutId);
+
+            console.log('Payment update response:', updateResponse.data);
+
+            // If payment update is successful, finalize the checkout
+            if (updateResponse.data && updateResponse.data.success) {
+                await handleFinalizeCheckout(checkoutId);
+            } else {
+                throw new Error('Failed to update payment status');
+            }
         } catch (error) {
-            console.error(error);
+            console.error('Payment processing error:', {
+                message: error.message,
+                response: error.response?.data,
+                status: error.response?.status
+            });
+
+            // Show user-friendly error message
+            const errorMessage = error.response?.data?.message ||
+                'Payment was successful, but there was an error updating your order. Please contact support with your payment details.';
+
+            alert(`Payment Error: ${errorMessage}`);
+
+            // Optionally navigate to a payment error page or show an error state
+            // navigate('/payment-error', { state: { error: errorMessage } });
         }
     }
 
@@ -387,18 +416,54 @@ const Checkout = () => {
 
     const handleFinalizeCheckout = async (checkoutId) => {
         try {
+            console.log('Finalizing checkout with ID:', checkoutId);
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/finalize`,
-                {},
+                {
+                    // Include any necessary data for the finalize endpoint
+                    discountCode: discountApplied ? discountCode : null,
+                    discountAmount: discountApplied ? discountPercentage : 0,
+                    shippingCost: shippingCost
+                },
                 {
                     headers: {
+                        'Content-Type': 'application/json',
                         Authorization: `Bearer ${localStorage.getItem('userToken')}`
                     }
                 }
             );
-            navigate("/order-confirmation");
+            console.log('Finalize response:', response.data);
+
+            // Clear the cart after successful order
+            dispatch(clearCart());
+
+            // Navigate to confirmation page with order details
+            navigate("/order-confirmation", {
+                state: {
+                    order: response.data.order,
+                    status: 'success'
+                }
+            });
         } catch (error) {
-            console.error(error);
+            console.error('Finalize checkout error:', {
+                message: error.message,
+                response: error.response?.data,
+                status: error.response?.status,
+                config: {
+                    url: error.config?.url,
+                    method: error.config?.method,
+                    data: error.config?.data
+                }
+            });
+
+            // Show user-friendly error message
+            const errorMessage = error.response?.data?.message ||
+                'There was an error finalizing your order. Please contact support.';
+
+            alert(`Error: ${errorMessage}`);
+
+            // Optionally, you could set an error state to show in the UI
+            // setOrderError(errorMessage);
         }
     }
 
