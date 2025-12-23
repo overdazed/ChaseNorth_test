@@ -96,6 +96,26 @@ const EditProductPage = () => {
         }
     }
 
+    const handleDeleteImage = async (imageUrl) => {
+        try {
+            // Remove the image from the state first for better UX
+            setProductData(prevData => ({
+                ...prevData,
+                images: prevData.images.filter(img => img.url !== imageUrl)
+            }));
+
+            // Optional: Call your backend API to delete the image from storage
+            // await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/upload`, {
+            //     data: { imageUrl }
+            // });
+
+        } catch (error) {
+            console.error('Error deleting image:', error);
+            // Optional: Add error handling (e.g., show error message to user)
+        }
+    };
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -265,12 +285,19 @@ const EditProductPage = () => {
                     {uploading && <p>Uploading image...</p>}
                     <div className="flex gap-4 mt-4">
                         {productData.images.map((image, index) => (
-                            <div key={index}>
+                            <div key={index} className="relative">
                                 <img
                                     src={image.url}
-                                    alt={image.altText || "Product Image"}
-                                    className="w-20 h-20 object-cover rounded-md shadow-md"
+                                    alt={image.altText || `Product image ${index + 1}`}
+                                    className="h-20 w-20 object-cover rounded"
                                 />
+                                <button
+                                    onClick={() => handleDeleteImage(image.url)}
+                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
+                                    type="button"
+                                >
+                                    ×
+                                </button>
                             </div>
                         ))}
                     </div>
