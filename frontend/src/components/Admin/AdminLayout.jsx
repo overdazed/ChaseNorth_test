@@ -13,15 +13,18 @@ const AdminLayout = () => {
     }
 
     useEffect(() => {
-        // Check for saved theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
+        // Get the current theme from localStorage or use system preference
+        const savedTheme = localStorage.getItem('theme') ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
         setTheme(savedTheme);
         document.documentElement.classList.toggle('dark', savedTheme === 'dark');
 
-        // Listen for theme changes
+        // Listen for theme changes from other components
         const handleThemeChange = (e) => {
-            const newTheme = e.detail.isDarkMode ? 'dark' : 'light';
+            const newTheme = e.detail?.isDarkMode ? 'dark' : 'light';
             setTheme(newTheme);
+            document.documentElement.classList.toggle('dark', newTheme === 'dark');
         };
 
         window.addEventListener('themeChange', handleThemeChange);
@@ -58,11 +61,11 @@ const AdminLayout = () => {
 
             {/* Sidebar */}
             <div
-                className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'} w-64 min-h-screen absolute md:relative transform ${
+                className={`w-64 min-h-screen absolute md:relative transform ${
                     isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
                 } transition-transform duration-300 md:translate-x-0 md:static md:block z-30`}
             >
-                <AdminSidebar theme={theme} isMobileOpen={isSidebarOpen} onMobileClose={toggleSidebar} />
+                <AdminSidebar />
             </div>
 
             {/* Main Content */}
