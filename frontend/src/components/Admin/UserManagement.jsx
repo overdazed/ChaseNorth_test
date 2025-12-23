@@ -180,14 +180,25 @@ const UserManagement = () => {
                                 <select
                                     value={user.role}
                                     onChange={(e) => handleRoleChange(user._id, e.target.value)}
+                                    disabled={user.email === 'admin@chasenorth.com'}
                                     className={`p-1.5 rounded border ${
                                         theme === 'dark'
                                             ? 'bg-transparent border-gray-600 text-neutral-400'
                                             : 'bg-white border-gray-300 text-gray-900'
-                                    }`}
+                                    } ${user.email === 'admin@chasenorth.com' ? 'opacity-70 cursor-not-allowed' : ''}`}
                                 >
-                                    <option value="customer" className={theme === 'dark' ? 'bg-neutral-900 text-neutral-100' : 'bg-white text-gray-900'}>Customer</option>
-                                    <option value="admin" className={theme === 'dark' ? 'bg-neutral-900 text-neutral-100' : 'bg-white text-gray-900'}>Admin</option>
+                                    <option
+                                        value="customer"
+                                        className={theme === 'dark' ? 'bg-neutral-900 text-neutral-100' : 'bg-white text-gray-900'}
+                                    >
+                                        Customer
+                                    </option>
+                                    <option
+                                        value="admin"
+                                        className={theme === 'dark' ? 'bg-neutral-900 text-white' : 'bg-white text-gray-900 font-semibold'}
+                                    >
+                                        Admin
+                                    </option>
                                 </select>
                             </td>
                             <td className="px-4 py-4 whitespace-nowrap">

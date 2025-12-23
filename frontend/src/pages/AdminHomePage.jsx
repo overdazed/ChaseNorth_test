@@ -69,9 +69,9 @@ const AdminHomePage = () => {
             {/* Recent Orders Table */}
             <div className="mt-6">
                 <h2 className="text-2xl font-bold mb-4">Recent Orders</h2>
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto shadow-md sm:rounded-lg">
                     <table className="min-w-full text-left text-gray-500">
-                        <thead className="bg-gray-100 text-xstext-gray-700 uppercase">
+                        <thead className="bg-neutral-300 text-xs text-neutral-800 uppercase">
                             <tr>
                                 <th className="py-3 px-4">Order ID</th>
                                 <th className="py-3 px-4">User</th>

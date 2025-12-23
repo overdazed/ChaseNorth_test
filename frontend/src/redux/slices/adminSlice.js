@@ -60,7 +60,7 @@ export const updateUser = createAsyncThunk(
 // Delete a user
 export const deleteUser = createAsyncThunk("admin/deleteUser", async (id) => {
     await axios.delete(
-    `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
+    `${import.meta.env.VITE_BACKEND_URL}/api/admin/${id}`,
 {
             // Add the authorization headers
             headers: {
