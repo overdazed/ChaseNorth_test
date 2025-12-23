@@ -4,7 +4,7 @@ import {useEffect} from "react";
 import {deleteProduct, fetchAdminProducts} from "../../redux/slices/adminProductSlice.js";
 import { useNavigate} from "react-router-dom";
 import { FiEdit2 } from "react-icons/fi";
-import { FiTrash2 } from "react-icons/fi";
+import { BiTrash } from "react-icons/bi";
 
 const ProductManagement = () => {
 
@@ -72,9 +72,9 @@ const ProductManagement = () => {
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(product._id)}
-                                                className="flex items-center justify-center gap-1 bg-red-500 text-white px-4 py-1 rounded-full hover:bg-red-600 w-24"
+                                                className="flex items-center justify-center bg-red-500 text-white px-4 py-1 rounded-full hover:bg-red-600 w-24"
                                             >
-                                                <span>Delete</span> <FiTrash2 className="text-sm" />
+                                                <span>Delete</span> <BiTrash className="text-md"/>
                                             </button>
                                         </div>
                                     </td>
