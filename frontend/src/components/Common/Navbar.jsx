@@ -2,11 +2,14 @@ import { Link, NavLink } from "react-router-dom";
 // HiOutlineShoppingBag = Cart
 // HiBars3BottomRight = Mobile Navbar Drawer
 import {
-    HiOutlineUser,
+    HiOutlineUserCircle,
     HiOutlineShoppingBag,
-    HiOu
-    HiBars3BottomRight
+    HiBars3BottomRight,
+    HiArrowLeftEndOnRectangle
 } from "react-icons/hi2";
+
+import { AiOutlineUser } from "react-icons/ai";
+
 import ChaseNorthLogo from "../../assets/ChaseNorth.svg";
 import SearchBar from "./SearchBar.jsx";
 import CartDrawer from "../Layout/CartDrawer.jsx";
@@ -300,8 +303,8 @@ const Navbar = ({ transparent = false }) => {
                     {/* Admin Button */}
                     {/* Admin Button - Only visible for admin users */}
                     {user && user.role === "admin" && (
-                        <Link 
-                            to="/admin" 
+                        <Link
+                            to="/admin"
                             className="bg-black px-3 py-1 rounded text-sm text-white hover:bg-gray-800 transition-colors"
                         >
                             Admin
@@ -321,9 +324,14 @@ const Navbar = ({ transparent = false }) => {
                     </div>
                     {/* you now should be able to see SearchBar Txt on the screen */}
 
-                    {/* 2. Account Icon */}
+                    {/* 2. Account Icon - Shows login icon when not logged in, user icon when logged in */}
                     <Link to="/profile" className="">
-                        <HiOutlineUser className="h-6 w-6 text-gray-700 hover:text-black"/>
+                        {user ? (
+                            // <HiOutlineUserCircle className="h-6 w-6 text-gray-700 hover:text-black"/>
+                            <AiOutlineUser className="h-6 w-6 text-gray-700 hover:text-black"/>
+                        ) : (
+                            <HiArrowLeftEndOnRectangle className="h-6 w-6 text-gray-700 hover:text-black"/>
+                        )}
                     </Link>
 
                     {/* Wishlist Icon */}
