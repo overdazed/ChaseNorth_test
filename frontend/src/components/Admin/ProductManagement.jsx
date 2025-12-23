@@ -3,6 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {deleteProduct, fetchAdminProducts} from "../../redux/slices/adminProductSlice.js";
 import { useNavigate} from "react-router-dom";
+import { FiEdit2 } from "react-icons/fi";
+import { FiTrash2 } from "react-icons/fi";
 
 const ProductManagement = () => {
 
@@ -60,19 +62,21 @@ const ProductManagement = () => {
                                     </td>
                                     <td className="p-4">${product.price}</td>
                                     <td className="p-4">{product.sku}</td>
-                                    <td className="p-4 flex flex-col sm:flex-row gap-2">
-                                        <button
-                                            onClick={() => navigate(`/admin/products/${product._id}/edit`)}
-                                            className="bg-yellow-500 text-white px-4 py-1 rounded-full mr-2 hover:bg-yellow-600 w-20"
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(product._id)}
-                                            className="bg-red-500 text-white px-4 py-1 rounded-full hover:bg-red-600 w-20"
-                                        >
-                                            Delete
-                                        </button>
+                                    <td className="p-4">
+                                        <div className="flex flex-wrap gap-2">
+                                            <button
+                                                onClick={() => navigate(`/admin/products/${product._id}/edit`)}
+                                                className="flex items-center justify-center gap-1 bg-yellow-500 text-white px-4 py-1 rounded-full hover:bg-yellow-600 w-24"
+                                            >
+                                                <span>Edit</span> <FiEdit2 className="text-sm" />
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(product._id)}
+                                                className="flex items-center justify-center gap-1 bg-red-500 text-white px-4 py-1 rounded-full hover:bg-red-600 w-24"
+                                            >
+                                                <span>Delete</span> <FiTrash2 className="text-sm" />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>)
                         ) : (
