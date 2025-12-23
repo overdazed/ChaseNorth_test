@@ -1,7 +1,6 @@
-// LAST WORKING: 2025-12-22 23:43 ORD NUM = INV NUM
+// LAST WORKING: 2025-12-23 18:16
 // To FIX:
 // Admin Panel
-    // Farben
     // Report Tab
     // Shipped Status
 // Preise überall
