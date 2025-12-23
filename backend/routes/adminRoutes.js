@@ -81,7 +81,7 @@ router.post("/users", protect, admin, async (req, res) => {
 // @route PUT /api/admin/users/:id
 // @desc Update user information (Admin only) - Name, email, role
 // @access Private/Admin, only admin can update users
-router.put("/:id", protect, admin, async (req, res) => {
+router.put("/users/:id", protect, admin, async (req, res) => {
     try {
         // Find the user by id from their URL
         const user = await User.findById(req.params.id);

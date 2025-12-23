@@ -39,8 +39,8 @@ const AdminHomePage = () => {
 
 
     return (
-        <div className="max-w-7xl mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+        <div className="max-w-7xl mx-auto p-6 bg-neutral-95ß">
+            <h1 className="text-3xl font-bold mb-6 text-neutra-50">Admin Dashboard</h1>
             {productsLoading || ordersLoading ? (
                 <p>Loading...</p>
             ) : productsError ? (
