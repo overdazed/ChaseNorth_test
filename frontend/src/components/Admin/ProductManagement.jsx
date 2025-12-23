@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {deleteProduct, fetchAdminProducts} from "../../redux/slices/adminProductSlice.js";
 import { useNavigate} from "react-router-dom";
-import { FiEdit2 } from "react-icons/fi";
+import { FiEdit } from "react-icons/fi";
 import { BiTrash } from "react-icons/bi";
 
 const ProductManagement = () => {
@@ -71,18 +71,18 @@ const ProductManagement = () => {
                                                 e.stopPropagation();
                                                 navigate(`/admin/products/${product._id}/edit`);
                                             }}
-                                            className="flex items-center justify-center gap-1 bg-yellow-500 text-white px-1 py-2 rounded-full hover:bg-yellow-600 w-8"
+                                            className="flex items-center justify-center gap-1 bg-yellow-500 text-white px-1 py-2 rounded-full hover:bg-yellow-600 w-9 h-9"
                                         >
-                                            <FiEdit2 className="text-md" />
+                                            <FiEdit className="text-lg" />
                                         </button>
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 handleDelete(product._id);
                                             }}
-                                            className="flex items-center justify-center bg-red-500 text-white px-1 py-2 rounded-full hover:bg-red-600 w-8"
+                                            className="flex items-center justify-center bg-red-500 text-white px-1 py-2 rounded-full hover:bg-red-600 w-9 h-9"
                                         >
-                                            <BiTrash className="text-md"/>
+                                            <BiTrash className="text-xl"/>
                                         </button>
                                     </div>
                                 </td>

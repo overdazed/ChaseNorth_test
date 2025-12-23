@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { addUser, deleteUser, fetchUsers, updateUser } from "../../redux/slices/adminSlice.js";
+import {BiTrash} from "react-icons/bi";
 
 const UserManagement = () => {
     const { theme } = useOutletContext();
@@ -202,11 +203,15 @@ const UserManagement = () => {
                                 </select>
                             </td>
                             <td className="px-4 py-4 whitespace-nowrap">
+
                                 <button
-                                    onClick={() => handleDeleteUser(user._id)}
-                                    className="bg-red-500 hover:bg-red-600 text-white py-1.5 px-3 rounded text-sm transition-colors"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleDeleteUser(user._id);
+                                    }}
+                                    className="flex items-center justify-center bg-red-500 text-white px-1 py-2 rounded-full hover:bg-red-600 w-9 h-9"
                                 >
-                                    Delete
+                                    <BiTrash className="text-xl"/>
                                 </button>
                             </td>
                         </tr>
