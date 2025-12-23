@@ -42,7 +42,7 @@ const ProductManagement = () => {
             <h2 className="text-2xl font-bold mb-6">Product Management</h2>
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="min-w-full text-left text-gray-500">
-                    <thead className="bg-gray-100 text-xs text-gray-700 uppercase">
+                    <thead className="bg-neutral-300 text-xs text-neutral-800 uppercase">
                         <tr>
                             <th className="px-4 py-3">Name</th>
                             <th className="px-4 py-3">Price</th>
@@ -55,7 +55,7 @@ const ProductManagement = () => {
                             products.map((product) =>
                                 <tr
                                     key={product._id}
-                                    className="border-b hover:bg-gray-50 cursor-pointer"
+                                    className="border-b hover:bg-neutral-200 hover:dark:bg-accent cursor-pointer"
                                 >
                                     <td className="p-4 font-medium text-gray-900 hover:dark:text-neutral-900 whitespace-nowrap dark:text-neutral-300">
                                         {product.name}

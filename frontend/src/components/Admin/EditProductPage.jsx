@@ -263,11 +263,12 @@ const EditProductPage = () => {
                 <div className="mb-6">
                     <label className="block font-semibold mb-2">Product Images</label>
                     <div className="mb-4">
-                        <label className="inline-block px-2 py-2 bg-blue-600 text-white rounded-full cursor-pointer hover:bg-blue-700 transition-colors">
-                            <span>Uplo</span><FiUpload/>
-                            <input 
-                                type="file" 
-                                onChange={handleImageUpload} 
+                        <label className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-full cursor-pointer hover:bg-blue-700 transition-colors">
+                            <FiUpload className="w-4 h-4" />
+                            <span>Upload Image</span>
+                            <input
+                                type="file"
+                                onChange={handleImageUpload}
                                 className="hidden"
                                 accept="image/*"
                             />
