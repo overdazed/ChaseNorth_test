@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {deleteProduct, fetchAdminProducts} from "../../redux/slices/adminProductSlice.js";
+import { useNavigate} from "react-router-dom";
 
 const ProductManagement = () => {
 
@@ -14,6 +15,8 @@ const ProductManagement = () => {
     //     }
     // ]
     const dispatch = useDispatch();
+
+    const navigate = useNavigate();
 
     const { products, loading, error } = useSelector((state) => state.adminProducts);
 
@@ -52,20 +55,22 @@ const ProductManagement = () => {
                                     key={product._id}
                                     className="border-b hover:bg-gray-50 cursor-pointer"
                                 >
-                                    <td className="p-4 font-medium text-gray-900 whitespace-nowrap">
+                                    <td className="p-4 font-medium text-gray-900 hover:dark:text-neutral-900 whitespace-nowrap dark:text-neutral-300">
                                         {product.name}
                                     </td>
                                     <td className="p-4">${product.price}</td>
                                     <td className="p-4">{product.sku}</td>
-                                    <td className="p-4">
-                                        <Link
-                                            to={`/admin/products/${product._id}/edit`}
-                                            className="bg-yellow-500 text-white px-2 py-1 rounded mr-2 hover:bg-yellow-600"
+                                    <td className="p-4 flex flex-col sm:flex-row gap-2">
+                                        <button
+                                            onClick={() => navigate(`/admin/products/${product._id}/edit`)}
+                                            className="bg-yellow-500 text-white px-4 py-1 rounded-full mr-2 hover:bg-yellow-600 w-20"
                                         >
                                             Edit
-                                        </Link>
-                                        <button onClick={() => handleDelete(product._id)}
-                                            className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(product._id)}
+                                            className="bg-red-500 text-white px-4 py-1 rounded-full hover:bg-red-600 w-20"
+                                        >
                                             Delete
                                         </button>
                                     </td>
