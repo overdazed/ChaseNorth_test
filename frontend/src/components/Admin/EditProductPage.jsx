@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import {fetchProductDetails, updateProduct} from "../../redux/slices/productsSlice.js";
 import axios from "axios";
+import { FiUpload, FiCamera } from "react-icons/fi";
 
 const EditProductPage = () => {
 
@@ -258,19 +259,46 @@ const EditProductPage = () => {
                 </div>
 
 
-                {/* Image Upload*/}
+                {/* Image Upload */}
                 <div className="mb-6">
-                    <label className="block font-semibold mb-2">Upload Image</label>
-                    <input type="file" onChange={handleImageUpload} />
-                    {uploading && <p>Uploading image...</p>}
-                    <div className="flex gap-4 mt-4">
+                    <label className="block font-semibold mb-2">Product Images</label>
+                    <div className="mb-4">
+                        <label className="inline-block px-2 py-2 bg-blue-600 text-white rounded-full cursor-pointer hover:bg-blue-700 transition-colors">
+                            <span>Uplo</span><FiUpload/>
+                            <input 
+                                type="file" 
+                                onChange={handleImageUpload} 
+                                className="hidden"
+                                accept="image/*"
+                            />
+                        </label>
+                        {uploading && <span className="ml-4 text-blue-600">Uploading image...</span>}
+                    </div>
+                    <div className="flex flex-wrap gap-4 mt-4">
                         {productData.images.map((image, index) => (
-                            <div key={index}>
-                                <img
-                                    src={image.url}
-                                    alt={image.altText || "Product Image"}
-                                    className="w-20 h-20 object-cover rounded-md shadow-md"
-                                />
+                            <div key={index} className="relative group">
+                                <div className="relative">
+                                    <img
+                                        src={image.url}
+                                        alt={image.altText || `Product Image ${index + 1}`}
+                                        className="w-24 h-24 object-cover rounded-md shadow-md"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            const updatedImages = [...productData.images];
+                                            updatedImages.splice(index, 1);
+                                            setProductData(prev => ({
+                                                ...prev,
+                                                images: updatedImages
+                                            }));
+                                        }}
+                                        className="absolute -top-2 -right-2 w-6 h-6 flex items-center justify-center bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                                        aria-label="Remove image"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
                             </div>
                         ))}
                     </div>
