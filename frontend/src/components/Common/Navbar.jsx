@@ -4,6 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import {
     HiOutlineUser,
     HiOutlineShoppingBag,
+    HiOu
     HiBars3BottomRight
 } from "react-icons/hi2";
 import ChaseNorthLogo from "../../assets/ChaseNorth.svg";
@@ -297,12 +298,15 @@ const Navbar = ({ transparent = false }) => {
 
 
                     {/* Admin Button */}
-                    {/* check if user is present and role of user should be admin */}
-                    {/*{user && user.role === "admin" && (*/}
-                    {/*    <Link to="/admin" className="block bg-black px-2 rounded text-sm text-white">*/}
-                    {/*        Admin*/}
-                    {/*    </Link>*/}
-                    {/*)}*/}
+                    {/* Admin Button - Only visible for admin users */}
+                    {user && user.role === "admin" && (
+                        <Link 
+                            to="/admin" 
+                            className="bg-black px-3 py-1 rounded text-sm text-white hover:bg-gray-800 transition-colors"
+                        >
+                            Admin
+                        </Link>
+                    )}
 
                     {/* 1. Search Icon */}
                     {/* For Search functionality create a different component, we will come back to it later */}
