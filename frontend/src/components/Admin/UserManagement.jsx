@@ -162,7 +162,7 @@ const UserManagement = () => {
                         </th>
                     </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                    <tbody className="">
                     {users.map((user) => (
                         <tr
                             key={user._id}
