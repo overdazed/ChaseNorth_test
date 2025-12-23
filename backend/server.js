@@ -81,7 +81,7 @@ app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/reports', reportRoutes);
 
 // Additional routes (commented out for now - enable one by one as needed)
-// app.use('/api/upload', uploadRoutes);
+app.use('/api/upload', uploadRoutes);
 // app.use('/api/subscribe', subscribeRoute);
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin/products', productAdminRoutes);
