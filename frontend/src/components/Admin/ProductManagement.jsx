@@ -50,7 +50,7 @@ const ProductManagement = () => {
                             <th className="px-4 py-3">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="hover:dark:text-neutral-900">
                         {products.length > 0 ? (
                             products.map((product) =>
                                 <tr
