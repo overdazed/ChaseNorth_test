@@ -1,13 +1,9 @@
 import { Link } from "react-router-dom"
 import { NavLink } from "react-router-dom"
-import { FaChartLine } from "react-icons/fa"
-import { FaUsers } from "react-icons/fa"
+import { FaChartLine, FaBoxOpen, FaClipboardList, FaStore, FaSignOutAlt } from "react-icons/fa"
 import { FaUserGear } from "react-icons/fa6";
-import { FaBoxOpen } from "react-icons/fa"
-import { FaClipboardList } from "react-icons/fa"
-import { FaStore } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
-import { FaSignOutAlt } from "react-icons/fa"
+
 import {useDispatch} from "react-redux";
 import {logout} from "../../redux/slices/authSlice.js";
 import {clearCart} from "../../redux/slices/cartSlice.js";
@@ -35,7 +31,7 @@ const AdminSidebar = () => {
                 </Link>
             </div>
             {/*<h2 className="text-xl font-medium mb-6 text-center">Dashboard</h2>*/}
-            
+
             <nav className="flex flex-col space-y-2">
                 {/* check if the link is active or not */}
                 <NavLink
@@ -65,7 +61,7 @@ const AdminSidebar = () => {
                     <FaStore size={20}/>
                     <span>Shop</span>
                 </NavLink>
-                
+
                 {/* Logout Button */}
                 <div className="mt-6">
                     <button
