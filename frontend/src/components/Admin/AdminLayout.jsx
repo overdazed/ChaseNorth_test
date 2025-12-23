@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 import { FaBars } from 'react-icons/fa'
 import AdminSidebar from "./AdminSidebar.jsx";
 import { Outlet } from "react-router-dom";
-
+import DarkModeToggle from '../ui/DarkModeToggle';
 
 const AdminLayout = () => {
+    const [theme, setTheme] = useState('light');
 
     // declare a state variable to determine if the sidebar is open or closed
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -13,6 +14,22 @@ const AdminLayout = () => {
         // toggled the value of isSidebarOpen
         setIsSidebarOpen(!isSidebarOpen);
     }
+
+    useEffect(() => {
+        // Check for saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+        document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+
+        // Listen for theme changes
+        const handleThemeChange = (e) => {
+            const newTheme = e.detail.isDarkMode ? 'dark' : 'light';
+            setTheme(newTheme);
+        };
+
+        window.addEventListener('themeChange', handleThemeChange);
+        return () => window.removeEventListener('themeChange', handleThemeChange);
+    }, []);
 
     return (
         <div className="min-h-screen flex flex-col md:flex-row relative">
