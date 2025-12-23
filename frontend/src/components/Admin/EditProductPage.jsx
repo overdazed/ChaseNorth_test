@@ -96,8 +96,6 @@ const EditProductPage = () => {
         }
     }
 
-    
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
