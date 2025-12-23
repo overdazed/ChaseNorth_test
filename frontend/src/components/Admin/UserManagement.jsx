@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { addUser, deleteUser, fetchUsers, updateUser } from "../../redux/slices/adminSlice.js";
 import {BiTrash} from "react-icons/bi";
+import {FiPlus} from "react-icons/fi";
 
 const UserManagement = () => {
     const { theme } = useOutletContext();
@@ -135,9 +136,10 @@ const UserManagement = () => {
                     </div>
                     <button
                         type="submit"
-                        className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition-colors"
+                        className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 pr-6 rounded-full transition-colors flex items-center gap-2"
                     >
-                        Add User
+                        <FiPlus size={18}/>
+                        <span>Add User</span>
                     </button>
                 </form>
             </div>
@@ -161,7 +163,7 @@ const UserManagement = () => {
                         }`}>
                             Role
                         </th>
-                        <th className={`px-4 py-3 text-left text-xs font-medium uppercase tracking-wider ${
+                        <th className={`px-4 py-3 text-center text-xs font-medium uppercase tracking-wider ${
                             theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
                         }`}>
                             Actions
@@ -203,16 +205,17 @@ const UserManagement = () => {
                                 </select>
                             </td>
                             <td className="px-4 py-4 whitespace-nowrap">
-
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleDeleteUser(user._id);
-                                    }}
-                                    className="flex items-center justify-center bg-red-500 text-white px-1 py-2 rounded-full hover:bg-red-600 w-9 h-9"
-                                >
-                                    <BiTrash className="text-xl"/>
-                                </button>
+                                <div className="flex justify-center">
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDeleteUser(user._id);
+                                        }}
+                                        className="flex items-center justify-center bg-red-500 text-white px-1 py-2 rounded-full hover:bg-red-600 w-9 h-9"
+                                    >
+                                        <BiTrash className="text-xl"/>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     ))}

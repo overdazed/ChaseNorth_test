@@ -47,7 +47,7 @@ const ProductManagement = () => {
                             <th className="px-4 py-3">Name</th>
                             <th className="px-4 py-3">Price</th>
                             <th className="px-4 py-3">SKU</th>
-                            <th className="px-4 py-3">Actions</th>
+                            <th className="px-4 py-3 text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,25 +65,27 @@ const ProductManagement = () => {
                                 <td className="p-4">${product.price}</td>
                                 <td className="p-4">{product.sku}</td>
                                 <td className="p-4">
-                                    <div className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                navigate(`/admin/products/${product._id}/edit`);
-                                            }}
-                                            className="flex items-center justify-center gap-1 bg-yellow-500 text-white px-1 py-2 rounded-full hover:bg-yellow-600 w-9 h-9"
-                                        >
-                                            <FiEdit className="text-lg" />
-                                        </button>
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleDelete(product._id);
-                                            }}
-                                            className="flex items-center justify-center bg-red-500 text-white px-1 py-2 rounded-full hover:bg-red-600 w-9 h-9"
-                                        >
-                                            <BiTrash className="text-xl"/>
-                                        </button>
+                                    <div className="flex justify-center">
+                                        <div className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    navigate(`/admin/products/${product._id}/edit`);
+                                                }}
+                                                className="flex items-center justify-center gap-1 bg-yellow-500 text-white px-1 py-2 rounded-full hover:bg-yellow-600 w-9 h-9"
+                                            >
+                                                <FiEdit className="text-lg" />
+                                            </button>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleDelete(product._id);
+                                                }}
+                                                className="flex items-center justify-center bg-red-500 text-white px-1 py-2 rounded-full hover:bg-red-600 w-9 h-9"
+                                            >
+                                                <BiTrash className="text-xl"/>
+                                            </button>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
