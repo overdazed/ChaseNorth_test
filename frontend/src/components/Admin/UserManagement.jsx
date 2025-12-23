@@ -144,20 +144,20 @@ const UserManagement = () => {
                 </form>
             </div>
 
-            <div className={`overflow-x-auto rounded-lg ${theme === 'dark' ? 'bg-gray-800' : 'bg-white shadow'}`}>
+            <div className="overflow-x-auto rounded-lg">
                 <table className="min-w-full">
-                    <thead className="bg-neutral-300 text-left text-xs text-neutral-800 uppercase">
+                    <thead className="bg-neutral-300 font-bold text-left text-xs text-neutral-800 uppercase">
                     <tr>
-                        <th className={`px-4 py-3 uppercase tracking-wider`}>
+                        <th className="px-4 py-3 uppercase tracking-wider">
                             Name
                         </th>
-                        <th className={`px-4 py-3 font-medium uppercase tracking-wider`}>
+                        <th className="px-4 py-3 uppercase tracking-wider">
                             Email
                         </th>
-                        <th className={`px-4 py-3 font-medium uppercase tracking-wider`}>
+                        <th className="px-4 py-3 uppercase tracking-wider">
                             Role
                         </th>
-                        <th className={`px-4 py-3 text-center font-medium uppercase tracking-wider`}>
+                        <th className="px-4 py-3 text-center uppercase tracking-wider">
                             Actions
                         </th>
                     </tr>
@@ -166,11 +166,7 @@ const UserManagement = () => {
                     {users.map((user) => (
                         <tr
                             key={user._id}
-                            className={`${
-                                theme === 'dark'
-                                    ? 'hover:bg-gray-700'
-                                    : 'hover:bg-gray-50'
-                            }`}
+                            className="group border-b hover:bg-neutral-200 hover:dark:bg-accent"
                         >
                             <td className={`px-4 py-4 whitespace-nowrap ${
                                 theme === 'dark' ? 'text-gray-300' : 'text-gray-900'
@@ -203,7 +199,7 @@ const UserManagement = () => {
                                             e.stopPropagation();
                                             handleDeleteUser(user._id);
                                         }}
-                                        className="flex items-center justify-center bg-red-800 text-white px-1 py-2 rounded-full hover:bg-accent w-9 h-9"
+                                        className="flex items-center justify-center bg-red-500 text-white px-1 py-2 rounded-full hover:bg-red-600 w-9 h-9 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                                     >
                                         <BiTrash className="text-xl"/>
                                     </button>

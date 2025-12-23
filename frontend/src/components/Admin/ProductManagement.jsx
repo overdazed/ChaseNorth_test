@@ -41,7 +41,7 @@ const ProductManagement = () => {
         <div className="max-w-7xl mx-auto p-6">
             <h2 className="text-2xl font-bold mb-6">Product Management</h2>
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
-                <table className="min-w-full text-left text-gray-500">
+                <table className="min-w-full text-left">
                     <thead className="bg-neutral-300 text-xs text-neutral-800 uppercase">
                         <tr>
                             <th className="px-4 py-3">Name</th>
@@ -62,8 +62,8 @@ const ProductManagement = () => {
                                         {product.name}
                                     </Link>
                                 </td>
-                                <td className="p-4">${product.price}</td>
-                                <td className="p-4">{product.sku}</td>
+                                <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">${product.price}</td>
+                                <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300"">{product.sku}</td>
                                 <td className="p-4">
                                     <div className="flex justify-center">
                                         <div className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
