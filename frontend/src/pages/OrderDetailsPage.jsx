@@ -146,9 +146,23 @@ const OrderDetailsPage = () => {
                                     orderDetails.isDelivered
                                         ? "bg-green-100 text-green-700"
                                         : "bg-yellow-100 text-yellow-700"
-                                } px-3 py-1 rounded-full text-sm font-medium mb-4`}
+                                } px-3 py-1 rounded-full text-sm font-medium mb-2`}
                                 // Add !oderDetails to test if not paid
                             >{orderDetails.isDelivered ? "Delivered" : "Pending Delivery"}
+                            </span>
+                            {/* Status Pill */}
+                            <span
+                                className={`${
+                                    orderDetails.status === 'Delivered'
+                                        ? "bg-green-100 text-green-700"
+                                        : orderDetails.status === 'Shipped'
+                                            ? "bg-blue-100 text-blue-700"
+                                            : orderDetails.status === 'Processing'
+                                                ? "bg-yellow-100 text-yellow-700"
+                                                : "bg-red-100 text-red-700" // For Cancelled status
+                                } px-3 py-1 rounded-full text-sm font-medium mb-4`}
+                            >
+                            {orderDetails.status}
                             </span>
 
                             {/*/!* Add this Download Invoice button *!/*/}

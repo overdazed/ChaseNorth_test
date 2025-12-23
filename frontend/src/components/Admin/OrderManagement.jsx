@@ -82,8 +82,8 @@ const OrderManagement = () => {
                                         }
                                             className={`p-1.5 rounded border ${
                                                 theme === 'dark'
-                                                    ? 'bg-neutral-800 text-neutral-100 border-neutral-600'
-                                                    : 'bg-neutral-900 text-neutral-100 border-neutral-600'
+                                                    ? 'bg-neutral-800 text-neutral-100 border-neutral-700'
+                                                    : 'bg-neutral-900 text-neutral-200 border-neutral-700'
                                             }`}
                                         >
                                             <option value="Processing">Processing</option>
