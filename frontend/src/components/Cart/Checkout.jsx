@@ -224,35 +224,20 @@ const Checkout = () => {
         }
     }
 
-    const handlePaymentSuccess = async (details) => {
+    const handlePaymentSuccess = async(details) => {
         try {
             const response = await axios.put(
                 `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/pay`,
-                {
-                    paymentStatus: "paid",
-                    paymentDetails: details,
-                    paymentId: details.id || details.payerID || details.paymentID
-                },
+                { paymentStatus: "paid", paymentDetails: details},
                 {
                     headers: {
-                        'Content-Type': 'application/json',
                         Authorization: `Bearer ${localStorage.getItem('userToken')}`
                     }
                 }
             );
-
-            if (response.data) {
-                await handleFinalizeCheckout(checkoutId);
-            } else {
-                throw new Error('Failed to update payment status');
-            }
+            await handleFinalizeCheckout(checkoutId);
         } catch (error) {
-            console.error('Payment processing error:', {
-                message: error.message,
-                response: error.response?.data,
-                status: error.response?.status
-            });
-            alert('Payment was successful, but there was an error updating your order. Please contact support with your payment details.');
+            console.error(error);
         }
     }
 
@@ -402,57 +387,18 @@ const Checkout = () => {
 
     const handleFinalizeCheckout = async (checkoutId) => {
         try {
-            console.log('Finalizing checkout with ID:', checkoutId);
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/finalize`,
-                {
-                    discountCode: discountApplied ? discountCode : null,
-                    discountAmount: discountApplied ? discountPercentage : 0,
-                    shippingCost: shippingCost,
-                    totalPrice: cart.totalPrice,
-                    items: cart.products.map(item => ({
-                        product: item.productId,
-                        quantity: item.quantity,
-                        size: item.size,
-                        color: item.color,
-                        price: item.price
-                    }))
-                },
+                {},
                 {
                     headers: {
-                        'Content-Type': 'application/json',
                         Authorization: `Bearer ${localStorage.getItem('userToken')}`
                     }
                 }
             );
-
-            // Clear the cart after successful order
-            dispatch(clearCart());
-
-            // Navigate to confirmation page with order details
-            navigate("/order-confirmation", {
-                state: {
-                    order: response.data.order,
-                    status: 'success'
-                }
-            });
+            navigate("/order-confirmation");
         } catch (error) {
-            console.error('Finalize checkout error:', {
-                message: error.message,
-                response: error.response?.data,
-                status: error.response?.status,
-                config: {
-                    url: error.config?.url,
-                    method: error.config?.method,
-                    data: error.config?.data
-                }
-            });
-
-            // Show user-friendly error message
-            const errorMessage = error.response?.data?.message ||
-                'There was an error finalizing your order. Please contact support.';
-
-            alert(`Error: ${errorMessage}`);
+            console.error(error);
         }
     }
 
