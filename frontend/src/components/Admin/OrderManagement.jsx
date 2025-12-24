@@ -37,11 +37,21 @@ const OrderManagement = () => {
     }, [dispatch, user, navigate]);
 
 
-    const handleStatusChange = (orderId, status) => {
-        // TODO: Implement the logic to update the order status in the backend
-        // For now, let's just log the new status
-        // console.log({id: orderId, status});
-        dispatch(updateOrderStatus({ id: orderId, status }));
+    // const handleStatusChange = (orderId, status) => {
+    //     // TODO: Implement the logic to update the order status in the backend
+    //     // For now, let's just log the new status
+    //     // console.log({id: orderId, status});
+    //     dispatch(updateOrderStatus({ id: orderId, status }));
+    // };
+
+    const handleStatusChange = async (orderId, status) => {
+        try {
+            await dispatch(updateOrderStatus({ id: orderId, status })).unwrap();
+            // Refresh the orders list after successful status update
+            await dispatch(fetchAllOrders()).unwrap();
+        } catch (error) {
+            console.error("Failed to update order status:", error);
+        }
     };
 
     if (loading) return <div>Loading...</div>;
