@@ -106,7 +106,7 @@ const OrderDetailsPage = () => {
     // Set background and text classes based on theme
     const bgClass = isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50 transition-colors duration-300'
     const textClass = isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
-    const linkClass = isDarkMode ? 'text-red-800' : 'text-accent'
+    const linkClass = isDarkMode ? 'text-red-700 hover:text-accent' : 'text-accent hover:text-red-700'
     const innerBgClass = isDarkMode ? 'bg-neutral-800 p-4 rounded-lg' : 'bg-neutral-100 p-4 rounded-lg'
     const borderClass = isDarkMode ? 'border-neutral-700' : 'border-neutral-50'
 
@@ -328,7 +328,7 @@ const OrderDetailsPage = () => {
                                                 className="w-12 h-12 object-cover rounded-lg mr-4"
                                             />
                                             <Link to={`/product/${item.productId}`}
-                                                  className="text-accent hover:text-red-700 dark:text-red-700 hover:dark:text-accent"
+                                                  className={linkClass}
                                             >
                                                 {item.name}
                                             </Link>

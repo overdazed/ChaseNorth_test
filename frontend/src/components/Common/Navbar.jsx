@@ -305,7 +305,7 @@ const Navbar = ({ transparent = false }) => {
                     {user && user.role === "admin" && (
                         <Link
                             to="/admin"
-                            className="bg-black px-3 py-1 rounded text-sm text-white hover:bg-gray-800 transition-colors"
+                            className="bg-black px-3 py-1 rounded-full text-sm text-white hover:bg-gray-800 transition-colors"
                         >
                             Admin
                         </Link>
