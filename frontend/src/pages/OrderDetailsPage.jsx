@@ -138,7 +138,7 @@ const OrderDetailsPage = () => {
                                         : "bg-red-100 text-red-700"
                                 } px-3 py-1 rounded-full text-sm font-medium mb-2`}
                                 // Add !oderDetails to test if not paid
-                            >{orderDetails.isPaid ? "Approved" : "Pending"}
+                            >Payment: {orderDetails.isPaid ? "Approved" : "Pending"}
                             </span>
                             <span
                                 className={`${
@@ -148,7 +148,7 @@ const OrderDetailsPage = () => {
                                         : "bg-yellow-100 text-yellow-700"
                                 } px-3 py-1 rounded-full text-sm font-medium mb-2`}
                                 // Add !oderDetails to test if not paid
-                            >{orderDetails.isDelivered ? "Delivered" : "Pending Delivery"}
+                            >Delivery: {orderDetails.isDelivered ? "Delivered" : "Pending"}
                             </span>
                             {/* Status Pill */}
                             <span
@@ -162,7 +162,7 @@ const OrderDetailsPage = () => {
                                                 : "bg-red-100 text-red-700" // For Cancelled status
                                 } px-3 py-1 rounded-full text-sm font-medium mb-4`}
                             >
-                            {orderDetails.status}
+                            Status: {orderDetails.status}
                             </span>
 
                             {/*/!* Add this Download Invoice button *!/*/}
@@ -328,7 +328,7 @@ const OrderDetailsPage = () => {
                                                 className="w-12 h-12 object-cover rounded-lg mr-4"
                                             />
                                             <Link to={`/product/${item.productId}`}
-                                                  className="text-red-800 hover:text-accent"
+                                                  className="text-red-800 hover:text-accent dark:text-red-500 hover:dark:text-red-600"
                                             >
                                                 {item.name}
                                             </Link>
