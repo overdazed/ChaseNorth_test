@@ -328,7 +328,7 @@ const OrderDetailsPage = () => {
                                                 className="w-12 h-12 object-cover rounded-lg mr-4"
                                             />
                                             <Link to={`/product/${item.productId}`}
-                                                  className="text-red-800 hover:text-accent dark:text-red-800 hover:dark:text-accent"
+                                                  className="text-accent hover:text-red-700 dark:text-red-700 hover:dark:text-accent"
                                             >
                                                 {item.name}
                                             </Link>

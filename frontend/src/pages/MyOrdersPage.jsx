@@ -83,7 +83,7 @@ const MyOrdersPage = () => {
 
     const bgClass = isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'
     const textClass = isDarkMode ? 'text-neutral-50' : 'text-neutral-950'
-    const linkClass = isDarkMode ? 'text-red-800' : 'text-accent'
+    const linkClass = isDarkMode ? 'text-red-700' : 'text-accent'
     const innerBgClass = isDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'
     const borderClass = isDarkMode ? 'border-neutral-700' : 'border-neutral-50'
 
@@ -121,7 +121,7 @@ const MyOrdersPage = () => {
                                 </td>
                                 {/* Order ID */}
                                 <td
-                                    className={`py-2 px-2 sm:py-4 sm:px-4 font-medium ${linkClass} hover:text-accent whitespace-nowrap`}
+                                    className={`py-2 px-2 sm:py-4 sm:px-4 ${linkClass} hover:text-accent hover:dark:text-red-700 whitespace-nowrap`}
                                 >
                                     #{order._id}
                                 </td>
