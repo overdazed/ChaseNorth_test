@@ -105,7 +105,8 @@ const orderSchema = new mongoose.Schema({
     },
     invoiceNumber: {
         type: String,
-        default: ''
+        unique: true,
+        sparse: true
     },
     invoicePath: {
         type: String,
@@ -113,5 +114,13 @@ const orderSchema = new mongoose.Schema({
     }
 }, { timestamps: true }
 );
+
+// Add pre-save hook after schema definition
+orderSchema.pre('save', async function(next) {
+    if (!this.invoiceNumber) {
+        this.invoiceNumber = `INV-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    }
+    next();
+});
 
 module.exports = mongoose.model('Order', orderSchema);
