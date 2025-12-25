@@ -164,7 +164,7 @@ const UserManagement = () => {
                     {users.map((user) => (
                         <tr
                             key={user._id}
-                            className="group border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-accent"
+                            className="group border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-accent cursor-pointer"
                         >
                             <td className={`px-4 py-4 whitespace-nowrap ${
                                 theme === 'dark' ? 'text-gray-300' : 'text-gray-900'
