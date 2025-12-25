@@ -211,23 +211,34 @@ const Checkout = () => {
         });
 
         if (cart && cart.products.length > 0) {
-            const totalPrice = discountApplied 
-                ? (discountedPrice + (discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 0 : shippingCost))
-                : (cart.totalPrice + shippingCost);
+            // Calculate subtotal (sum of all items' prices * quantities)
+            const subtotal = cart.products.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // Apply discount to subtotal if discount is applied
+            const discountedSubtotal = discountApplied 
+                ? subtotal - (discountAmount || 0)
+                : subtotal;
+            
+            // Calculate final total (discounted subtotal + shipping cost)
+            const finalShippingCost = (discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4) 
+                ? 0 
+                : shippingCost;
                 
+            const totalPrice = discountedSubtotal + finalShippingCost;
+            
             const res = await dispatch(
                 createCheckout({
                     checkoutItems: cart.products,
                     shippingAddress: completeShippingAddress,
                     paymentMethod: "PayPal",
-                    subtotal: cart.totalPrice,
+                    subtotal: subtotal, // Original subtotal before discount
                     discount: {
                         code: discountApplied ? discountCode : '',
                         amount: discountApplied ? discountAmount : 0,
                         percentage: discountApplied ? discountPercentage : 0,
                         isFreeShipping: discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4
                     },
-                    shippingCost: discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 0 : shippingCost,
+                    shippingCost: finalShippingCost,
                     totalPrice: totalPrice
                 })
             );
@@ -344,30 +355,30 @@ const Checkout = () => {
                 [import.meta.env.VITE_DISCOUNT_NL10]: 10
             };
 
-            const discount = discountCodes[code];
+            const discountPercentage = discountCodes[code];
 
-            if (discount !== undefined) {
+            if (discountPercentage !== undefined) {
+                const subtotal = cart.products.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                
                 if (isFreeShipping) {
-                    const shippingSavings = shippingCost; // Save the shipping cost as discount amount
+                    const shippingSavings = shippingCost;
                     setShippingCost(0);
                     setDiscountApplied(true);
                     setDiscountPercentage(0);
                     setDiscountAmount(shippingSavings);
-                    setDiscountedPrice(cart.totalPrice);
                     setDiscountError('');
                 } else {
-                    const discountAmt = cart.totalPrice * (discount / 100);
-                    const newPrice = cart.totalPrice - discountAmt;
+                    const discountAmt = subtotal * (discountPercentage / 100);
                     setDiscountApplied(true);
-                    setDiscountPercentage(discount);
+                    setDiscountPercentage(discountPercentage);
                     setDiscountAmount(discountAmt);
-                    setDiscountedPrice(newPrice);
                     setDiscountError('');
                 }
             } else {
                 setDiscountError('Invalid discount code');
                 setDiscountApplied(false);
-                setDiscountedPrice(null);
+                setDiscountAmount(0);
+                setDiscountPercentage(0);
                 if (shippingCost === 0 && shippingAddress.country) {
                     const cost = getShippingCost(shippingAddress.country.trim());
                     setShippingCost(cost);

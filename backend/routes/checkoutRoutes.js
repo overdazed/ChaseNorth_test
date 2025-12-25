@@ -16,7 +16,15 @@ const router = express.Router();
 // @access Private/Customer, only customer can create a new checkout
 // In the POST / route of checkoutRoutes.js
 router.post('/', protect, async (req, res) => {
-    const { checkoutItems, shippingAddress, paymentMethod, totalPrice } = req.body;
+    const { 
+        checkoutItems, 
+        shippingAddress, 
+        paymentMethod, 
+        subtotal, 
+        discount = {},
+        shippingCost = 0,
+        totalPrice 
+    } = req.body;
 
     // Add validation for required fields
     if (!checkoutItems || checkoutItems.length === 0) {
@@ -24,25 +32,27 @@ router.post('/', protect, async (req, res) => {
     }
 
     try {
-        // Ensure shipping address has required fields
-        // const shippingAddress = {
-        //     ...checkout.shippingAddress,
-        //     firstName: checkout.shippingAddress?.firstName || 'Customer',
-        //     lastName: checkout.shippingAddress?.lastName || 'Name'
-        // };
         const completeShippingAddress = {
-            ...shippingAddress,  // from destructured req.body
+            ...shippingAddress,
             firstName: shippingAddress?.firstName || 'Customer',
             lastName: shippingAddress?.lastName || 'Name'
         };
 
-        // Create a new checkout session with the complete shipping address
+        // Create a new checkout session with all pricing details
         const newCheckout = await Checkout.create({
             user: req.user._id,
             checkoutItems: checkoutItems,
             shippingAddress: completeShippingAddress,
             paymentMethod,
-            totalPrice,
+            subtotal: subtotal || totalPrice, // Use provided subtotal or fallback to totalPrice
+            discount: {
+                code: discount.code || '',
+                amount: discount.amount || 0,
+                percentage: discount.percentage || 0,
+                isFreeShipping: discount.isFreeShipping || false
+            },
+            shippingCost: discount.isFreeShipping ? 0 : (shippingCost || 0),
+            totalPrice: totalPrice,
             paymentStatus: 'Pending',
             isPaid: false
         });

@@ -67,6 +67,33 @@ const checkoutSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    subtotal: {
+        type: Number,
+        required: true
+    },
+    discount: {
+        code: {
+            type: String,
+            default: ''
+        },
+        amount: {
+            type: Number,
+            default: 0
+        },
+        percentage: {
+            type: Number,
+            default: 0
+        },
+        isFreeShipping: {
+            type: Boolean,
+            default: false
+        }
+    },
+    shippingCost: {
+        type: Number,
+        required: true,
+        default: 0
+    },
     totalPrice: {
         type: Number,
         required: true

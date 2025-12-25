@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
+import { getShippingCost } from "../data/shippingCosts";
 import { fetchOrderDetails } from "../redux/slices/orderSlice"
 import {TbFileEuro} from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
@@ -362,19 +363,49 @@ const OrderDetailsPage = () => {
                             <div className="flex justify-between">
                                 <span>Shipping</span>
                                 <span>
-        {orderDetails.shippingCost > 0
-            ? `$${orderDetails.shippingCost.toFixed(2)}`
-            : orderDetails.discount?.isFreeShipping
-                ? <span className="text-green-600">Free</span>
-                : 'Calculated'}
-      </span>
+                                    {orderDetails.discount?.isFreeShipping ? (
+                                        <span className="text-green-600">Free</span>
+                                    ) : orderDetails.shippingCost > 0 ? (
+                                        `$${orderDetails.shippingCost.toFixed(2)}`
+                                    ) : orderDetails.shippingAddress?.country ? (
+                                        // If we have a country but no shipping cost, calculate it
+                                        (() => {
+                                            const countryName = orderDetails.shippingAddress.country;
+                                            const shippingCost = getShippingCost(countryName);
+                                            return `$${shippingCost.toFixed(2)}`;
+                                        })()
+                                    ) : (
+                                        'Not available'
+                                    )}
+                                </span>
                             </div>
 
                             <div className={`border-t ${borderClass} my-3`}></div>
 
                             <div className="flex justify-between text-lg font-semibold">
                                 <span>Total</span>
-                                <span>${orderDetails.totalPrice?.toFixed(2) || orderDetails.subtotal?.toFixed(2) || '0.00'}</span>
+                                <span>${(() => {
+                                    // Calculate subtotal from items if not provided
+                                    const subtotal = orderDetails.subtotal || 
+                                        orderDetails.orderItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0;
+                                    
+                                    // Get shipping cost
+                                    let shippingCost = 0;
+                                    if (orderDetails.shippingCost > 0) {
+                                        shippingCost = orderDetails.shippingCost;
+                                    } else if (orderDetails.shippingAddress?.country) {
+                                        shippingCost = getShippingCost(orderDetails.shippingAddress.country);
+                                    }
+                                    
+                                    // Apply discount if any
+                                    const discountAmount = orderDetails.discount?.amount || 0;
+                                    
+                                    // Calculate total (subtotal - discount + shipping)
+                                    const total = (subtotal - discountAmount) + shippingCost;
+                                    
+                                    // Return formatted total
+                                    return total.toFixed(2);
+                                })()}</span>
                             </div>
                         </div>
                     </div>
