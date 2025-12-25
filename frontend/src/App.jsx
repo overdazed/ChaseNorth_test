@@ -11,7 +11,6 @@ import React from 'react'
 import { BrowserRouter, Route, Routes, useLocation, useNavigationType } from "react-router-dom";
 import { useEffect, useRef } from 'react';
 
-
 // This component handles scroll restoration
 const ScrollRestoration = () => {
     const { pathname, state } = useLocation();
