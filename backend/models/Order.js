@@ -68,6 +68,16 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    subtotal: {
+        type: Number,
+        required: true
+    },
+    discount: {
+        code: String,
+        amount: Number,
+        percentage: Number,
+        isFreeShipping: Boolean
+    },
     totalPrice: {
         type: Number,
         required: true

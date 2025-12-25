@@ -342,6 +342,43 @@ const OrderDetailsPage = () => {
                         </table>
                     </div>
 
+                    {/* Add the Order Summary section here */}
+                    <div className={`mt-8 p-6 ${innerBgClass} rounded-lg shadow-md`}>
+                        <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+
+                        <div className="space-y-2">
+                            <div className="flex justify-between">
+                                <span>Subtotal</span>
+                                <span>${orderDetails.subtotal?.toFixed(2) || orderDetails.orderItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2) || '0.00'}</span>
+                            </div>
+
+                            {orderDetails.discount?.amount > 0 && (
+                                <div className="flex justify-between">
+                                    <span>Discount {orderDetails.discount.percentage > 0 ? `(${orderDetails.discount.percentage}% off)` : ''}</span>
+                                    <span className="text-green-600">-${orderDetails.discount.amount.toFixed(2)}</span>
+                                </div>
+                            )}
+
+                            <div className="flex justify-between">
+                                <span>Shipping</span>
+                                <span>
+        {orderDetails.shippingCost > 0
+            ? `$${orderDetails.shippingCost.toFixed(2)}`
+            : orderDetails.discount?.isFreeShipping
+                ? <span className="text-green-600">Free</span>
+                : 'Calculated'}
+      </span>
+                            </div>
+
+                            <div className={`border-t ${borderClass} my-3`}></div>
+
+                            <div className="flex justify-between text-lg font-semibold">
+                                <span>Total</span>
+                                <span>${orderDetails.totalPrice?.toFixed(2) || orderDetails.subtotal?.toFixed(2) || '0.00'}</span>
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Back to Orders Link */}
                     {/* Add Route to /my-orders in App.jsx*/}
 
