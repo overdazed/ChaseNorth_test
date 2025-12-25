@@ -1,17 +1,25 @@
-import { StrictMode, useEffect } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App.jsx';
 
 // Function to update favicon based on color scheme
 const updateFavicon = (isDark) => {
   const favicon = document.getElementById('favicon');
   if (favicon) {
-    favicon.href = isDark 
+    favicon.href = isDark
       ? '/src/assets/ChaseNorth-white.svg'
       : '/src/assets/ChaseNorth-black.svg';
   }
 };
+
+// Create cursor container
+const cursorContainer = document.createElement('div');
+cursorContainer.id = 'cursor-root';
+// Only append if not already in the document
+if (!document.getElementById('cursor-root')) {
+  document.body.appendChild(cursorContainer);
+}
 
 // Check system color scheme and set up listener
 if (typeof window !== 'undefined') {
