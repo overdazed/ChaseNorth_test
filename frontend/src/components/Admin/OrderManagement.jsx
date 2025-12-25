@@ -2,7 +2,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useOutletContext} from "react-router-dom";
 import {useEffect} from "react";
 import {fetchAllOrders, updateOrderStatus} from "../../redux/slices/adminOrderSlice.js";
-import { toast } from 'react-toastify';
 
 const OrderManagement = () => {
 
@@ -47,22 +46,11 @@ const OrderManagement = () => {
 
     const handleStatusChange = async (orderId, status) => {
         try {
-            const resultAction = await dispatch(updateOrderStatus({ id: orderId, status }));
-
-            if (updateOrderStatus.fulfilled.match(resultAction)) {
-                // Show success message
-                toast.success('Order status updated successfully');
-
-                // Refresh the orders list after a short delay
-                setTimeout(() => {
-                    dispatch(fetchAllOrders());
-                }, 500);
-            } else {
-                throw new Error(resultAction.payload?.message || 'Failed to update status');
-            }
+            await dispatch(updateOrderStatus({ id: orderId, status })).unwrap();
+            // Refresh the orders list after successful status update
+            await dispatch(fetchAllOrders()).unwrap();
         } catch (error) {
             console.error("Failed to update order status:", error);
-            toast.error(error.message || 'Failed to update order status');
         }
     };
 
