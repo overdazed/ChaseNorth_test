@@ -24,6 +24,7 @@ const Checkout = () => {
     const [discountCode, setDiscountCode] = useState('');
     const [discountApplied, setDiscountApplied] = useState(false);
     const [discountPercentage, setDiscountPercentage] = useState(0);
+    const [discountAmount, setDiscountAmount] = useState(0);
     const [discountError, setDiscountError] = useState('');
     const [discountedPrice, setDiscountedPrice] = useState(null);
     const [shippingCost, setShippingCost] = useState(0);
@@ -210,12 +211,24 @@ const Checkout = () => {
         });
 
         if (cart && cart.products.length > 0) {
+            const totalPrice = discountApplied 
+                ? (discountedPrice + (discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 0 : shippingCost))
+                : (cart.totalPrice + shippingCost);
+                
             const res = await dispatch(
                 createCheckout({
                     checkoutItems: cart.products,
                     shippingAddress: completeShippingAddress,
                     paymentMethod: "PayPal",
-                    totalPrice: cart.totalPrice
+                    subtotal: cart.totalPrice,
+                    discount: {
+                        code: discountApplied ? discountCode : '',
+                        amount: discountApplied ? discountAmount : 0,
+                        percentage: discountApplied ? discountPercentage : 0,
+                        isFreeShipping: discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4
+                    },
+                    shippingCost: discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 0 : shippingCost,
+                    totalPrice: totalPrice
                 })
             );
             if (res.payload && res.payload._id) {
@@ -335,15 +348,19 @@ const Checkout = () => {
 
             if (discount !== undefined) {
                 if (isFreeShipping) {
+                    const shippingSavings = shippingCost; // Save the shipping cost as discount amount
                     setShippingCost(0);
                     setDiscountApplied(true);
                     setDiscountPercentage(0);
+                    setDiscountAmount(shippingSavings);
                     setDiscountedPrice(cart.totalPrice);
                     setDiscountError('');
                 } else {
-                    const newPrice = cart.totalPrice * (1 - discount / 100);
+                    const discountAmt = cart.totalPrice * (discount / 100);
+                    const newPrice = cart.totalPrice - discountAmt;
                     setDiscountApplied(true);
                     setDiscountPercentage(discount);
+                    setDiscountAmount(discountAmt);
                     setDiscountedPrice(newPrice);
                     setDiscountError('');
                 }
@@ -366,10 +383,13 @@ const Checkout = () => {
         if (!discountCode.trim() && discountApplied) {
             setDiscountApplied(false);
             setDiscountPercentage(0);
-            setDiscountedPrice(null);
+            // Calculate shipping cost based on country
             if (shippingAddress.country) {
-                const cost = getShippingCost(shippingAddress.country.trim());
-                setShippingCost(cost);
+                const cost = getShippingCost(shippingAddress.country);
+                // Only update shipping cost if discount doesn't provide free shipping
+                if (!discountApplied || discountCode.trim().toUpperCase() !== import.meta.env.VITE_DISCOUNT_CODE4) {
+                    setShippingCost(cost);
+                }
             }
         }
     }, [discountCode, discountApplied, shippingAddress.country]);
@@ -841,7 +861,23 @@ const Checkout = () => {
                     </p>
                 </div>
                 {/* Shipping */}
-                <div className="flex justify-between items-center text-lg">
+                {/*<div className="flex justify-between items-center text-lg">*/}
+                {/*    <p>Shipping</p>*/}
+                {/*    <p className={discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 'text-green-600 font-medium' : ''}>*/}
+                {/*        {discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 */}
+                {/*            ? 'Free!' */}
+                {/*            : (shippingCost > 0 ? `$${shippingCost.toFixed(2)}` : 'calculated at checkout')}*/}
+                {/*    </p>*/}
+                {/*</div>*/}
+                {discountApplied && (
+                    <div className="flex justify-between items-center text-lg mt-2">
+                        <p>Discount ({discountPercentage}% off)</p>
+                        <p className="text-green-600">
+                            -${discountAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </p>
+                    </div>
+                )}
+                <div className="flex justify-between items-center text-lg mt-2">
                     <p>Shipping</p>
                     <p className={discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 'text-green-600 font-medium' : ''}>
                         {discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 
@@ -849,7 +885,7 @@ const Checkout = () => {
                             : (shippingCost > 0 ? `$${shippingCost.toFixed(2)}` : 'calculated at checkout')}
                     </p>
                 </div>
-                <div className="flex justify-between items-center text-lg mt-4 border-t pt-4">
+                <div className="flex justify-between items-center text-xl font-semibold mt-4 border-t pt-4">
                     <p>Total</p>
                     <p>
                         {`$${(
