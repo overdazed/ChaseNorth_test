@@ -185,7 +185,7 @@ router.post('/:id/finalize', protect, async (req, res) => {
             // Update product counts in stock
             for (const item of checkout.checkoutItems) {
                 await Product.updateOne(
-                    { _id: item.product },
+                    { _id: item.productId },
                     { $inc: { countInStock: -item.quantity } }
                 );
             }
