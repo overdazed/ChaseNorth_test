@@ -27,23 +27,3 @@
   display: none; /* Safari and Chrome */
 }
 
-* {
-  cursor: none !important;
-}
-
-/* Cursor styles */
-.curzr-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 2147483647;
-  pointer-events: none;
-  user-select: none;
-  will-change: transform;
-}
-
-/* Ensure links and buttons are clickable */
-a, button, [role="button"], [onclick] {
-  position: relative;
-  z-index: 2147483648; /* Above cursor */
-}
