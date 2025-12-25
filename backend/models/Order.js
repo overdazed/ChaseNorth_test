@@ -78,6 +78,11 @@ const orderSchema = new mongoose.Schema({
         percentage: Number,
         isFreeShipping: Boolean
     },
+    shippingCost: {
+        type: Number,
+        required: true,
+        default: 0
+    },
     totalPrice: {
         type: Number,
         required: true

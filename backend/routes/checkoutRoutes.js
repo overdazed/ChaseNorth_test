@@ -126,14 +126,20 @@ router.post('/:id/finalize', protect, async (req, res) => {
                     image: item.image,
                     price: item.price,
                     quantity: item.quantity,
-                    size: item.size,        // Make sure these are included
-                    color: item.color       // Make sure these are included
+                    size: item.size,
+                    color: item.color
                 })),
-                shippingAddress: shippingAddress,  // Use the updated shipping address
+                shippingAddress: shippingAddress,
                 paymentMethod: checkout.paymentMethod,
+                subtotal: checkout.subtotal || checkout.totalPrice,
+                discount: {
+                    code: checkout.discount?.code || '',
+                    amount: checkout.discount?.amount || 0,
+                    percentage: checkout.discount?.percentage || 0,
+                    isFreeShipping: checkout.discount?.isFreeShipping || false
+                },
+                shippingCost: checkout.shippingCost || 0,
                 totalPrice: checkout.totalPrice,
-                // tax: tax,
-                // shippingPrice: shippingPrice,
                 isPaid: true,
                 paidAt: checkout.paidAt,
                 paymentResult: {
