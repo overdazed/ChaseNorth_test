@@ -16,14 +16,14 @@ const router = express.Router();
 // @access Private/Customer, only customer can create a new checkout
 // In the POST / route of checkoutRoutes.js
 router.post('/', protect, async (req, res) => {
-    const { 
-        checkoutItems, 
-        shippingAddress, 
+    const {
+        checkoutItems,
+        shippingAddress,
         paymentMethod, 
-        subtotal, 
+        subtotal,
         discount = {},
         shippingCost = 0,
-        totalPrice 
+        totalPrice
     } = req.body;
 
     // Add validation for required fields
@@ -127,7 +127,24 @@ router.post('/:id/finalize', protect, async (req, res) => {
 
         // Check if checkout is paid, but not finalized
         if (checkout.isPaid && !checkout.isFinalized) {
-            // Create the final order with the updated shipping address
+            // Calculate the correct subtotal from order items
+            const subtotal = checkout.checkoutItems.reduce(
+                (sum, item) => sum + (item.price * item.quantity), 0
+            );
+
+            // Get shipping cost from checkout or calculate it if not set
+            let shippingCost = checkout.shippingCost || 0;
+            if (shippingCost === 0 && !checkout.discount?.isFreeShipping && shippingAddress.country) {
+                // Import the getShippingCost function from the frontend or implement it in the backend
+                const { getShippingCost } = require('../../frontend/src/data/shippingCosts');
+                shippingCost = getShippingCost(shippingAddress.country);
+            }
+            
+            // Calculate total price including shipping and discount
+            const discountAmount = checkout.discount?.amount || 0;
+            const totalPrice = (subtotal - discountAmount) + (checkout.discount?.isFreeShipping ? 0 : shippingCost);
+
+            // Create the final order with the updated shipping address and correct pricing
             const finalOrder = await Order.create({
                 user: checkout.user,
                 orderItems: checkout.checkoutItems.map(item => ({
@@ -141,15 +158,15 @@ router.post('/:id/finalize', protect, async (req, res) => {
                 })),
                 shippingAddress: shippingAddress,
                 paymentMethod: checkout.paymentMethod,
-                subtotal: checkout.subtotal || checkout.totalPrice,
+                subtotal: subtotal,
                 discount: {
                     code: checkout.discount?.code || '',
-                    amount: checkout.discount?.amount || 0,
+                    amount: discountAmount,
                     percentage: checkout.discount?.percentage || 0,
                     isFreeShipping: checkout.discount?.isFreeShipping || false
                 },
-                shippingCost: checkout.shippingCost || 0,
-                totalPrice: checkout.totalPrice,
+                shippingCost: checkout.discount?.isFreeShipping ? 0 : shippingCost,
+                totalPrice: totalPrice,
                 isPaid: true,
                 paidAt: checkout.paidAt,
                 paymentResult: {

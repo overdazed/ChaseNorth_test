@@ -91,7 +91,7 @@ const Checkout = () => {
 
     const handleCreateCheckout = async(e) => {
         e.preventDefault();
-        
+
         // First validate the form
         if (!validateForm()) {
             return;
@@ -102,7 +102,7 @@ const Checkout = () => {
         if (country) {
             const countryCode = countryMap[country.toLowerCase()];
             const phoneNumber = parsePhoneNumberFromString(shippingAddress.phone.trim(), countryCode);
-            
+
             if (!phoneNumber || !phoneNumber.isValid()) {
                 setFormErrors(prev => ({
                     ...prev,
@@ -114,7 +114,7 @@ const Checkout = () => {
 
         // If all validations pass, proceed with form submission
         setIsFormSubmitted(true);
-        
+
         // Calculate shipping cost based on country
         const cost = getShippingCost(country);
         setShippingCost(cost);
@@ -213,19 +213,19 @@ const Checkout = () => {
         if (cart && cart.products.length > 0) {
             // Calculate subtotal (sum of all items' prices * quantities)
             const subtotal = cart.products.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
+
             // Apply discount to subtotal if discount is applied
-            const discountedSubtotal = discountApplied 
+            const discountedSubtotal = discountApplied
                 ? subtotal - (discountAmount || 0)
                 : subtotal;
-            
+
             // Calculate final total (discounted subtotal + shipping cost)
-            const finalShippingCost = (discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4) 
-                ? 0 
+            const finalShippingCost = (discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4)
+                ? 0
                 : shippingCost;
-                
+
             const totalPrice = discountedSubtotal + finalShippingCost;
-            
+
             const res = await dispatch(
                 createCheckout({
                     checkoutItems: cart.products,
@@ -355,30 +355,30 @@ const Checkout = () => {
                 [import.meta.env.VITE_DISCOUNT_NL10]: 10
             };
 
-            const discountPercentage = discountCodes[code];
+            const discount = discountCodes[code];
 
-            if (discountPercentage !== undefined) {
-                const subtotal = cart.products.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                
+            if (discount !== undefined) {
                 if (isFreeShipping) {
-                    const shippingSavings = shippingCost;
+                    const shippingSavings = shippingCost; // Save the shipping cost as discount amount
                     setShippingCost(0);
                     setDiscountApplied(true);
                     setDiscountPercentage(0);
                     setDiscountAmount(shippingSavings);
+                    setDiscountedPrice(cart.totalPrice);
                     setDiscountError('');
                 } else {
-                    const discountAmt = subtotal * (discountPercentage / 100);
+                    const discountAmt = cart.totalPrice * (discount / 100);
+                    const newPrice = cart.totalPrice - discountAmt;
                     setDiscountApplied(true);
-                    setDiscountPercentage(discountPercentage);
+                    setDiscountPercentage(discount);
                     setDiscountAmount(discountAmt);
+                    setDiscountedPrice(newPrice);
                     setDiscountError('');
                 }
             } else {
                 setDiscountError('Invalid discount code');
                 setDiscountApplied(false);
-                setDiscountAmount(0);
-                setDiscountPercentage(0);
+                setDiscountedPrice(null);
                 if (shippingCost === 0 && shippingAddress.country) {
                     const cost = getShippingCost(shippingAddress.country.trim());
                     setShippingCost(cost);
@@ -763,7 +763,7 @@ const Checkout = () => {
                                     <p className="text-sm text-gray-500">Color: {product.color}</p>
                                     <div className="mt-2">
                                         <div className={`flex items-center border-[0.5px] border-gray-300 w-32 rounded-md overflow-hidden`}>
-                                            <button 
+                                            <button
                                                 className={`w-10 h-10 flex items-center justify-center border-r border-gray-300 hover:bg-neutral-200`}
                                                 onClick={() =>
                                                     handleUpdateQuantity(
@@ -780,7 +780,7 @@ const Checkout = () => {
                                             <div className={`flex-1 text-center text-black `}>
                                                 {product.quantity}
                                             </div>
-                                            <button 
+                                            <button
                                                 className={`w-10 h-10 flex items-center justify-center border-l border-gray-300 hover:bg-neutral-200`}
                                                 onClick={() =>
                                                     handleUpdateQuantity(
@@ -891,8 +891,8 @@ const Checkout = () => {
                 <div className="flex justify-between items-center text-lg mt-2">
                     <p>Shipping</p>
                     <p className={discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 'text-green-600 font-medium' : ''}>
-                        {discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 
-                            ? 'Free!' 
+                        {discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4
+                            ? 'Free!'
                             : (shippingCost > 0 ? `$${shippingCost.toFixed(2)}` : 'calculated at checkout')}
                     </p>
                 </div>
@@ -900,7 +900,7 @@ const Checkout = () => {
                     <p>Total</p>
                     <p>
                         {`$${(
-                            (discountApplied ? discountedPrice : cart.totalPrice) + 
+                            (discountApplied ? discountedPrice : cart.totalPrice) +
                             (discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 0 : shippingCost)
                         ).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
                     </p>
