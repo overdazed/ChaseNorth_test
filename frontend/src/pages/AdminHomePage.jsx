@@ -40,7 +40,7 @@ const AdminHomePage = () => {
 
     return (
         <div className="max-w-7xl mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+            <h1 className="text-3xl font-bold mb-6"></h1>
             {productsLoading || ordersLoading ? (
                 <p>Loading...</p>
             ) : productsError ? (
@@ -84,11 +84,11 @@ const AdminHomePage = () => {
                             orders
                                 .filter(order => order && order.user)
                                 .map((order) => (
-                                    <tr key={order._id} className="border-b hover:bg-gray-50 cursor-pointer">
-                                        <td className="p-4">#{order._id}</td>
-                                        <td className="p-4">{order.user?.name || "Unknown User"}</td>
-                                        <td className="p-4">${order.totalPrice.toFixed(2)}</td>
-                                        <td className="p-4">{order.status}</td>
+                                    <tr key={order._id} className="group border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-accent cursor-pointer">
+                                        <td className="p-4 font-medium text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">#{order._id}</td>
+                                        <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{order.user?.name || "Unknown User"}</td>
+                                        <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">${order.totalPrice.toFixed(2)}</td>
+                                        <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{order.status}</td>
                                     </tr>
                                 ))
                         ) : (
