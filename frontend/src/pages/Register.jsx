@@ -180,26 +180,26 @@ const Register = () => {
                             </button>
                         </div>
                         {password && (
-                            <div className="mt-4 mb-6 p-4 bg-gray-50 rounded-lg">
-                                <p className="font-medium text-gray-700 mb-2">Password must contain:</p>
+                            <div className="mt-4 mb-6 p-4 bg-gray-50 rounded-lg dark:bg-neutral-800">
+                                <p className="font-medium text-gray-700 dark:text-gray-300 mb-2">Password must contain:</p>
                                 <ul className="space-y-2">
-                                    <li className={`flex items-center ${passwordErrors.minLength ? 'text-green-600' : 'text-gray-500'}`}>
+                                    <li className={`flex items-center ${passwordErrors.minLength ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
                                         <span className="mr-2">{passwordErrors.minLength ? '✓' : '•'}</span>
                                         At least 12 characters
                                     </li>
-                                    <li className={`flex items-center ${passwordErrors.hasUppercase ? 'text-green-600' : 'text-gray-500'}`}>
+                                    <li className={`flex items-center ${passwordErrors.hasUppercase ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
                                         <span className="mr-2">{passwordErrors.hasUppercase ? '✓' : '•'}</span>
                                         1 uppercase letter
                                     </li>
-                                    <li className={`flex items-center ${passwordErrors.hasLowercase ? 'text-green-600' : 'text-gray-500'}`}>
+                                    <li className={`flex items-center ${passwordErrors.hasLowercase ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
                                         <span className="mr-2">{passwordErrors.hasLowercase ? '✓' : '•'}</span>
                                         1 lowercase letter
                                     </li>
-                                    <li className={`flex items-center ${passwordErrors.hasNumber ? 'text-green-600' : 'text-gray-500'}`}>
+                                    <li className={`flex items-center ${passwordErrors.hasNumber ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
                                         <span className="mr-2">{passwordErrors.hasNumber ? '✓' : '•'}</span>
                                         1 number
                                     </li>
-                                    <li className={`flex items-center ${passwordErrors.hasSpecialChar ? 'text-green-600' : 'text-gray-500'}`}>
+                                    <li className={`flex items-center ${passwordErrors.hasSpecialChar ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
                                         <span className="mr-2">{passwordErrors.hasSpecialChar ? '✓' : '•'}</span>
                                         1 special character
                                     </li>
@@ -207,9 +207,9 @@ const Register = () => {
                             </div>
                         )}
                     </div>
-                    <button 
-                        type="submit" 
-                        className={`button-submit ${!isPasswordValid || isSigningUp ? 'opacity-50 cursor-not-allowed' : ''}`} 
+                    <button
+                        type="submit"
+                        className={`button-submit ${!isPasswordValid || isSigningUp ? 'opacity-50 cursor-not-allowed' : ''}`}
                         disabled={!isPasswordValid || isSigningUp}
                     >
                         {isSigningUp ? 'Creating Account...' : 'Sign Up'}
@@ -341,7 +341,7 @@ const FormContainer = styled.div`
     .button-submit {
         width: 100%;
         padding: 0.75rem 1.5rem;
-        background-color: #3b82f6;
+        background-color: #000000;
         color: white;
         font-weight: 600;
         border: none;
@@ -364,10 +364,10 @@ const FormContainer = styled.div`
         }
 
         .dark & {
-            background-color: #4f46e5;
+            background-color: #000000;
 
             &:hover:not(:disabled) {
-                background-color: #4338ca;
+                background-color: #262626;
             }
         }
     }
@@ -451,7 +451,7 @@ const FormContainer = styled.div`
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
         .dark & {
-            background-color: #2d2d2d;
+            background-color: #171717;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
     }
@@ -465,7 +465,7 @@ const FormContainer = styled.div`
 
         .dark & {
             border-color: #4a5568;
-            background-color: #2d2d2d;
+            background-color: #171717;
         }
 
         padding-left: 10px;
@@ -538,7 +538,8 @@ const FormContainer = styled.div`
         color: white;
         font-size: 15px;
         font-weight: 500;
-        border-radius: 10px;
+        //border-radius: 9999px;
+        border-radius: 10000px;
         height: 46px;
         width: 100%;
         cursor: pointer;
