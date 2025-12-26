@@ -141,7 +141,7 @@ const MyOrdersPage = () => {
                                     {order.orderItems.length}
                                 </td>
                                 <td className="py-2 px-2 sm:py-4 sm:px-4">
-                                    ${order.totalPrice}
+                                    ${Number(order.totalPrice).toFixed(2)}
                                 </td>
                                 <td className="py-2 px-2 sm:py-4 sm:px-4">
                                     <span className={`${order.isPaid ? "bg-green-100 text-green-700" 
