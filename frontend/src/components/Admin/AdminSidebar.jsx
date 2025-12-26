@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { NavLink } from "react-router-dom"
-import { FaChartLine, FaBoxOpen, FaClipboardList, FaStore, FaSignOutAlt, FaFileAlt } from "react-icons/fa"
+import { FaChartLine, FaBoxOpen, FaClipboardList, FaStore, FaSignOutAlt } from "react-icons/fa"
 import { FaUserGear } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux";
@@ -69,17 +69,6 @@ const AdminSidebar = () => {
                 >
                     <FaClipboardList size={20}/>
                     <span>Orders</span>
-                </NavLink>
-
-                <NavLink
-                    to="/admin/reports"
-                    className={({isActive}) => isActive
-                        ? "bg-neutral-700 text-white py-3 px-4 rounded flex items-center space-x-2"
-                        : "text-gray-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
-                    }
-                >
-                    <FaFileAlt size={20}/>
-                    <span>Reports</span>
                 </NavLink>
 
                 <NavLink
