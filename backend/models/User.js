@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 
 // define the user schema
 // new mongoose.Schema() will help us define the structure, types and validation rules for the entries in our database
@@ -77,6 +78,15 @@ userSchema.methods.createPasswordResetToken = function() {
     this.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
 
     return resetToken;
+};
+
+// In User.js, add this method to your UserSchema
+userSchema.methods.getSignedJwtToken = function() {
+    return jwt.sign(
+        { id: this._id, role: this.role },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRE || '1d' }
+    );
 };
 
 module.exports = mongoose.model('User', userSchema);
