@@ -136,15 +136,6 @@
     </tbody>
 </table>
 <!--teeeeeeeeeeeeest-->
-
-<!-- DEBUG: Order Data -->
-<div style="display: none;">
-    <h4>Order Data:</h4>
-    <pre>{{ order|tojson(indent=2) }}</pre>
-    <h4>Discount Data:</h4>
-    <pre>{% if order.discount %}{{ order.discount|tojson(indent=2) }}{% else %}No discount data{% endif %}</pre>
-</div>
-
 <div class="total">
     {% set subtotal = order.subtotal %}
     <p>Subtotal (with tax): ${{ "%.2f"|format(subtotal) }}</p>
@@ -154,14 +145,14 @@
     {% endif %}
 
     {% if order.shippingCost and order.shippingCost > 0 %}
-    <p>Shipping: ${{ "%.2f"|format(order.shippingCost) }}
+    <p>Shipping: +${{ "%.2f"|format(order.shippingCost) }}
         {% if order.discount and order.discount.isFreeShipping %}
         <span style="color: green;">(Free Shipping Applied)</span>
         {% endif %}
     </p>
     {% endif %}
 
-    <p><strong>Total: ${{ "%.2f"|format(order.get('totalPrice', 0)) }}</strong></p>
+    <p><strong>Total: ${{ "%.2f"|format(order.total) }}</strong></p>
 </div>
 
 <div class="payment-info">
