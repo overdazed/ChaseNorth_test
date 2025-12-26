@@ -35,24 +35,41 @@ class InvoiceGenerator:
                 # Add format_date filter to the environment
                 self.env.filters['format_date'] = self.format_date
 
-                # Replace all print statements with sys.stderr.write()
-                sys.stderr.write("=== Received data from Node.js ===\n")
-                sys.stderr.write(f"Order data: {json.dumps(order, indent=2)}\n")
-                sys.stderr.write(f"Company data: {json.dumps(company_data, indent=2)}\n")
-                sys.stderr.write("================================\n")
+                # Enhanced error logging
+                sys.stderr.write("=== Starting Invoice Generation ===\n")
+                sys.stderr.write("Order data type: " + str(type(order)) + "\n")
+                sys.stderr.write("Company data type: " + str(type(company_data)) + "\n")
+                
+                # Log order keys for debugging
+                if isinstance(order, dict):
+                    sys.stderr.write("Order keys: " + ", ".join(order.keys()) + "\n")
+                    if 'orderItems' in order and order['orderItems']:
+                        sys.stderr.write(f"First order item: {json.dumps(order['orderItems'][0], indent=2)}\n")
+                
+                # Log company data keys
+                if isinstance(company_data, dict):
+                    sys.stderr.write("Company data keys: " + ", ".join(company_data.keys()) + "\n")
 
                 # Ensure order is a dictionary
                 if not isinstance(order, dict):
                     order = order.to_dict() if hasattr(order, 'to_dict') else dict(order)
 
-                # Ensure shipping address exists
+                # Ensure required fields exist with defaults
+                if 'orderItems' not in order:
+                    sys.stderr.write("Warning: orderItems not found in order data\n")
+                    order['orderItems'] = []
+                
+                # Ensure shipping address exists with default values
                 if 'shippingAddress' not in order:
-                    order['shippingAddress'] = {}
-
-#                 order['shippingAddress'] = {
-#                     'firstName': order.get('shippingAddress', {}).get('firstName', '') or order.get('shippingAddress_firstName', ''),
-#                     # 'firstName': order.get('shippingAddress', {}).get('firstName', '')
-#                     'lastName': order.get('shippingAddress_lastName', ''),
+                    sys.stderr.write("Warning: shippingAddress not found in order data\n")
+                    order['shippingAddress'] = {
+                        'firstName': '',
+                        'lastName': '',
+                        'address': '',
+                        'city': '',
+                        'postalCode': '',
+                        'country': ''
+                    }
 #                     'address': order.get('shippingAddress_address', ''),
 #                     'city': order.get('shippingAddress_city', ''),
 #                     'postalCode': order.get('shippingAddress_postalCode', ''),
