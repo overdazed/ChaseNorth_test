@@ -3,6 +3,23 @@ const crypto = require('crypto');
 const User = require('../models/User');
 const sendEmail = require('../utils/sendEmail');
 
+// Helper function to create and send JWT token
+const createSendToken = (user, statusCode, res) => {
+    // Create token
+    const token = user.getSignedJwtToken();
+
+    // Remove password from output
+    user.password = undefined;
+
+    res.status(statusCode).json({
+        status: 'success',
+        token,
+        data: {
+            user
+        }
+    });
+};
+
 // @desc    Forgot password
 // @route   POST /api/users/forgot-password
 // @access  Public

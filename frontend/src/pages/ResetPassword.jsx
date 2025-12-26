@@ -13,6 +13,7 @@ const ResetPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('Form submitted');
 
         if (password !== confirmPassword) {
             setError('Passwords do not match');
@@ -24,13 +25,17 @@ const ResetPassword = () => {
         setIsLoading(true);
 
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-            console.log('Sending request to:', `${apiUrl}/api/users/reset-password/${token}`);
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:9000';
+            const url = `${apiUrl}/api/users/reset-password/${token}`;
+            
+            console.log('Sending PATCH request to:', url);
+            console.log('Request body:', { password, passwordConfirm: confirmPassword });
 
-            const response = await fetch(`${apiUrl}/api/users/reset-password/${token}`, {
+            const response = await fetch(url, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
                 body: JSON.stringify({
                     password,
@@ -38,11 +43,16 @@ const ResetPassword = () => {
                 }),
             });
 
-            const data = await response.json();
-            console.log('Response:', data);
+            console.log('Response status:', response.status);
+            const data = await response.json().catch(e => {
+                console.error('Failed to parse JSON response:', e);
+                return { message: 'Invalid response from server' };
+            });
+            
+            console.log('Response data:', data);
 
             if (!response.ok) {
-                throw new Error(data.message || 'Failed to reset password');
+                throw new Error(data.message || `Server responded with status ${response.status}`);
             }
 
             setMessage('Password has been reset successfully. Redirecting to login...');
@@ -60,7 +70,7 @@ const ResetPassword = () => {
     return (
         <Container>
             <FormContainer>
-                <form onSubmit={(e) => { e.preventDefault(); }} className="form" noValidate>
+                <form onSubmit={handleSubmit} className="form" noValidate>
                     <h2>Reset Your Password</h2>
                     {error && <div className="error-message">{error}</div>}
                     {message && <div className="success-message">{message}</div>}
@@ -90,9 +100,8 @@ const ResetPassword = () => {
                     </div>
 
                     <button
-                        type="button"
+                        type="submit"
                         className="button-submit"
-                        onClick={handleSubmit}
                         disabled={isLoading}
                     >
                         {isLoading ? 'Resetting...' : 'Reset Password'}
