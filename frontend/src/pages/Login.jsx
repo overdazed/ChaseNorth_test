@@ -5,12 +5,15 @@ import { loginUser } from "../redux/slices/authSlice"
 import {useDispatch, useSelector} from "react-redux"
 import {mergeCart} from "../redux/slices/cartSlice";
 import styled from "styled-components";
+import { FaEye } from "react-icons/fa6";
+import { FaEyeSlash } from "react-icons/fa6";
 
 const Login = () => {
 
     // create state variables
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false)
     const [error, setError] = useState("");
 
     // local state to control button loading
@@ -132,15 +135,35 @@ const Login = () => {
                             <path d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0" />
                         </svg>
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             className="input"
                             placeholder="Enter your Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <svg className="pr-2 text-black dark:text-neutral-500" viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                            <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" />
-                        </svg>
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            style={{
+                                position: 'absolute',
+                                right: '10px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                                padding: '0',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                        >
+                            {showPassword ? (
+                                <FaEye size={14} className="text-neutral-500 hover:text-black"/>
+                            ) : (
+                                <FaEyeSlash size={16} className="text-neutral-500 hover:text-black"/>
+                            )}
+                        </button>
                     </div>
                     <div className="flex-row" style={{ marginTop: '-2px' }}>
                         <div>
@@ -256,7 +279,7 @@ const FormContainer = styled.div`
         margin-bottom: 0.75rem;
         background-color: #fff;
         border: 1px solid #e2e8f0;
-        border-radius: 0.5rem;
+        border-radius: 0.6rem;
         padding: 0.5rem 0.75rem;
         transition: border-color 0.2s, box-shadow 0.2s;
         
@@ -282,7 +305,7 @@ const FormContainer = styled.div`
 
     .input {
         width: 100%;
-        padding: 0.25rem 0.5rem;
+        padding: 0.25rem 0.5rem 0.25rem 1.25rem;
         border: none;
         outline: none;
         background-color: transparent;
@@ -445,7 +468,7 @@ const FormContainer = styled.div`
         gap: 0.5rem;
         padding: 0.5rem 1rem;
         border: 1px solid #e2e8f0;
-        border-radius: 0.5rem;
+        border-radius: 0.6rem;
         background-color: white;
         cursor: pointer;
         transition: background-color 0.2s, transform 0.1s, border-color 0.2s;
@@ -462,7 +485,7 @@ const FormContainer = styled.div`
         }
         
         .dark & {
-            background-color: #171717;
+            background-color: #2d2d2d;
             border-color: #404040;
             color: #f5f5f5;
             

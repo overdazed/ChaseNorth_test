@@ -171,9 +171,9 @@ const Register = () => {
                                 }}
                             >
                                 {showPassword ? (
-                                    <FaEye size={16} className="text-neutral-500 hover:text-black"/>
+                                    <FaEye size={14} className="text-neutral-500 hover:text-black"/>
                                 ) : (
-                                    <FaEyeSlash size={18} className="text-neutral-500 hover:text-black"/>
+                                    <FaEyeSlash size={16} className="text-neutral-500 hover:text-black"/>
                                 )}
                             </button>
                         </div>
