@@ -537,28 +537,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% set totalNetAmount = 0 %}
-<!--                {% set totalVatAmount = 0 %}-->
-                {% set totalAmount = 0 %}
-
-                {% for item in order.orderItems %}
-                {% set itemSubtotal = item.price * item.quantity %}
-<!--                {% set itemVatAmount = itemSubtotal * (item.taxRate / 100) %}-->
-<!--                {% set itemTotal = itemSubtotal + itemVatAmount %}-->
-
-                {% set totalNetAmount = itemSubtotal / 1.19 %}
-<!--                {% set totalVatAmount = totalVatAmount + itemVatAmount %}-->
-                {% set totalAmount = totalAmount + itemTotal %}
                 <tr>
                     <td class="border-b py-3 pl-3">{{ loop.index }}.</td>
                     <td class="border-b py-3 pl-2">{{ item.name }}</td>
                     <td class="border-b py-3 pl-2 text-right">${{ "%.2f"|format(item.price) }}</td>
                     <td class="border-b py-3 pl-2 text-center">{{ item.quantity }}</td>
-<!--                    <td class="border-b py-3 pl-2 text-center">{{ "%.0f"|format(item.taxRate) }}%</td>-->
-                    <td class="border-b py-3 pl-2 text-right">${{ "%.2f"|format(itemSubtotal) }}</td>
-                    <td class="border-b py-3 pl-2 pr-3 text-right">${{ "%.2f"|format(item.total) }}</td>
+                    <td class="border-b py-3 pl-2 text-center">19%</td>
+                    <td class="border-b py-3 pl-2 text-right">${{ "%.2f"|format(item.price * item.quantity) / 1.19 }}</td>
+                    <td class="border-b py-3 pl-2 pr-3 text-right">${{ "%.2f"|format((item.price * item.quantity)) }}</td>
                 </tr>
-                {% endfor %}
                 <tr>
                     <td colspan="7">
                         <table class="w-full border-collapse border-spacing-0">
@@ -574,17 +561,39 @@
                                             </td>
                                             <td class="border-b p-3 text-right">
                                                 <div class="whitespace-nowrap font-bold text-main">
-                                                    ${{ "%.2f"|format(totalNetAmount) }}
+                                                    ${{ "%.2f"|format((order.subtotal) / 1.19) }}
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="p-3">
-                                                <div class="whitespace-nowrap text-slate-400">VAT total:</div>
+                                                <div class="whitespace-nowrap text-slate-400">VAT total (19%):</div>
                                             </td>
                                             <td class="p-3 text-right">
                                                 <div class="whitespace-nowrap font-bold text-main">
-<!--                                                    {{ currencySymbol }}{{ "%.2f"|format(totalVatAmount) }}-->
+                                                    ${{ "%.2f"|format(order.subtotal) }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% if order.discount and order.discount.amount > 0 %}
+                                        <tr>
+                                            <td class="p-3">
+                                                <div class="whitespace-nowrap text-slate-400">Discount:</div>
+                                            </td>
+                                            <td class="p-3 text-right">
+                                                <div class="whitespace-nowrap font-bold text-main">
+                                                    -${{ "%.2f"|format(order.discount.amount) }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                        <tr>
+                                            <td class="p-3">
+                                                <div class="whitespace-nowrap text-slate-400">Shipping:</div>
+                                            </td>
+                                            <td class="p-3 text-right">
+                                                <div class="whitespace-nowrap font-bold text-main">
+                                                    +${{ "%.2f"|format(order.shippingCost) }}
                                                 </div>
                                             </td>
                                         </tr>
@@ -594,7 +603,7 @@
                                             </td>
                                             <td class="bg-main p-3 text-right">
                                                 <div class="whitespace-nowrap font-bold text-white">
-                                                    ${{ "%.2f"|format(order.total) }}
+                                                    ${{ "%.2f"|format(order.totalPrice) }}
                                                 </div>
                                             </td>
                                         </tr>
@@ -618,12 +627,10 @@
             <p>Payment Reference: fdghfghd</p>
         </div>
 
-        {% if notes %}
         <div class="px-14 py-10 text-sm text-neutral-700">
             <p class="text-main font-bold">Notes</p>
             <p class="italic">dfghhdfgh</p>
         </div>
-        {% endif %}
 
         <footer class="fixed bottom-0 left-0 bg-slate-100 w-full text-neutral-600 text-center text-xs py-3">
             {{ company_name }}
