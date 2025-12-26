@@ -33,7 +33,9 @@ const userSchema = new mongoose.Schema({
     updatedAt: {
         type: Date,
         default: Date.now
-    }
+    },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date
 },
     { timestamps: true }
 );
@@ -62,5 +64,18 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
     // returns a boolean value by using the compare function available in bcrypt library
     return await bcrypt.compare(enteredPassword, this.password);
 }
+
+userSchema.methods.createPasswordResetToken = function() {
+    const resetToken = crypto.randomBytes(32).toString('hex');
+
+    this.resetPasswordToken = crypto
+        .createHash('sha256')
+        .update(resetToken)
+        .digest('hex');
+
+    this.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+    return resetToken;
+};
 
 module.exports = mongoose.model('User', userSchema);

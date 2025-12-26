@@ -10,7 +10,6 @@ import React from 'react'
 import { BrowserRouter, Route, Routes, useLocation, useNavigationType } from "react-router-dom";
 import { useEffect, useRef } from 'react';
 
-
 // This component handles scroll restoration
 const ScrollRestoration = () => {
     const { pathname, state } = useLocation();
@@ -97,6 +96,8 @@ import EditProductPage from "./components/Admin/EditProductPage.jsx";
 import OrderManagement from "./components/Admin/OrderManagement.jsx";
 import Report from "./pages/Report";
 import ReportConfirmation from "./pages/ReportConfirmation";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -153,6 +154,8 @@ const App = () => {
                         <Route path="faq" element={<FAQPage />} />
                         <Route path="report" element={<Report />} />
                         <Route path="report/confirmation" element={<ReportConfirmation />} />
+                        <Route path="forgot-password" element={<ForgotPassword />} />
+                        <Route path="reset-password/:token" element={<ResetPassword />} />
                     </Route>
                     <Route
                         path="/admin"
