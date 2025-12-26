@@ -276,23 +276,23 @@ const FormContainer = styled.div`
     max-width: 28rem;
     padding: 2rem;
     margin: 0 auto;
-    
+
     @media (min-width: 768px) {
         width: 50%;
         padding: 4rem 2rem;
     }
-    
+
     .dark & {
         background-color: #0a0a0a;
         color: #f5f5f5;
     }
-    
+
     .form {
         width: 100%;
         max-width: 400px;
         margin: 0 auto;
     }
-    
+
     .inputForm {
         position: relative;
         display: flex;
@@ -304,27 +304,27 @@ const FormContainer = styled.div`
         border-radius: 0.375rem;
         padding: 0.75rem 1rem;
         transition: border-color 0.2s, box-shadow 0.2s;
-        
+
         &:focus-within {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 1px #3b82f6;
+            border-color: #571100;
+            box-shadow: 0 0 0 1px #571100;
         }
-        
+
         .dark & {
             background-color: #2d2d2d;
             border-color: #4a5568;
             color: #f5f5f5;
-            
+
             input {
                 color: #f5f5f5;
-                
+
                 &::placeholder {
                     color: #a0aec0;
                 }
             }
         }
     }
-    
+
     .input {
         width: 100%;
         padding: 0.5rem 0.75rem;
@@ -332,12 +332,12 @@ const FormContainer = styled.div`
         outline: none;
         background-color: transparent;
         font-size: 0.875rem;
-        
+
         &::placeholder {
             color: #a0aec0;
         }
     }
-    
+
     .button-submit {
         width: 100%;
         padding: 0.75rem 1.5rem;
@@ -349,65 +349,65 @@ const FormContainer = styled.div`
         cursor: pointer;
         transition: background-color 0.2s, transform 0.1s;
         margin-top: 1rem;
-        
+
         &:hover:not(:disabled) {
             background-color: #2563eb;
         }
-        
+
         &:active:not(:disabled) {
             transform: translateY(1px);
         }
-        
+
         &:disabled {
             opacity: 0.7;
             cursor: not-allowed;
         }
-        
+
         .dark & {
             background-color: #4f46e5;
-            
+
             &:hover:not(:disabled) {
                 background-color: #4338ca;
             }
         }
     }
-    
+
     .p {
         text-align: center;
         margin: 1rem 0;
         color: #4a5568;
-        
+
         .dark & {
             color: #a0aec0;
         }
-        
+
         .span {
             color: #3b82f6;
             font-weight: 600;
             text-decoration: none;
-            
+
             &:hover {
                 text-decoration: underline;
             }
-            
+
             .dark & {
                 color: #818cf8;
             }
         }
     }
-    
+
     .flex-row {
         display: flex;
         gap: 1rem;
         justify-content: center;
         margin: 1rem 0;
-        
+
         @media (max-width: 640px) {
             flex-direction: column;
             align-items: center;
         }
     }
-    
+
     .btn {
         display: flex;
         align-items: center;
@@ -419,26 +419,26 @@ const FormContainer = styled.div`
         background-color: white;
         cursor: pointer;
         transition: background-color 0.2s, transform 0.1s;
-        
+
         &:hover {
             background-color: #f8fafc;
         }
-        
+
         &:active {
             transform: translateY(1px);
         }
-        
+
         .dark & {
             background-color: #2d2d2d;
             border-color: #4a5568;
             color: #f5f5f5;
-            
+
             &:hover {
                 background-color: #374151;
             }
         }
     }
-    
+
     .form {
         display: flex;
         flex-direction: column;
@@ -449,29 +449,30 @@ const FormContainer = styled.div`
         max-width: 500px;
         border-radius: 20px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        
+
         .dark & {
             background-color: #2d2d2d;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
     }
-    
+
     .inputForm {
         border: 1.5px solid #ecedec;
         border-radius: 10px;
         height: 48px;
         display: flex;
         align-items: center;
-        
+
         .dark & {
             border-color: #4a5568;
             background-color: #2d2d2d;
         }
+
         padding-left: 10px;
         transition: 0.2s ease-in-out;
         margin-bottom: 4px;
     }
-    
+
     .input {
         margin-left: 10px;
         border: none;
@@ -481,11 +482,11 @@ const FormContainer = styled.div`
         background: none;
         color: #151717;
     }
-    
+
     .inputForm:focus-within {
-        border: 1.5px solid #2d79f3;
+        border: 1.5px solid #571100;
     }
-    
+
     .flex-row {
         display: flex;
         flex-direction: row;
@@ -494,42 +495,42 @@ const FormContainer = styled.div`
         justify-content: space-between;
         margin: 6px 0;
     }
-    
+
     .flex-column {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         gap: 5px;
     }
-    
+
     .flex-column > label {
-        color: #151717;
+        color: #808080;
         font-weight: 600;
         margin-bottom: 2px;
         font-size: 14px;
     }
-    
+
     .flex-row > div > label {
         font-size: 14px;
         color: #151717;
         font-weight: 400;
     }
-    
+
     .span {
         font-size: 14px;
-        color: #2d79f3;
+        color: #571100;
         font-weight: 500;
         text-decoration: none;
         cursor: pointer;
     }
-    
+
     .p {
         text-align: center;
         color: black;
         font-size: 14px;
         margin: 10px 0;
     }
-    
+
     .button-submit {
         margin: 10px 0 8px 0;
         background-color: #151717;
@@ -543,16 +544,16 @@ const FormContainer = styled.div`
         cursor: pointer;
         transition: background-color 0.2s ease-in-out;
     }
-    
+
     .button-submit:hover {
         background-color: #252727;
     }
-    
+
     .button-submit:disabled {
         background-color: #a1a1a1;
         cursor: not-allowed;
     }
-    
+
     .btn {
         margin-top: 8px;
         width: 100%;
@@ -568,9 +569,9 @@ const FormContainer = styled.div`
         cursor: pointer;
         transition: 0.2s ease-in-out;
     }
-    
+
     .btn:hover {
-        border: 1px solid #2d79f3;
+        border: 1px solid #7e1a01;
     }
 `;
 
