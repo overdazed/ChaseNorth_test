@@ -137,10 +137,10 @@
 </table>
 <!--teeeeeeeeeeeeest-->
 <div class="total">
-    <p>Subtotal: ${{ "%.2f"|format(order['totalPrice'] if 'totalPrice' in order else 0) }}</p>
-    {% if order.tax and order.tax > 0 %}
-    <p>Tax ({{ company_data.tax_rate }}%): ${{ "%.2f"|format(order.tax) }}</p>
-    {% endif %}
+    {% set subtotal = order.subtotal / 1.19 %}
+    {% set tax_amount = order.subtotal - subtotal %}
+    <p>Subtotal: ${{ "%.2f"|format(subtotal) }}</p>
+    <p>Tax (19%): ${{ "%.2f"|format(tax_amount) }}</p>
     {% if order.shipping and order.shipping > 0 %}
     <p>Shipping: ${{ "%.2f"|format(order.shipping) }}</p>
     {% endif %}
