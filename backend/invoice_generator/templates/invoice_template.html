@@ -164,7 +164,7 @@
         <p class="text-sm">
             {{ company_address }}<br>
             {{ company_zip }} {{ company_city }}<br>
-            {{ company_country }}<br>
+<!--            {{ company_country }}<br>-->
             {{ company_phone }}<br>
             {{ company_website }}<br>
             {{ company_email }}
@@ -215,12 +215,16 @@
             <span>${{ "%.2f"|format(order.subtotal) }}</span>
         </div>
 
+        <br>
+
         {% if order.discount and order.discount.amount > 0 %}
         <div class="total-row">
             <span>Discount:</span>
             <span>-${{ "%.2f"|format(order.discount.amount) }}</span>
         </div>
         {% endif %}
+
+        <br>
 
         {% if order.tax and order.tax > 0 %}
         <div class="total-row">
@@ -229,12 +233,16 @@
         </div>
         {% endif %}
 
+        <br>
+
         {% if order.shippingCost and order.shippingCost > 0 %}
         <div class="total-row">
             <span>Shipping:</span>
             <span>${{ "%.2f"|format(order.shippingCost) }}</span>
         </div>
         {% endif %}
+
+        <br>
 
         <div class="total-row text-main">
             <span class="font-bold">Total:</span>
