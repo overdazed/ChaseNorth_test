@@ -21,17 +21,32 @@ if (!document.getElementById('cursor-root')) {
   document.body.appendChild(cursorContainer);
 }
 
-// Check system color scheme and set up listener
+// Initialize theme from localStorage or system preference
 if (typeof window !== 'undefined') {
+  // Check for saved theme in localStorage
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  // Apply the theme
+  if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    document.documentElement.classList.add('dark');
+    updateFavicon(true);
+  } else {
+    document.documentElement.classList.remove('dark');
+    updateFavicon(false);
+  }
+  
+  // Set up listener for system color scheme changes (only if no theme is saved)
   const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  const handleColorSchemeChange = (e) => {
+    if (!localStorage.getItem('theme')) {
+      const isDark = e.matches;
+      document.documentElement.classList.toggle('dark', isDark);
+      updateFavicon(isDark);
+    }
+  };
   
-  // Set initial favicon
-  updateFavicon(darkModeMediaQuery.matches);
-  
-  // Update favicon when color scheme changes
-  darkModeMediaQuery.addEventListener('change', (e) => {
-    updateFavicon(e.matches);
-  });
+  darkModeMediaQuery.addEventListener('change', handleColorSchemeChange);
 }
 
 createRoot(document.getElementById('root')).render(

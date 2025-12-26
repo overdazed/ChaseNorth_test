@@ -317,7 +317,7 @@ const FormContainer = styled.div`
                 color: #f5f5f5;
 
                 &::placeholder {
-                    color: #a0aec0;
+                    color: #737373; /* text-neutral-500 */
                 }
             }
         }

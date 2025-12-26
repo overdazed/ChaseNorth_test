@@ -170,7 +170,7 @@ const Login = () => {
                             <input type="checkbox" id="remember" />
                             <label htmlFor="remember"> Remember me</label>
                         </div>
-                        <span className="span">Forgot password?</span>
+                        <Link to="/forgot-password" className="span">Forgot password?</Link>
                     </div>
                     {error && (
                         <div className="error-message">
@@ -297,7 +297,7 @@ const FormContainer = styled.div`
                 color: #f5f5f5;
                 
                 &::placeholder {
-                    color: #a0aec0;
+                    color: #737373;
                 }
             }
         }
