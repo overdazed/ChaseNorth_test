@@ -115,8 +115,13 @@ const Checkout = () => {
         // If all validations pass, proceed with form submission
         setIsFormSubmitted(true);
 
+        // // Calculate shipping cost based on country
+        // const cost = getShippingCost(country);
+        // setShippingCost(cost);
+
         // Calculate shipping cost based on country
-        const cost = getShippingCost(country);
+        const cost = getShippingCost(shippingAddress.country.trim());
+        // Update the state for any UI updates
         setShippingCost(cost);
 
         // Prepare the complete shipping address with all fields
@@ -219,10 +224,15 @@ const Checkout = () => {
                 ? subtotal - (discountAmount || 0)
                 : subtotal;
 
-            // Calculate final total (discounted subtotal + shipping cost)
+            // // Calculate final total (discounted subtotal + shipping cost)
+            // const finalShippingCost = (discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4)
+            //     ? 0
+            //     : shippingCost;
+
+            // Use the calculated cost directly in the checkout creation
             const finalShippingCost = (discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4)
                 ? 0
-                : shippingCost;
+                : cost;  // Use the just calculated cost instead of the state
 
             const totalPrice = discountedSubtotal + finalShippingCost;
 
@@ -704,7 +714,7 @@ const Checkout = () => {
                         {!checkoutId ? (
                             <button
                                 type="submit"
-                                className={`w-full bg-black text-white py-3 rounded ${
+                                className={`w-full bg-black text-white py-3 rounded-full ${
                                     isFormSubmitted ? 'opacity-75' : ''
                                 }`}
                             >
