@@ -51,17 +51,30 @@ exports.forgotPassword = async (req, res, next) => {
                     <a href="${resetURL}" 
                        style="display: inline-block; 
                               padding: 12px 24px; 
-                              background-color: #4CAF50; 
+                              background-color: #571100; 
                               color: white; 
                               text-decoration: none; 
-                              border-radius: 4px; 
+                              border-radius: 10000px; 
                               margin: 15px 0; 
-                              font-weight: bold;">
+                              font-weight: bold;
+                              transition: background-color 0.3s ease;
+                              box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                         Reset Password
                     </a>
+                    <style>
+                        a[href^="http"]:hover {
+                            background-color: #3a0b00 !important;
+                            transform: translateY(-1px);
+                            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                        }
+                        a[href^="http"]:active {
+                            transform: translateY(0);
+                            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                        }
+                    </style>
                 </div>
                 <p style="text-align: left;">Or copy and paste this link into your browser:</p>
-                <p style="text-align: left;"><a href="${resetURL}">${resetURL}</a></p>
+                <p style="text-align: left;"><a href="${resetURL}" style="color: #571100; text-decoration: underline;">${resetURL}</a></p>
                 <p style="text-align: left;">If you didn't request this, please ignore this email.</p>
             </div>
             `;
