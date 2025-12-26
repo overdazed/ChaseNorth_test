@@ -389,7 +389,7 @@ const FormContainer = styled.div`
             }
 
             .dark & {
-                color: #818cf8;
+                color: #2d79f3;
             }
         }
     }
