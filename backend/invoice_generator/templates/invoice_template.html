@@ -493,94 +493,74 @@
         </table>
     </div>
 
-    <!-- Replace the entire calculation section with this code -->
-    <div class="px-14 py-10 text-sm text-neutral-700">
-        <table class="w-full border-collapse border-spacing-0">
+    <div class="items-section">
+        <table class="items-table">
             <thead>
             <tr>
-                <td class="border-b-2 border-main pb-3 pl-3 font-bold text-main">#</td>
-                <td class="border-b-2 border-main pb-3 pl-2 font-bold text-main">Product details</td>
-                <td class="border-b-2 border-main pb-3 pl-2 text-right font-bold text-main">Price</td>
-                <td class="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main">Qty.</td>
-                <td class="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main">VAT</td>
-                <td class="border-b-2 border-main pb-3 pl-2 text-right font-bold text-main">Subtotal</td>
-                <td class="border-b-2 border-main pb-3 pl-2 pr-3 text-right font-bold text-main">Subtotal + VAT</td>
+                <th class="border-b-2 border-main pb-3 pl-3 font-bold text-main">#</th>
+                <th class="border-b-2 border-main pb-3 pl-2 font-bold text-main">Product details</th>
+                <th class="border-b-2 border-main pb-3 pl-2 text-right font-bold text-main">Price</th>
+                <th class="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main">Qty</th>
+                <th class="border-b-2 border-main pb-3 pl-2 text-right font-bold text-main">Total</th>
             </tr>
             </thead>
             <tbody>
-            {% set totalNetAmount = 0 %}
-            {% set totalVatAmount = 0 %}
-            {% set totalAmount = 0 %}
-
+            {% set subtotal = 0 %}
             {% for item in order.orderItems %}
-            {% set itemSubtotal = item.price * item.quantity %}
-            {% set itemVatAmount = (itemSubtotal * (item.vatRate or 19)) / 100 %}
-            {% set itemTotal = itemSubtotal + itemVatAmount %}
-
-            {% set totalNetAmount = totalNetAmount + itemSubtotal %}
-            {% set totalVatAmount = totalVatAmount + itemVatAmount %}
-            {% set totalAmount = totalAmount + itemTotal %}
-
+            {% set item_total = item.price * item.quantity %}
+            {% set subtotal = subtotal + item_total %}
             <tr>
-                <td class="border-b py-3 pl-3">{{ loop.index }}.</td>
-                <td class="border-b py-3 pl-2">{{ item.name }}</td>
-                <td class="border-b py-3 pl-2 text-right">{{ item.price|number_format(2, '.', ',') }} {{ currency }}</td>
-                <td class="border-b py-3 pl-2 text-center">{{ item.quantity }}</td>
-                <td class="border-b py-3 pl-2 text-center">{{ item.vatRate or 19 }}%</td>
-                <td class="border-b py-3 pl-2 text-right">{{ itemSubtotal|number_format(2, '.', ',') }} {{ currency }}</td>
-                <td class="border-b py-3 pl-2 pr-3 text-right">{{ itemTotal|number_format(2, '.', ',') }} {{ currency }}</td>
+                <td class="border-b py-3 pl-3 text-neutral-600">{{ loop.index }}.</td>
+                <td class="border-b py-3 pl-2">
+                    <div class="font-medium text-neutral-700">{{ item.name }}</div>
+                    <div class="text-xs text-neutral-500">
+                        {% if item.color %}{{ item.color }}{% if item.size %} | {% endif %}{% endif %}
+                        {% if item.size %}{{ item.size }}{% endif %}
+                    </div>
+                </td>
+                <td class="border-b py-3 pl-2 text-right text-neutral-600">${{ "%.2f"|format(item.price) }}</td>
+                <td class="border-b py-3 pl-2 text-center text-neutral-600">{{ item.quantity }}</td>
+                <td class="border-b py-3 pl-2 pr-3 text-right text-neutral-600">${{ "%.2f"|format(item_total) }}</td>
             </tr>
             {% endfor %}
-
-            <tr>
-                <td colspan="7">
-                    <table class="w-full border-collapse border-spacing-0">
-                        <tbody>
-                        <tr>
-                            <td class="w-full"></td>
-                            <td>
-                                <table class="w-full border-collapse border-spacing-0">
-                                    <tbody>
-                                    <tr>
-                                        <td class="border-b p-3">
-                                            <div class="whitespace-nowrap text-slate-400">Net total:</div>
-                                        </td>
-                                        <td class="border-b p-3 text-right">
-                                            <div class="whitespace-nowrap font-bold text-main">
-                                                {{ totalNetAmount|number_format(2, '.', ',') }} {{ currency }}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-3">
-                                            <div class="whitespace-nowrap text-slate-400">VAT total:</div>
-                                        </td>
-                                        <td class="p-3 text-right">
-                                            <div class="whitespace-nowrap font-bold text-main">
-                                                {{ totalVatAmount|number_format(2, '.', ',') }} {{ currency }}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="bg-main p-3">
-                                            <div class="whitespace-nowrap font-bold text-white">Total:</div>
-                                        </td>
-                                        <td class="bg-main p-3 text-right">
-                                            <div class="whitespace-nowrap font-bold text-white">
-                                                {{ totalAmount|number_format(2, '.', ',') }} {{ currency }}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
             </tbody>
         </table>
+
+        <div class="mt-6 flex justify-end">
+            <div class="w-64">
+                <div class="flex justify-between py-2">
+                    <span class="text-neutral-600">Subtotal:</span>
+                    <span class="font-medium">${{ "%.2f"|format(subtotal) }}</span>
+                </div>
+
+                {% if order.discount and order.discount.amount > 0 %}
+                <div class="flex justify-between py-2">
+                    <span class="text-neutral-600">Discount:</span>
+                    <span class="font-medium text-red-600">-${{ "%.2f"|format(order.discount.amount) }}</span>
+                </div>
+                {% set subtotal = subtotal - order.discount.amount %}
+                {% endif %}
+
+                {% if order.tax and order.tax > 0 %}
+                <div class="flex justify-between py-2">
+                    <span class="text-neutral-600">Tax ({{ order.taxRate }}%):</span>
+                    <span class="font-medium">${{ "%.2f"|format(order.tax) }}</span>
+                </div>
+                {% endif %}
+
+                {% if order.shippingCost and order.shippingCost > 0 %}
+                <div class="flex justify-between py-2">
+                    <span class="text-neutral-600">Shipping:</span>
+                    <span class="font-medium">${{ "%.2f"|format(order.shippingCost) }}</span>
+                </div>
+                {% endif %}
+
+                <div class="flex justify-between py-3 border-t border-neutral-200 mt-2">
+                    <span class="font-bold">Total:</span>
+                    <span class="font-bold">${{ "%.2f"|format(order.total) }}</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="px-14 py-6 text-sm text-neutral-700">

@@ -1,8 +1,7 @@
-// LAST WORKING: 2025-12-23 18:16
+// LAST WORKING: 2025-12-26 Rechnung mehr bearbeiten
 // To FIX:
 // Admin Panel
     // Report Tab
-    // Shipped Status
 // Preise überall
 
 
