@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { resetPassword } from '../redux/slices/authSlice';
 
 const ResetPassword = () => {
     const [password, setPassword] = useState('');
@@ -10,6 +12,7 @@ const ResetPassword = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { token } = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,35 +28,11 @@ const ResetPassword = () => {
         setIsLoading(true);
 
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:9000';
-            const url = new URL(`/api/users/reset-password/${token}`, apiUrl).toString();
-
-            console.log('Sending PATCH request to:', url);
-            console.log('Request body:', { password, passwordConfirm: confirmPassword });
-
-            const response = await fetch(url, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify({
-                    password,
-                    passwordConfirm: confirmPassword
-                }),
-            });
-
-            console.log('Response status:', response.status);
-            const data = await response.json().catch(e => {
-                console.error('Failed to parse JSON response:', e);
-                return { message: 'Invalid response from server' };
-            });
-
-            console.log('Response data:', data);
-
-            if (!response.ok) {
-                throw new Error(data.message || `Server responded with status ${response.status}`);
-            }
+            await dispatch(resetPassword({
+                token,
+                password,
+                passwordConfirm: confirmPassword
+            })).unwrap();
 
             setMessage('Password has been reset successfully. Redirecting to login...');
             setTimeout(() => {

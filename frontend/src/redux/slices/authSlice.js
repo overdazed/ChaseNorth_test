@@ -133,7 +133,11 @@ export const forgotPassword = createAsyncThunk(
     'auth/forgotPassword',
     async (email, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${process.env.VITE_API_URL}/api/users/forgot-password`, { email });
+            // Make sure we're sending just the email string, not an object
+            const response = await axios.post(
+                `${import.meta.env.VITE_API_URL}/api/users/forgot-password`,
+                { email }  // This creates { email: email }
+            );
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || 'Failed to send reset email');
@@ -143,9 +147,15 @@ export const forgotPassword = createAsyncThunk(
 
 export const resetPassword = createAsyncThunk(
     'auth/resetPassword',
-    async ({ token, password }, { rejectWithValue }) => {
+    async ({ token, password, passwordConfirm }, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${process.env.VITE_API_URL}/api/users/reset-password/${token}`, { password });
+            const response = await axios.patch(
+                `${import.meta.env.VITE_API_URL}/api/users/reset-password/${token}`,
+                {
+                    password,
+                    passwordConfirm
+                }
+            );
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || 'Failed to reset password');

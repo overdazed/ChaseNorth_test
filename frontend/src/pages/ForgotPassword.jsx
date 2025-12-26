@@ -12,6 +12,7 @@ const ForgotPassword = () => {
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
 
+    // In ForgotPassword.jsx
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -19,7 +20,7 @@ const ForgotPassword = () => {
         setIsLoading(true);
 
         try {
-            await dispatch(forgotPassword({ email })).unwrap();
+            await dispatch(forgotPassword(email)).unwrap();
             setMessage('If an account exists with this email, you will receive a password reset link.');
         } catch (err) {
             setError(err.message || 'Failed to send reset email. Please try again.');
