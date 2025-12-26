@@ -133,8 +133,14 @@ router.post('/:id/finalize', protect, async (req, res) => {
 
             const discountAmount = checkout.discount?.amount || 0;
 
-            // Use the shippingCost from checkout, which is already 0 if free shipping was applied
-            const shippingCost = checkout.shippingCost || 0;
+            // Get shipping cost from checkout, ensuring it's a number and defaulting to 0 if not set
+            const shippingCost = typeof checkout.shippingCost === 'number' ? checkout.shippingCost : 0;
+            
+            console.log('Finalizing order with shipping cost:', {
+                fromCheckout: checkout.shippingCost,
+                finalShippingCost: shippingCost,
+                hasFreeShipping: checkout.discount?.isFreeShipping || false
+            });
 
             // Calculate total price
             const totalPrice = subtotal - discountAmount + shippingCost;
