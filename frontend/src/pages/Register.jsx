@@ -150,7 +150,7 @@ const Register = () => {
                             <input
                                 type={showPassword ? "text" : "password"}
                                 className={`input w-full ${password && !isPasswordValid ? 'border-red-500' : ''}`}
-                                placeholder="Enter your Password (min 12 characters)"
+                                placeholder="Enter your Password"
                                 value={password}
                                 onChange={handlePasswordChange}
                                 style={{ paddingRight: '40px' }}
@@ -257,24 +257,186 @@ const RegisterContainer = styled.div`
     width: 100%;
     background-color: #f8f9fa;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    transition: background-color 0.3s ease;
     
     @media (max-width: 768px) {
         flex-direction: column;
+    }
+    
+    .dark & {
+        background-color: #0a0a0a;
+        color: #f5f5f5;
     }
 `;
 
 const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     width: 100%;
-    max-width: 50%;
+    max-width: 28rem;
     padding: 2rem;
+    margin: 0 auto;
     
-    @media (max-width: 768px) {
-        max-width: 100%;
-        padding: 1.5rem;
+    @media (min-width: 768px) {
+        width: 50%;
+        padding: 4rem 2rem;
+    }
+    
+    .dark & {
+        background-color: #0a0a0a;
+        color: #f5f5f5;
+    }
+    
+    .form {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .inputForm {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 1rem;
+        background-color: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.375rem;
+        padding: 0.75rem 1rem;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        
+        &:focus-within {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 1px #3b82f6;
+        }
+        
+        .dark & {
+            background-color: #2d2d2d;
+            border-color: #4a5568;
+            color: #f5f5f5;
+            
+            input {
+                color: #f5f5f5;
+                
+                &::placeholder {
+                    color: #a0aec0;
+                }
+            }
+        }
+    }
+    
+    .input {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        font-size: 0.875rem;
+        
+        &::placeholder {
+            color: #a0aec0;
+        }
+    }
+    
+    .button-submit {
+        width: 100%;
+        padding: 0.75rem 1.5rem;
+        background-color: #3b82f6;
+        color: white;
+        font-weight: 600;
+        border: none;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+        margin-top: 1rem;
+        
+        &:hover:not(:disabled) {
+            background-color: #2563eb;
+        }
+        
+        &:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+        
+        &:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .dark & {
+            background-color: #4f46e5;
+            
+            &:hover:not(:disabled) {
+                background-color: #4338ca;
+            }
+        }
+    }
+    
+    .p {
+        text-align: center;
+        margin: 1rem 0;
+        color: #4a5568;
+        
+        .dark & {
+            color: #a0aec0;
+        }
+        
+        .span {
+            color: #3b82f6;
+            font-weight: 600;
+            text-decoration: none;
+            
+            &:hover {
+                text-decoration: underline;
+            }
+            
+            .dark & {
+                color: #818cf8;
+            }
+        }
+    }
+    
+    .flex-row {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin: 1rem 0;
+        
+        @media (max-width: 640px) {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+    
+    .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.375rem;
+        background-color: white;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+        
+        &:hover {
+            background-color: #f8fafc;
+        }
+        
+        &:active {
+            transform: translateY(1px);
+        }
+        
+        .dark & {
+            background-color: #2d2d2d;
+            border-color: #4a5568;
+            color: #f5f5f5;
+            
+            &:hover {
+                background-color: #374151;
+            }
+        }
     }
     
     .form {
@@ -287,6 +449,11 @@ const FormContainer = styled.div`
         max-width: 500px;
         border-radius: 20px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        
+        .dark & {
+            background-color: #2d2d2d;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
     }
     
     .inputForm {
@@ -295,6 +462,11 @@ const FormContainer = styled.div`
         height: 48px;
         display: flex;
         align-items: center;
+        
+        .dark & {
+            border-color: #4a5568;
+            background-color: #2d2d2d;
+        }
         padding-left: 10px;
         transition: 0.2s ease-in-out;
         margin-bottom: 4px;
@@ -403,11 +575,7 @@ const FormContainer = styled.div`
 `;
 
 const ImageContainer = styled.div`
-    width: 50%;
-    background-color: #f8f9fa;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    flex: 1;
     overflow: hidden;
     
     @media (max-width: 768px) {
@@ -416,7 +584,7 @@ const ImageContainer = styled.div`
     
     img {
         width: 100%;
-        height: 100vh;
+        height: 100%;
         object-fit: cover;
     }
 `;
