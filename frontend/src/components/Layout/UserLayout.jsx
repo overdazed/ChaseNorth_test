@@ -32,6 +32,7 @@ const UserLayout = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const isHomePage = location.pathname === '/';
+    const isRegisterPage = location.pathname === '/register';
     const isAtBottom = useScrollToBottom();
 
     const handleBugReportClick = async (e) => {
@@ -47,7 +48,7 @@ const UserLayout = () => {
             <Header transparent={isHomePage}/>
         {/* Main Content */}
             <main className="flex-grow">
-                {!isHomePage && <Breadcrumbs />}
+                {!isHomePage && !isRegisterPage && <Breadcrumbs />}
                 <Outlet/>
 
 

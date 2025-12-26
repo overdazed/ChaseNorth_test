@@ -180,7 +180,7 @@ const Register = () => {
                             </button>
                         </div>
                         {password && (
-                            <div className="mt-4 mb-6 p-4 bg-gray-50 rounded-lg dark:bg-neutral-800">
+                            <div className="mt-4 mb-6 p-4 bg-gray-50 rounded-lg dark:bg-neutral-800 text-xs">
                                 <p className="font-medium text-gray-700 dark:text-gray-300 mb-2">Password must contain:</p>
                                 <ul className="space-y-2">
                                     <li className={`flex items-center ${passwordErrors.minLength ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
@@ -253,7 +253,7 @@ const Register = () => {
 // Styled components
 const RegisterContainer = styled.div`
     display: flex;
-    min-height: 100vh;
+    height: 90vh;
     width: 100%;
     background-color: #f8f9fa;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -272,13 +272,13 @@ const RegisterContainer = styled.div`
 const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100%;
-    max-width: 28rem;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
     padding: 2rem;
-    margin: 0 auto;
+    margin: 0;
 
     @media (min-width: 768px) {
-        width: 50%;
         padding: 4rem 2rem;
     }
 
@@ -577,7 +577,7 @@ const FormContainer = styled.div`
 `;
 
 const ImageContainer = styled.div`
-    flex: 1;
+    width: 50%;
     overflow: hidden;
     
     @media (max-width: 768px) {
