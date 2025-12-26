@@ -97,8 +97,6 @@ import EditProductPage from "./components/Admin/EditProductPage.jsx";
 import OrderManagement from "./components/Admin/OrderManagement.jsx";
 import Report from "./pages/Report";
 import ReportConfirmation from "./pages/ReportConfirmation";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
 
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -156,26 +154,6 @@ const App = () => {
                         <Route path="report" element={<Report />} />
                         <Route path="report/confirmation" element={<ReportConfirmation />} />
                     </Route>
-                    <Route path="/login" element={
-                        <UserLayout>
-                            <Login />
-                        </UserLayout>
-                    } />
-                    <Route path="/register" element={
-                        <UserLayout>
-                            <Register />
-                        </UserLayout>
-                    } />
-                    <Route path="/forgot-password" element={
-                        <UserLayout>
-                            <ForgotPassword />
-                        </UserLayout>
-                    } />
-                    <Route path="/reset-password" element={
-                        <UserLayout>
-                            <ResetPassword />
-                        </UserLayout>
-                    } />
                     <Route
                         path="/admin"
                         element={

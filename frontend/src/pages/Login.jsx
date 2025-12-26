@@ -170,7 +170,7 @@ const Login = () => {
                             <input type="checkbox" id="remember" />
                             <label htmlFor="remember"> Remember me</label>
                         </div>
-                        <Link to="/forgot-password" className="span">Forgot password?</Link>
+                        <span className="span">Forgot password?</span>
                     </div>
                     {error && (
                         <div className="error-message">
