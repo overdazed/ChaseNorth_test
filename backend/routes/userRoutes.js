@@ -148,6 +148,10 @@ router.get("/profile", protect, async (req, res) => {
 
 // create folder "middleware" > file "authMiddleware.js"
 
+// Password reset routes
+router.post('/forgot-password', authController.forgotPassword);
+router.patch('/reset-password/:token', authController.resetPassword);
+
 module.exports = router;
 
 // open server.js file

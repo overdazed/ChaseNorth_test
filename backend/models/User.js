@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 // define the user schema
 // new mongoose.Schema() will help us define the structure, types and validation rules for the entries in our database

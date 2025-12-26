@@ -56,6 +56,7 @@ const newsletterRoutes = require('./routes/newsletterRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const initializeCounters = require('./initializeCounter');
 
+
 // Test route from minimal.js
 app.get('/api/test', (req, res) => {
   res.json({ 
