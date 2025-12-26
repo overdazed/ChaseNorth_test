@@ -244,21 +244,36 @@
 </head>
 <body>
 <div class="container">
-    <div class="header">
-        <div>
-            <img src="https://raw.githubusercontent.com/templid/email-templates/main/templid-dynamic-templates/invoice-02/brand-sample.png"
-                 class="logo"
-                 alt="Company Logo">
-        </div>
-        <div class="invoice-meta">
-<!--            <h1 class="text-lg font-bold mb-2">INVOICE</h1>-->
-            <div class="text-sm">
-                <div class="whitespace-nowrap text-slate-400">Date</div>
-                <div class="whitespace-nowrap font-bold text-main">{{ invoice_date }}</div>
-                <div class="mt-2 whitespace-nowrap text-slate-400">Invoice #</div>
-                <div class="whitespace-nowrap font-bold text-main">{{ invoice_number }}</div>
-            </div>
-        </div>
+    <div class="px-14 py-6">
+        <table class="w-full border-collapse border-spacing-0">
+            <tbody>
+            <tr>
+                <td class="w-1/2 align-top">
+                    <div>
+                        <img src="https://raw.githubusercontent.com/templid/email-templates/main/templid-dynamic-templates/invoice-02/brand-sample.png"
+                             class="h-12"
+                             alt="Brand Logo"/>
+                    </div>
+                </td>
+                <td class="w-1/2 align-top">
+                    <div class="text-right">
+                        <table class="ml-auto border-collapse border-spacing-0">
+                            <tbody>
+                            <tr>
+                                <td class="text-slate-400 pr-2">Date</td>
+                                <td class="font-bold text-main">{{ invoice_date }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-slate-400 pr-2">Invoice #</td>
+                                <td class="font-bold text-main">{{ invoice_number }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="billing-section">
