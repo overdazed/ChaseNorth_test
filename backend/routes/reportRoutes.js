@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const { protect } = require('../middleware/authMiddleware');
+const { protect, admin } = require('../middleware/authMiddleware');
 const Report = require('../models/Report');
 const { sendReportConfirmation } = require('../services/emailService');
 
@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ 
+const upload = multer({
     storage: multer.memoryStorage(),
     limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
 });
@@ -71,7 +71,8 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
             uploadedFiles.push({
                 filename: file.originalname,
                 path: `attachments/${fileName}`,
-                url: publicUrl
+                url: publicUrl,
+                mimetype: file.mimetype
             });
         }
 
@@ -79,7 +80,7 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
         report.attachments = uploadedFiles;
         await report.save();
 
-        // Rest of the code remains the same...
+        // Send confirmation email
         const recipientEmail = email || (req.user ? req.user.email : null);
         if (recipientEmail) {
             try {
@@ -121,45 +122,6 @@ router.post('/', upload.array('attachments', 5), async (req, res) => {
 // @route   GET /api/reports/order/:orderId
 // @desc    Get report by order ID
 // @access  Public
-// router.get('/order/:orderId', async (req, res) => {
-//     try {
-//         const report = await Report.findOne({
-//             orderId: req.params.orderId,
-//             $or: [
-//                 { userId: req.user.id },
-//                 { email: req.user.email }
-//             ]
-//         });
-//
-//         // Return minimal public information
-//         const publicReport = {
-//             _id: report._id,
-//             orderId: report.orderId,
-//             status: report.status,
-//             createdAt: report.createdAt,
-//             updatedAt: report.updatedAt
-//         };
-//
-//         if (!report) {
-//             return res.status(404).json({
-//                 success: false,
-//                 message: 'No report found for this order'
-//             });
-//         }
-//
-//         res.json({
-//             success: true,
-//             data: report
-//         });
-//     } catch (error) {
-//         console.error('Error fetching report:', error);
-//         res.status(500).json({
-//             success: false,
-//             message: 'Error fetching report',
-//             error: error.message
-//         });
-//     }
-// });
 router.get('/order/:orderId', async (req, res) => {
     try {
         const report = await Report.findOne({ orderId: req.params.orderId })
@@ -186,5 +148,104 @@ router.get('/order/:orderId', async (req, res) => {
         });
     }
 });
+
+// Admin routes
+const adminRouter = express.Router();
+
+// Apply admin middleware to all admin routes
+adminRouter.use(protect, admin);
+
+// @desc    Get all reports with pagination and search
+// @route   GET /api/admin/reports
+// @access  Private/Admin
+adminRouter.get('/', async (req, res) => {
+    try {
+        const pageSize = 10;
+        const page = Number(req.query.page) || 1;
+
+        // Search and filter
+        const keyword = req.query.keyword
+            ? {
+                $or: [
+                    { referenceNumber: { $regex: req.query.keyword, $options: 'i' } },
+                    { problemType: { $regex: req.query.keyword, $options: 'i' } },
+                    { email: { $regex: req.query.keyword, $options: 'i' } }
+                ]
+            }
+            : {};
+
+        const count = await Report.countDocuments({ ...keyword });
+        const reports = await Report.find({ ...keyword })
+            .populate('orderId', 'orderNumber')
+            .sort({ createdAt: -1 })
+            .limit(pageSize)
+            .skip(pageSize * (page - 1));
+
+        res.json({
+            reports,
+            page,
+            pages: Math.ceil(count / pageSize),
+            total: count
+        });
+    } catch (error) {
+        console.error('Error fetching reports:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// @desc    Update report status
+// @route   PATCH /api/admin/reports/:id/status
+// @access  Private/Admin
+adminRouter.patch('/:id/status', async (req, res) => {
+    try {
+        const { status } = req.body;
+
+        if (!['Submitted', 'In Review', 'Needs Info', 'Resolved', 'Rejected', 'Archived'].includes(status)) {
+            return res.status(400).json({ message: 'Invalid status value' });
+        }
+
+        const report = await Report.findById(req.params.id);
+
+        if (!report) {
+            return res.status(404).json({ message: 'Report not found' });
+        }
+
+        report.status = status;
+        const updatedReport = await report.save();
+
+        res.json({
+            _id: updatedReport._id,
+            referenceNumber: updatedReport.referenceNumber,
+            status: updatedReport.status,
+            updatedAt: updatedReport.updatedAt
+        });
+    } catch (error) {
+        console.error('Error updating report status:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// @desc    Get single report
+// @route   GET /api/admin/reports/:id
+// @access  Private/Admin
+adminRouter.get('/:id', async (req, res) => {
+    try {
+        const report = await Report.findById(req.params.id)
+            .populate('orderId')
+            .populate('attachments');
+
+        if (!report) {
+            return res.status(404).json({ message: 'Report not found' });
+        }
+
+        res.json(report);
+    } catch (error) {
+        console.error('Error fetching report:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// Mount admin routes
+router.use('/admin/reports', adminRouter);
 
 module.exports = router;

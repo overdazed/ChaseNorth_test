@@ -101,6 +101,7 @@ import ReportConfirmation from "./pages/ReportConfirmation";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import ProtectedRoute from "./components/Common/ProtectedRoute.jsx";
+import ReportManagement from "@/components/Admin/ReportManagement.jsx";
 
 
 const App = () => {
@@ -168,6 +169,7 @@ const App = () => {
                         <Route path="products" element={<ProductManagement />} />
                         <Route path="products/:id/edit" element={<EditProductPage />} />
                         <Route path="orders" element={<OrderManagement />} />
+                        <Route path="reports" element={<ReportManagement />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
