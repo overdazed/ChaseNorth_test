@@ -158,27 +158,55 @@
     </div>
 </div>
 
-<div class="billing-section">
-    <div class="company-info">
-        <h2 class="font-bold mb-2">{{ company_name }}</h2>
-        <p class="text-sm">
-            {{ company_address }}<br>
-            {{ company_zip }} {{ company_city }}<br>
-<!--            {{ company_country }}<br>-->
-            {{ company_phone }}<br>
-            {{ company_website }}<br>
-            {{ company_email }}
-        </p>
-    </div>
-    <div class="customer-info">
-        <h3 class="font-bold mb-2">Bill To:</h3>
-        <p class="text-sm">
-            {{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastName }}<br>
-            {{ order.shippingAddress.address }}<br>
-            {{ order.shippingAddress.postalCode }} {{ order.shippingAddress.city }}<br>
-            {{ order.shippingAddress.country }}
-        </p>
-    </div>
+<div class="bg-slate-100 px-14 py-6 text-sm" style="background-color: #f8fafc;">
+    <table class="w-full border-collapse border-spacing-0">
+        <tbody>
+        <tr>
+            <td class="w-1/2 align-top">
+                <div class="text-sm text-neutral-600">
+                    <p class="font-bold">{{ company_name }}</p>
+<!--                    <p>Number: {{ company_number or 'N/A' }}</p>-->
+                    <p>{{ company_contact_name or '' }}</p>
+                    <p>USt-ID-Nr.: {{ company_vat }}</p>
+                    <p>{{ company_address }}</p>
+                    <p>{{ company_zip }} {{ company_city }}</p>
+                    <p>{{ company_country }}</p>
+                </div>
+            </td>
+            <td class="w-1/2 align-top text-right">
+                <div class="text-sm text-neutral-600">
+                    {% if order.shippingAddress.firstName and order.shippingAddress.lastName %}
+                    <p class="font-bold">{{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastName }}</p>
+                    {% endif %}
+
+                    {% if order.shippingAddress.company %}
+                    <p>{{ order.shippingAddress.company }}</p>
+                    {% endif %}
+
+                    {% if order.shippingAddress.address %}
+                    <p>{{ order.shippingAddress.address }}</p>
+                    {% endif %}
+
+                    {% if order.shippingAddress.address2 %}
+                    <p>{{ order.shippingAddress.address2 }}</p>
+                    {% endif %}
+
+                    {% if order.shippingAddress.postalCode and order.shippingAddress.city %}
+                    <p>{{ order.shippingAddress.postalCode }} {{ order.shippingAddress.city }}</p>
+                    {% endif %}
+
+                    {% if order.shippingAddress.state %}
+                    <p>{{ order.shippingAddress.state }}</p>
+                    {% endif %}
+
+                    {% if order.shippingAddress.country %}
+                    <p>{{ order.shippingAddress.country }}</p>
+                    {% endif %}
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <div class="items-section">

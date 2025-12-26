@@ -77,6 +77,8 @@ class InvoiceGenerator:
                 context = {
                     'order': order,
                     'company_name': company_data.get('name', ''),
+                    'company_contact_name': company_data.get('contact_name', ''),
+                    'company_vat': company_data.get('vat', ''),
                     'company_address': company_data.get('address', ''),
                     'company_city': company_data.get('city', ''),
                     'company_zip': company_data.get('zip', ''),

@@ -61,6 +61,8 @@ router.post('/generate', protect, async (req, res) => {
         // Company information
         const companyData = {
             name: process.env.COMPANY_NAME,
+            contact_name: process.env.COMPANY_CONTACT_NAME,
+            vat: process.env.COMPANY_VAT,
             address: process.env.COMPANY_ADDRESS,
             city: process.env.COMPANY_CITY,
             zip: process.env.COMPANY_ZIP,
