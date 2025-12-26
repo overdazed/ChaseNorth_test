@@ -41,13 +41,30 @@ exports.forgotPassword = async (req, res, next) => {
 
         // 3) Send it to user's email
         const resetURL = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
-        const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
+        //const message = `Forgot your password? \nClick here to reset your password: \n\n${resetURL}.\n\nIf you didn't forget your password, please ignore this email!`;
+
+        const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h2>Password Reset</h2>
+        <p>Forgot your password? Click the button below to reset your password.</p>
+        <a href="${resetURL}" 
+           style="display: inline-block; padding: 12px 24px; background-color: #4CAF50; 
+                  color: white; text-decoration: none; border-radius: 4px; 
+                  margin: 15px 0; font-weight: bold;">
+            Reset Password
+        </a>
+        <p>Or copy and paste this link into your browser:</p>
+        <p><a href="${resetURL}">${resetURL}</a></p>
+        <p>If you didn't request this, please ignore this email.</p>
+    </div>
+`;
 
         try {
             await sendEmail({
                 email: user.email,
-                subject: 'Your password reset token (valid for 10 min)',
-                message
+                subject: 'Password Reset (valid for 10 min)',
+                message: `Forgot your password? Click here to reset: ${resetURL}\n\nIf you didn't request this, please ignore this email.`,
+                html: html
             });
 
             res.status(200).json({

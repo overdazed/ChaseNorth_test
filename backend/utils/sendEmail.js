@@ -20,7 +20,8 @@ const sendEmail = async (options) => {
         from: `"ChaseNorth Support" <${process.env.SYSTEM_EMAIL}>`,
         to: options.email,
         subject: options.subject,
-        text: options.message
+        text: options.message,
+        html: options.html
         // html: options.html // you can also send HTML emails
     };
 
