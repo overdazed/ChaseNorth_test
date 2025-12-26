@@ -26,8 +26,8 @@ const ResetPassword = () => {
 
         try {
             const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:9000';
-            const url = `${apiUrl}/api/users/reset-password/${token}`;
-            
+            const url = new URL(`/api/users/reset-password/${token}`, apiUrl).toString();
+
             console.log('Sending PATCH request to:', url);
             console.log('Request body:', { password, passwordConfirm: confirmPassword });
 
@@ -48,7 +48,7 @@ const ResetPassword = () => {
                 console.error('Failed to parse JSON response:', e);
                 return { message: 'Invalid response from server' };
             });
-            
+
             console.log('Response data:', data);
 
             if (!response.ok) {
