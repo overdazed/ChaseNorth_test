@@ -200,7 +200,7 @@ const OrderDetailsPage = () => {
 
                                                 console.log('Token found, length:', token.length);
 
-                                                const response = await fetch(`/api/api/invoices/generate`, {
+                                                const response = await fetch(`${API_URL}/api/invoices/generate`, {
                                                     method: 'POST',
                                                     headers: {
                                                         'Content-Type': 'application/json',
