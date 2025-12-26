@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice #{{ invoice_number }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        .company-info {
+            flex: 1;
+        }
+        .invoice-info {
+            text-align: right;
+        }
+        .billing-info {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        .total {
+            text-align: right;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="company-info">
+        <h1>{{ company_name }}</h1>
+        <p>
+            {{ company_address }}<br>
+            {{ company_city }}, {{ company_zip }}<br>
+            {{ company_country }}<br>
+            {{ company_phone }}<br>
+            {{ company_email }}<br>
+            {{ company_website }}
+        </p>
+    </div>
+    <div class="invoice-info">
+        <h2>INVOICE</h2>
+        <p><strong>Invoice #:</strong> {{ invoice_number }}</p>
+        <p><strong>Date:</strong> {{ invoice_date }}</p>
+        <p><strong>Due Date:</strong> {{ due_date }}</p>
+        <p><strong>Status:</strong> {{ order.status }}</p>
+    </div>
+</div>
+
+<div class="billing-info">
+    <h3>Bill To:</h3>
+    <p>
+        {{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastName }}<br>
+        {{ order.shippingAddress.address }}<br>
+        {{ order.shippingAddress.postalCode }} {{ order.shippingAddress.city }} <br>
+        {{ order.shippingAddress.country }}
+    </p>
+</div>
+
+<h3>Order Details</h3>
+<table>
+    <thead>
+    <tr>
+        <th>Item</th>
+<!--        <th>Description</th>-->
+        <th>Quantity</th>
+        <th>Price</th>
+<!--        <th>USt. %</th>-->
+        <th>Price (with tax)</th>
+        <th>Total (with tax)</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in order.orderItems %}
+    <tr>
+        <td>
+            {{ item.name }}<br>
+            {% if item.size or item.color %}
+            {% if item.color %}{{ item.color }}<span> |</span>{% endif %}
+            {% if item.size %}{{ item.size }}{% endif %}
+            {% else %}
+            -
+            {% endif %}
+        </td>
+<!--        <td>-->
+<!--            {% if item.size or item.color %}-->
+<!--            {% if item.color %}{{ item.color }}<span> |</span>{% endif %}-->
+<!--            {% if item.size %}{{ item.size }}{% endif %}-->
+<!--            {% else %}-->
+<!--            - -->
+<!--            {% endif %}-->
+<!--        </td>-->
+
+        <td>{{ item.quantity }}</td>
+        <td>${{ "%.2f"|format(item.price / 1.19) }}</td>
+<!--        <td>19%</td>-->
+        <td>${{ "%.2f"|format(item.price) }}</td>
+        <td>${{ "%.2f"|format((item.price) * item.quantity) }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<!--teeeeeeeeeeeeest-->
+<div class="total">
+    {% set subtotal = order.subtotal %}
+    <p>Subtotal (with tax): ${{ "%.2f"|format(subtotal) }}</p>
+
+    {% if order.discount and (order.discount.amount > 0 or order.discount.percentage > 0) %}
+    <p>Discount: -${{ "%.2f"|format(order.discount.amount) }}</p>
+    {% endif %}
+
+    {% if order.shippingCost and order.shippingCost > 0 %}
+    <p>Shipping: +${{ "%.2f"|format(order.shippingCost) }}
+        {% if order.discount and order.discount.isFreeShipping %}
+        <span style="color: green;">(Free Shipping Applied)</span>
+        {% endif %}
+    </p>
+    {% endif %}
+
+    <p><strong>Total: ${{ "%.2f"|format(order.total) }}</strong></p>
+</div>
+
+<div class="payment-info">
+    <h3>Payment Information</h3>
+    <p><strong>Payment Method:</strong> {{ order.paymentMethod|title }}</p>
+    <p><strong>Payment Status:</strong> {{ order.paymentStatus|title }}</p>
+    {% if order.isPaid and order.paidAt %}
+    <p><strong>Paid On:</strong> {{ order.paidAt|format_date }}</p>
+    {% endif %}
+</div>
+
+{% if order.notes %}
+<div class="notes">
+    <h3>Notes</h3>
+    <p>{{ order.notes }}</p>
+</div>
+{% endif %}
+
+<div class="footer">
+    <p>Thank you for your business!</p>
+    <p>If you have any questions about this invoice, please contact us at {{ company_email }}</p>
+</div>
+</body>
+</html>

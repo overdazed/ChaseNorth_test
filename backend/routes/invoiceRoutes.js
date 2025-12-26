@@ -60,15 +60,15 @@ router.post('/generate', protect, async (req, res) => {
 
         // Company information
         const companyData = {
-            name: process.env.COMPANY_NAME || 'Adventure Store',
-            address: process.env.COMPANY_ADDRESS || '123 Adventure St',
-            city: process.env.COMPANY_CITY || 'Adventure City',
-            zip: process.env.COMPANY_ZIP || '12345',
-            country: process.env.COMPANY_COUNTRY || 'Adventureland',
-            email: process.env.COMPANY_EMAIL || 'billing@adventurestore.com',
-            phone: process.env.COMPANY_PHONE || '+1 (555) 123-4567',
-            website: process.env.COMPANY_WEBSITE || 'www.adventurestore.com',
-            tax_rate: parseFloat(process.env.TAX_RATE) || 15.0
+            name: process.env.COMPANY_NAME,
+            address: process.env.COMPANY_ADDRESS,
+            city: process.env.COMPANY_CITY,
+            zip: process.env.COMPANY_ZIP,
+            country: process.env.COMPANY_COUNTRY,
+            email: process.env.COMPANY_EMAIL,
+            phone: process.env.COMPANY_PHONE,
+            website: process.env.COMPANY_WEBSITE,
+            tax_rate: parseFloat(process.env.TAX_RATE)
         };
 
         // Customer information

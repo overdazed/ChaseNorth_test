@@ -1,179 +1,253 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice #{{ invoice_number }}</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+        *,
+        ::before,
+        ::after {
+            box-sizing: border-box;
+            border-width: 0;
+            border-style: solid;
+            border-color: #e5e7eb;
         }
+
+        body {
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Styles */
         .header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 30px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 20px;
+            padding: 2rem 3.5rem;
+            border-bottom: 1px solid #e5e7eb;
         }
-        .company-info {
+
+        .logo {
+            height: 3rem;
+        }
+
+        .invoice-meta {
+            text-align: right;
+        }
+
+        /* Billing Info */
+        .billing-section {
+            display: flex;
+            padding: 2rem 3.5rem;
+            background-color: #f8fafc;
+        }
+
+        .company-info, .customer-info {
             flex: 1;
         }
-        .invoice-info {
+
+        .customer-info {
             text-align: right;
         }
-        .billing-info {
-            margin: 20px 0;
-            padding: 15px;
-            background: #f9f9f9;
-            border-radius: 4px;
+
+        /* Items Table */
+        .items-section {
+            padding: 2.5rem 3.5rem;
         }
-        table {
+
+        .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin: 1rem 0;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
+
+        .items-table th,
+        .items-table td {
+            padding: 0.75rem;
             text-align: left;
+            border-bottom: 1px solid #e5e7eb;
         }
-        th {
-            background-color: #f5f5f5;
+
+        .items-table th {
+            font-weight: 600;
+            color: #4b5563;
+            background-color: #f9fafb;
         }
-        .total {
+
+        .text-right {
             text-align: right;
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-top: 20px;
         }
-        .footer {
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
+
+        .text-center {
             text-align: center;
-            font-size: 0.9em;
-            color: #777;
+        }
+
+        /* Totals */
+        .totals {
+            width: 100%;
+            max-width: 300px;
+            margin-left: auto;
+            margin-top: 2rem;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .total-row:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 1.5rem 3.5rem;
+            background-color: #f8fafc;
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+
+        /* Utility Classes */
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .text-lg {
+            font-size: 1.125rem;
+        }
+
+        .font-bold {
+            font-weight: 600;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .mt-8 {
+            margin-top: 2rem;
+        }
+
+        .text-main {
+            color: #4f46e5;
         }
     </style>
 </head>
 <body>
 <div class="header">
+    <div>
+        <img src="https://raw.githubusercontent.com/templid/email-templates/main/templid-dynamic-templates/invoice-02/brand-sample.png"
+             class="logo"
+             alt="Company Logo">
+    </div>
+    <div class="invoice-meta">
+        <h1 class="text-lg font-bold mb-4">INVOICE</h1>
+        <div class="text-sm">
+            <p><span class="text-gray-600">Date:</span> {{ invoice_date }}</p>
+            <p><span class="text-gray-600">Invoice #:</span> {{ invoice_number }}</p>
+<!--            <p><span class="text-gray-600">Status:</span> {{ order.status }}</p>-->
+        </div>
+    </div>
+</div>
+
+<div class="billing-section">
     <div class="company-info">
-        <h1>{{ company_name }}</h1>
-        <p>
+        <h2 class="font-bold mb-2">{{ company_name }}</h2>
+        <p class="text-sm">
             {{ company_address }}<br>
-            {{ company_city }}, {{ company_zip }}<br>
+            {{ company_zip }} {{ company_city }}<br>
             {{ company_country }}<br>
             {{ company_phone }}<br>
-            {{ company_email }}<br>
-            {{ company_website }}
+            {{ company_website }}<br>
+            {{ company_email }}
         </p>
     </div>
-    <div class="invoice-info">
-        <h2>INVOICE</h2>
-        <p><strong>Invoice #:</strong> {{ invoice_number }}</p>
-        <p><strong>Date:</strong> {{ invoice_date }}</p>
-        <p><strong>Due Date:</strong> {{ due_date }}</p>
-        <p><strong>Status:</strong> {{ order.status }}</p>
+    <div class="customer-info">
+        <h3 class="font-bold mb-2">Bill To:</h3>
+        <p class="text-sm">
+            {{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastName }}<br>
+            {{ order.shippingAddress.address }}<br>
+            {{ order.shippingAddress.postalCode }} {{ order.shippingAddress.city }}<br>
+            {{ order.shippingAddress.country }}
+        </p>
     </div>
 </div>
 
-<div class="billing-info">
-    <h3>Bill To:</h3>
-    <p>
-        {{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastName }}<br>
-        {{ order.shippingAddress.address }}<br>
-        {{ order.shippingAddress.postalCode }} {{ order.shippingAddress.city }} <br>
-        {{ order.shippingAddress.country }}
-    </p>
-</div>
+<div class="items-section">
+    <table class="items-table">
+        <thead>
+        <tr>
+            <th>Item</th>
+            <th class="text-right">Price</th>
+            <th class="text-center">Qty</th>
+            <th class="text-right">Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in order.orderItems %}
+        <tr>
+            <td>
+                <div class="font-medium">{{ item.name }}</div>
+                <div class="text-sm text-gray-600">
+                    {% if item.color %}{{ item.color }}{% if item.size %} | {% endif %}{% endif %}
+                    {% if item.size %}{{ item.size }}{% endif %}
+                </div>
+            </td>
+            <td class="text-right">${{ "%.2f"|format(item.price) }}</td>
+            <td class="text-center">{{ item.quantity }}</td>
+            <td class="text-right">${{ "%.2f"|format(item.price * item.quantity) }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-<h3>Order Details</h3>
-<table>
-    <thead>
-    <tr>
-        <th>Item</th>
-<!--        <th>Description</th>-->
-        <th>Quantity</th>
-        <th>Price</th>
-<!--        <th>USt. %</th>-->
-        <th>Price (with tax)</th>
-        <th>Total (with tax)</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for item in order.orderItems %}
-    <tr>
-        <td>
-            {{ item.name }}<br>
-            {% if item.size or item.color %}
-            {% if item.color %}{{ item.color }}<span> |</span>{% endif %}
-            {% if item.size %}{{ item.size }}{% endif %}
-            {% else %}
-            -
-            {% endif %}
-        </td>
-<!--        <td>-->
-<!--            {% if item.size or item.color %}-->
-<!--            {% if item.color %}{{ item.color }}<span> |</span>{% endif %}-->
-<!--            {% if item.size %}{{ item.size }}{% endif %}-->
-<!--            {% else %}-->
-<!--            - -->
-<!--            {% endif %}-->
-<!--        </td>-->
+    <div class="totals">
+        <div class="total-row">
+            <span>Subtotal:</span>
+            <span>${{ "%.2f"|format(order.subtotal) }}</span>
+        </div>
 
-        <td>{{ item.quantity }}</td>
-        <td>${{ "%.2f"|format(item.price / 1.19) }}</td>
-<!--        <td>19%</td>-->
-        <td>${{ "%.2f"|format(item.price) }}</td>
-        <td>${{ "%.2f"|format((item.price) * item.quantity) }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-<!--teeeeeeeeeeeeest-->
-<div class="total">
-    {% set subtotal = order.subtotal %}
-    <p>Subtotal (with tax): ${{ "%.2f"|format(subtotal) }}</p>
-
-    {% if order.discount and (order.discount.amount > 0 or order.discount.percentage > 0) %}
-    <p>Discount: -${{ "%.2f"|format(order.discount.amount) }}</p>
-    {% endif %}
-
-    {% if order.shippingCost and order.shippingCost > 0 %}
-    <p>Shipping: +${{ "%.2f"|format(order.shippingCost) }}
-        {% if order.discount and order.discount.isFreeShipping %}
-        <span style="color: green;">(Free Shipping Applied)</span>
+        {% if order.discount and order.discount.amount > 0 %}
+        <div class="total-row">
+            <span>Discount:</span>
+            <span>-${{ "%.2f"|format(order.discount.amount) }}</span>
+        </div>
         {% endif %}
-    </p>
-    {% endif %}
 
-    <p><strong>Total: ${{ "%.2f"|format(order.total) }}</strong></p>
-</div>
+        {% if order.tax and order.tax > 0 %}
+        <div class="total-row">
+            <span>Tax ({{ order.taxRate }}%):</span>
+            <span>${{ "%.2f"|format(order.tax) }}</span>
+        </div>
+        {% endif %}
 
-<div class="payment-info">
-    <h3>Payment Information</h3>
-    <p><strong>Payment Method:</strong> {{ order.paymentMethod|title }}</p>
-    <p><strong>Payment Status:</strong> {{ order.paymentStatus|title }}</p>
-    {% if order.isPaid and order.paidAt %}
-    <p><strong>Paid On:</strong> {{ order.paidAt|format_date }}</p>
-    {% endif %}
-</div>
+        {% if order.shippingCost and order.shippingCost > 0 %}
+        <div class="total-row">
+            <span>Shipping:</span>
+            <span>${{ "%.2f"|format(order.shippingCost) }}</span>
+        </div>
+        {% endif %}
 
-{% if order.notes %}
-<div class="notes">
-    <h3>Notes</h3>
-    <p>{{ order.notes }}</p>
+        <div class="total-row text-main">
+            <span class="font-bold">Total:</span>
+            <span class="font-bold">${{ "%.2f"|format(order.total) }}</span>
+        </div>
+    </div>
 </div>
-{% endif %}
 
 <div class="footer">
-    <p>Thank you for your business!</p>
-    <p>If you have any questions about this invoice, please contact us at {{ company_email }}</p>
+    <div class="text-center text-sm">
+        <p>Thank you for your business!</p>
+        <p class="mt-2">If you have any questions about this invoice, please contact us at {{ company_email }}</p>
+    </div>
 </div>
 </body>
 </html>
