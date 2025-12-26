@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice #{{ invoice_number }}</title>
+    <title>Invoice {{ invoice_number }}</title>
     <style>
+        /* [Previous CSS remains exactly the same] */
         *,
         ::before,
         ::after {
@@ -32,82 +33,353 @@
         body {
             margin: 0;
             line-height: inherit;
-            color: #404040;
         }
 
-        .container {
-            max-width: 1000px;
+        hr {
+            height: 0;
+            color: inherit;
+            border-top-width: 1px;
+        }
+
+        abbr:where([title]) {
+            -webkit-text-decoration: underline dotted;
+            text-decoration: underline dotted;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-size: inherit;
+            font-weight: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: inherit;
+        }
+
+        b,
+        strong {
+            font-weight: bolder;
+        }
+
+        code,
+        kbd,
+        samp,
+        pre {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 1em;
+        }
+
+        small {
+            font-size: 80%;
+        }
+
+        sub,
+        sup {
+            font-size: 75%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+        }
+
+        sub {
+            bottom: -0.25em;
+        }
+
+        sup {
+            top: -0.5em;
+        }
+
+        table {
+            text-indent: 0;
+            border-color: inherit;
+            border-collapse: collapse;
+        }
+
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+            font-family: inherit;
+            font-feature-settings: inherit;
+            font-variation-settings: inherit;
+            font-size: 100%;
+            font-weight: inherit;
+            line-height: inherit;
+            color: inherit;
             margin: 0;
             padding: 0;
         }
 
-        /* Header Styles */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            padding: 1.5rem 3.5rem;
+        button,
+        select {
+            text-transform: none;
         }
 
-        .logo {
+        button,
+        [type='button'],
+        [type='reset'],
+        [type='submit'] {
+            appearance: button;
+            -webkit-appearance: button;
+            background-color: transparent;
+            background-image: none;
+        }
+
+        :-moz-focusring {
+            outline: auto;
+        }
+
+        :-moz-ui-invalid {
+            box-shadow: none;
+        }
+
+        progress {
+            vertical-align: baseline;
+        }
+
+        ::-webkit-inner-spin-button,
+        ::-webkit-outer-spin-button {
+            height: auto;
+        }
+
+        [type='search'] {
+            appearance: textfield;
+            -webkit-appearance: textfield;
+            outline-offset: -2px;
+        }
+
+        ::-webkit-search-decoration {
+            -webkit-appearance: none;
+        }
+
+        ::-webkit-file-upload-button {
+            -webkit-appearance: button;
+            font: inherit;
+        }
+
+        summary {
+            display: list-item;
+        }
+
+        blockquote,
+        dl,
+        dd,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        hr,
+        figure,
+        p,
+        pre {
+            margin: 0;
+        }
+
+        fieldset {
+            margin: 0;
+            padding: 0;
+        }
+
+        legend {
+            padding: 0;
+        }
+
+        ol,
+        ul,
+        menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        dialog {
+            padding: 0;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            opacity: 1;
+            color: #9ca3af;
+        }
+
+        button,
+        [role="button"] {
+            cursor: pointer;
+        }
+
+        :disabled {
+            cursor: default;
+        }
+
+        img,
+        svg,
+        video,
+        canvas,
+        audio,
+        iframe,
+        embed,
+        object {
+            display: block;
+        }
+
+        img,
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+
+        [hidden] {
+            display: none;
+        }
+
+        .fixed {
+            position: fixed;
+        }
+
+        .bottom-0 {
+            bottom: 0;
+        }
+
+        .left-0 {
+            left: 0;
+        }
+
+        .table {
+            display: table;
+        }
+
+        .h-12 {
             height: 3rem;
         }
 
-        .invoice-meta {
-            text-align: right;
+        .w-1\/2 {
+            width: 50%;
         }
 
-        /* Billing Info */
-        .billing-section {
-            background-color: #f8fafc;
-            /*padding: 0rem 0rem;*/
-        }
-
-        .company-info, .customer-info {
-            flex: 1;
-        }
-
-        .customer-info {
-            text-align: right;
-        }
-
-        /* Items Table */
-        .items-section {
-            padding: 2.5rem 3.5rem;
-        }
-
-        .items-table {
+        .w-full {
             width: 100%;
+        }
+
+        .border-collapse {
             border-collapse: collapse;
         }
 
-        .items-table th,
-        .items-table td {
-            padding: 0.75rem 0.5rem;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
+        .border-spacing-0 {
+            --tw-border-spacing-x: 0px;
+            --tw-border-spacing-y: 0px;
+            border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
+        }
+
+        .whitespace-nowrap {
+            white-space: nowrap;
+        }
+
+        .border-b {
+            border-bottom-width: 1px;
+        }
+
+        .border-b-2 {
+            border-bottom-width: 2px;
+        }
+
+        .border-r {
+            border-right-width: 1px;
         }
 
         .border-main {
             border-color: #5c6ac4;
         }
 
-        .text-main {
-            color: #5c6ac4;
-        }
-
         .bg-main {
             background-color: #5c6ac4;
         }
 
-        .text-right {
-            text-align: right;
+        .bg-slate-100 {
+            background-color: #f1f5f9;
+        }
+
+        .p-3 {
+            padding: 0.75rem;
+        }
+
+        .px-14 {
+            padding-left: 3.5rem;
+            padding-right: 3.5rem;
+        }
+
+        .px-2 {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+
+        .py-10 {
+            padding-top: 2.5rem;
+            padding-bottom: 2.5rem;
+        }
+
+        .py-3 {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+
+        .py-4 {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .py-6 {
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .pb-3 {
+            padding-bottom: 0.75rem;
+        }
+
+        .pl-2 {
+            padding-left: 0.5rem;
+        }
+
+        .pl-3 {
+            padding-left: 0.75rem;
+        }
+
+        .pl-4 {
+            padding-left: 1rem;
+        }
+
+        .pr-3 {
+            padding-right: 0.75rem;
+        }
+
+        .pr-4 {
+            padding-right: 1rem;
         }
 
         .text-center {
             text-align: center;
         }
 
-        /* Utility Classes */
+        .text-right {
+            text-align: right;
+        }
+
+        .align-top {
+            vertical-align: top;
+        }
+
         .text-sm {
             font-size: 0.875rem;
             line-height: 1.25rem;
@@ -122,8 +394,12 @@
             font-weight: 700;
         }
 
-        .font-medium {
-            font-weight: 500;
+        .italic {
+            font-style: italic;
+        }
+
+        .text-main {
+            color: #5c6ac4;
         }
 
         .text-neutral-600 {
@@ -134,6 +410,10 @@
             color: #404040;
         }
 
+        .text-slate-300 {
+            color: #cbd5e1;
+        }
+
         .text-slate-400 {
             color: #94a3b8;
         }
@@ -142,96 +422,8 @@
             color: #fff;
         }
 
-        .whitespace-nowrap {
-            white-space: nowrap;
-        }
-
-        .flex {
-            display: flex;
-        }
-
-        .justify-between {
-            justify-content: space-between;
-        }
-
-        .justify-end {
-            justify-content: flex-end;
-        }
-
-        .w-64 {
-            width: 16rem;
-        }
-
-        .w-full {
-            width: 100%;
-        }
-
-        .py-2 {
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-        }
-
-        .py-3 {
-            padding-top: 0.75rem;
-            padding-bottom: 0.75rem;
-        }
-
-        .px-3 {
-            padding-left: 0.75rem;
-            padding-right: 0.75rem;
-        }
-
-        .py-4 {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-        }
-
-        .px-14 {
-            padding-left: 3.5rem;
-            padding-right: 3.5rem;
-        }
-
-        .py-6 {
-            padding-top: 1.5rem;
-            padding-bottom: 1.5rem;
-        }
-
-        .py-10 {
-            padding-top: 2.5rem;
-            padding-bottom: 2.5rem;
-        }
-
-        .mt-2 {
-            margin-top: 0.5rem;
-        }
-
-        .border-b {
-            border-bottom-width: 1px;
-        }
-
-        .border-b-2 {
-            border-bottom-width: 2px;
-        }
-
-        .border-t {
-            border-top-width: 1px;
-        }
-
-        .border-neutral-200 {
-            border-color: #e5e7eb;
-        }
-
-        .text-lg {
-            font-size: 1.125rem;
-            line-height: 1.75rem;
-        }
-
-        .text-red-600 {
-            color: #dc2626;
-        }
-
         @page {
-            margin: 80px;
+            margin: 0;
         }
 
         @media print {
@@ -243,174 +435,208 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="px-14 py-6">
-        <table class="w-full border-collapse border-spacing-0">
-            <tbody>
-            <tr>
-                <td class="w-1/2 align-top">
-                    <div>
-                        <img src="https://raw.githubusercontent.com/templid/email-templates/main/templid-dynamic-templates/invoice-02/brand-sample.png"
-                             class="h-12"
-                             alt="Brand Logo"/>
-                    </div>
-                </td>
-                <td class="w-1/2 align-top">
-                    <div class="text-right">
-                        <table class="ml-auto border-collapse border-spacing-0">
+<div>
+    <div class="py-4">
+        <div class="px-14 py-6">
+            <table class="w-full border-collapse border-spacing-0">
+                <tbody>
+                <tr>
+                    <td class="w-1/2 align-top">
+                        <div>
+<!--                            {% if company_logo %}-->
+<!--                            <img src="{{ company_logo }}" class="h-12" alt="{{ company_name }} Logo"/>-->
+<!--                            {% else %}-->
+<!--                            <div class="font-bold text-2xl text-main">{{ company_name }}</div>-->
+<!--                            {% endif %}-->
+                            <img src="https://raw.githubusercontent.com/templid/email-templates/main/templid-dynamic-templates/invoice-02/brand-sample.png" class="h-12" alt="Brand Logo"/>
+                        </div>
+                    </td>
+                    <td class="w-1/2 align-top">
+                        <div class="text-right">
+                            <table class="ml-auto border-collapse border-spacing-0">
+                                <tbody>
+                                <tr>
+                                    <td class="text-slate-400 pr-2">Date</td>
+                                    <td class="font-bold text-main">{{ invoice_date }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-slate-400 pr-2">Invoice #</td>
+                                    <td class="font-bold text-main">{{ invoice_number }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-slate-100 px-14 py-6 text-sm">
+            <table class="w-full border-collapse border-spacing-0">
+                <tbody>
+                <tr>
+                    <td class="w-1/2 align-top">
+                        <div class="text-neutral-600">
+                            <p class="font-bold">{{ company_name }}</p>
+<!--                            {% if company_registration_number %}-->
+<!--                            <p>Number: {{ company_registration_number }}</p>-->
+<!--                            {% endif %}-->
+                            {% if company_vat %}
+                            <p>VAT: {{ company_vat }}</p>
+                            {% endif %}
+                            {% if company_contact_name %}
+                            <p>{{ company_contact_name }}</p>
+                            {% endif %}
+                            {% if company_address %}
+                            <p>{{ company_address }}</p>
+                            {% endif %}
+                            {% if company_city and company_zip %}
+                            <p>{{ company_zip }} {{ company_city }}</p>
+                            {% endif %}
+                            {% if company_country %}
+                            <p>{{ company_country }}</p>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="w-1/2 align-top text-right">
+                        <div class="text-neutral-600">
+                            {% if order.shippingAddress.firstName and order.shippingAddress.lastName %}
+                            <p>{{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastName }}</p>
+                            {% endif %}
+                            {% if order.shippingAddress.company %}
+                            <p>{{ order.shippingAddress.company }}</p>
+                            {% endif %}
+                            {% if order.shippingAddress.address %}
+                            <p>{{ order.shippingAddress.address }}</p>
+                            {% endif %}
+                            {% if order.shippingAddress.postalCode and order.shippingAddress.city %}
+                            <p>{{ order.shippingAddress.postalCode }} {{ order.shippingAddress.city }}</p>
+                            {% endif %}
+                            {% if order.shippingAddress.country %}
+                            <p>{{ order.shippingAddress.country }}</p>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="px-14 py-10 text-sm text-neutral-700">
+            <table class="w-full border-collapse border-spacing-0">
+                <thead>
+                <tr>
+                    <td class="border-b-2 border-main pb-3 pl-3 font-bold text-main">#</td>
+                    <td class="border-b-2 border-main pb-3 pl-2 font-bold text-main">Product details</td>
+                    <td class="border-b-2 border-main pb-3 pl-2 text-right font-bold text-main">Price</td>
+                    <td class="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main">Qty.</td>
+                    <td class="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main">VAT</td>
+                    <td class="border-b-2 border-main pb-3 pl-2 text-right font-bold text-main">Subtotal</td>
+                    <td class="border-b-2 border-main pb-3 pl-2 pr-3 text-right font-bold text-main">Subtotal + VAT</td>
+                </tr>
+                </thead>
+                <tbody>
+                {% set totalNetAmount = 0 %}
+<!--                {% set totalVatAmount = 0 %}-->
+                {% set totalAmount = 0 %}
+
+                {% for item in order.orderItems %}
+                {% set itemSubtotal = item.price * item.quantity %}
+<!--                {% set itemVatAmount = itemSubtotal * (item.taxRate / 100) %}-->
+<!--                {% set itemTotal = itemSubtotal + itemVatAmount %}-->
+
+                {% set totalNetAmount = itemSubtotal / 1.19 %}
+<!--                {% set totalVatAmount = totalVatAmount + itemVatAmount %}-->
+                {% set totalAmount = totalAmount + itemTotal %}
+                <tr>
+                    <td class="border-b py-3 pl-3">{{ loop.index }}.</td>
+                    <td class="border-b py-3 pl-2">{{ item.name }}</td>
+                    <td class="border-b py-3 pl-2 text-right">${{ "%.2f"|format(item.price) }}</td>
+                    <td class="border-b py-3 pl-2 text-center">{{ item.quantity }}</td>
+<!--                    <td class="border-b py-3 pl-2 text-center">{{ "%.0f"|format(item.taxRate) }}%</td>-->
+                    <td class="border-b py-3 pl-2 text-right">${{ "%.2f"|format(itemSubtotal) }}</td>
+                    <td class="border-b py-3 pl-2 pr-3 text-right">${{ "%.2f"|format(item.total) }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="7">
+                        <table class="w-full border-collapse border-spacing-0">
                             <tbody>
                             <tr>
-                                <td class="text-slate-400 pr-2">Date</td>
-                                <td class="font-bold text-main">{{ invoice_date }}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-slate-400 pr-2">Invoice #</td>
-                                <td class="font-bold text-main">{{ invoice_number }}</td>
+                                <td class="w-full"></td>
+                                <td>
+                                    <table class="w-full border-collapse border-spacing-0">
+                                        <tbody>
+                                        <tr>
+                                            <td class="border-b p-3">
+                                                <div class="whitespace-nowrap text-slate-400">Net total:</div>
+                                            </td>
+                                            <td class="border-b p-3 text-right">
+                                                <div class="whitespace-nowrap font-bold text-main">
+                                                    ${{ "%.2f"|format(totalNetAmount) }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3">
+                                                <div class="whitespace-nowrap text-slate-400">VAT total:</div>
+                                            </td>
+                                            <td class="p-3 text-right">
+                                                <div class="whitespace-nowrap font-bold text-main">
+<!--                                                    {{ currencySymbol }}{{ "%.2f"|format(totalVatAmount) }}-->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bg-main p-3">
+                                                <div class="whitespace-nowrap font-bold text-white">Total:</div>
+                                            </td>
+                                            <td class="bg-main p-3 text-right">
+                                                <div class="whitespace-nowrap font-bold text-white">
+                                                    ${{ "%.2f"|format(order.total) }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="billing-section">
-        <table class="w-full border-collapse">
-            <tbody>
-            <tr>
-                <td class="w-1/2 align-top">
-                    <div class="text-sm text-neutral-700">
-                        <p class="font-bold">{{ company_name }}</p>
-                        <p>USt-ID-Nr.: {{ company_vat }}</p>
-                        <p>{{ company_contact_name or '' }}</p>
-                        <p>{{ company_address }}</p>
-                        <p>{{ company_zip }} {{ company_city }}</p>
-                        <p>{{ company_country }}</p>
-                    </div>
-                </td>
-                <td class="w-1/2 align-top text-right">
-                    <div class="text-sm text-neutral-700">
-                        {% if order.shippingAddress.firstName and order.shippingAddress.lastName %}
-                        <p class="font-bold">{{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastName }}</p>
-                        {% endif %}
-
-                        {% if order.shippingAddress.company %}
-                        <p>{{ order.shippingAddress.company }}</p>
-                        {% endif %}
-
-                        {% if order.shippingAddress.address %}
-                        <p>{{ order.shippingAddress.address }}</p>
-                        {% endif %}
-
-                        {% if order.shippingAddress.address2 %}
-                        <p>{{ order.shippingAddress.address2 }}</p>
-                        {% endif %}
-
-                        {% if order.shippingAddress.postalCode and order.shippingAddress.city %}
-                        <p>{{ order.shippingAddress.postalCode }} {{ order.shippingAddress.city }}</p>
-                        {% endif %}
-
-                        {% if order.shippingAddress.state %}
-                        <p>{{ order.shippingAddress.state }}</p>
-                        {% endif %}
-
-                        {% if order.shippingAddress.country %}
-                        <p>{{ order.shippingAddress.country }}</p>
-                        {% endif %}
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="items-section">
-        <table class="items-table">
-            <thead>
-            <tr>
-                <th class="border-b-2 border-main pb-3 pl-3 font-bold text-main">#</th>
-                <th class="border-b-2 border-main pb-3 pl-2 font-bold text-main">Product details</th>
-                <th class="border-b-2 border-main pb-3 pl-2 text-right font-bold text-main">Price</th>
-                <th class="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main">Qty</th>
-                <th class="border-b-2 border-main pb-3 pl-2 text-right font-bold text-main">Total</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% set subtotal = 0 %}
-            {% for item in order.orderItems %}
-            {% set item_total = item.price * item.quantity %}
-            {% set subtotal = subtotal + item_total %}
-            <tr>
-                <td class="border-b py-3 pl-3 text-neutral-600">{{ loop.index }}.</td>
-                <td class="border-b py-3 pl-2">
-                    <div class="font-medium text-neutral-700">{{ item.name }}</div>
-                    <div class="text-xs text-neutral-500">
-                        {% if item.color %}{{ item.color }}{% if item.size %} | {% endif %}{% endif %}
-                        {% if item.size %}{{ item.size }}{% endif %}
-                    </div>
-                </td>
-                <td class="border-b py-3 pl-2 text-right text-neutral-600">${{ "%.2f"|format(item.price) }}</td>
-                <td class="border-b py-3 pl-2 text-center text-neutral-600">{{ item.quantity }}</td>
-                <td class="border-b py-3 pl-2 pr-3 text-right text-neutral-600">${{ "%.2f"|format(item_total) }}</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="mt-6 flex justify-end">
-            <div class="w-64">
-                <div class="flex justify-between py-2">
-                    <span class="text-neutral-600">Subtotal:</span>
-                    <span class="font-medium">${{ "%.2f"|format(subtotal) }}</span>
-                </div>
-
-                {% if order.discount and order.discount.amount > 0 %}
-                <div class="flex justify-between py-2">
-                    <span class="text-neutral-600">Discount:</span>
-                    <span class="font-medium text-red-600">-${{ "%.2f"|format(order.discount.amount) }}</span>
-                </div>
-                {% set subtotal = subtotal - order.discount.amount %}
-                {% endif %}
-
-                {% if order.tax and order.tax > 0 %}
-                <div class="flex justify-between py-2">
-                    <span class="text-neutral-600">Tax ({{ order.taxRate }}%):</span>
-                    <span class="font-medium">${{ "%.2f"|format(order.tax) }}</span>
-                </div>
-                {% endif %}
-
-                {% if order.shippingCost and order.shippingCost > 0 %}
-                <div class="flex justify-between py-2">
-                    <span class="text-neutral-600">Shipping:</span>
-                    <span class="font-medium">${{ "%.2f"|format(order.shippingCost) }}</span>
-                </div>
-                {% endif %}
-
-                <div class="flex justify-between py-3 border-t border-neutral-200 mt-2">
-                    <span class="font-bold">Total:</span>
-                    <span class="font-bold">${{ "%.2f"|format(order.total) }}</span>
-                </div>
-            </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
 
-    <div class="px-14 py-6 text-sm text-neutral-700">
-        <p class="font-bold text-main mb-2">PAYMENT DETAILS</p>
-        <p>Bank Name: {{ company_bank_name or 'Your Bank Name' }}</p>
-        <p>IBAN: {{ company_iban or 'DE89 3704 0044 0532 0130 00' }}</p>
-        <p>BIC: {{ company_bic or 'COBADEFFXXX' }}</p>
-    </div>
+        <div class="px-14 text-sm text-neutral-700">
+            <p class="text-main font-bold">PAYMENT DETAILS</p>
+            <p>FYRST</p>
+            <p>Bank/Sort Code: sdfljkgsdfgl</p>
+            <p>Account Number: sdfgdsfgsd</p>
+            <p>Payment Reference: fdghfghd</p>
+        </div>
 
-    <div class="px-14 py-6 text-sm text-neutral-700">
-        <p class="font-bold text-main mb-2">NOTES</p>
-        <p class="text-sm text-neutral-600">Thank you for your business. Please make your payment within 14 days of receiving this invoice.</p>
-    </div>
+        {% if notes %}
+        <div class="px-14 py-10 text-sm text-neutral-700">
+            <p class="text-main font-bold">Notes</p>
+            <p class="italic">dfghhdfgh</p>
+        </div>
+        {% endif %}
 
-    <footer class="border-t border-neutral-200 py-4 text-center text-xs text-neutral-500">
-        {{ company_name }} | {{ company_address }}, {{ company_zip }} {{ company_city }}, {{ company_country }} | {{ company_email }} | {{ company_phone }}
-    </footer>
+        <footer class="fixed bottom-0 left-0 bg-slate-100 w-full text-neutral-600 text-center text-xs py-3">
+            {{ company_name }}
+            {% if company_email %}
+            <span class="text-slate-300 px-2">|</span>
+            {{ company_email }}
+            {% endif %}
+            {% if company_phone %}
+            <span class="text-slate-300 px-2">|</span>
+            {{ company_phone }}
+            {% endif %}
+        </footer>
+    </div>
 </div>
 </body>
 </html>
