@@ -1,8 +1,5 @@
-// src/pages/ResetPassword.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { resetPassword } from '../redux/slices/authSlice';
 import styled from 'styled-components';
 
 const ResetPassword = () => {
@@ -12,7 +9,6 @@ const ResetPassword = () => {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const { token } = useParams();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -28,12 +24,33 @@ const ResetPassword = () => {
         setIsLoading(true);
 
         try {
-            await dispatch(resetPassword({ token, password })).unwrap();
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            console.log('Sending request to:', `${apiUrl}/api/users/reset-password/${token}`);
+
+            const response = await fetch(`${apiUrl}/api/users/reset-password/${token}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    password,
+                    passwordConfirm: confirmPassword
+                }),
+            });
+
+            const data = await response.json();
+            console.log('Response:', data);
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to reset password');
+            }
+
             setMessage('Password has been reset successfully. Redirecting to login...');
             setTimeout(() => {
                 navigate('/login');
             }, 3000);
         } catch (err) {
+            console.error('Error:', err);
             setError(err.message || 'Failed to reset password. The link may have expired.');
         } finally {
             setIsLoading(false);
@@ -43,7 +60,7 @@ const ResetPassword = () => {
     return (
         <Container>
             <FormContainer>
-                <form onSubmit={handleSubmit} className="form">
+                <form onSubmit={(e) => { e.preventDefault(); }} className="form" noValidate>
                     <h2>Reset Your Password</h2>
                     {error && <div className="error-message">{error}</div>}
                     {message && <div className="success-message">{message}</div>}
@@ -73,8 +90,9 @@ const ResetPassword = () => {
                     </div>
 
                     <button
-                        type="submit"
+                        type="button"
                         className="button-submit"
+                        onClick={handleSubmit}
                         disabled={isLoading}
                     >
                         {isLoading ? 'Resetting...' : 'Reset Password'}
