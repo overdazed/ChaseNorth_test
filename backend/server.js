@@ -67,6 +67,7 @@ const productAdminRoutes = require('./routes/productAdminRoutes');
 const adminOrderRoutes = require('./routes/adminOrderRoutes');
 const newsletterRoutes = require('./routes/newsletterRoutes');
 const reportRoutes = require('./routes/reportRoutes');
+const bugReportRoutes = require('./routes/bugReportRoutes');
 const initializeCounters = require('./initializeCounter');
 
 
@@ -93,6 +94,7 @@ app.use('/api/checkout', checkoutRoutes);
 app.use('/api/invoices', invoiceRoutes);
 app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/bug-report', bugReportRoutes);
 
 // Additional routes (commented out for now - enable one by one as needed)
 app.use('/api/upload', uploadRoutes);

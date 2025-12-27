@@ -36,13 +36,11 @@ const UserLayout = () => {
     const isLoginPage = location.pathname === '/login';
     const isAtBottom = useScrollToBottom();
 
-    const handleBugReportClick = async (e) => {
+    const handleBugReportClick = (e) => {
         e.preventDefault();
-        setIsLoading(true);
-        await new Promise(resolve => setTimeout(resolve, 2500));
         navigate('/bug-report');
     };
-    
+
     return (
         <div className="min-h-screen flex flex-col">
         {/* Header */}
@@ -79,12 +77,12 @@ const UserLayout = () => {
             <div className={`fixed bottom-2 left-2 z-50 transition-opacity duration-500 ${isAtBottom ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                 <button 
                     onClick={handleBugReportClick}
-                    className="group w-10 h-10 flex items-center justify-center bg-transparent border-none rounded-full cursor-pointer transition-all duration-300 hover:bg-accent">
+                    className="group w-8 h-8 flex items-center justify-center bg-transparent border-none rounded-full cursor-pointer transition-all duration-300 hover:bg-accent">
                     <svg 
                         xmlns="http://www.w3.org/2000/svg" 
                         fill="none" 
                         viewBox="0 0 43 42" 
-                        className="w-5 h-5 transition-all duration-300 group-hover:[&>path]:stroke-white"
+                        className="w-4 h-4 transition-all duration-300 group-hover:[&>path]:stroke-white"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                     >
@@ -98,9 +96,9 @@ const UserLayout = () => {
                         <path strokeWidth="4" stroke="#808080" d="M30.0003 14.8974C39.0545 15.553 37.7958 12.1852 38.3718 4.20521" />
                         <path strokeWidth="4" stroke="#808080" d="M29.9944 29.7379C39.147 29.1188 37.8746 32.2993 38.4568 39.8355" />
                     </svg>
-                    <span className="absolute -top-6 left-1/2 -translate-x-1/2 bg-accent text-white text-[8px] px-1 py-0.5 rounded whitespace-nowrap opacity-0 invisible transition-all duration-300 group-hover:opacity-100 group-hover:visible group-hover:-top-7">
+                    <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 bg-accent text-white text-[9px] px-1.5 py-0.5 rounded whitespace-nowrap opacity-0 invisible transition-all duration-300 group-hover:opacity-100 group-hover:visible">
                         Bug Report
-                        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0.5 h-0.5 bg-accent transform rotate-45 -mb-0.5"></span>
+                        <span className="absolute right-full top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-accent transform rotate-45 -mr-0.5"></span>
                     </span>
                 </button>
             </div>

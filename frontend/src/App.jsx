@@ -98,6 +98,7 @@ import Report from "./pages/Report";
 import ReportConfirmation from "./pages/ReportConfirmation";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import BugReport from "./pages/BugReport";
 
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -156,6 +157,7 @@ const App = () => {
                         <Route path="report/confirmation" element={<ReportConfirmation />} />
                         <Route path="forgot-password" element={<ForgotPassword />} />
                         <Route path="reset-password/:token" element={<ResetPassword />} />
+                        <Route path="bug-report" element={<BugReport />} />
                     </Route>
                     <Route
                         path="/admin"
