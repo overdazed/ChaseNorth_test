@@ -42,12 +42,6 @@ const Wishlist = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const sidebarRef = useRef(null);
-  const [filters, setFilters] = useState({
-    gender: [],
-    category: [],
-    size: [],
-    price: { min: 0, max: 1000 }
-  });
 
   // Theme state
   const [isDay, setIsDay] = useState(() => {
@@ -88,67 +82,52 @@ const Wishlist = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Filter handling functions
-  const handleFilterChange = (newFilters) => {
-    setFilters(prev => ({
-      ...prev,
-      ...newFilters
-    }));
-  };
-
-  const applyFilters = (products) => {
-    return products.filter(product => {
-      // Filter by gender
-      if (filters.gender.length > 0 && !filters.gender.includes(product.gender)) {
-        return false;
-      }
-
-      // Filter by category
-      if (filters.category.length > 0 && !filters.category.includes(product.category)) {
-        return false;
-      }
-
-      // Filter by size
-      if (filters.size.length > 0 && !filters.size.some(size =>
-          product.sizes?.includes(size)
-      )) {
-        return false;
-      }
-
-      // Filter by price
-      const price = product.price;
-      if (price < filters.price.min || price > filters.price.max) {
-        return false;
-      }
-
-      return true;
-    });
-  };
-
-  // Update filtered products when filters or products change
-  useEffect(() => {
-    const filtered = applyFilters(products);
-    const sorted = sortProducts(filtered, sortBy);
-    setFilteredProducts(sorted);
-  }, [filters, products, sortBy]);
-
   // Sort products based on sortBy
   const sortProducts = (productsToSort, sortType) => {
     const sortedProducts = [...productsToSort];
 
     switch(sortType) {
+      case 'featured':
+        // Featured items first (you might want to add a 'featured' flag to your products)
+        return [...sortedProducts].sort((a, b) => 
+          (b.isFeatured || false) - (a.isFeatured || false) || 
+          new Date(b.createdAt) - new Date(a.createdAt)
+        );
+      case 'bestSelling':
+        // Sort by sales count (you'll need to add a 'salesCount' or similar field to your products)
+        return [...sortedProducts].sort((a, b) => 
+          (b.salesCount || 0) - (a.salesCount || 0)
+        );
+      case 'nameAsc':
+        return [...sortedProducts].sort((a, b) => 
+          a.name.localeCompare(b.name)
+        );
+      case 'nameDesc':
+        return [...sortedProducts].sort((a, b) => 
+          b.name.localeCompare(a.name)
+        );
       case 'priceAsc':
-        return sortedProducts.sort((a, b) => a.price - b.price);
+        return [...sortedProducts].sort((a, b) => 
+          a.price - b.price
+        );
       case 'priceDesc':
-        return sortedProducts.sort((a, b) => b.price - a.price);
-      case 'popularity':
-        // If you have a popularity field, sort by it. Otherwise, sort by newest first.
-        if (sortedProducts[0]?.createdAt) {
-          return sortedProducts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        }
-        return sortedProducts;
+        return [...sortedProducts].sort((a, b) => 
+          b.price - a.price
+        );
+      case 'dateOldNew':
+        return [...sortedProducts].sort((a, b) => 
+          new Date(a.createdAt) - new Date(b.createdAt)
+        );
+      case 'dateNewOld':
+        return [...sortedProducts].sort((a, b) => 
+          new Date(b.createdAt) - new Date(a.createdAt)
+        );
       default:
-        return productsToSort;
+        // Default sort (featured first, then newest)
+        return [...sortedProducts].sort((a, b) => 
+          (b.isFeatured || false) - (a.isFeatured || false) || 
+          new Date(b.createdAt) - new Date(a.createdAt)
+        );
     }
   };
 

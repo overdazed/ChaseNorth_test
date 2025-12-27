@@ -36,10 +36,14 @@ const SortOptions = ({ onSortChange, currentSort = '' }) => {
                     value={sortValue}
                     className="border p-2 rounded-md focus:outline-none text-sm"
                 >
-                    <option value="">Default</option>
+                    <option value="featured">Featured</option>
+                    <option value="bestSelling">Best Selling</option>
+                    <option value="nameAsc">Alphabetically, A-Z</option>
+                    <option value="nameDesc">Alphabetically, Z-A</option>
                     <option value="priceAsc">Price: Low to High</option>
                     <option value="priceDesc">Price: High to Low</option>
-                    <option value="popularity">Popularity</option>
+                    <option value="dateOldNew">Date: Old to New</option>
+                    <option value="dateNewOld">Date: New to Old</option>
                 </select>
             </div>
         </div>
