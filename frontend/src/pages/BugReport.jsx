@@ -1,15 +1,29 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const BugReport = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
   const location = useLocation();
-  const previousPageUrl = location.state?.from || document.referrer || 'Direct access or unknown referrer';
+  const previousPageUrl = location.state?.from || document.referrer || '/';
+  const navigate = useNavigate();
   
+  // Extract the path from the URL if it's a full URL
+  const getPathFromUrl = (url) => {
+    if (!url) return '/';
+    try {
+      const urlObj = new URL(url);
+      return urlObj.pathname + urlObj.search + urlObj.hash;
+    } catch (e) {
+      return url.startsWith('/') ? url : `/${url}`;
+    }
+  };
+  
+  const previousPath = getPathFromUrl(previousPageUrl);
+
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
   const handleFileChange = (e) => {
@@ -67,10 +81,12 @@ const BugReport = () => {
         throw new Error('Failed to submit bug report');
       }
 
-      toast.success('Bug report submitted successfully!');
-      reset();
-      setSelectedFiles([]);
-      setPreviewUrls([]);
+      // Navigate to confirmation page with the return path
+      navigate('/bug-report/confirmation', {
+        state: { from: previousPath },
+        replace: true
+      });
+
     } catch (error) {
       console.error('Error submitting bug report:', error);
       toast.error(error.message || 'Failed to submit bug report. Please try again.');
