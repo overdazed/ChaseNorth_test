@@ -36,7 +36,8 @@ const Newsletter = () => {
     };
 
     return (
-        <footer className="border-t-[0.5px] border-gray-200 dark:border-neutral-800 py-12 bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
+        // <footer className="border-t-[0.5px] border-gray-200 dark:border-neutral-800 py-12 bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
+        <footer className="border-t-[0.1px] border-gray-200 dark:border-neutral-900 py-12 bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
             <div className="md:col-span-4 flex justify-center">
                 <div className="max-w-md mx-8 sm:mx-0">
                     <h3 className="text-lg text-gray-800 dark:text-white mb-4">

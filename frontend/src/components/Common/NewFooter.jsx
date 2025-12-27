@@ -8,15 +8,31 @@ import {TbMail} from "react-icons/tb"
 
 const NewFooter = () => {
   return (
-    <div 
-      className="relative w-full bg-neutral-900"
-      style={{
-        clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)",
-        minHeight: '300px',
-        height: 'auto',
-        marginTop: 'auto' // This helps push the footer to the bottom
-      }}
-    >
+    // <div
+    //   className="relative w-full bg-neutral-900"
+    //   style={{
+    //     clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)",
+    //     minHeight: '300px',
+    //     height: 'auto',
+    //     marginTop: 'auto' // This helps push the footer to the bottom
+    //   }}
+    // >
+    //   <div
+    //       className="relative w-full bg-neutral-900"
+    //       style={{
+    //         clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)",
+    //         marginTop: 'auto'
+    //       }}
+    //   >
+      <div
+          className="relative w-full bg-neutral-900"
+          style={{
+            clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)",
+            minHeight: '300px',
+            overflow: 'hidden',
+            marginTop: 'auto'
+          }}
+      >
       <div className="relative w-full">
         <div className="w-full min-h-[400px] sm:min-h-[600px] lg:min-h-[800px] py-4 sm:py-6 lg:py-8 px-4 sm:px-6 flex flex-col justify-between">
             <div className="flex shrink-0 gap-8 sm:gap-12 lg:gap-20">

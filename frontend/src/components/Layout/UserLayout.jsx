@@ -1,5 +1,5 @@
 import Header from "../Common/Header";
-import NewFooter from "../Common/NewFooter";
+import NewFooter from "../Common/NewFooter.jsx";
 import ParallaxSection from "../Common/ParallaxSection";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -79,12 +79,12 @@ const UserLayout = () => {
             <div className={`fixed bottom-2 left-2 z-50 transition-opacity duration-500 ${isAtBottom ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                 <button 
                     onClick={handleBugReportClick}
-                    className="group w-6 h-6 flex items-center justify-center bg-transparent border-none rounded-full cursor-pointer transition-all duration-300 hover:bg-accent">
+                    className="group w-10 h-10 flex items-center justify-center bg-transparent border-none rounded-full cursor-pointer transition-all duration-300 hover:bg-accent">
                     <svg 
                         xmlns="http://www.w3.org/2000/svg" 
                         fill="none" 
                         viewBox="0 0 43 42" 
-                        className="w-3 h-3 transition-all duration-300 group-hover:[&>path]:stroke-white"
+                        className="w-5 h-5 transition-all duration-300 group-hover:[&>path]:stroke-white"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                     >
