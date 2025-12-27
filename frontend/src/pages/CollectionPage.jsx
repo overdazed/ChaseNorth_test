@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { FaFilter } from "react-icons/fa";
-import { useParams, useSearchParams } from "react-router-dom";
+import { FaFilter, FaChevronDown } from "react-icons/fa";
+import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 // import * as queryString from "node:querystring";
 import FilterSidebar from "../components/Products/FilterSidebar.jsx";
@@ -21,7 +21,8 @@ const CollectionPage = () => {
 
     // To get the collection name
     const { collection } = useParams();
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const location = useLocation();
     const dispatch = useDispatch();
     const { products, loading, error } = useSelector((state) => state.products);
     const queryParams = Object.fromEntries([...searchParams]);
@@ -97,6 +98,50 @@ const CollectionPage = () => {
 
     // state variable to determine if the drawer is open or closed
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    
+    // Price filter state
+    const [isPriceFilterOpen, setIsPriceFilterOpen] = useState(false);
+    const [priceRange, setPriceRange] = useState({
+        min: '',
+        max: ''
+    });
+    const priceFilterRef = useRef(null);
+    
+    // Close price filter when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (priceFilterRef.current && !priceFilterRef.current.contains(event.target)) {
+                setIsPriceFilterOpen(false);
+            }
+        };
+        
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+    
+    // Apply price filter
+    const applyPriceFilter = () => {
+        const params = new URLSearchParams(location.search);
+        if (priceRange.min) params.set('minPrice', priceRange.min);
+        else params.delete('minPrice');
+        
+        if (priceRange.max) params.set('maxPrice', priceRange.max);
+        else params.delete('maxPrice');
+        
+        setSearchParams(params);
+        setIsPriceFilterOpen(false);
+    };
+    
+    // Clear price filter
+    const clearPriceFilter = () => {
+        setPriceRange({ min: '', max: '' });
+        const params = new URLSearchParams(location.search);
+        params.delete('minPrice');
+        params.delete('maxPrice');
+        setSearchParams(params);
+    };
 
     useEffect(() => {
         // Reset sort to bestSelling when collection changes
@@ -262,14 +307,80 @@ const CollectionPage = () => {
 
                     {/* Filter and Sort Controls */}
                     <div className="flex justify-between items-baseline mb-4">
-                        <div className="flex items-center">
+                        <div className="flex items-center gap-2">
+                            {/* Price Filter Button */}
+                            <div className="relative" ref={priceFilterRef}>
+                                <button
+                                    onClick={() => setIsPriceFilterOpen(!isPriceFilterOpen)}
+                                    className={`flex items-center h-[38px] border rounded-md px-3 text-sm ${
+                                        isDay
+                                            ? 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
+                                            : 'border-gray-700 text-neutral-50 bg-neutral-900 hover:bg-neutral-800'
+                                    }`}
+                                >
+                                    <span>Price</span>
+                                    <FaChevronDown size={12} className="ml-2" />
+                                </button>
+                                
+                                {/* Price Filter Dropdown */}
+                                {isPriceFilterOpen && (
+                                    <div className={`absolute left-0 mt-1 w-64 p-4 rounded-md shadow-lg z-40 ${
+                                        isDay ? 'bg-white border border-gray-200' : 'bg-neutral-800 border border-neutral-700'
+                                    }`}>
+                                        <div className="space-y-3">
+                                            <div className="flex items-center space-x-2">
+                                                <input
+                                                    type="number"
+                                                    placeholder="From"
+                                                    value={priceRange.min}
+                                                    onChange={(e) => setPriceRange({...priceRange, min: e.target.value})}
+                                                    className={`w-full p-2 text-sm rounded border ${
+                                                        isDay 
+                                                            ? 'border-gray-300 bg-white' 
+                                                            : 'border-gray-600 bg-neutral-900 text-white'
+                                                    }`}
+                                                />
+                                            </div>
+                                            <div className="flex items-center space-x-2">
+                                                <input
+                                                    type="number"
+                                                    placeholder="To"
+                                                    value={priceRange.max}
+                                                    onChange={(e) => setPriceRange({...priceRange, max: e.target.value})}
+                                                    className={`w-full p-2 text-sm rounded border ${
+                                                        isDay 
+                                                            ? 'border-gray-300 bg-white' 
+                                                            : 'border-gray-600 bg-neutral-900 text-white'
+                                                    }`}
+                                                />
+                                            </div>
+                                            <div className="flex justify-between pt-2">
+                                                <button
+                                                    onClick={clearPriceFilter}
+                                                    className="text-xs text-gray-500 hover:text-gray-700"
+                                                >
+                                                    Clear
+                                                </button>
+                                                <button
+                                                    onClick={applyPriceFilter}
+                                                    className="px-3 py-1 text-sm rounded-md bg-black text-white hover:bg-gray-800"
+                                                >
+                                                    Apply
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
                             <button
                                 onClick={toggleSidebar}
-                                className={`flex items-center h-[38px] border rounded-md px-3 text-sm focus:outline-none ${
+                                className={`flex items-center h-[38px] border rounded-md px-3 text-sm ${
                                     isDay
                                         ? 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
-                                        : 'border-gray-700 text-neutral-950 bg-neutral-50 hover:bg-neutral-300'
-                                }`}>
+                                        : 'border-gray-700 text-neutral-50 bg-neutral-900 hover:bg-neutral-800'
+                                }`}
+                            >
                                 <FaFilter size={14} className="mr-2" />
                                 <span>Filters</span>
                             </button>
