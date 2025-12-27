@@ -38,7 +38,7 @@ const Wishlist = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState('bestSelling');
   const location = useLocation();
   const dispatch = useDispatch();
   const sidebarRef = useRef(null);
@@ -136,7 +136,7 @@ const Wishlist = () => {
     const sortedProducts = sortProducts(products, sortBy);
     setFilteredProducts(sortedProducts);
   }, [products, sortBy]);
-  
+
   // Handle sort change from SortOptions
   const handleSortChange = (sortType) => {
     setSortBy(sortType);
@@ -243,7 +243,7 @@ const Wishlist = () => {
               <span>Filters</span>
             </button>
           </div>
-          <SortOptions onSortChange={handleSortChange} currentSort={sortBy} />
+          <SortOptions onSortChange={setSortBy} currentSort={sortBy} />
         </div>
       {filteredProducts.length > 0 ? (
         <div className="w-full">

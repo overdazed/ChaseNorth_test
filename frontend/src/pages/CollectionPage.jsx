@@ -42,8 +42,55 @@ const CollectionPage = () => {
     }, []);
 
 
-    // add state variable for the products
-    //const [products, setProducts] = useState([]);
+    // Sort state and function
+    const [sortBy, setSortBy] = useState('bestSelling');
+    
+    // Sort products function
+    const sortProducts = (productsToSort, sortType) => {
+      if (!productsToSort) return [];
+      const sortedProducts = [...productsToSort];
+    
+      switch(sortType) {
+        case 'featured':
+          return [...sortedProducts].sort((a, b) => 
+            (b.isFeatured || false) - (a.isFeatured || false) || 
+            new Date(b.createdAt) - new Date(a.createdAt)
+          );
+        case 'bestSelling':
+          return [...sortedProducts].sort((a, b) => 
+            (b.salesCount || 0) - (a.salesCount || 0)
+          );
+        case 'nameAsc':
+          return [...sortedProducts].sort((a, b) => 
+            (a.name || '').localeCompare(b.name || '')
+          );
+        case 'nameDesc':
+          return [...sortedProducts].sort((a, b) => 
+            (b.name || '').localeCompare(a.name || '')
+          );
+        case 'priceAsc':
+          return [...sortedProducts].sort((a, b) => 
+            (a.price || 0) - (b.price || 0)
+          );
+        case 'priceDesc':
+          return [...sortedProducts].sort((a, b) => 
+            (b.price || 0) - (a.price || 0)
+          );
+        case 'dateOldNew':
+          return [...sortedProducts].sort((a, b) => 
+            new Date(a.createdAt || 0) - new Date(b.createdAt || 0)
+          );
+        case 'dateNewOld':
+        default:
+          return [...sortedProducts].sort((a, b) => 
+            (b.isFeatured || false) - (a.isFeatured || false) || 
+            new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+          );
+      }
+    };
+    
+    // Get sorted products
+    const sortedProducts = sortProducts(products, sortBy);
 
     // click on filter, drawer comes from side, click anywhere else, close drawer
     const sidebarRef = useRef(null);
@@ -52,7 +99,9 @@ const CollectionPage = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchProductsByFilters({collection, ...queryParams}))
+        // Reset sort to bestSelling when collection changes
+        setSortBy('bestSelling');
+        dispatch(fetchProductsByFilters({collection, ...queryParams, sortBy: 'bestSelling'}));
     }, [dispatch, collection, searchParams]);
 
     const toggleSidebar = (e) => {
@@ -225,7 +274,10 @@ const CollectionPage = () => {
                             <span>Filters</span>
                         </button>
                     </div>
-                    <SortOptions />
+                    <SortOptions 
+                      onSortChange={setSortBy} 
+                      currentSort={sortBy} 
+                    />
                 </div>
 
                 {products.length > 0 && (
@@ -233,7 +285,7 @@ const CollectionPage = () => {
                         {/* First two rows of products (6 products total) */}
                         {products.length > 12 && (
                             <ProductGrid 
-                                products={products.slice(0, 12)}
+                                products={sortedProducts.slice(0, 12)}
                                 loading={loading} 
                                 error={error} 
                                 isDay={isDay}
@@ -244,7 +296,7 @@ const CollectionPage = () => {
                         {/* Show all products if 6 or fewer */}
                         {products.length > 0 && products.length <= 6 && (
                             <ProductGrid 
-                                products={products} 
+                                products={sortedProducts} 
                                 loading={loading} 
                                 error={error} 
                                 isDay={isDay}
@@ -258,14 +310,14 @@ const CollectionPage = () => {
                                 {/*<h3 className={`text-xl text-center font-medium mb-4 ${isDay ? 'text-gray-900' : 'text-white'}`}>*/}
                                 {/*    Featured Picks*/}
                                 {/*</h3>*/}
-                                <SwipeCards products={products} />
+                                <SwipeCards products={sortedProducts} />
                             </div>
                         )}
                         
                         {/* Remaining products after first two rows */}
                         {products.length > 12 && (
                             <ProductGrid 
-                                products={products.slice(12)}
+                                products={sortedProducts.slice(12)}
                                 loading={loading} 
                                 error={error} 
                                 isDay={isDay}
@@ -279,7 +331,7 @@ const CollectionPage = () => {
                                 <h3 className={`text-xl text-center font-medium mb-8 ${isDay ? 'text-gray-900' : 'text-white'}`}>
                                     Featured Picks
                                 </h3>
-                                <SwipeCards products={products} />
+                                <SwipeCards products={sortedProducts} />
                             </div>
                         )}
                     </>
