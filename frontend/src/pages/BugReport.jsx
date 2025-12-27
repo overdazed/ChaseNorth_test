@@ -113,7 +113,7 @@ const BugReport = () => {
                     type="email"
                     id="email"
                     {...register('email', { required: 'Email is required' })}
-                    className={`w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent dark:bg-neutral-800 dark:text-white ${
+                    className={`w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent dark:bg-neutral-800 dark:text-neutral-50 ${
                         errors.email ? 'border-red-800' : 'border-neutral-300'
                     }`}
                     placeholder="your@email.com"
@@ -131,7 +131,7 @@ const BugReport = () => {
                     type="text"
                     id="subject"
                     {...register('subject', { required: 'Subject is required' })}
-                    className={`w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent dark:bg-neutral-800 dark:text-white ${
+                    className={`w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent dark:bg-neutral-800 dark:text-neutral-50 ${
                         errors.subject ? 'border-red-800' : 'border-neutral-300'
                     }`}
                     placeholder="Briefly describe the issue"
@@ -149,7 +149,7 @@ const BugReport = () => {
                     id="description"
                     rows={6}
                     {...register('description', { required: 'Description is required' })}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent dark:bg-neutral-800 dark:border-neutral-600 dark:text-white ${
+                    className={`w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent dark:bg-neutral-800 dark:text-neutral-50 ${
                         errors.description ? 'border-red-800' : 'border-neutral-300'
                     }`}
                     placeholder="Please describe the bug in detail. Include steps to reproduce if possible."
@@ -183,16 +183,16 @@ const BugReport = () => {
                           />
                         </svg>
                         <div className="flex text-sm text-neutral-600 dark:text-neutral-400 justify-center">
-            <span className="relative cursor-pointer rounded-md font-medium text-red-800 hover:text-accent focus-within:outline-none">
-              <span>Upload files</span>
-              <input
-                  type="file"
-                  className="sr-only"
-                  onChange={handleFileChange}
-                  multiple
-                  accept="image/*"
-              />
-            </span>
+                          <span className="relative cursor-pointer rounded-md font-medium text-red-800 hover:text-accent focus-within:outline-none">
+                            <span>Upload files</span>
+                            <input
+                                type="file"
+                                className="sr-only"
+                                onChange={handleFileChange}
+                                multiple
+                                accept="image/*"
+                            />
+                          </span>
                           <p className="pl-1">or drag and drop</p>
                         </div>
                         <p className="text-xs text-neutral-500 dark:text-neutral-400">
@@ -207,7 +207,7 @@ const BugReport = () => {
                         <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
                           Selected Files ({previewUrls.length}/5)
                         </h4>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2">
                           {previewUrls.map((url, index) => (
                               <div key={index} className="relative group">
                                 <div className="aspect-square overflow-hidden rounded-lg bg-neutral-100 dark:bg-neutral-800">
@@ -220,7 +220,7 @@ const BugReport = () => {
                                 <button
                                     type="button"
                                     onClick={() => removeImage(index)}
-                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition-colors"
+                                    className="absolute -top-2 -right-2 bg-red-500 text-neutral-50 rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition-colors"
                                     title="Remove image"
                                 >
                                   ×

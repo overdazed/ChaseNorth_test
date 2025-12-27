@@ -61,14 +61,37 @@ const sendBugReport = async (req, res) => {
             replyTo: email,
             subject: `[Bug Report] ${subject}`,
             html: `
-                <h2>New Bug Report</h2>
-                <p><strong>From:</strong> ${email}</p>
-                <p><strong>Page URL:</strong> ${pageUrl || 'Not specified'}</p>
-                <h3>Description:</h3>
-                <p>${description.replace(/\n/g, '<br>')}</p>
-                <p><em>This is an automated message. Please do not reply directly to this email.</em></p>
-            `,
-            attachments: emailAttachments
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                  <h2 style="color: #333;">New Bug Report</h2>
+                  <p><strong>From:</strong> ${email}</p>
+                  <p><strong>Page URL:</strong> <a href="${pageUrl}">${pageUrl}</a></p>
+                  <p><strong>Subject:</strong> ${subject}</p>
+                  <div style="margin: 20px 0; padding: 15px; background: #f5f5f5; border-radius: 5px;">
+                    ${description}
+                  </div>
+                  ${attachments.length > 0 ? `
+                    <div style="margin-top: 20px;">
+                      <h3 style="color: #333; margin-bottom: 10px;">Attached Screenshots (${attachments.length})</h3>
+                      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 10px;">
+                        ${attachments.map((file, index) => `
+                          <div style="border: 1px solid #ddd; padding: 5px; border-radius: 4px; text-align: center;">
+                            <img src="cid:image${index}" style="max-width: 100%; height: auto; border-radius: 3px;" alt="Screenshot ${index + 1}">
+                            <p style="margin: 5px 0 0; font-size: 12px; color: #666;">Screenshot ${index + 1}</p>
+                          </div>
+                        `).join('')}
+                      </div>
+                    </div>
+                  ` : ''}
+                  <p style="margin-top: 30px; font-size: 12px; color: #999;">
+                    This is an automated message. Please do not reply directly to this email.
+                  </p>
+                </div>
+              `,
+            attachments: attachments.map((file, index) => ({
+                filename: file.originalname,
+                content: file.buffer,
+                cid: `image${index}` // same cid value as in the html img src
+            }))
         };
 
         // Send email
