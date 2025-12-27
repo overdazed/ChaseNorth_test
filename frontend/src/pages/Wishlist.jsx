@@ -42,7 +42,13 @@ const Wishlist = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const sidebarRef = useRef(null);
-  
+  const [filters, setFilters] = useState({
+    gender: [],
+    category: [],
+    size: [],
+    price: { min: 0, max: 1000 }
+  });
+
   // Theme state
   const [isDay, setIsDay] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -81,6 +87,50 @@ const Wishlist = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  // Filter handling functions
+  const handleFilterChange = (newFilters) => {
+    setFilters(prev => ({
+      ...prev,
+      ...newFilters
+    }));
+  };
+
+  const applyFilters = (products) => {
+    return products.filter(product => {
+      // Filter by gender
+      if (filters.gender.length > 0 && !filters.gender.includes(product.gender)) {
+        return false;
+      }
+
+      // Filter by category
+      if (filters.category.length > 0 && !filters.category.includes(product.category)) {
+        return false;
+      }
+
+      // Filter by size
+      if (filters.size.length > 0 && !filters.size.some(size =>
+          product.sizes?.includes(size)
+      )) {
+        return false;
+      }
+
+      // Filter by price
+      const price = product.price;
+      if (price < filters.price.min || price > filters.price.max) {
+        return false;
+      }
+
+      return true;
+    });
+  };
+
+  // Update filtered products when filters or products change
+  useEffect(() => {
+    const filtered = applyFilters(products);
+    const sorted = sortProducts(filtered, sortBy);
+    setFilteredProducts(sorted);
+  }, [filters, products, sortBy]);
 
   // Sort products based on sortBy
   const sortProducts = (productsToSort, sortType) => {
