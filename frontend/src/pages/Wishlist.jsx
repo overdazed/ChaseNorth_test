@@ -9,26 +9,26 @@ import SortOptions from '../components/Products/SortOptions';
 
 // Helper function to check if product is new (added within last 14 days)
 const isProductNew = (createdAt) => {
-    if (!createdAt) return false;
-    const createdDate = new Date(createdAt);
-    const currentDate = new Date();
-    const diffTime = currentDate - createdDate;
-    const diffDays = diffTime / (1000 * 60 * 60 * 24);
-    return diffDays <= 14;
+  if (!createdAt) return false;
+  const createdDate = new Date(createdAt);
+  const currentDate = new Date();
+  const diffTime = currentDate - createdDate;
+  const diffDays = diffTime / (1000 * 60 * 60 * 24);
+  return diffDays <= 14;
 };
 
 const CornerIcon = ({ className }) => (
     <>
-        <img 
-            src="/src/assets/ChaseNorth_x-black.svg"
-            alt=""
-            className={`${className} w-6 h-6 dark:hidden`}
-        />
-        <img 
-            src="/src/assets/ChaseNorth_x-white.svg"
-            alt=""
-            className={`${className} w-6 h-6 hidden dark:block`}
-        />
+      <img
+          src="/src/assets/ChaseNorth_x-black.svg"
+          alt=""
+          className={`${className} w-6 h-6 dark:hidden`}
+      />
+      <img
+          src="/src/assets/ChaseNorth_x-white.svg"
+          alt=""
+          className={`${className} w-6 h-6 hidden dark:block`}
+      />
     </>
 );
 
@@ -51,7 +51,7 @@ const Wishlist = () => {
     }
     return true;
   });
-  
+
   // Update theme based on dark mode class
   useEffect(() => {
     const handleThemeChange = () => {
@@ -64,7 +64,7 @@ const Wishlist = () => {
 
     // Close sidebar when clicking outside
     const handleClickOutside = (event) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target) && 
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target) &&
           !event.target.closest('button[onclick*="toggleSidebar"]')) {
         setIsSidebarOpen(false);
       }
@@ -89,44 +89,44 @@ const Wishlist = () => {
     switch(sortType) {
       case 'featured':
         // Featured items first (you might want to add a 'featured' flag to your products)
-        return [...sortedProducts].sort((a, b) => 
-          (b.isFeatured || false) - (a.isFeatured || false) || 
-          new Date(b.createdAt) - new Date(a.createdAt)
+        return [...sortedProducts].sort((a, b) =>
+            (b.isFeatured || false) - (a.isFeatured || false) ||
+            new Date(b.createdAt) - new Date(a.createdAt)
         );
       case 'bestSelling':
         // Sort by sales count (you'll need to add a 'salesCount' or similar field to your products)
-        return [...sortedProducts].sort((a, b) => 
-          (b.salesCount || 0) - (a.salesCount || 0)
+        return [...sortedProducts].sort((a, b) =>
+            (b.salesCount || 0) - (a.salesCount || 0)
         );
       case 'nameAsc':
-        return [...sortedProducts].sort((a, b) => 
-          a.name.localeCompare(b.name)
+        return [...sortedProducts].sort((a, b) =>
+            a.name.localeCompare(b.name)
         );
       case 'nameDesc':
-        return [...sortedProducts].sort((a, b) => 
-          b.name.localeCompare(a.name)
+        return [...sortedProducts].sort((a, b) =>
+            b.name.localeCompare(a.name)
         );
       case 'priceAsc':
-        return [...sortedProducts].sort((a, b) => 
-          a.price - b.price
+        return [...sortedProducts].sort((a, b) =>
+            a.price - b.price
         );
       case 'priceDesc':
-        return [...sortedProducts].sort((a, b) => 
-          b.price - a.price
+        return [...sortedProducts].sort((a, b) =>
+            b.price - a.price
         );
       case 'dateOldNew':
-        return [...sortedProducts].sort((a, b) => 
-          new Date(a.createdAt) - new Date(b.createdAt)
+        return [...sortedProducts].sort((a, b) =>
+            new Date(a.createdAt) - new Date(b.createdAt)
         );
       case 'dateNewOld':
-        return [...sortedProducts].sort((a, b) => 
-          new Date(b.createdAt) - new Date(a.createdAt)
+        return [...sortedProducts].sort((a, b) =>
+            new Date(b.createdAt) - new Date(a.createdAt)
         );
       default:
         // Default sort (featured first, then newest)
-        return [...sortedProducts].sort((a, b) => 
-          (b.isFeatured || false) - (a.isFeatured || false) || 
-          new Date(b.createdAt) - new Date(a.createdAt)
+        return [...sortedProducts].sort((a, b) =>
+            (b.isFeatured || false) - (a.isFeatured || false) ||
+            new Date(b.createdAt) - new Date(a.createdAt)
         );
     }
   };
@@ -165,7 +165,7 @@ const Wishlist = () => {
             return null; // Return null for failed fetches
           }
         });
-        
+
         const productsData = await Promise.all(productPromises);
         // Filter out null values (failed fetches)
         const validProducts = productsData.filter(product => product !== null);
@@ -187,10 +187,10 @@ const Wishlist = () => {
     const updatedWishlist = wishlist.filter(id => id !== productId);
     setWishlist(updatedWishlist);
     setProducts(prevProducts => prevProducts.filter(product => product._id !== productId));
-    
+
     // Update localStorage
     localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
-    
+
     // Force a re-render to ensure UI updates
     setWishlist(prev => [...updatedWishlist]);
   };
@@ -203,147 +203,147 @@ const Wishlist = () => {
 
   if (loading) {
     return (
-      <div className={`min-h-screen ${isDay ? 'bg-neutral-50' : 'bg-neutral-950'}`}>
-        <div className="container mx-auto px-4 py-8">
-          <h2 className={`text-2xl uppercase mb-4 mt-20 ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
-            YOUR WISHLIST
-          </h2>
-          <p className={`ml-2 mb-4 mt-16 ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>Loading...</p>
+        <div className={`min-h-screen ${isDay ? 'bg-neutral-50' : 'bg-neutral-950'}`}>
+          <div className="container mx-auto px-4 py-8">
+            <h2 className={`text-2xl uppercase mb-4 mt-20 ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
+              YOUR WISHLIST
+            </h2>
+            <p className={`ml-2 mb-4 mt-16 ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>Loading...</p>
+          </div>
         </div>
-      </div>
     );
   }
 
   return (
-    <div className={`flex flex-col lg:flex-row pt-24 min-h-screen ${isDay ? 'bg-neutral-50' : 'bg-neutral-950'}`}>
-      {/* Filter Sidebar */}
-      <div className={`${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed top-0 left-0 h-full z-30 w-3/4 sm:w-1/2`}>
-        <div className="absolute inset-0 bg-white"></div>
-        <div ref={sidebarRef} className="relative h-full overflow-y-auto pt-[112px]">
-          <FilterSidebar />
-        </div>
-      </div>
-      
-      <div className="flex-grow px-4 py-4 container mx-auto">
-        <h2 className={`text-2xl uppercase mb-4 ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
-          YOUR WISHLIST
-        </h2>
-        
-        {/* Filter and Sort Controls */}
-        <div className="flex justify-between items-baseline mb-cd4">
-          <div className="flex items-center">
-            <button
-              onClick={toggleSidebar}
-              className={`flex items-center h-[38px] border rounded-md px-3 text-sm focus:outline-none ${
-                isDay 
-                  ? 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50' 
-                  : 'border-gray-700 text-neutral-950 bg-neutral-50 hover:bg-neutral-300'
-              }`}>
-              <FaFilter size={14} className="mr-2" />
-              <span>Filters</span>
-            </button>
+      <div className={`flex flex-col lg:flex-row pt-24 min-h-screen ${isDay ? 'bg-neutral-50' : 'bg-neutral-950'}`}>
+        {/* Filter Sidebar */}
+        <div className={`${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed top-0 left-0 h-full z-30 w-3/4 sm:w-1/2`}>
+          <div className="absolute inset-0 bg-white"></div>
+          <div ref={sidebarRef} className="relative h-full overflow-y-auto pt-[112px]">
+            <FilterSidebar />
           </div>
-          <SortOptions onSortChange={setSortBy} currentSort={sortBy} />
         </div>
-      {filteredProducts.length > 0 ? (
-        <div className="w-full">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 w-full max-w-[1600px] mx-auto px-4">
-            {filteredProducts.map((product, index) => (
-              <div 
-                key={product._id} 
-                className="border-[0.5px] border-black/10 hover:shadow-lg transition-all duration-300 bg-white relative w-full group dark:ring-[0.15px] dark:ring-neutral-50/80 dark:hover:ring-1 dark:hover:ring-neutral-50 dark:bg-neutral-900"
-              >
-                {/* Corner Icons - First product: top-left, Last product: bottom-right */}
-                {index === 0 && (
-                  <CornerIcon className="absolute -top-3 -left-3 z-20" />
-                )}
-                {index === products.length - 1 && (
-                  <CornerIcon className="absolute -bottom-3 -right-3 z-20" />
-                )}
-                
-                <Link 
-                  to={`/product/${product._id}`} 
-                  onClick={handleProductClick}
-                  className="block w-full relative overflow-hidden"
-                >
-                  {/* Aspect ratio container - 4:5 */}
-                  <div className="relative w-full aspect-[4/5] overflow-hidden">
-                    {/* New Product Badge */}
-                    {isProductNew(product.createdAt) && (
-                      <img 
-                        src="/new-star.svg" 
-                        alt="New Arrival" 
-                        className="absolute -top-2 -left-2 z-10 h-16 w-16 md:h-16 md:w-16"
-                      />
-                    )}
-                    
-                    {/* Product Image with Contained Zoom */}
-                    <div className="absolute inset-0 overflow-hidden">
+
+        <div className="flex-grow px-4 py-4 container mx-auto">
+          <h2 className={`text-2xl uppercase mb-4 ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
+            YOUR WISHLIST
+          </h2>
+
+          {/* Filter and Sort Controls */}
+          <div className="flex justify-between items-baseline mb-cd4">
+            <div className="flex items-center">
+              <button
+                  onClick={toggleSidebar}
+                  className={`flex items-center h-[38px] border rounded-md px-3 text-sm focus:outline-none ${
+                      isDay
+                          ? 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
+                          : 'border-gray-700 text-neutral-950 bg-neutral-50 hover:bg-neutral-300'
+                  }`}>
+                <FaFilter size={14} className="mr-2" />
+                <span>Filters</span>
+              </button>
+            </div>
+            <SortOptions onSortChange={setSortBy} currentSort={sortBy} />
+          </div>
+          {filteredProducts.length > 0 ? (
+              <div className="w-full">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 w-full max-w-[1600px] mx-auto px-4">
+                  {filteredProducts.map((product, index) => (
                       <div
-                        style={{
-                          backgroundImage: `url(${product.images?.[0]?.url || 'https://via.placeholder.com/400'})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                          width: "100%",
-                          height: "100%",
-                          position: "absolute"
-                        }}
-                        className="transition-transform duration-500 ease-out group-hover:scale-105"
-                      />
-                    </div>
-                    
-                    {/* Product Info Overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
-                      <div className="flex justify-between items-end">
-                        <div>
-                          <h3 className="text-white font-medium text-sm">
-                            {product.name}
-                          </h3>
-                          <p className="text-white font-bold text-lg">
-                            ${product.price}
-                          </p>
+                          key={product._id}
+                          className="border-[0.5px] border-black/10 hover:shadow-lg transition-all duration-300 bg-white relative w-full group dark:ring-[0.15px] dark:ring-neutral-50/80 dark:hover:ring-1 dark:hover:ring-neutral-50 dark:bg-neutral-900"
+                      >
+                        {/* Corner Icons - First product: top-left, Last product: bottom-right */}
+                        {index === 0 && (
+                            <CornerIcon className="absolute -top-3 -left-3 z-20" />
+                        )}
+                        {index === products.length - 1 && (
+                            <CornerIcon className="absolute -bottom-3 -right-3 z-20" />
+                        )}
+
+                        <Link
+                            to={`/product/${product._id}`}
+                            onClick={handleProductClick}
+                            className="block w-full relative overflow-hidden"
+                        >
+                          {/* Aspect ratio container - 4:5 */}
+                          <div className="relative w-full aspect-[4/5] overflow-hidden">
+                            {/* New Product Badge */}
+                            {isProductNew(product.createdAt) && (
+                                <img
+                                    src="/new-star.svg"
+                                    alt="New Arrival"
+                                    className="absolute -top-2 -left-2 z-10 h-16 w-16 md:h-16 md:w-16"
+                                />
+                            )}
+
+                            {/* Product Image with Contained Zoom */}
+                            <div className="absolute inset-0 overflow-hidden">
+                              <div
+                                  style={{
+                                    backgroundImage: `url(${product.images?.[0]?.url || 'https://via.placeholder.com/400'})`,
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
+                                    width: "100%",
+                                    height: "100%",
+                                    position: "absolute"
+                                  }}
+                                  className="transition-transform duration-500 ease-out group-hover:scale-105"
+                              />
+                            </div>
+
+                            {/* Product Info Overlay */}
+                            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
+                              <div className="flex justify-between items-end">
+                                <div>
+                                  <h3 className="text-white font-medium text-sm">
+                                    {product.name}
+                                  </h3>
+                                  <p className="text-white font-bold text-lg">
+                                    ${product.price}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+
+                        {/* Heart Icon for removal */}
+                        <div className="absolute top-2 right-2 z-10 w-8 h-8 md:w-6 md:h-6">
+                          <div
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                removeFromWishlist(product._id);
+                              }}
+                              style={{ width: '100%', height: '100%', cursor: 'pointer' }}
+                          >
+                            <HeartIcon
+                                productId={product._id}
+                                className="w-full h-full text-red-500"
+                                containerClass="w-full h-full"
+                                isFilled={true}
+                                noAnimation={true}
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </Link>
-                
-                {/* Heart Icon for removal */}
-                <div className="absolute top-2 right-2 z-10 w-8 h-8 md:w-6 md:h-6">
-                  <div 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      removeFromWishlist(product._id);
-                    }}
-                    style={{ width: '100%', height: '100%', cursor: 'pointer' }}
-                  >
-                    <HeartIcon 
-                      productId={product._id}
-                      className="w-full h-full text-red-500"
-                      containerClass="w-full h-full"
-                      isFilled={true}
-                      noAnimation={true}
-                    />
-                  </div>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
+          ) : (
+              <div className="bg-white dark:bg-neutral-900 rounded-lg shadow p-6 text-center max-w-2xl mx-auto">
+                <p className="text-gray-600 dark:text-gray-300 mb-4">Your wishlist is currently empty.</p>
+                <Link
+                    to="/collections/all"
+                    className="bg-black text-white px-6 py-2.5 rounded-full hover:bg-neutral-800 transition-colors inline-block"
+                >
+                  Continue Shopping
+                </Link>
+              </div>
+          )}
         </div>
-      ) : (
-        <div className="bg-white dark:bg-neutral-900 rounded-lg shadow p-6 text-center max-w-2xl mx-auto">
-          <p className="text-gray-600 dark:text-gray-300 mb-4">Your wishlist is currently empty.</p>
-          <Link 
-            to="/collections/all" 
-            className="bg-black text-white px-6 py-2.5 rounded-full hover:bg-neutral-800 transition-colors inline-block"
-          >
-            Continue Shopping
-          </Link>
-        </div>
-      )}
       </div>
-    </div>
   );
 };
 

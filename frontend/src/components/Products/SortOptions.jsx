@@ -7,7 +7,7 @@ const SortOptions = ({ onSortChange, currentSort = '' }) => {
     // Handle sort change
     const handleSortChange = (e) => {
         const sortBy = e.target.value;
-        
+
         if (onSortChange) {
             // For Wishlist (uses callback)
             onSortChange(sortBy);
@@ -34,7 +34,7 @@ const SortOptions = ({ onSortChange, currentSort = '' }) => {
                     id="sort"
                     onChange={handleSortChange}
                     value={sortValue}
-                    className="border p-2 rounded-md focus:outline-none text-sm"
+                    className="p-2 rounded-md text-md text-gray-600 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-950 focus:outline-none focus:ring-0 focus:ring-offset-0"
                 >
                     <option value="featured">Featured</option>
                     <option value="bestSelling">Best Selling</option>
