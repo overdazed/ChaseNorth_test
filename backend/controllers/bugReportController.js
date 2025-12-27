@@ -42,8 +42,8 @@ const sendBugReport = async (req, res) => {
             port: parseInt(process.env.SMTP_PORT, 10),
             secure: process.env.SMTP_SECURE === 'true',
             auth: {
-                user: process.env.SUPPORT_EMAIL,
-                pass: process.env.SUPPORT_PASS
+                user: process.env.SYSTEM_EMAIL,
+                pass: process.env.SYSTEM_PASS
             }
         });
 
@@ -57,7 +57,7 @@ const sendBugReport = async (req, res) => {
         // Email options
         const mailOptions = {
             from: `"ChaseNorth Support" <${process.env.SYSTEM_EMAIL}>`,
-            to: 'support@chasenorth.com',
+            to: process.env.SUPPORT_EMAIL,
             replyTo: email,
             subject: `[Bug Report] ${subject}`,
             html: `

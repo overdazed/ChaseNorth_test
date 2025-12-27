@@ -38,7 +38,7 @@ const UserLayout = () => {
 
     const handleBugReportClick = (e) => {
         e.preventDefault();
-        navigate('/bug-report');
+        navigate('/bug-report', { state: { from: window.location.href } });
     };
 
     return (

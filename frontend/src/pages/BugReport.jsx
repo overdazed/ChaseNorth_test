@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import {useLocation} from "react-router-dom";
 
 const BugReport = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
+  const location = useLocation();
+  const previousPageUrl = location.state?.from || document.referrer || 'Direct access or unknown referrer';
   
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
@@ -46,8 +49,9 @@ const BugReport = () => {
     formData.append('subject', data.subject);
     formData.append('description', data.description);
     formData.append('email', data.email);
-    formData.append('pageUrl', window.location.href);
-    
+    // formData.append('pageUrl', document.referrer || 'Direct access or unknown referrer');
+    formData.append('pageUrl', previousPageUrl);
+
     // Add files if any
     selectedFiles.forEach((fileObj) => {
       formData.append('attachments', fileObj.file);
