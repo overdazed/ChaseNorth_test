@@ -204,150 +204,131 @@ const Navbar = ({ transparent = false }) => {
                 {transparent && (
                     <div className="absolute inset-0 bg-gradient-to-b from-white/70 to-white/70 backdrop-blur-sm"></div>
                 )}
-                <nav className="container mx-auto flex items-center justify-between py-3 px-4 relative z-10">
-                    {/*<nav className="w-full px-20 md:px-36 lg:px-40 flex items-center justify-between py-4 relative z-10">*/}
-
-
-                    {/* Left - Logo */}
-                    <div>
-                        {/*we need Link component from react-router-dom*/}
-                        <Link
-                            to="/"
-                            className="h-8 w-auto flex items-center"
-                            onClick={(e) => {
-                                // Only scroll to top if we're already on the home page
-                                if (window.location.pathname === '/') {
-                                    e.preventDefault();
-                                    window.scrollTo({
-                                        top: 0,
-                                        behavior: 'smooth'
-                                    });
-                                }
-                            }}
-                        >
-                            <img
-                                src={ChaseNorthLogo}
-                                alt="ChaseNorth Logo"
-                                className="h-12 w-auto"
-                            />
-                        </Link>
-                    </div>
-                    {/* Center - Navigation Links */}
-                    {/* for smaller devices, we'll have a different layout */}
-                    <div className="hidden md:flex items-center justify-center absolute left-1/2 transform -translate-x-1/2">
-                        <div className="flex space-x-8">
-                            <NavLink
-                                to="/collections/all?gender=Men"
-                                className="relative text-gray-700 hover:text-black text-sm font-medium uppercase group pb-1"
-                            >
-                                {() => {
-                                    const isActive = window.location.search === '?gender=Men';
-                                    return (
-                                        <span className={`relative ${isActive ? 'text-black' : ''}`}>
-                                        Men
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                                    </span>
-                                    );
-                                }}
-                            </NavLink>
-
-                            <NavLink
-                                to="/collections/all?gender=Women"
-                                className="relative text-gray-700 hover:text-black text-sm font-medium uppercase group pb-1"
-                            >
-                                {() => {
-                                    const isActive = window.location.search === '?gender=Women';
-                                    return (
-                                        <span className={`relative ${isActive ? 'text-black' : ''}`}>
-                                        Women
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                                    </span>
-                                    );
-                                }}
-                            </NavLink>
-
-                            <NavLink
-                                to="/collections/all?category=Top+Wear"
-                                className="relative text-gray-700 hover:text-black text-sm font-medium uppercase group pb-1"
-                            >
-                                {() => {
-                                    const isActive = window.location.search === '?category=Top+Wear';
-                                    return (
-                                        <span className={`relative ${isActive ? 'text-black' : ''}`}>
-                                        Top Wear
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                                    </span>
-                                    );
-                                }}
-                            </NavLink>
-
-                            <NavLink
-                                to="/collections/all?category=Bottom+Wear"
-                                className="relative text-gray-700 hover:text-black text-sm font-medium uppercase group pb-1"
-                            >
-                                {() => {
-                                    const isActive = window.location.search === '?category=Bottom+Wear';
-                                    return (
-                                        <span className={`relative ${isActive ? 'text-black' : ''}`}>
-                                        Bottom Wear
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                                    </span>
-                                    );
-                                }}
-                            </NavLink>
-                        </div>
-                    </div>
-                    {/* work on right sections for the icons */}
-                    {/* Right - Icons */}
-                    <div className="flex items-center space-x-3">
-
-
-                        {/* Admin Button */}
-                        {/* Admin Button - Only visible for admin users */}
-                        {user && user.role === "admin" && (
+                <nav className="w-full relative z-10">
+                    <div className="container mx-auto flex items-center justify-between py-3 px-4">
+                        {/* Logo - Always on the left */}
+                        <div className="flex-shrink-0">
                             <Link
-                                to="/admin"
+                                to="/"
+                                className="flex items-center"
                                 onClick={(e) => {
-                                    if (window.location.pathname === '/admin') {
+                                    if (window.location.pathname === '/') {
                                         e.preventDefault();
-                                        window.location.href = '/admin';
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
                                     }
                                 }}
-                                className="bg-black px-3 py-1 rounded-full text-sm text-white hover:bg-gray-800 transition-colors"
                             >
-                                Admin
+                                <img
+                                    src={ChaseNorthLogo}
+                                    alt="ChaseNorth Logo"
+                                    className="h-12 w-auto"
+                                />
                             </Link>
-                        )}
-
-                        {/* 1. Search Icon */}
-                        {/* For Search functionality create a different component, we will come back to it later */}
-                        {/* when you click the search icon, the search form opens up, where you can enter the query */}
-                        {/* when you submit the request, it will take you to the collection page and display the matching results */}
-                        {/* 1. when you click search icon, we want the form to open up */}
-                        {/* 2. ensure that we want to capture the search term from the form */}
-                        {/* make use of the State hook */}
-                        {/* create file under Common folder -> SearchBar.jsx */}
-                        <div className="overflow-auto ">
-                            <SearchBar className="h-6 w-6 text-gray-700 hover:text-black"/>
                         </div>
-                        {/* you now should be able to see SearchBar Txt on the screen */}
 
-                        {/* 2. Account Icon - Shows login icon when not logged in, user icon when logged in */}
-                        <Link to="/profile" className="">
-                            {user ? (
-                                // <HiOutlineUserCircle className="h-6 w-6 text-gray-700 hover:text-black"/>
-                                <AiOutlineUser className="h-6 w-6 text-gray-700 hover:text-black"/>
-                            ) : (
-                                <HiArrowLeftEndOnRectangle className="h-6 w-6 text-gray-700 hover:text-black"/>
+                        {/* Navigation Links - Centered on desktop, hidden on mobile */}
+                        <div className="hidden lg:flex items-center absolute left-1/2 transform -translate-x-1/2">
+                            <div className="flex space-x-8">
+                                <NavLink
+                                    to="/collections/all?gender=Men"
+                                    className="relative text-gray-700 hover:text-black text-sm font-medium uppercase group pb-1"
+                                >
+                                    {() => {
+                                        const isActive = window.location.search === '?gender=Men';
+                                        return (
+                                            <span className={`relative ${isActive ? 'text-black' : ''}`}>
+                Men
+                <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+              </span>
+                                        );
+                                    }}
+                                </NavLink>
+
+                                <NavLink
+                                    to="/collections/all?gender=Women"
+                                    className="relative text-gray-700 hover:text-black text-sm font-medium uppercase group pb-1"
+                                >
+                                    {() => {
+                                        const isActive = window.location.search === '?gender=Women';
+                                        return (
+                                            <span className={`relative ${isActive ? 'text-black' : ''}`}>
+                Women
+                <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+              </span>
+                                        );
+                                    }}
+                                </NavLink>
+
+                                <NavLink
+                                    to="/collections/all?category=Top+Wear"
+                                    className="relative text-gray-700 hover:text-black text-sm font-medium uppercase group pb-1"
+                                >
+                                    {() => {
+                                        const isActive = window.location.search === '?category=Top+Wear';
+                                        return (
+                                            <span className={`relative ${isActive ? 'text-black' : ''}`}>
+                Top Wear
+                <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+              </span>
+                                        );
+                                    }}
+                                </NavLink>
+
+                                <NavLink
+                                    to="/collections/all?category=Bottom+Wear"
+                                    className="relative text-gray-700 hover:text-black text-sm font-medium uppercase group pb-1"
+                                >
+                                    {() => {
+                                        const isActive = window.location.search === '?category=Bottom+Wear';
+                                        return (
+                                            <span className={`relative ${isActive ? 'text-black' : ''}`}>
+                Bottom Wear
+                <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+              </span>
+                                        );
+                                    }}
+                                </NavLink>
+                            </div>
+                        </div>
+
+                        {/* Icons - Always on the right */}
+                        <div className="flex items-center space-x-3 md:space-x-4">
+                            {/* Admin Button - Only visible for admin users */}
+                            {user && user.role === "admin" && (
+                                <Link
+                                    to="/admin"
+                                    onClick={(e) => {
+                                        if (window.location.pathname === '/admin') {
+                                            e.preventDefault();
+                                            window.location.href = '/admin';
+                                        }
+                                    }}
+                                    className="bg-black px-3 py-1 rounded-full text-sm text-white hover:bg-gray-800 transition-colors"
+                                >
+                                    Admin
+                                </Link>
                             )}
-                        </Link>
 
-                        {/* Wishlist Icon */}
-                        <div
-                            className="relative group cursor-pointer"
-                            style={{ padding: '0 0.3rem' }}
-                        >
-                            <div onClick={handleWishlistClick}>
+                            {/* Search Bar */}
+                            <div className="overflow-auto">
+                                <SearchBar className="h-6 w-6 text-gray-700 hover:text-black"/>
+                            </div>
+
+                            {/* Account Icon */}
+                            <Link to="/profile" className="">
+                                {user ? (
+                                    <AiOutlineUser className="h-6 w-6 text-gray-700 hover:text-black"/>
+                                ) : (
+                                    <HiArrowLeftEndOnRectangle className="h-6 w-6 text-gray-700 hover:text-black"/>
+                                )}
+                            </Link>
+
+                            {/* Wishlist Icon */}
+                            <div
+                                className="relative group cursor-pointer"
+                                style={{ padding: '0 0.3rem' }}
+                                onClick={handleWishlistClick}
+                            >
                                 <HeartIcon
                                     className="w-5 h-5 text-gray-700 group-hover:text-black"
                                     color="currentColor"
@@ -356,36 +337,32 @@ const Navbar = ({ transparent = false }) => {
                                     wishlistCount={wishlistCount}
                                 />
                             </div>
-                        </div>
 
-                        {/* Cart Icon */}
-                        <button
-                            onClick={toggleCartDrawer}
-                            className="relative"
-                        >
-                            <HiOutlineShoppingBag className="h-6 w-6 text-gray-700 hover:text-black"/>
-                            {/* to display the count of items in the cart */}
-                            {/* FIX: position on top of the cart -> -top-1*/}
-                            {cartItemCount > 0 && (
-                                <span className="absolute -top-1 bg-accent text-white text-xs rounded-full px-2 py-0.5">
-                                {cartItemCount}
-                            </span>
-                            )}
+                            {/* Cart Icon */}
+                            <button
+                                onClick={toggleCartDrawer}
+                                className="relative"
+                            >
+                                <HiOutlineShoppingBag className="h-6 w-6 text-gray-700 hover:text-black"/>
+                                {cartItemCount > 0 && (
+                                    <span className="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            {cartItemCount}
+          </span>
+                                )}
+                            </button>
 
-                        </button>
-
-                        {/* 3. Hamburger Menu Icon for smaller devices */}
-                        {/* for the menu to work add onClick event handler*/}
-                        <div className="flex items-center space-x-2">
-                            <div className="hidden md:block">
-                                <DarkModeToggle />
-                            </div>
-                            <div className="md:hidden">
-                                <AnimatedHamburgerButton
-                                    active={navDrawerOpen}
-                                    onClick={toggleNavDrawer}
-                                    className="text-gray-700 hover:text-black"
-                                />
+                            {/* Dark Mode Toggle and Mobile Menu Button */}
+                            <div className="flex items-center space-x-2">
+                                <div className="hidden md:block">
+                                    <DarkModeToggle />
+                                </div>
+                                <div className="md:hidden">
+                                    <AnimatedHamburgerButton
+                                        active={navDrawerOpen}
+                                        onClick={toggleNavDrawer}
+                                        className="text-gray-700 hover:text-black"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -439,12 +416,6 @@ const Navbar = ({ transparent = false }) => {
                                 );
                             }}
                         </NavLink>
-
-
-
-
-
-
 
                         <NavLink
                             to="/collections/all?gender=Women"
