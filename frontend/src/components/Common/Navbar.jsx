@@ -299,7 +299,7 @@ const Navbar = ({ transparent = false }) => {
                     </div>
                     {/* work on right sections for the icons */}
                     {/* Right - Icons */}
-                    <div className="flex items-center space-x-2 md:space-x-4 lg:space-x-2 xl:space-x-3 pl-4" style={{ minWidth: '200px', justifyContent: 'flex-end' }}>
+                    <div className="flex items-center space-x-2 lg:space-x-2 pl-4" style={{ minWidth: '200px', justifyContent: 'flex-end' }}>
 
 
                         {/* Admin Button */}
