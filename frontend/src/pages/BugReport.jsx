@@ -66,8 +66,15 @@ const BugReport = () => {
     // formData.append('pageUrl', document.referrer || 'Direct access or unknown referrer');
     formData.append('pageUrl', previousPageUrl);
 
+    // Log form data before sending
+    console.log('Form data entries:');
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
     // Add files if any
-    selectedFiles.forEach((fileObj) => {
+    selectedFiles.forEach((fileObj, index) => {
+      console.log(`Adding file ${index}:`, fileObj.file.name, fileObj.file.type, fileObj.file.size);
       formData.append('attachments', fileObj.file);
     });
 
@@ -76,6 +83,9 @@ const BugReport = () => {
         method: 'POST',
         body: formData,
       });
+
+      const responseData = await response.json();
+      console.log('Server response:', responseData);
 
       if (!response.ok) {
         throw new Error('Failed to submit bug report');

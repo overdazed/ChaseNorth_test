@@ -4,14 +4,20 @@ require('dotenv').config();
 const sendBugReport = async (req, res) => {
     try {
         const { subject, description, email, pageUrl } = req.body;
-        const attachments = req.files?.attachments || [];
+        // const attachments = req.files?.attachments || [];
+        const attachments = req.files || []; // Changed from req.files?.attachments
 
         // Log incoming request for debugging
-        console.log('Bug report request received:', {
-            subject,
-            email,
-            pageUrl,
-            fileCount: attachments.length
+
+        console.log('Request body:', { subject, description, email, pageUrl });
+        console.log('Files received:', {
+            count: attachments.length,
+            files: attachments.map(f => ({
+                originalname: f.originalname,
+                mimetype: f.mimetype,
+                size: f.size,
+                buffer: f.buffer ? `Buffer(${f.buffer.length} bytes)` : 'No buffer'
+            }))
         });
 
         // Validate required fields
