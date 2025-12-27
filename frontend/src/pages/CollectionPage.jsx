@@ -352,8 +352,8 @@ const CollectionPage = () => {
                                 onClick={toggleSidebar}
                                 className={`flex items-center h-[38px] border rounded-md px-3 text-sm ${
                                     isDay
-                                        ? 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
-                                        : 'border-gray-700 text-neutral-50 bg-neutral-900 hover:bg-neutral-800'
+                                        ? 'border-neutral-300 text-neutral-700 bg-white hover:bg-neutral-50'
+                                        : 'border-neutral-700 text-neutral-50 bg-neutral-900 hover:bg-neutral-800'
                                 }`}
                             >
                                 <FaFilter size={14} className="mr-2" />
@@ -364,10 +364,10 @@ const CollectionPage = () => {
                             <div className="relative" ref={priceFilterRef}>
                                 <button
                                     onClick={() => setIsPriceFilterOpen(!isPriceFilterOpen)}
-                                    className={`flex items-center h-[38px] border rounded-md px-3 text-sm ${
+                                    className={`flex items-center h-[38px] rounded-md px-3 text-sm ${
                                         isDay
-                                            ? 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
-                                            : 'border-gray-700 text-neutral-50 bg-neutral-900 hover:bg-neutral-800'
+                                            ? 'text-neutral-700 bg-white hover:bg-neutral-50'
+                                            : 'text-neutral-200 bg-neutral-950 hover:bg-neutral-800'
                                     }`}
                                 >
                                     <span>Price</span>
@@ -381,44 +381,52 @@ const CollectionPage = () => {
                                     }`}>
                                         <div className="space-y-3">
                                             <div className="flex items-center space-x-2">
-                                                <input
-                                                    type="number"
-                                                    placeholder="From"
-                                                    value={priceRange.min}
-                                                    onChange={(e) => setPriceRange({...priceRange, min: e.target.value})}
-                                                    min="0"
-                                                    step="0.01"
-                                                    className={`w-full p-2 text-sm rounded ${
-                                                        isDay
-                                                            ? 'bg-neutral-50'
-                                                            : 'bg-neutral-900 text-neutral-50'
-                                                    }`}
-                                                />
-                                                <span>-</span>
-                                                <input
-                                                    type="number"
-                                                    placeholder="To"
-                                                    value={priceRange.max}
-                                                    onChange={(e) => setPriceRange({...priceRange, max: e.target.value})}
-                                                    min={priceRange.min || "0"}
-                                                    step="0.01"
-                                                    className={`w-full p-2 text-sm rounded ${
-                                                        isDay
-                                                            ? 'bg-neutral-50'
-                                                            : 'bg-neutral-900 text-neutral-50'
-                                                    }`}
-                                                />
+                                                <div className="relative flex-1">
+                                                    <span className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>$</span>
+                                                    <input
+                                                        type="number"
+                                                        placeholder="From"
+                                                        value={priceRange.min}
+                                                        onChange={(e) => setPriceRange({...priceRange, min: e.target.value})}
+                                                        min="0"
+                                                        step="0.01"
+                                                        className={`w-full pl-8 pr-3 py-2 text-sm rounded appearance-none ${
+                                                            isDay
+                                                                ? 'bg-neutral-50'
+                                                                : 'bg-neutral-900 text-neutral-50'
+                                                        }`}
+                                                        onWheel={(e) => e.target.blur()}
+                                                    />
+                                                </div>
+                                                <span className="text-neutral-400">-</span>
+                                                <div className="relative flex-1">
+                                                    <span className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>$</span>
+                                                    <input
+                                                        type="number"
+                                                        placeholder="To"
+                                                        value={priceRange.max}
+                                                        onChange={(e) => setPriceRange({...priceRange, max: e.target.value})}
+                                                        min={priceRange.min || "0"}
+                                                        step="0.01"
+                                                        className={`w-full pl-8 pr-3 py-2 text-sm rounded appearance-none ${
+                                                            isDay
+                                                                ? 'bg-neutral-50'
+                                                                : 'bg-neutral-900 text-neutral-50'
+                                                        }`}
+                                                        onWheel={(e) => e.target.blur()}
+                                                    />
+                                                </div>
                                             </div>
                                             <div className="flex justify-between pt-2">
                                                 <button
                                                     onClick={clearPriceFilter}
-                                                    className="text-md text-neutral-950 hover:text-gray-700"
+                                                    className="text-sm text-neutral-400 hover:text-neutral-950 hover:underline"
                                                 >
                                                     Reset
                                                 </button>
                                                 <button
                                                     onClick={applyPriceFilter}
-                                                    className="px-5 py-2 text-sm rounded-full bg-black text-white hover:bg-gray-800"
+                                                    className="px-5 py-2 text-sm rounded-full bg-black text-white hover:bg-neutral-900"
                                                 >
                                                     Apply
                                                 </button>
@@ -470,7 +478,7 @@ const CollectionPage = () => {
                             {/* SwipeCards section */}
                             {products.length > 12 && (
                                 <div className="mt-12 mb-12">
-                                    {/*<h3 className={`text-xl text-center font-medium mb-4 ${isDay ? 'text-gray-900' : 'text-white'}`}>*/}
+                                    {/*<h3 className={`text-xl text-center font-medium mb-4 ${isDay ? 'text-neutral-900' : 'text-white'}`}>*/}
                                     {/*    Featured Picks*/}
                                     {/*</h3>*/}
                                     <SwipeCards products={sortedProducts} />
@@ -491,7 +499,7 @@ const CollectionPage = () => {
                             {/* If 6 or fewer products, show SwipeCards after all products */}
                             {products.length > 0 && products.length <= 6 && (
                                 <div className="mt-4 mb-8">
-                                    <h3 className={`text-xl text-center font-medium mb-8 ${isDay ? 'text-gray-900' : 'text-white'}`}>
+                                    <h3 className={`text-xl text-center font-medium mb-8 ${isDay ? 'text-neutral-900' : 'text-white'}`}>
                                         Featured Picks
                                     </h3>
                                     <SwipeCards products={sortedProducts} />
@@ -503,7 +511,7 @@ const CollectionPage = () => {
                     {/* Show loading or error state */}
                     {!loading && products.length === 0 && !error && (
                         <div className="text-center py-12">
-                            <p className={isDay ? 'text-gray-700' : 'text-gray-400'}>
+                            <p className={isDay ? 'text-neutral-700' : 'text-neutral-400'}>
                                 No products found in this collection.
                             </p>
                         </div>
