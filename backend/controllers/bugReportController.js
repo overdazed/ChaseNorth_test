@@ -54,12 +54,14 @@ const sendBugReport = async (req, res) => {
         });
 
         // Format attachments for email
-        const emailAttachments = attachments.map((file, index) => ({
-            filename: file.originalname,
-            content: file.buffer,
-            contentType: file.mimetype,
-            cid: `image${index}`
-        }));
+        const emailAttachments = attachments.map((file, index) => {
+            return {
+                filename: file.originalname,
+                content: file.buffer,
+                contentType: file.mimetype,
+                cid: `image${index}@bugreport`  // Add @bugreport to make it a valid Content-ID
+            };
+        });
 
         // Email options
         const mailOptions = {
@@ -72,7 +74,6 @@ const sendBugReport = async (req, res) => {
                   <h2 style="color: #333;">New Bug Report</h2>
                   <p><strong>From:</strong> ${email}</p>
                   <p><strong>Page URL:</strong> <a href="${pageUrl}">${pageUrl}</a></p>
-                  <p><strong>Subject:</strong> ${subject}</p>
                   <div style="margin: 20px 0; padding: 15px; background: #f5f5f5; border-radius: 5px;">
                     ${description}
                   </div>
@@ -82,7 +83,7 @@ const sendBugReport = async (req, res) => {
                       <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 10px;">
                         ${emailAttachments.map((file, index) => `
                           <div style="border: 1px solid #ddd; padding: 5px; border-radius: 4px; text-align: center;">
-                            <img src="cid:image${index}" style="max-width: 100%; height: auto; border-radius: 3px;" alt="Screenshot ${index + 1}">
+                            <img src="cid:image${index}@bugreport" style="max-width: 100%; height: auto; border-radius: 3px;" alt="Screenshot ${index + 1}">
                             <p style="margin: 5px 0 0; font-size: 12px; color: #666;">Screenshot ${index + 1}</p>
                           </div>
                         `).join('')}

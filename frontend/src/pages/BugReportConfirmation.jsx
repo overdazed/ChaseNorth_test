@@ -17,13 +17,13 @@ const BugReportConfirmation = () => {
     }, [navigate, returnUrl]);
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-            <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md text-center max-w-md w-full">
-                <h1 className="text-2xl font-bold text-green-600 dark:text-green-400 mb-4">Thank you for your help!</h1>
-                <p className="text-gray-700 dark:text-gray-300 mb-6">
+        <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
+            <div className="bg-white dark:bg-neutral-900 p-8 rounded-lg shadow-md text-center max-w-md w-full">
+                <h1 className="text-2xl font-bold text-green-700 dark:text-green-500 mb-4">Thank you for your help!</h1>
+                <p className="text-neutral-700 dark:text-neutral-300 mb-6">
                     Your bug report has been submitted successfully. We'll review it shortly.
                 </p>
-                <p className="text-sm text-gray-500 mb-6">
+                <p className="text-sm text-neutral-500 mb-6">
                     You'll be redirected back in a few seconds...
                 </p>
                 <button
