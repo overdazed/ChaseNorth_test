@@ -48,10 +48,11 @@ const sendBugReport = async (req, res) => {
         });
 
         // Format attachments for email
-        const emailAttachments = attachments.map(file => ({
+        const emailAttachments = attachments.map((file, index) => ({
             filename: file.originalname,
             content: file.buffer,
-            contentType: file.mimetype
+            contentType: file.mimetype,
+            cid: `image${index}`
         }));
 
         // Email options
@@ -69,11 +70,11 @@ const sendBugReport = async (req, res) => {
                   <div style="margin: 20px 0; padding: 15px; background: #f5f5f5; border-radius: 5px;">
                     ${description}
                   </div>
-                  ${attachments.length > 0 ? `
+                  ${emailAttachments.length > 0 ? `
                     <div style="margin-top: 20px;">
-                      <h3 style="color: #333; margin-bottom: 10px;">Attached Screenshots (${attachments.length})</h3>
+                      <h3 style="color: #333; margin-bottom: 10px;">Attached Screenshots (${emailAttachments.length})</h3>
                       <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 10px;">
-                        ${attachments.map((file, index) => `
+                        ${emailAttachments.map((file, index) => `
                           <div style="border: 1px solid #ddd; padding: 5px; border-radius: 4px; text-align: center;">
                             <img src="cid:image${index}" style="max-width: 100%; height: auto; border-radius: 3px;" alt="Screenshot ${index + 1}">
                             <p style="margin: 5px 0 0; font-size: 12px; color: #666;">Screenshot ${index + 1}</p>
@@ -87,11 +88,7 @@ const sendBugReport = async (req, res) => {
                   </p>
                 </div>
               `,
-            attachments: attachments.map((file, index) => ({
-                filename: file.originalname,
-                content: file.buffer,
-                cid: `image${index}` // same cid value as in the html img src
-            }))
+            attachments: emailAttachments
         };
 
         // Send email

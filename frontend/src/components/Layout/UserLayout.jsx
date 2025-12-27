@@ -38,8 +38,29 @@ const UserLayout = () => {
 
     const handleBugReportClick = (e) => {
         e.preventDefault();
-        navigate('/bug-report', { state: { from: window.location.href } });
+        setIsLoading(true);
+
+        // Set a timeout to ensure loading state is cleared
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 2000); // 2 second timeout as a fallback
+
+        navigate('/bug-report', {
+            state: { from: window.location.href }
+        }).then(() => {
+            clearTimeout(timer);
+            setIsLoading(false);
+        }).catch(() => {
+            clearTimeout(timer);
+            setIsLoading(false);
+        });
     };
+    
+    useEffect(() => {
+        return () => {
+            setIsLoading(false);
+        };
+    }, []);
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -75,31 +96,41 @@ const UserLayout = () => {
 
             {/* Scroll-based Bug Report Button */}
             <div className={`fixed bottom-2 left-2 z-50 transition-opacity duration-500 ${isAtBottom ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                <button 
+                <button
                     onClick={handleBugReportClick}
-                    className="group w-8 h-8 flex items-center justify-center bg-transparent border-none rounded-full cursor-pointer transition-all duration-300 hover:bg-accent">
-                    <svg 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        fill="none" 
-                        viewBox="0 0 43 42" 
-                        className="w-4 h-4 transition-all duration-300 group-hover:[&>path]:stroke-white"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    >
-                        <path strokeWidth="4" stroke="#808080" d="M20 7H23C26.866 7 30 10.134 30 14V28.5C30 33.1944 26.1944 37 21.5 37C16.8056 37 13 33.1944 13 28.5V14C13 10.134 16.134 7 20 7Z" />
-                        <path strokeWidth="4" stroke="#808080" d="M18 2V7" />
-                        <path strokeWidth="4" stroke="#808080" d="M25 2V7" />
-                        <path strokeWidth="4" stroke="#808080" d="M31 22H41" />
-                        <path strokeWidth="4" stroke="#808080" d="M2 22H12" />
-                        <path strokeWidth="4" stroke="#808080" d="M12.5785 15.2681C3.5016 15.2684 4.99951 12.0004 5 4" />
-                        <path strokeWidth="4" stroke="#808080" d="M12.3834 29.3877C3.20782 29.3874 4.72202 32.4736 4.72252 40.0291" />
-                        <path strokeWidth="4" stroke="#808080" d="M30.0003 14.8974C39.0545 15.553 37.7958 12.1852 38.3718 4.20521" />
-                        <path strokeWidth="4" stroke="#808080" d="M29.9944 29.7379C39.147 29.1188 37.8746 32.2993 38.4568 39.8355" />
-                    </svg>
-                    <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 bg-accent text-white text-[9px] px-1.5 py-0.5 rounded whitespace-nowrap opacity-0 invisible transition-all duration-300 group-hover:opacity-100 group-hover:visible">
-                        Bug Report
-                        <span className="absolute right-full top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-accent transform rotate-45 -mr-0.5"></span>
-                    </span>
+                    disabled={isLoading}
+                    className={`group w-8 h-8 flex items-center justify-center bg-transparent border-none rounded-full cursor-pointer transition-all duration-300 hover:bg-accent ${
+                        isLoading ? 'opacity-50 cursor-wait' : ''
+                    }`}
+                >
+                    {isLoading ? (
+                        <div className="w-4 h-4 border-2 border-white border-t-2 border-t-transparent rounded-full animate-spin"></div>
+                    ) : (
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 43 42"
+                            className="w-4 h-4 transition-all duration-300 group-hover:[&>path]:stroke-white"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path strokeWidth="4" stroke="#808080" d="M20 7H23C26.866 7 30 10.134 30 14V28.5C30 33.1944 26.1944 37 21.5 37C16.8056 37 13 33.1944 13 28.5V14C13 10.134 16.134 7 20 7Z" />
+                            <path strokeWidth="4" stroke="#808080" d="M18 2V7" />
+                            <path strokeWidth="4" stroke="#808080" d="M25 2V7" />
+                            <path strokeWidth="4" stroke="#808080" d="M31 22H41" />
+                            <path strokeWidth="4" stroke="#808080" d="M2 22H12" />
+                            <path strokeWidth="4" stroke="#808080" d="M12.5785 15.2681C3.5016 15.2684 4.99951 12.0004 5 4" />
+                            <path strokeWidth="4" stroke="#808080" d="M12.3834 29.3877C3.20782 29.3874 4.72202 32.4736 4.72252 40.0291" />
+                            <path strokeWidth="4" stroke="#808080" d="M30.0003 14.8974C39.0545 15.553 37.7958 12.1852 38.3718 4.20521" />
+                            <path strokeWidth="4" stroke="#808080" d="M29.9944 29.7379C39.147 29.1188 37.8746 32.2993 38.4568 39.8355" />
+                        </svg>
+                    )}
+                    {!isLoading && (
+                        <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 bg-accent text-white text-[9px] px-1.5 py-0.5 rounded whitespace-nowrap opacity-0 invisible transition-all duration-300 group-hover:opacity-100 group-hover:visible">
+            Bug Report
+            <span className="absolute right-full top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-accent transform rotate-45 -mr-0.5"></span>
+        </span>
+                    )}
                 </button>
             </div>
         </div>
