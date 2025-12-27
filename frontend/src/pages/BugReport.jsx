@@ -113,8 +113,8 @@ const BugReport = () => {
                     type="email"
                     id="email"
                     {...register('email', { required: 'Email is required' })}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
-                        errors.email ? 'border-red-800' : 'border-gray-300'
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                        errors.email ? 'border-red-800' : 'border-neutral-300'
                     }`}
                     placeholder="your@email.com"
                 />
@@ -124,15 +124,15 @@ const BugReport = () => {
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label htmlFor="subject" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                   Subject <span className="text-red-800">*</span>
                 </label>
                 <input
                     type="text"
                     id="subject"
                     {...register('subject', { required: 'Subject is required' })}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
-                        errors.subject ? 'border-red-800' : 'border-gray-300'
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                        errors.subject ? 'border-red-800' : 'border-neutral-300'
                     }`}
                     placeholder="Briefly describe the issue"
                 />
@@ -142,15 +142,15 @@ const BugReport = () => {
               </div>
 
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label htmlFor="description" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                   Description <span className="text-red-800">*</span>
                 </label>
                 <textarea
                     id="description"
                     rows={6}
                     {...register('description', { required: 'Description is required' })}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
-                        errors.description ? 'border-red-800' : 'border-gray-300'
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                        errors.description ? 'border-red-800' : 'border-neutral-300'
                     }`}
                     placeholder="Please describe the bug in detail. Include steps to reproduce if possible."
                 />
@@ -160,11 +160,11 @@ const BugReport = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                   Screenshots (Optional)
                 </label>
                 <div className="mt-1 flex items-center">
-                  <label className="cursor-pointer bg-white dark:bg-neutral-700 py-2 px-3 border border-gray-300 dark:border-neutral-600 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent">
+                  <label className="cursor-pointer bg-white dark:bg-neutral-700 py-2 px-3 border border-neutral-300 dark:border-neutral-600 rounded-md shadow-sm text-sm leading-4 font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent">
                     Choose Files
                     <input
                         type="file"
@@ -174,7 +174,7 @@ const BugReport = () => {
                         accept="image/*"
                     />
                   </label>
-                  <span className="ml-3 text-sm text-gray-500 dark:text-gray-400">
+                  <span className="ml-3 text-sm text-neutral-500 dark:text-neutral-400">
                 {selectedFiles.length} file(s) selected
               </span>
                 </div>
