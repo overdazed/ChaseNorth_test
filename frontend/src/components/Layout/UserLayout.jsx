@@ -92,7 +92,11 @@ const UserLayout = () => {
 
         {/* Footer */}
             <NewFooter />
-            {isLoading && <Loader />}
+            {isLoading && (
+                <div className="fixed inset-0 bg-neutral-900 z-50">
+                    <Loader />
+                </div>
+            )}
 
             {/* Scroll-based Bug Report Button */}
             <div className={`fixed bottom-2 left-2 z-50 transition-opacity duration-500 ${isAtBottom ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
