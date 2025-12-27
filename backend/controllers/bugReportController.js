@@ -6,18 +6,40 @@ const sendBugReport = async (req, res) => {
         const { subject, description, email, pageUrl } = req.body;
         const attachments = req.files?.attachments || [];
 
+        // Log incoming request for debugging
+        console.log('Bug report request received:', {
+            subject,
+            email,
+            pageUrl,
+            fileCount: attachments.length
+        });
+
         // Validate required fields
         if (!subject || !description || !email) {
+            console.log('Missing required fields:', { subject, email, hasDescription: !!description });
             return res.status(400).json({
                 success: false,
                 message: 'Please provide subject, description, and email'
             });
         }
 
+        // Check if required environment variables are set
+        const requiredEnvVars = ['SMTP_HOST', 'SMTP_PORT', 'SMTP_SECURE', 'SUPPORT_EMAIL', 'SUPPORT_PASS', 'SYSTEM_EMAIL'];
+        const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+        if (missingVars.length > 0) {
+            console.error('Missing required environment variables:', missingVars);
+            return res.status(500).json({
+                success: false,
+                message: 'Server configuration error',
+                error: 'Missing required environment variables'
+            });
+        }
+
         // Configure nodemailer transporter
         const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
-            port: process.env.SMTP_PORT,
+            port: parseInt(process.env.SMTP_PORT, 10),
             secure: process.env.SMTP_SECURE === 'true',
             auth: {
                 user: process.env.SUPPORT_EMAIL,
@@ -51,14 +73,15 @@ const sendBugReport = async (req, res) => {
 
         // Send email
         await transporter.sendMail(mailOptions);
+        console.log('Bug report email sent successfully');
 
         res.status(200).json({
             success: true,
             message: 'Bug report submitted successfully!',
-            data: {
-                reference: `BUG-${Date.now()}`,
-                email: email
-            }
+            // data: {
+            //     reference: `BUG-${Date.now()}`,
+            //     email: email
+            // }
         });
 
     } catch (error) {
