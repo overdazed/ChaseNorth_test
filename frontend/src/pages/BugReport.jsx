@@ -113,7 +113,7 @@ const BugReport = () => {
                     type="email"
                     id="email"
                     {...register('email', { required: 'Email is required' })}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                    className={`w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent dark:bg-neutral-800 dark:text-white ${
                         errors.email ? 'border-red-800' : 'border-neutral-300'
                     }`}
                     placeholder="your@email.com"
@@ -131,7 +131,7 @@ const BugReport = () => {
                     type="text"
                     id="subject"
                     {...register('subject', { required: 'Subject is required' })}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                    className={`w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent dark:bg-neutral-800 dark:text-white ${
                         errors.subject ? 'border-red-800' : 'border-neutral-300'
                     }`}
                     placeholder="Briefly describe the issue"
@@ -149,7 +149,7 @@ const BugReport = () => {
                     id="description"
                     rows={6}
                     {...register('description', { required: 'Description is required' })}
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent dark:bg-neutral-800 dark:border-neutral-600 dark:text-white ${
                         errors.description ? 'border-red-800' : 'border-neutral-300'
                     }`}
                     placeholder="Please describe the bug in detail. Include steps to reproduce if possible."
@@ -165,20 +165,21 @@ const BugReport = () => {
                 </label>
                 <div className="mt-1 flex flex-col space-y-4">
                   <div className="flex items-center">
-                    <label className="cursor-pointer bg-white dark:bg-neutral-800 border-2 border-dashed border-neutral-300 dark:border-neutral-600 rounded-lg p-4 w-full hover:border-neutral-400 dark:hover:border-neutral-500 transition-colors duration-200">
+                    <label className="cursor-pointer bg-white dark:bg-neutral-800 border-2 border-dashed border-neutral-300 dark:border-neutral-700 rounded-lg p-4 w-full hover:border-neutral-400 dark:hover:border-neutral-500 transition-colors duration-200">
                       <div className="space-y-1 text-center">
                         <svg
-                            className="mx-auto h-8 w-8 text-neutral-400"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
+                            className="mx-auto h-8 w-8 text-neutral-500"
                             aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 20 16"
                         >
                           <path
+                              stroke="currentColor"
                               strokeLinecap="round"
                               strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                              strokeWidth="2"
+                              d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                           />
                         </svg>
                         <div className="flex text-sm text-neutral-600 dark:text-neutral-400 justify-center">
