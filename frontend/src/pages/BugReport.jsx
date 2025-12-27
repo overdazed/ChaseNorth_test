@@ -160,51 +160,83 @@ const BugReport = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
                   Screenshots (Optional)
                 </label>
-                <div className="mt-1 flex items-center">
-                  <label className="cursor-pointer bg-white dark:bg-neutral-700 py-2 px-3 border border-neutral-300 dark:border-neutral-600 rounded-md shadow-sm text-sm leading-4 font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent">
-                    Choose Files
-                    <input
-                        type="file"
-                        className="sr-only"
-                        onChange={handleFileChange}
-                        multiple
-                        accept="image/*"
-                    />
-                  </label>
-                  <span className="ml-3 text-sm text-neutral-500 dark:text-neutral-400">
-                {selectedFiles.length} file(s) selected
-              </span>
+                <div className="mt-1 flex flex-col space-y-4">
+                  <div className="flex items-center">
+                    <label className="cursor-pointer bg-white dark:bg-neutral-800 border-2 border-dashed border-neutral-300 dark:border-neutral-600 rounded-lg p-4 w-full hover:border-neutral-400 dark:hover:border-neutral-500 transition-colors duration-200">
+                      <div className="space-y-1 text-center">
+                        <svg
+                            className="mx-auto h-8 w-8 text-neutral-400"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                        >
+                          <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                          />
+                        </svg>
+                        <div className="flex text-sm text-neutral-600 dark:text-neutral-400 justify-center">
+            <span className="relative cursor-pointer rounded-md font-medium text-red-800 hover:text-accent focus-within:outline-none">
+              <span>Upload files</span>
+              <input
+                  type="file"
+                  className="sr-only"
+                  onChange={handleFileChange}
+                  multiple
+                  accept="image/*"
+              />
+            </span>
+                          <p className="pl-1">or drag and drop</p>
+                        </div>
+                        <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                          PNG, JPG, GIF up to 5MB
+                        </p>
+                      </div>
+                    </label>
+                  </div>
+
+                  {previewUrls.length > 0 && (
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                          Selected Files ({previewUrls.length}/5)
+                        </h4>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                          {previewUrls.map((url, index) => (
+                              <div key={index} className="relative group">
+                                <div className="aspect-square overflow-hidden rounded-lg bg-neutral-100 dark:bg-neutral-800">
+                                  <img
+                                      src={url}
+                                      alt={`Preview ${index + 1}`}
+                                      className="h-full w-full object-cover"
+                                  />
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => removeImage(index)}
+                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition-colors"
+                                    title="Remove image"
+                                >
+                                  ×
+                                </button>
+                              </div>
+                          ))}
+                        </div>
+                      </div>
+                  )}
                 </div>
-                {previewUrls.length > 0 && (
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {previewUrls.map((url, index) => (
-                          <div key={index} className="relative">
-                            <img
-                                src={url}
-                                alt={`Screenshot ${index + 1}`}
-                                className="h-24 w-24 object-cover rounded-md"
-                            />
-                            <button
-                                type="button"
-                                onClick={() => removeImage(index)}
-                                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600"
-                            >
-                              ×
-                            </button>
-                          </div>
-                      ))}
-                    </div>
-                )}
               </div>
 
-              <div className="flex justify-end">
+              <div className="pt-4">
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-accent hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent disabled:opacity-50"
+                    className="w-full flex-1 h-12 flex items-center justify-center py-3 rounded-full text-sm font-slim text-neutral-50 transition-colors duration-200 bg-black hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? 'Submitting...' : 'Submit Bug Report'}
                 </button>
