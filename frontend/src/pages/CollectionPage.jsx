@@ -27,6 +27,15 @@ const CollectionPage = () => {
     const { products, loading, error } = useSelector((state) => state.products);
     const queryParams = Object.fromEntries([...searchParams]);
 
+    useEffect(() => {
+        const minPrice = searchParams.get('minPrice');
+        const maxPrice = searchParams.get('maxPrice');
+        setPriceRange({
+            min: minPrice || '',
+            max: maxPrice || ''
+        });
+    }, [searchParams]);
+
     // Update theme based on dark mode class
     useEffect(() => {
         const handleThemeChange = () => {
@@ -124,12 +133,30 @@ const CollectionPage = () => {
     // Apply price filter
     const applyPriceFilter = () => {
         const params = new URLSearchParams(location.search);
-        if (priceRange.min) params.set('minPrice', priceRange.min);
-        else params.delete('minPrice');
-        
-        if (priceRange.max) params.set('maxPrice', priceRange.max);
-        else params.delete('maxPrice');
-        
+
+        // Validate and set min price
+        if (priceRange.min && !isNaN(priceRange.min) && priceRange.min >= 0) {
+            params.set('minPrice', priceRange.min);
+        } else {
+            params.delete('minPrice');
+        }
+
+        // Validate and set max price
+        if (priceRange.max && !isNaN(priceRange.max) && priceRange.max >= 0) {
+            params.set('maxPrice', priceRange.max);
+        } else {
+            params.delete('maxPrice');
+        }
+
+        // Validate that min is less than max if both are set
+        if (params.has('minPrice') && params.has('maxPrice') &&
+            Number(params.get('minPrice')) > Number(params.get('maxPrice'))) {
+            // Swap values if min is greater than max
+            const temp = params.get('minPrice');
+            params.set('minPrice', params.get('maxPrice'));
+            params.set('maxPrice', temp);
+        }
+
         setSearchParams(params);
         setIsPriceFilterOpen(false);
     };
@@ -144,9 +171,22 @@ const CollectionPage = () => {
     };
 
     useEffect(() => {
-        // Reset sort to bestSelling when collection changes
-        setSortBy('bestSelling');
-        dispatch(fetchProductsByFilters({collection, ...queryParams, sortBy: 'bestSelling'}));
+        const params = {
+            collection,
+            ...queryParams,
+            sortBy: queryParams.sortBy || 'bestSelling'
+        };
+
+        // Ensure minPrice and maxPrice are numbers
+        if (queryParams.minPrice) {
+            params.minPrice = Number(queryParams.minPrice);
+        }
+        if (queryParams.maxPrice) {
+            params.maxPrice = Number(queryParams.maxPrice);
+        }
+
+        dispatch(fetchProductsByFilters(params));
+        setSortBy(params.sortBy || 'bestSelling');
     }, [dispatch, collection, searchParams]);
 
     const toggleSidebar = (e) => {
@@ -308,6 +348,18 @@ const CollectionPage = () => {
                     {/* Filter and Sort Controls */}
                     <div className="flex justify-between items-baseline mb-4">
                         <div className="flex items-center gap-2">
+                            <button
+                                onClick={toggleSidebar}
+                                className={`flex items-center h-[38px] border rounded-md px-3 text-sm ${
+                                    isDay
+                                        ? 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
+                                        : 'border-gray-700 text-neutral-50 bg-neutral-900 hover:bg-neutral-800'
+                                }`}
+                            >
+                                <FaFilter size={14} className="mr-2" />
+                                <span>Filters</span>
+                            </button>
+                            
                             {/* Price Filter Button */}
                             <div className="relative" ref={priceFilterRef}>
                                 <button
@@ -325,7 +377,7 @@ const CollectionPage = () => {
                                 {/* Price Filter Dropdown */}
                                 {isPriceFilterOpen && (
                                     <div className={`absolute left-0 mt-1 w-64 p-4 rounded-md shadow-lg z-40 ${
-                                        isDay ? 'bg-white border border-gray-200' : 'bg-neutral-800 border border-neutral-700'
+                                        isDay ? 'bg-neutral-50' : 'bg-neutral-800'
                                     }`}>
                                         <div className="space-y-3">
                                             <div className="flex items-center space-x-2">
@@ -334,36 +386,39 @@ const CollectionPage = () => {
                                                     placeholder="From"
                                                     value={priceRange.min}
                                                     onChange={(e) => setPriceRange({...priceRange, min: e.target.value})}
-                                                    className={`w-full p-2 text-sm rounded border ${
-                                                        isDay 
-                                                            ? 'border-gray-300 bg-white' 
-                                                            : 'border-gray-600 bg-neutral-900 text-white'
+                                                    min="0"
+                                                    step="0.01"
+                                                    className={`w-full p-2 text-sm rounded ${
+                                                        isDay
+                                                            ? 'bg-neutral-50'
+                                                            : 'bg-neutral-900 text-neutral-50'
                                                     }`}
                                                 />
-                                            </div>
-                                            <div className="flex items-center space-x-2">
+                                                <span>-</span>
                                                 <input
                                                     type="number"
                                                     placeholder="To"
                                                     value={priceRange.max}
                                                     onChange={(e) => setPriceRange({...priceRange, max: e.target.value})}
-                                                    className={`w-full p-2 text-sm rounded border ${
-                                                        isDay 
-                                                            ? 'border-gray-300 bg-white' 
-                                                            : 'border-gray-600 bg-neutral-900 text-white'
+                                                    min={priceRange.min || "0"}
+                                                    step="0.01"
+                                                    className={`w-full p-2 text-sm rounded ${
+                                                        isDay
+                                                            ? 'bg-neutral-50'
+                                                            : 'bg-neutral-900 text-neutral-50'
                                                     }`}
                                                 />
                                             </div>
                                             <div className="flex justify-between pt-2">
                                                 <button
                                                     onClick={clearPriceFilter}
-                                                    className="text-xs text-gray-500 hover:text-gray-700"
+                                                    className="text-md text-neutral-950 hover:text-gray-700"
                                                 >
-                                                    Clear
+                                                    Reset
                                                 </button>
                                                 <button
                                                     onClick={applyPriceFilter}
-                                                    className="px-3 py-1 text-sm rounded-md bg-black text-white hover:bg-gray-800"
+                                                    className="px-5 py-2 text-sm rounded-full bg-black text-white hover:bg-gray-800"
                                                 >
                                                     Apply
                                                 </button>
@@ -372,21 +427,18 @@ const CollectionPage = () => {
                                     </div>
                                 )}
                             </div>
-
-                            <button
-                                onClick={toggleSidebar}
-                                className={`flex items-center h-[38px] border rounded-md px-3 text-sm ${
-                                    isDay
-                                        ? 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
-                                        : 'border-gray-700 text-neutral-50 bg-neutral-900 hover:bg-neutral-800'
-                                }`}
-                            >
-                                <FaFilter size={14} className="mr-2" />
-                                <span>Filters</span>
-                            </button>
                         </div>
                         <SortOptions
-                            onSortChange={setSortBy}
+                            onSortChange={(sortBy) => {
+                                setSortBy(sortBy);
+                                const params = new URLSearchParams(location.search);
+                                if (sortBy && sortBy !== 'bestSelling') {
+                                    params.set('sortBy', sortBy);
+                                } else {
+                                    params.delete('sortBy');
+                                }
+                                setSearchParams(params);
+                            }}
                             currentSort={sortBy}
                         />
                     </div>
