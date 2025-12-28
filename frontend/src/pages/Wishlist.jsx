@@ -46,7 +46,7 @@ const Wishlist = () => {
     color: '',
     size: [],
     category: '',
-    gender: ''
+    gender: 'All'  // Set 'All' as default
   });
 
   // Theme state
@@ -97,7 +97,20 @@ const Wishlist = () => {
 
   // Add this function to apply filters
   const applyFilters = (filters) => {
+    console.log('--- FILTERS ---', filters);
+
     const filtered = products.filter(product => {
+      console.log('Checking product:', {
+        id: product._id,
+        name: product.name,
+        gender: product.gender,
+        matchesFilter: filters.gender ?
+            (filters.gender === 'All' ?
+                    (product.gender === 'Men' || product.gender === 'Women') :
+                    (product.gender === filters.gender)
+            ) : true
+      });
+
       // Filter by color
       if (filters.color && !product.colors?.includes(filters.color)) {
         return false;
@@ -114,7 +127,7 @@ const Wishlist = () => {
         return false;
       }
 
-      // Filter by gender
+      // Gender filter
       if (filters.gender) {
         if (filters.gender === 'All') {
           // Show both men's and women's products
@@ -129,6 +142,7 @@ const Wishlist = () => {
       return true;
     });
 
+    console.log('Filtered products count:', filtered.length);
     const sorted = sortProducts(filtered, sortBy);
     setFilteredProducts(sorted);
   };
@@ -161,6 +175,12 @@ const Wishlist = () => {
   useEffect(() => {
     applyFilters(filters);
   }, [sortBy]);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      applyFilters(filters);
+    }
+  }, [sortBy, products, filters]);
 
   // Sort products based on sortBy
   const sortProducts = (productsToSort, sortType) => {
@@ -211,36 +231,36 @@ const Wishlist = () => {
     }
   };
 
-  useEffect(() => {
-    const filtered = products.filter(product => {
-      // Filter by color
-      if (filters.color && !product.colors?.includes(filters.color)) {
-        return false;
-      }
-
-      // Filter by size
-      if (filters.size.length > 0 && !filters.size.some(size =>
-          product.sizes?.includes(size)
-      )) {
-        return false;
-      }
-
-      // Filter by category
-      if (filters.category && product.category !== filters.category) {
-        return false;
-      }
-
-      // Filter by gender
-      if (filters.gender && product.gender !== filters.gender) {
-        return false;
-      }
-
-      return true;
-    });
-
-    const sorted = sortProducts(filtered, sortBy);
-    setFilteredProducts(sorted);
-  }, [products, filters, sortBy]);
+  // useEffect(() => {
+  //   const filtered = products.filter(product => {
+  //     // Filter by color
+  //     if (filters.color && !product.colors?.includes(filters.color)) {
+  //       return false;
+  //     }
+  //
+  //     // Filter by size
+  //     if (filters.size.length > 0 && !filters.size.some(size =>
+  //         product.sizes?.includes(size)
+  //     )) {
+  //       return false;
+  //     }
+  //
+  //     // Filter by category
+  //     if (filters.category && product.category !== filters.category) {
+  //       return false;
+  //     }
+  //
+  //     // Filter by gender
+  //     if (filters.gender && product.gender !== filters.gender) {
+  //       return false;
+  //     }
+  //
+  //     return true;
+  //   });
+  //
+  //   const sorted = sortProducts(filtered, sortBy);
+  //   setFilteredProducts(sorted);
+  // }, [products, filters, sortBy]);
 
   // Update filtered and sorted products when products or sortBy changes
   useEffect(() => {
@@ -336,8 +356,8 @@ const Wishlist = () => {
                 currentCategory={null}
                 onFilterApply={toggleSidebar}
                 isDay={isDay}
-                onFilterChange={handleFilterChange} // Add this prop
-                filters={filters} // Pass the current filters
+                onFilterChange={handleFilterChange}
+                filters={filters}
             />
           </div>
         </div>
