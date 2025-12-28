@@ -233,12 +233,14 @@ router.get('/', async (req, res) => {
             query.gender = gender
         }
 
-        if (minPrice || maxPrice)  {
+        if (minPrice || maxPrice) {
             query.price = {};
-            // gte = greater than or equal to
-            if (minPrice) query.price.$gte = Number(minPrice);
-            // lte = less than or equal to
-            if (maxPrice) query.price.$lte = Number(maxPrice);
+            if (minPrice) {
+                query.price.$gte = Number(minPrice);
+            }
+            if (maxPrice) {
+                query.price.$lte = Number(maxPrice);
+            }
         }
 
         if (search)  {
@@ -451,6 +453,65 @@ router.get('/weekly', async (req, res) => {
             message: "Server error while fetching weekly product",
             error: error.message
         });
+    }
+});
+
+// Add this debug route
+router.get('/debug/top-wear-prices', async (req, res) => {
+    try {
+        const products = await Product.find({ category: "Top Wear" })
+            .select('name price discountPrice')
+            .sort({ price: 1 });
+        res.json(products);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
+// Update the main products route
+router.get('/', async (req, res) => {
+    try {
+        // ... existing code ...
+
+        // Update price filter logic
+        if (minPrice || maxPrice) {
+            query.price = {};
+            // Convert to numbers and handle potential string inputs
+            if (minPrice) {
+                const min = Number(minPrice);
+                if (!isNaN(min)) {
+                    query.price.$gte = min;
+                }
+            }
+            if (maxPrice) {
+                const max = Number(maxPrice);
+                if (!isNaN(max)) {
+                    query.price.$lte = max;
+                }
+            }
+        }
+
+        // Debug logging
+        console.log('Executing query:', JSON.stringify({
+            query,
+            sort,
+            limit: Number(limit) || 0
+        }));
+
+        // Log count of matching products
+        const count = await Product.countDocuments(query);
+        console.log(`Found ${count} matching products`);
+
+        // Fetch the products from the database
+        let products = await Product.find(query)
+            .sort(sort)
+            .limit(Number(limit) || 0);
+
+        res.json(products);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
     }
 });
 

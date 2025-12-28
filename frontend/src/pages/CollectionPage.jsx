@@ -136,27 +136,20 @@ const CollectionPage = () => {
     const applyPriceFilter = () => {
         const params = new URLSearchParams(location.search);
 
-        // Validate and set min price
-        if (priceRange.min && !isNaN(priceRange.min) && priceRange.min >= 0) {
-            params.set('minPrice', priceRange.min);
-        } else {
-            params.delete('minPrice');
-        }
+        // Convert to numbers without toFixed to keep them as numbers
+        const minPrice = priceRange.min ? parseFloat(priceRange.min) : null;
+        const maxPrice = priceRange.max ? parseFloat(priceRange.max) : null;
 
-        // Validate and set max price
-        if (priceRange.max && !isNaN(priceRange.max) && priceRange.max >= 0) {
-            params.set('maxPrice', priceRange.max);
-        } else {
-            params.delete('maxPrice');
-        }
+        // Clear existing price params
+        params.delete('minPrice');
+        params.delete('maxPrice');
 
-        // Validate that min is less than max if both are set
-        if (params.has('minPrice') && params.has('maxPrice') &&
-            Number(params.get('minPrice')) > Number(params.get('maxPrice'))) {
-            // Swap values if min is greater than max
-            const temp = params.get('minPrice');
-            params.set('minPrice', params.get('maxPrice'));
-            params.set('maxPrice', temp);
+        // Only set params if they have valid values
+        if (minPrice !== null && !isNaN(minPrice) && minPrice >= 0) {
+            params.set('minPrice', minPrice.toString());
+        }
+        if (maxPrice !== null && !isNaN(maxPrice) && maxPrice >= 0) {
+            params.set('maxPrice', maxPrice.toString());
         }
 
         setSearchParams(params);
