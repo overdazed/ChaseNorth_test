@@ -1,19 +1,45 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
-const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, products = [] }) => {
+const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, products = [], isDay = true }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const location = useLocation();
     const priceFilterRef = useRef(null);
-    
+
+    // Theme classes
+    const themeClasses = {
+        container: isDay
+            ? 'bg-neutral-50 text-gray-900'
+            : 'bg-gray-900 text-gray-100',
+        header: isDay
+            ? 'text-gray-900 border-b border-gray-200'
+            : 'text-gray-100 border-b border-gray-700',
+        section: isDay
+            ? 'border-b border-gray-200'
+            : 'border-b border-gray-700',
+        label: isDay
+            ? 'text-gray-700'
+            : 'text-gray-300',
+        input: isDay
+            ? 'text-gray-900 bg-neutral-50 border-gray-300'
+            : 'bg-gray-800 border-gray-600 text-neutral-50',
+        priceInput: isDay
+            ? 'bg-neutral-50 border-gray-300'
+            : 'bg-gray-700 border-gray-600 text-neutral-50',
+        button: isDay
+            ? 'bg-black text-neutral-50 hover:bg-gray-800'
+            : 'bg-blue-700 text-neutral-50 hover:bg-blue-600',
+        resetButton: isDay
+            ? 'text-gray-500 hover:text-black hover:underline'
+            : 'text-gray-400 hover:text-gray-200 hover:underline'
+    };
+
     // Price filter state
     const [priceRange, setPriceRange] = useState({
         min: '',
         max: ''
     });
-    
-    // highestPrice is now destructured from props with default value of 0
-    
+
     // Initialize price range from URL params
     useEffect(() => {
         const minPrice = searchParams.get('minPrice');
@@ -203,12 +229,14 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
 
 
     return (
-        <div className="w-64 p-4 bg-white shadow-sm">
-            <h3 className="text-lg font-semibold mb-4">Filters</h3>
+        <div className={`top-20 h-screen w-full p-4 shadow-sm overflow-y-auto bg-neutral-900 ${themeClasses.container}`}>
+            <h3 className={`text-lg font-semibold mb-4 pb-2 ${themeClasses.header}`}>
+                Filters
+            </h3>
 
             {/* Category Filter */}
-            <div className="mb-6">
-                <h4 className="font-medium mb-2">Category</h4>
+            <div className={`mb-6 pb-4 ${themeClasses.section}`}>
+                <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Category</h4>
                 <div className="space-y-1">
                     {categories.map(category => (
                         <label key={category} className="flex items-center">
@@ -218,17 +246,17 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                                 value={category}
                                 checked={filters.category === category}
                                 onChange={handleFilterChange}
-                                className="mr-2"
+                                className={`mr-2 ${themeClasses.input}`}
                             />
-                            {category}
+                            <span>{category}</span>
                         </label>
                     ))}
                 </div>
             </div>
 
             {/* Gender Filter */}
-            <div className="mb-6">
-                <h4 className="font-medium mb-2">Gender</h4>
+            <div className={`mb-6 pb-4 ${themeClasses.section}`}>
+                <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Gender</h4>
                 <div className="space-y-1">
                     {genders.map(gender => (
                         <label key={gender} className="flex items-center">
@@ -238,17 +266,17 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                                 value={gender}
                                 checked={filters.gender === gender}
                                 onChange={handleFilterChange}
-                                className="mr-2"
+                                className={`mr-2 ${themeClasses.input}`}
                             />
-                            {gender}
+                            <span>{gender}</span>
                         </label>
                     ))}
                 </div>
             </div>
 
             {/* Color Filter */}
-            <div className="mb-6">
-                <h4 className="font-medium mb-2">Color</h4>
+            <div className={`mb-6 pb-4 ${themeClasses.section}`}>
+                <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Color</h4>
                 {colors.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
                         {colors.map(color => (
@@ -258,7 +286,9 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                                 name="color"
                                 value={color}
                                 onClick={handleFilterChange}
-                                className={`w-6 h-6 rounded-full ${filters.color === color ? 'ring-2 ring-offset-1 ring-blue-500' : ''}`}
+                                className={`w-6 h-6 rounded-full ${
+                                    filters.color === color ? 'ring-2 ring-offset-1 ring-blue-500' : ''
+                                }`}
                                 style={{ backgroundColor: color.toLowerCase() }}
                                 aria-label={color}
                                 title={color}
@@ -266,13 +296,13 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                         ))}
                     </div>
                 ) : (
-                    <p className="text-sm text-gray-500">No colors available</p>
+                    <p className={`text-sm ${isDay ? 'text-gray-500' : 'text-gray-400'}`}>No colors available</p>
                 )}
             </div>
 
             {/* Size Filter */}
-            <div className="mb-6">
-                <h4 className="font-medium mb-2">Size</h4>
+            <div className={`mb-6 pb-4 ${themeClasses.section}`}>
+                <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Size</h4>
                 {sizes.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
                         {sizes.map(size => (
@@ -283,27 +313,29 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                                     value={size}
                                     checked={filters.size.includes(size)}
                                     onChange={handleFilterChange}
-                                    className="mr-1"
+                                    className={`mr-1 ${themeClasses.input}`}
                                 />
-                                {size}
+                                <span>{size}</span>
                             </label>
                         ))}
                     </div>
                 ) : (
-                    <p className="text-sm text-gray-500">No sizes available</p>
+                    <p className={`text-sm ${isDay ? 'text-gray-500' : 'text-gray-400'}`}>No sizes available</p>
                 )}
             </div>
 
             {/* Price Filter */}
             <div className="mb-6" ref={priceFilterRef}>
-                <h4 className="font-medium mb-2">Price Range</h4>
+                <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Price Range</h4>
                 <div className="space-y-3">
-                    <div className="text-xs text-gray-500">
+                    <div className={`text-xs ${isDay ? 'text-gray-500' : 'text-gray-400'}`}>
                         The highest price is ${highestPrice.toFixed(2)}
                     </div>
                     <div className="flex items-center space-x-2">
                         <div className="relative flex-1">
-                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                            <span className={`absolute left-3 top-1/2 -translate-y-1/2 ${
+                                isDay ? 'text-gray-500' : 'text-gray-400'
+                            }`}>$</span>
                             <input
                                 type="number"
                                 placeholder="From"
@@ -312,12 +344,16 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                                 onKeyDown={handlePriceKeyDown}
                                 min="0"
                                 step="0.01"
-                                className="w-full pl-8 pr-3 py-2 text-sm border rounded"
+                                className={`w-full pl-8 pr-3 py-2 text-sm rounded border ${
+                                    themeClasses.priceInput
+                                }`}
                             />
                         </div>
-                        <span className="text-gray-400">-</span>
+                        <span className={isDay ? 'text-gray-400' : 'text-gray-500'}>-</span>
                         <div className="relative flex-1">
-                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                            <span className={`absolute left-3 top-1/2 -translate-y-1/2 ${
+                                isDay ? 'text-gray-500' : 'text-gray-400'
+                            }`}>$</span>
                             <input
                                 type="number"
                                 placeholder="To"
@@ -326,20 +362,22 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                                 onKeyDown={handlePriceKeyDown}
                                 min={priceRange.min || "0"}
                                 step="0.01"
-                                className="w-full pl-8 pr-3 py-2 text-sm border rounded"
+                                className={`w-full pl-8 pr-3 py-2 text-sm rounded border ${
+                                    themeClasses.priceInput
+                                }`}
                             />
                         </div>
                     </div>
                     <div className="flex justify-between pt-2">
                         <button
                             onClick={clearPriceFilter}
-                            className="text-sm text-gray-500 hover:text-black hover:underline"
+                            className={`text-sm ${themeClasses.resetButton}`}
                         >
                             Reset
                         </button>
                         <button
                             onClick={applyPriceFilter}
-                            className="px-4 py-1.5 text-sm rounded bg-black text-white hover:bg-gray-800"
+                            className={`px-4 py-1.5 text-sm rounded ${themeClasses.button}`}
                         >
                             Apply
                         </button>
