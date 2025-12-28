@@ -209,7 +209,7 @@ const Navbar = ({ transparent = false }) => {
                 {transparent && (
                     <div className="absolute inset-0 bg-gradient-to-b from-neutral-50/70 to-neutral-50/70 backdrop-blur-sm"></div>
                 )}
-                <nav className="container mx-auto flex items-center justify-between py-3 px-4 relative">
+                <nav className="container mx-auto flex items-center justify-between py-3 px-4 relative z-10">
                     {/*<nav className="w-full px-20 md:px-36 lg:px-40 flex items-center justify-between py-4 relative z-10">*/}
 
 
@@ -387,9 +387,9 @@ const Navbar = ({ transparent = false }) => {
                 }`}
             >
                 {/* Header with Logo and Navigation */}
-                <div className="relative flex items-center justify-between pt-4 pb-2 pr-6">
+                <div className="relative flex items-center justify-between pt-3 pb-2 pr-4">
                     {/* Dark Mode Toggle */}
-                    <div className="z-10 -ml-3 pl-1">
+                    <div className="z-10 -ml-3 pl-2">
                         <DarkModeToggle />
                     </div>
                     
@@ -402,7 +402,7 @@ const Navbar = ({ transparent = false }) => {
                                 className="h-8 w-auto dark:hidden"
                             />
                             <img
-                                src={ChaseNorthLogo.replace('ChaseNorth', 'ChaseNorth-white')}
+                                src={ChaseNorthLogo}
                                 alt="ChaseNorth Logo"
                                 className="h-8 w-auto hidden dark:block"
                             />
@@ -432,7 +432,7 @@ const Navbar = ({ transparent = false }) => {
                             {() => {
                                 const isActive = window.location.search === '?gender=Men';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-50'}`}>
+                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
                                         Men
                                         <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
@@ -448,7 +448,7 @@ const Navbar = ({ transparent = false }) => {
                             {() => {
                                 const isActive = window.location.search === '?gender=Women';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-50'}`}>
+                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
                                         Women
                                         <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
@@ -464,7 +464,7 @@ const Navbar = ({ transparent = false }) => {
                             {() => {
                                 const isActive = window.location.search === '?category=Top+Wear';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-50'}`}>
+                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
                                         Top Wear
                                         <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
@@ -480,7 +480,7 @@ const Navbar = ({ transparent = false }) => {
                             {() => {
                                 const isActive = window.location.search === '?category=Bottom+Wear';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-50'}`}>
+                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
                                         Bottom Wear
                                         <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
