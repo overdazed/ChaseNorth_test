@@ -465,34 +465,36 @@ const Navbar = ({ transparent = false }) => {
                 </div>
                 
                 {/* Mobile Bottom Navigation */}
-                <div className="md:hidden fixed bottom-0 left-0 right-0 bg-neutral-50 dark:bg-neutral-900 bg-neutral-200 py-3 px-6">
-                    <div className="flex justify-around items-center">
+                <div className="md:hidden fixed bottom-0 left-0 right-0 bg-neutral-50 dark:bg-neutral-900 bg-neutral-200 py-4 px-6">
+                    <div className="space-y-3">
                         {/* Account */}
                         <Link 
                             to="/profile" 
-                            className="flex flex-col items-center text-gray-700 hover:text-black"
+                            className="flex items-center text-gray-700 hover:text-black dark:text-neutral-400 dark:hover:text-neutral-50 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
                             onClick={toggleNavDrawer}
                         >
-                            {user ? (
-                                <AiOutlineUser className="h-6 w-6 mb-1 dark:text-neutral-400"/>
-                            ) : (
-                                <HiArrowLeftEndOnRectangle className="h-6 w-6 mb-1 dark:text-neutral-400"/>
-                            )}
-                            <span className="text-xs dark:text-neutral-400">Account</span>
+                            <span className="flex-shrink-0">
+                                {user ? (
+                                    <AiOutlineUser className="h-6 w-6 mr-3"/>
+                                ) : (
+                                    <HiArrowLeftEndOnRectangle className="h-6 w-6 mr-3"/>
+                                )}
+                            </span>
+                            <span className="text-sm font-medium">Account</span>
                         </Link>
 
                         {/* Wishlist */}
                         <div 
-                            className="flex flex-col items-center text-gray-700 hover:text-black cursor-pointer"
+                            className="flex items-center text-gray-700 hover:text-black dark:text-neutral-400 dark:hover:text-neutral-50 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 toggleNavDrawer();
                                 handleWishlistClick();
                             }}
                         >
-                            <div className="relative">
+                            <div className="relative flex-shrink-0">
                                 <HeartIcon
-                                    className="w-6 h-6 mb-1 dark:text-neutral-400"
+                                    className="w-6 h-6 mr-3"
                                     color="currentColor"
                                     hoverColor="#000000"
                                     noAnimation={true}
@@ -503,27 +505,27 @@ const Navbar = ({ transparent = false }) => {
                                     </span>
                                 )}
                             </div>
-                            <span className="text-xs dark:text-neutral-400 mt-1">Wishlist</span>
+                            <span className="text-sm font-medium">Wishlist</span>
                         </div>
 
                         {/* Cart */}
                         <div 
-                            className="flex flex-col items-center text-gray-700 hover:text-black cursor-pointer"
+                            className="flex items-center text-gray-700 hover:text-black dark:text-neutral-400 dark:hover:text-neutral-50 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 toggleNavDrawer();
                                 toggleCartDrawer();
                             }}
                         >
-                            <div className="relative">
-                                <HiOutlineShoppingBag className="h-6 w-6 mb-1 dark:text-neutral-400"/>
+                            <div className="relative flex-shrink-0">
+                                <HiOutlineShoppingBag className="h-6 w-6 mr-3"/>
                                 {cartItemCount > 0 && (
                                     <span className="absolute -top-1 -right-1 bg-accent text-neutral-50 text-xs rounded-full h-4 w-4 flex items-center justify-center">
                                         {cartItemCount}
                                     </span>
                                 )}
                             </div>
-                            <span className="text-xs dark:text-neutral-400">Cart</span>
+                            <span className="text-sm font-medium">Cart</span>
                         </div>
 
                         {/*/!* Dark Mode Toggle *!/*/}
