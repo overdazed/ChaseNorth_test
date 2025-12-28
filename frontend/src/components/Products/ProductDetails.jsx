@@ -889,7 +889,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                             loading={loading}
                             error={error}
                             isDay={isDay}
-                            newStarBadgeSize="sm"
+                            newStarBadgeSize="md"
                         />
                     </div>
                 )}

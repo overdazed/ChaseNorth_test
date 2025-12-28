@@ -588,7 +588,7 @@ const Navbar = ({ transparent = false }) => {
                         <div className="h-2 md:hidden"></div>
 
                         {/* Language Selector */}
-                        <div className="mt-auto pt-3 border-t border-neutral-200 dark:border-neutral-800">
+                        <div className="mt-auto pt-3 border-t border-neutral-400 dark:border-neutral-800">
                             <div className="relative">
                                 <button
                                     className="w-full flex items-center justify-between px-4 py-3 text-sm font-normal text-neutral-700 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
@@ -639,14 +639,14 @@ const Navbar = ({ transparent = false }) => {
                         </div>
 
                         {/* Social Media Links */}
-                        <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800">
+                        <div className="pt-4 border-t border-neutral-400 dark:border-neutral-800">
                             {/*<p className="text-center text-neutral-500 dark:text-neutral-400 text-sm mb-4">FOLLOW US</p>*/}
                             <div className="flex mt-6 justify-center items-center space-x-4 mb-6">
                                 <a
                                     href="https://www.facebook.com"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-neutral-400 hover:text-gray-600"
+                                    className="dark:text-neutral-400 text-neutral-600 hover:text-gray-600"
                                 >
                                     <TbBrandMeta className="h-5 w-5" />
                                 </a>
@@ -654,7 +654,7 @@ const Navbar = ({ transparent = false }) => {
                                     href="https://www.facebook.com"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-neutral-400 hover:text-gray-600"
+                                    className="dark:text-neutral-400 text-neutral-600 hover:text-gray-600"
                                 >
                                     <IoLogoInstagram className="h-5 w-5" />
                                 </a>
@@ -662,7 +662,7 @@ const Navbar = ({ transparent = false }) => {
                                     href="https://www.facebook.com"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-neutral-400 hover:text-gray-600"
+                                    className="dark:text-neutral-400 text-neutral-600 hover:text-gray-600"
                                 >
                                     <RiTwitterXLine className="h-4 w-4" />
                                 </a>
@@ -670,7 +670,7 @@ const Navbar = ({ transparent = false }) => {
                                     href="mailto:shop@chasenorth.com"
                                     // target="_blank"
                                     // rel="no opener no referrer"
-                                    className="text-neutral-400 hover:text-gray-600"
+                                    className="dark:text-neutral-400 text-neutral-600 hover:text-gray-600"
                                 >
                                     <TbMail className="h-5 w-5" />
                                 </a>
