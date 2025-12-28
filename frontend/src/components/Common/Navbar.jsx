@@ -14,6 +14,8 @@ import {
 import { AiOutlineUser } from "react-icons/ai";
 
 import ChaseNorthLogo from "../../assets/ChaseNorth.svg";
+import ChaseNorthLogoMobileWhite from "../../assets/ChaseNorth-white.svg";
+import ChaseNorthLogoMobileBlack from "../../assets/ChaseNorth-black.svg";
 import SearchBar from "./SearchBar.jsx";
 import CartDrawer from "../Layout/CartDrawer.jsx";
 import React, { useState, useRef, useEffect } from "react";
@@ -407,10 +409,10 @@ const Navbar = ({ transparent = false }) => {
                     </div>
                     
                     {/* Centered Logo */}
-                    <div className="absolute left-1/2 transform -translate-x-1/2 opacity-50">
+                    <div className="absolute left-1/2 transform -translate-x-1/2 opacity-75">
                         <Link to="/" onClick={toggleNavDrawer}>
                             <img
-                                src={ChaseNorthLogo}
+                                src={ChaseNorthLogoMobileBlac}
                                 alt="ChaseNorth Logo"
                                 className="h-8 w-auto dark:hidden"
                             />
@@ -504,7 +506,7 @@ const Navbar = ({ transparent = false }) => {
                 </div>
 
                 {/* Mobile Bottom Navigation */}
-                <div className="md:hidden fixed bottom-0 left-0 right-0 bg-neutral-50 dark:bg-neutral-900 bg-neutral-200 py-4 px-6">
+                <div className="md:hidden fixed bottom-0 left-0 right-0 dark:bg-neutral-900 bg-neutral-200 py-4 px-6">
                     <div className="space-y-3">
                         {/* Account */}
                         <Link
@@ -589,7 +591,7 @@ const Navbar = ({ transparent = false }) => {
                         <div className="mt-auto pt-3 border-t border-neutral-200 dark:border-neutral-800">
                             <div className="relative">
                                 <button
-                                    className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
+                                    className="w-full flex items-center justify-between px-4 py-3 text-sm font-normal text-neutral-700 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
                                     onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
