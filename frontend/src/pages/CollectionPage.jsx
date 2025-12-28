@@ -134,6 +134,12 @@ const CollectionPage = () => {
     const applyPriceFilter = () => {
         const params = new URLSearchParams(location.search);
 
+        const handlePriceKeyDown = (e) => {
+            if (e.key === 'Enter') {
+                applyPriceFilter();
+            }
+        };
+
         // Validate and set min price
         if (priceRange.min && !isNaN(priceRange.min) && priceRange.min >= 0) {
             params.set('minPrice', priceRange.min);
@@ -366,8 +372,8 @@ const CollectionPage = () => {
                                     onClick={() => setIsPriceFilterOpen(!isPriceFilterOpen)}
                                     className={`flex items-center h-[38px] rounded-md px-3 text-sm ${
                                         isDay
-                                            ? 'text-neutral-700 bg-white hover:bg-neutral-50'
-                                            : 'text-neutral-200 bg-neutral-950 hover:bg-neutral-800'
+                                            ? 'text-neutral-600 bg-neutral-50 hover:bg-neutral-100'
+                                            : 'text-neutral-400 bg-neutral-950 hover:bg-neutral-900'
                                     }`}
                                 >
                                     <span>Price</span>
@@ -388,6 +394,7 @@ const CollectionPage = () => {
                                                         placeholder="From"
                                                         value={priceRange.min}
                                                         onChange={(e) => setPriceRange({...priceRange, min: e.target.value})}
+                                                        onKeyDown={handlePriceKeyDown}
                                                         min="0"
                                                         step="0.01"
                                                         className={`w-full pl-8 pr-3 py-2 text-sm rounded appearance-none ${
