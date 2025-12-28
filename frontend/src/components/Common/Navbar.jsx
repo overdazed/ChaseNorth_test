@@ -219,8 +219,12 @@ const Navbar = ({ transparent = false }) => {
     return (
         <>
             {/* Full width background with fade effect - Sticky on mobile */}
-            <div className={`w-full ${transparent ? 'bg-transparent' : 'bg-white dark:bg-neutral-900'} transition-colors duration-300 sticky top-0 z-40`}>
-                {/* Removed gradient overlay for consistent contrast */}
+            {/*<div className={`w-full ${transparent ? 'bg-transparent' : 'bg-white dark:bg-neutral-900'} transition-colors duration-300 fixed top-0 left-0 right-0 z-50`}>*/}
+            <div className={`w-full relative ${!transparent ? 'bg-neutral-50' : ''} sticky top-0 z-50`}>
+                {/* Fade effect overlay */}
+                {transparent && (
+                    <div className="absolute inset-0 bg-gradient-to-b from-neutral-50/70 to-neutral-50/70 backdrop-blur-sm"></div>
+                )}
                 <nav className="container mx-auto flex items-center justify-between py-3 px-4 relative z-10">
                     {/*<nav className="w-full px-20 md:px-36 lg:px-40 flex items-center justify-between py-4 relative z-10">*/}
 

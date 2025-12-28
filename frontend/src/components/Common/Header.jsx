@@ -10,7 +10,7 @@ const Header = () => {
                 <Topbar transparent={true}/>
             </div>
             {/* Header with Navbar - Sticky with transparent background */}
-            <header className="sticky top-0 z-40 w-full">
+            <header className="sticky top-8 z-40 w-full">
                 <div className="bg-transparent">
                     <Navbar transparent={true}/>
                 </div>
