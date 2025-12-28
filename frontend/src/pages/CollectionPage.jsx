@@ -379,7 +379,7 @@ const CollectionPage = () => {
                                 onClick={toggleSidebar}
                                 className={`flex items-center h-[38px] rounded-md px-3 text-sm ${
                                     isDay
-                                        ? 'text-neutral-700 bg-neutral-50 hover:bg-neutral-50'
+                                        ? 'text-neutral-600 bg-neutral-50 hover:bg-neutral-50'
                                         : 'text-neutral-400 bg-neutral-900 hover:bg-neutral-800'
                                 }`}
                             >
@@ -388,7 +388,7 @@ const CollectionPage = () => {
                             </button>
                             
                             {/* Price Filter Button */}
-                            <div className="relative" ref={priceFilterRef}>
+                            <div className="relative hidden md:block" ref={priceFilterRef}>
                                 <button
                                     onClick={() => setIsPriceFilterOpen(!isPriceFilterOpen)}
                                     className={`flex items-center h-[38px] rounded-md px-3 text-sm ${
@@ -398,9 +398,9 @@ const CollectionPage = () => {
                                     }`}
                                 >
                                     <span>Price</span>
-                                    <FaChevronDown size={12} className="ml-2" />
+                                    <FaChevronDown className="ml-1" size={12} />
                                 </button>
-                                
+
                                 {/* Price Filter Dropdown */}
                                 {isPriceFilterOpen && (
                                     <div className={`absolute left-0 mt-1 w-64 p-4 rounded-md shadow-lg z-40 ${

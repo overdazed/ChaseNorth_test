@@ -27,8 +27,8 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
             ? 'bg-neutral-50 border-neutral-300'
             : 'bg-neutral-700 border-neutral-600 text-neutral-50',
         button: isDay
-            ? 'bg-black text-neutral-50 text-sm rounded-full hover:bg-neutral-900'
-            : 'bg-black text-neutral-50 text-sm rounded-full hover:bg-neutral-900',
+            ? 'bg-black text-neutral-50 hover:bg-neutral-900'
+            : 'bg-black text-neutral-50 hover:bg-neutral-900',
         resetButton: isDay
             ? 'text-neutral-500 hover:text-black hover:underline'
             : 'text-neutral-400 hover:text-neutral-200 hover:underline'
@@ -278,21 +278,25 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
             <div className={`mb-6 pb-4 ${themeClasses.section}`}>
                 <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Color</h4>
                 {colors.length > 0 ? (
-                    <div className="flex flex-wrap gap-2">
+                    <div className="grid grid-cols-7 gap-2">
                         {colors.map(color => (
-                            <button
-                                key={color}
-                                type="button"
-                                name="color"
-                                value={color}
-                                onClick={handleFilterChange}
-                                className={`w-6 h-6 rounded-full ${
-                                    filters.color === color ? 'ring-2 ring-offset-1 ring-blue-500' : ''
-                                }`}
-                                style={{ backgroundColor: color.toLowerCase() }}
-                                aria-label={color}
-                                title={color}
-                            />
+                            <div key={color} className="flex flex-col items-center">
+                                <button
+                                    type="button"
+                                    name="color"
+                                    value={color}
+                                    onClick={handleFilterChange}
+                                    className={`w-6 h-6 rounded-full mb-1 ${
+                                        filters.color === color ? 'ring-2 ring-offset-1 ring-blue-500' : ''
+                                    }`}
+                                    style={{ backgroundColor: color.toLowerCase() }}
+                                    aria-label={color}
+                                    title={color}
+                                />
+                                <span className="text-[10px] text-center text-neutral-500 dark:text-neutral-400">
+                        {color}
+                    </span>
+                            </div>
                         ))}
                     </div>
                 ) : (
@@ -377,7 +381,7 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                         </button>
                         <button
                             onClick={applyPriceFilter}
-                            className={`px-5 py-2 text-sm rounded ${themeClasses.button}`}
+                            className={`px-5 py-2 text-sm rounded-full ${themeClasses.button}`}
                         >
                             Apply
                         </button>
