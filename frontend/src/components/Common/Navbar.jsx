@@ -203,13 +203,13 @@ const Navbar = ({ transparent = false }) => {
 
     return (
         <>
-            {/* Full width background with fade effect */}
-            <div className={`w-full relative ${!transparent ? 'bg-neutral-50' : ''}`}>
+            {/* Full width background with fade effect - Sticky on mobile */}
+            <div className={`w-full relative ${!transparent ? 'bg-neutral-50' : ''} sticky top-0 z-50`}>
                 {/* Fade effect overlay */}
                 {transparent && (
                     <div className="absolute inset-0 bg-gradient-to-b from-neutral-50/70 to-neutral-50/70 backdrop-blur-sm"></div>
                 )}
-                <nav className="container mx-auto flex items-center justify-between py-3 px-4 relative z-10">
+                <nav className="container mx-auto flex items-center justify-between py-3 px-4 relative">
                     {/*<nav className="w-full px-20 md:px-36 lg:px-40 flex items-center justify-between py-4 relative z-10">*/}
 
 
@@ -387,9 +387,9 @@ const Navbar = ({ transparent = false }) => {
                 }`}
             >
                 {/* Header with Logo and Navigation */}
-                <div className="relative flex items-center justify-between pt-4 px-6 pb-2">
+                <div className="relative flex items-center justify-between pt-4 pb-2 pr-6">
                     {/* Dark Mode Toggle */}
-                    <div className="z-10">
+                    <div className="z-10 -ml-3 pl-1">
                         <DarkModeToggle />
                     </div>
                     
