@@ -115,8 +115,15 @@ const Wishlist = () => {
       }
 
       // Filter by gender
-      if (filters.gender && product.gender !== filters.gender) {
-        return false;
+      if (filters.gender) {
+        if (filters.gender === 'All') {
+          // Show both men's and women's products
+          if (product.gender !== 'Men' && product.gender !== 'Women') {
+            return false;
+          }
+        } else if (product.gender !== filters.gender) {
+          return false;
+        }
       }
 
       return true;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
+import {setFilters} from "@/redux/slices/productsSlice.js";
 
 const FilterSidebar = ({
                            onFilterApply,
@@ -8,7 +9,7 @@ const FilterSidebar = ({
                            products = [],
                            isDay = true,
                            onFilterChange,  // Add this
-                           filters = {}     // Add default empty object
+                           filters = { size: [] }     // Add default empty object
                        }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const location = useLocation();
@@ -160,6 +161,7 @@ const FilterSidebar = ({
         }
 
         // Handle gender filter specifically
+        // Handle URL updates for specific filter types
         if (name === 'gender') {
             if (value === 'All') {
                 params.delete('gender');
@@ -169,69 +171,35 @@ const FilterSidebar = ({
                 params.delete('gender');
             }
             setSearchParams(params);
-        }
-
-        if (name === 'color') {
+        } else if (name === 'color') {
             if (filters.color === value) {
-                // If clicking the same color again, remove the filter
                 params.delete('color');
-                setFilters(prev => ({ ...prev, color: '' }));
             } else {
-                // Set the new color filter
                 params.set('color', value);
-                setFilters(prev => ({ ...prev, color: value }));
             }
             setSearchParams(params);
-        }
-
-        if (name === 'category') {
+        } else if (name === 'category') {
             if (filters.category === value) {
-                // If clicking the same category again, remove the filter
                 params.delete('category');
-                setFilters(prev => ({ ...prev, category: '' }));
             } else {
-                // Set the new category filter
                 params.set('category', value);
-                setFilters(prev => ({ ...prev, category: value }));
             }
             setSearchParams(params);
-        }
-
-        if (name === 'size') {
-            // Create a new array with the updated sizes
-            let newSizes;
-            if (filters.size.includes(value)) {
-                // If size is already selected, remove it
-                newSizes = filters.size.filter(size => size !== value);
+        } else if (name === 'size') {
+            let newSizes = [...(filters.size || [])];
+            if (newSizes.includes(value)) {
+                newSizes = newSizes.filter(size => size !== value);
             } else {
-                // Otherwise add it
-                newSizes = [...filters.size, value];
+                newSizes = [...newSizes, value];
             }
 
-            // Update the URL
             if (newSizes.length > 0) {
                 params.set('size', newSizes.join(','));
             } else {
                 params.delete('size');
             }
             setSearchParams(params);
-
-            // Update local state
-            setFilters(prev => ({
-                ...prev,
-                size: newSizes
-            }));
         }
-
-        // Update local state
-        setFilters(prevFilters => ({
-            ...prevFilters,
-            [name]: type === 'checkbox'
-                ? checked
-                    ? [...prevFilters[name], value]
-                    : prevFilters[name].filter(item => item !== value)
-                : value
-        }));
 
         // Close the sidebar on mobile when a filter is applied
         if (onFilterApply && window.innerWidth < 1024) {
@@ -328,8 +296,8 @@ const FilterSidebar = ({
                                     type="checkbox"
                                     name="size"
                                     value={size}
-                                    checked={filters.size.includes(size)}
-                                    onChange={handleFilterChange || onFilterChange}
+                                    checked={(filters.size || []).includes(size)}  // Add null check here
+                                    onChange={handleFilterChange}
                                     className={`mr-1 ${themeClasses.input}`}
                                 />
                                 <span>{size}</span>
@@ -337,7 +305,9 @@ const FilterSidebar = ({
                         ))}
                     </div>
                 ) : (
-                    <p className={`text-sm ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>No sizes available</p>
+                    <p className={`text-sm ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>
+                        No sizes available
+                    </p>
                 )}
             </div>
 
