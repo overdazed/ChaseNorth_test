@@ -341,21 +341,25 @@ const Navbar = ({ transparent = false }) => {
                             </Link>
 
                             <div className="relative group cursor-pointer" style={{ padding: '0 0.3rem' }}>
-                                <div onClick={handleWishlistClick}>
+                                <div onClick={handleWishlistClick} className="relative">
                                     <HeartIcon
                                         className="w-5 h-5 text-gray-700 group-hover:text-black"
                                         color="currentColor"
                                         hoverColor="#000000"
                                         noAnimation={true}
-                                        wishlistCount={wishlistCount}
                                     />
+                                    {wishlistCount > 0 && (
+                                        <span className="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                                            {wishlistCount}
+                                        </span>
+                                    )}
                                 </div>
                             </div>
 
                             <button onClick={toggleCartDrawer} className="relative">
                                 <HiOutlineShoppingBag className="h-6 w-6 text-gray-700 hover:text-black"/>
                                 {cartItemCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                    <span className="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
                                         {cartItemCount}
                                     </span>
                                 )}
@@ -364,7 +368,7 @@ const Navbar = ({ transparent = false }) => {
                             <DarkModeToggle />
                         </div>
                     </div>
-                    </div>
+
                 </nav>
             </div>
             {/* Cart Drawer */}
@@ -378,7 +382,7 @@ const Navbar = ({ transparent = false }) => {
                 }`}
             >
                 {/* Header with Dark Mode Toggle and Close Button */}
-                <div className="flex justify-between items-center pt-3 pl-2 pr-12">
+                <div className="flex justify-between items-center pt-3 pl-6 pr-12">
                     <div className="flex items-center">
                         <DarkModeToggle />
                     </div>
@@ -461,7 +465,7 @@ const Navbar = ({ transparent = false }) => {
                 </div>
                 
                 {/* Mobile Bottom Navigation */}
-                <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-3 px-6">
+                <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white bg-neutral-200 py-3 px-6">
                     <div className="flex justify-around items-center">
                         {/* Account */}
                         <Link 
@@ -499,7 +503,7 @@ const Navbar = ({ transparent = false }) => {
                                     </span>
                                 )}
                             </div>
-                            <span className="text-xs">Wishlist</span>
+                            <span className="text-xs mt-1">Wishlist</span>
                         </div>
 
                         {/* Cart */}
@@ -522,11 +526,11 @@ const Navbar = ({ transparent = false }) => {
                             <span className="text-xs">Cart</span>
                         </div>
 
-                        {/* Dark Mode Toggle */}
-                        <div className="flex flex-col items-center">
-                            <DarkModeToggle />
-                            <span className="text-xs mt-1">Theme</span>
-                        </div>
+                        {/*/!* Dark Mode Toggle *!/*/}
+                        {/*<div className="flex flex-col items-center">*/}
+                        {/*    <DarkModeToggle />*/}
+                        {/*    <span className="text-xs mt-1">Theme</span>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
             </div>
