@@ -107,7 +107,9 @@ const CollectionPage = () => {
 
     // state variable to determine if the drawer is open or closed
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    
+
+    const [highestPrice, setHighestPrice] = useState(0);
+
     // Price filter state
     const [isPriceFilterOpen, setIsPriceFilterOpen] = useState(false);
     const [priceRange, setPriceRange] = useState({
@@ -133,12 +135,6 @@ const CollectionPage = () => {
     // Apply price filter
     const applyPriceFilter = () => {
         const params = new URLSearchParams(location.search);
-
-        const handlePriceKeyDown = (e) => {
-            if (e.key === 'Enter') {
-                applyPriceFilter();
-            }
-        };
 
         // Validate and set min price
         if (priceRange.min && !isNaN(priceRange.min) && priceRange.min >= 0) {
@@ -166,6 +162,13 @@ const CollectionPage = () => {
         setSearchParams(params);
         setIsPriceFilterOpen(false);
     };
+
+    useEffect(() => {
+        if (products && products.length > 0) {
+            const maxPrice = Math.max(...products.map(p => p.price));
+            setHighestPrice(maxPrice);
+        }
+    }, [products]);
     
     // Clear price filter
     const clearPriceFilter = () => {
@@ -174,6 +177,12 @@ const CollectionPage = () => {
         params.delete('minPrice');
         params.delete('maxPrice');
         setSearchParams(params);
+    };
+
+    const handlePriceKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            applyPriceFilter();
+        }
     };
 
     useEffect(() => {
@@ -386,6 +395,9 @@ const CollectionPage = () => {
                                         isDay ? 'bg-neutral-50' : 'bg-neutral-800'
                                     }`}>
                                         <div className="space-y-3">
+                                            <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-2">
+                                                The highest price is ${highestPrice.toFixed(2)}
+                                            </div>
                                             <div className="flex items-center space-x-2">
                                                 <div className="relative flex-1">
                                                     <span className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>$</span>
@@ -413,6 +425,7 @@ const CollectionPage = () => {
                                                         placeholder="To"
                                                         value={priceRange.max}
                                                         onChange={(e) => setPriceRange({...priceRange, max: e.target.value})}
+                                                        onKeyDown={handlePriceKeyDown}
                                                         min={priceRange.min || "0"}
                                                         step="0.01"
                                                         className={`w-full pl-8 pr-3 py-2 text-sm rounded appearance-none ${
