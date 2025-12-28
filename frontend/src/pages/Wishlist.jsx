@@ -42,6 +42,12 @@ const Wishlist = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const sidebarRef = useRef(null);
+  const [filters, setFilters] = useState({
+    color: '',
+    size: [],
+    category: '',
+    gender: ''
+  });
 
   // Theme state
   const [isDay, setIsDay] = useState(() => {
@@ -80,6 +86,31 @@ const Wishlist = () => {
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+    document.body.style.overflow = isSidebarOpen ? 'auto' : 'hidden';
+  };
+
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
+  const handleFilterChange = (e) => {
+    const { name, value, checked, type } = e.target;
+
+    if (type === 'checkbox') {
+      setFilters(prev => ({
+        ...prev,
+        [name]: checked
+            ? [...(prev[name] || []), value]
+            : (prev[name] || []).filter(item => item !== value)
+      }));
+    } else {
+      setFilters(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   // Sort products based on sortBy
@@ -130,6 +161,37 @@ const Wishlist = () => {
         );
     }
   };
+
+  useEffect(() => {
+    const filtered = products.filter(product => {
+      // Filter by color
+      if (filters.color && !product.colors?.includes(filters.color)) {
+        return false;
+      }
+
+      // Filter by size
+      if (filters.size.length > 0 && !filters.size.some(size =>
+          product.sizes?.includes(size)
+      )) {
+        return false;
+      }
+
+      // Filter by category
+      if (filters.category && product.category !== filters.category) {
+        return false;
+      }
+
+      // Filter by gender
+      if (filters.gender && product.gender !== filters.gender) {
+        return false;
+      }
+
+      return true;
+    });
+
+    const sorted = sortProducts(filtered, sortBy);
+    setFilteredProducts(sorted);
+  }, [products, filters, sortBy]);
 
   // Update filtered and sorted products when products or sortBy changes
   useEffect(() => {
@@ -220,7 +282,13 @@ const Wishlist = () => {
         <div className={`${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed top-0 left-0 h-full z-30 w-3/4 sm:w-1/2`}>
           <div className="absolute inset-0 bg-white"></div>
           <div ref={sidebarRef} className="relative h-full overflow-y-auto pt-[112px]">
-            <FilterSidebar />
+            <FilterSidebar
+                products={products}
+                currentCategory={null}
+                onFilterApply={toggleSidebar}
+                isDay={isDay}
+                // Add any other props that your FilterSidebar component expects
+            />
           </div>
         </div>
 

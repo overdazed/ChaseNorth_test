@@ -26,6 +26,8 @@ const CollectionPage = () => {
     const dispatch = useDispatch();
     const { products, loading, error } = useSelector((state) => state.products);
     const queryParams = Object.fromEntries([...searchParams]);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [highestPrice, setHighestPrice] = useState(0);
 
     useEffect(() => {
         const minPrice = searchParams.get('minPrice');
@@ -51,6 +53,18 @@ const CollectionPage = () => {
         };
     }, []);
 
+    useEffect(() => {
+        if (isSidebarOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        // Cleanup function to reset overflow when component unmounts
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isSidebarOpen]);
 
     // Sort state and function
     const [sortBy, setSortBy] = useState('bestSelling');
@@ -104,11 +118,6 @@ const CollectionPage = () => {
 
     // click on filter, drawer comes from side, click anywhere else, close drawer
     const sidebarRef = useRef(null);
-
-    // state variable to determine if the drawer is open or closed
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-    const [highestPrice, setHighestPrice] = useState(0);
 
     // Price filter state
     const [isPriceFilterOpen, setIsPriceFilterOpen] = useState(false);
