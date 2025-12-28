@@ -1,7 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
-const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, products = [], isDay = true }) => {
+const FilterSidebar = ({
+                           onFilterApply,
+                           highestPrice = 0,
+                           currentCategory,
+                           products = [],
+                           isDay = true,
+                           onFilterChange,  // Add this
+                           filters = {}     // Add default empty object
+                       }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const location = useLocation();
     const priceFilterRef = useRef(null);
@@ -133,18 +141,23 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
     }, [products]);
 
     // State for filters
-    const [filters, setFilters] = useState({
-        category: "",
-        gender: "",
-        color: "",
-        size: [],
-        material: [],
-        brand: []
-    });
+    // const [filters, setFilters] = useState({
+    //     category: "",
+    //     gender: "",
+    //     color: "",
+    //     size: [],
+    //     material: [],
+    //     brand: []
+    // });
 
     const handleFilterChange = (e) => {
         const { name, value, checked, type } = e.target;
         const params = new URLSearchParams(location.search);
+
+        // Call the parent's onFilterChange if provided
+        if (onFilterChange) {
+            onFilterChange(e);
+        }
 
         // Handle gender filter specifically
         if (name === 'gender') {
@@ -245,7 +258,7 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                                 name="category"
                                 value={category}
                                 checked={filters.category === category}
-                                onChange={handleFilterChange}
+                                onChange={handleFilterChange || onFilterChange}
                                 className={`mr-2 ${themeClasses.input}`}
                             />
                             <span>{category}</span>
@@ -265,7 +278,7 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                                 name="gender"
                                 value={gender}
                                 checked={filters.gender === gender}
-                                onChange={handleFilterChange}
+                                onChange={handleFilterChange || onFilterChange}
                                 className={`mr-2 ${themeClasses.input}`}
                             />
                             <span>{gender}</span>
@@ -285,7 +298,7 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                                     type="button"
                                     name="color"
                                     value={color}
-                                    onClick={handleFilterChange}
+                                    onClick={handleFilterChange || onFilterChange}
                                     className={`w-6 h-6 rounded-full mb-1 ${
                                         filters.color === color ? 'ring-2 ring-offset-1 ring-blue-500' : ''
                                     }`}
@@ -316,7 +329,7 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                                     name="size"
                                     value={size}
                                     checked={filters.size.includes(size)}
-                                    onChange={handleFilterChange}
+                                    onChange={handleFilterChange || onFilterChange}
                                     className={`mr-1 ${themeClasses.input}`}
                                 />
                                 <span>{size}</span>

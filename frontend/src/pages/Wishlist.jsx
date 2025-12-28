@@ -95,23 +95,65 @@ const Wishlist = () => {
     };
   }, []);
 
+  // Add this function to apply filters
+  const applyFilters = (filters) => {
+    const filtered = products.filter(product => {
+      // Filter by color
+      if (filters.color && !product.colors?.includes(filters.color)) {
+        return false;
+      }
+
+      // Filter by size
+      if (filters.size && filters.size.length > 0 &&
+          !filters.size.some(size => product.sizes?.includes(size))) {
+        return false;
+      }
+
+      // Filter by category
+      if (filters.category && product.category !== filters.category) {
+        return false;
+      }
+
+      // Filter by gender
+      if (filters.gender && product.gender !== filters.gender) {
+        return false;
+      }
+
+      return true;
+    });
+
+    const sorted = sortProducts(filtered, sortBy);
+    setFilteredProducts(sorted);
+  };
+
   const handleFilterChange = (e) => {
     const { name, value, checked, type } = e.target;
 
-    if (type === 'checkbox') {
-      setFilters(prev => ({
-        ...prev,
-        [name]: checked
-            ? [...(prev[name] || []), value]
-            : (prev[name] || []).filter(item => item !== value)
-      }));
-    } else {
-      setFilters(prev => ({
-        ...prev,
-        [name]: value
-      }));
-    }
+    setFilters(prev => {
+      let newFilters;
+      if (type === 'checkbox') {
+        newFilters = {
+          ...prev,
+          [name]: checked
+              ? [...(prev[name] || []), value]
+              : (prev[name] || []).filter(item => item !== value)
+        };
+      } else {
+        newFilters = {
+          ...prev,
+          [name]: value
+        };
+      }
+
+      // Apply the filters immediately
+      applyFilters(newFilters);
+      return newFilters;
+    });
   };
+
+  useEffect(() => {
+    applyFilters(filters);
+  }, [sortBy]);
 
   // Sort products based on sortBy
   const sortProducts = (productsToSort, sortType) => {
@@ -287,7 +329,8 @@ const Wishlist = () => {
                 currentCategory={null}
                 onFilterApply={toggleSidebar}
                 isDay={isDay}
-                // Add any other props that your FilterSidebar component expects
+                onFilterChange={handleFilterChange} // Add this prop
+                filters={filters} // Pass the current filters
             />
           </div>
         </div>
