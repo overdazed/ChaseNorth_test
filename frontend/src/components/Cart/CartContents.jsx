@@ -1,6 +1,7 @@
 // import {RiDeleteBin3Line} from "react-icons/ri";
 import {useDispatch} from "react-redux";
 import {removeFromCart, updateCartItemQuantity} from "@/redux/slices/cartSlice";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 const CartContents = ({cart, userId, guestId}) => {
     const dispatch = useDispatch();
@@ -55,7 +56,7 @@ const CartContents = ({cart, userId, guestId}) => {
         <div>
             {
                 cart.products.map((product, index) => (
-                    <div key={index} className="flex items-start justify-between py-4 px-4 rounded-lg bg-neutral-50 dark:bg-neutral-950 mb-2">
+                    <div key={index} className="flex items-start justify-between py-4 px-4 rounded-lg bg-neutral-50 dark:bg-neutral-900 mb-2">
                         {/* should be items-center?!?*/}
                         <div className="flex items-start">
                             <img
@@ -71,18 +72,31 @@ const CartContents = ({cart, userId, guestId}) => {
                                 <div className="mt-2">
                                     <div className={`flex items-center border-[0.5px] border-gray-200 dark:border-gray-800 w-32 rounded-md overflow-hidden`}>
                                         <button 
-                                            className={`w-10 h-10 flex items-center justify-center border-r border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-neutral-800`}
-                                            onClick={() =>
-                                                handleAddToCart(
-                                                    product.productId,
-                                                    -1,
-                                                    product.quantity,
-                                                    product.size,
-                                                    product.color
-                                                )
-                                            }
+                                            className={`w-10 h-10 flex items-center justify-center border-r border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors`}
+                                            onClick={() => {
+                                                if (product.quantity === 1) {
+                                                    handleRemoveFromCart(
+                                                        product.productId,
+                                                        product.size,
+                                                        product.color
+                                                    );
+                                                } else {
+                                                    handleAddToCart(
+                                                        product.productId,
+                                                        -1,
+                                                        product.quantity,
+                                                        product.size,
+                                                        product.color
+                                                    );
+                                                }
+                                            }}
+                                            aria-label={product.quantity === 1 ? "Remove item" : "Decrease quantity"}
                                         >
-                                            <span className="text-black dark:text-white">-</span>
+                                            {product.quantity === 1 ? (
+                                                <RiDeleteBinLine className="text-black dark:text-white text-sm" />
+                                            ) : (
+                                                <span className="text-black dark:text-white">-</span>
+                                            )}
                                         </button>
                                         <div className={`flex-1 text-center text-black dark:text-white`}>
                                             {product.quantity}

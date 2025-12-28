@@ -5,10 +5,12 @@ import { fetchCart } from "@/redux/slices/cartSlice";
 import { useEffect, useState } from "react";
 import AnimatedHamburgerButton from "../ui/AnimatedHamburgerButton";
 
-// Helper function to check if it's daytime (between 6 AM and 6 PM)
-const isDaytime = () => {
-    const hours = new Date().getHours();
-    return hours >= 6 && hours < 18;
+// Check if dark mode is enabled
+const isDarkMode = () => {
+    if (typeof document !== 'undefined') {
+        return document.documentElement.classList.contains('dark');
+    }
+    return false;
 };
 
 const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
@@ -17,7 +19,7 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
     const { user, guestId } = useSelector((state) => state.auth);
     const { cart, loading } = useSelector((state) => state.cart);
     const userId = user ? user._id : null;
-    const [isDay, setIsDay] = useState(isDaytime());
+    const [isDark, setIsDark] = useState(isDarkMode());
     const [isAnimating, setIsAnimating] = useState(false);
 
     // Fetch cart when component mounts or when user/guestId changes
@@ -27,19 +29,19 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
         }
     }, [dispatch, userId, guestId]);
 
-    // Update theme based on time of day
+    // Update theme when it changes
     useEffect(() => {
-        const checkTime = () => {
-            setIsDay(isDaytime());
+        const handleThemeChange = (e) => {
+            const isDark = e.detail?.isDarkMode ?? isDarkMode();
+            setIsDark(isDark);
         };
 
-        // Check time on mount
-        checkTime();
+        // Check theme on mount
+        setIsDark(isDarkMode());
 
-        // Set up interval to check time every minute
-        const interval = setInterval(checkTime, 60000);
-
-        return () => clearInterval(interval);
+        // Listen for theme changes
+        window.addEventListener('themeChange', handleThemeChange);
+        return () => window.removeEventListener('themeChange', handleThemeChange);
     }, []);
 
     const handleCheckout = () => {
@@ -76,7 +78,7 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
             <div
                 className={`w-full md:w-3/4 lg:w-1/2 xl:w-[30rem] h-full shadow-lg transform transition-all duration-300 ease-in-out flex flex-col z-[101] ${
                     drawerOpen ? 'translate-x-0' : 'translate-x-full'
-                } ${isDay ? 'bg-neutral-50' : 'bg-neutral-700'}`}
+                } ${isDark ? 'bg-neutral-950' : 'bg-neutral-50'}`}
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Close Button */}
@@ -84,17 +86,17 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
                     <AnimatedHamburgerButton
                         active={drawerOpen}
                         onClick={handleClose}
-                        className={isDay ? 'text-gray-600' : 'text-gray-300'}
+                        className={isDark ? 'text-gray-300' : 'text-gray-600'}
                     />
                 </div>
 
                 {/* Cart content */}
                 <div className="flex-grow p-4 overflow-y-auto">
-                    <h2 className={`text-2xl uppercase mb-8 ${isDay ? 'text-gray-900' : 'text-white'}`}>Your Cart</h2>
+                    <h2 className={`text-2xl uppercase mb-8 ${isDark ? 'text-neutral-50' : 'text-gray-900'}`}>Your Cart</h2>
                     {cart?.products?.length > 0 ? (
                         <CartContents cart={cart} userId={userId} guestId={guestId} />
                     ) : (
-                        <p className={isDay ? 'text-gray-700' : 'text-gray-300'}>Your cart is empty.</p>
+                        <p className={isDark ? 'text-gray-300' : 'text-gray-700'}>Your cart is empty.</p>
                     )}
                 </div>
 
@@ -104,11 +106,11 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
                         <>
                             <button
                                 onClick={handleCheckout}
-                                className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition"
+                                className="text-md w-full bg-black text-neutral-50 py-3 rounded-full font-normal hover:bg-gray-800 transition"
                             >
                                 Checkout
                             </button>
-                            <p className={`text-sm tracking-tighter mt-3 text-center ${isDay ? 'text-gray-500' : 'text-gray-300'}`}>
+                            <p className={`text-xs tracking-tighter mt-3 text-center ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
                                 Shipping, taxes and discounts calculated at checkout.
                             </p>
                         </>
