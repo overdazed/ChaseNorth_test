@@ -135,46 +135,28 @@ const CollectionPage = () => {
     // Apply price filter
     const applyPriceFilter = () => {
         const params = new URLSearchParams(location.search);
-        
-        // Convert min and max to numbers and validate
-        const minPrice = priceRange.min ? parseFloat(priceRange.min) : null;
-        const maxPrice = priceRange.max ? parseFloat(priceRange.max) : null;
 
         // Validate and set min price
-        if (minPrice !== null && !isNaN(minPrice) && minPrice >= 0) {
-            params.set('minPrice', minPrice.toString());
-            // Update the priceRange state with the parsed number
-            setPriceRange(prev => ({...prev, min: minPrice.toString()}));
+        if (priceRange.min && !isNaN(priceRange.min) && priceRange.min >= 0) {
+            params.set('minPrice', priceRange.min);
         } else {
             params.delete('minPrice');
-            setPriceRange(prev => ({...prev, min: ''}));
         }
 
         // Validate and set max price
-        if (maxPrice !== null && !isNaN(maxPrice) && maxPrice >= 0) {
-            params.set('maxPrice', maxPrice.toString());
-            // Update the priceRange state with the parsed number
-            setPriceRange(prev => ({...prev, max: maxPrice.toString()}));
+        if (priceRange.max && !isNaN(priceRange.max) && priceRange.max >= 0) {
+            params.set('maxPrice', priceRange.max);
         } else {
             params.delete('maxPrice');
-            setPriceRange(prev => ({...prev, max: ''}));
         }
 
         // Validate that min is less than max if both are set
-        if (params.has('minPrice') && params.has('maxPrice')) {
-            const min = parseFloat(params.get('minPrice'));
-            const max = parseFloat(params.get('maxPrice'));
-            
-            if (min > max) {
-                // Swap values if min is greater than max
-                params.set('minPrice', max.toString());
-                params.set('maxPrice', min.toString());
-                // Update the priceRange state with swapped values
-                setPriceRange({
-                    min: max.toString(),
-                    max: min.toString()
-                });
-            }
+        if (params.has('minPrice') && params.has('maxPrice') &&
+            Number(params.get('minPrice')) > Number(params.get('maxPrice'))) {
+            // Swap values if min is greater than max
+            const temp = params.get('minPrice');
+            params.set('minPrice', params.get('maxPrice'));
+            params.set('maxPrice', temp);
         }
 
         setSearchParams(params);
