@@ -107,7 +107,7 @@ const CartContents = ({cart, userId, guestId}) => {
                         </div>
                         {/* Price and remove button container */}
                         <div className="flex flex-col items-end justify-between">
-                            <p className="text-xl text-black dark:text-neutral-100">$ {product.price.toLocaleString()}</p>
+                            <p className="text-lg text-black dark:text-neutral-100 whitespace-nowrap">$ {product.price.toLocaleString()}</p>
                             {/* Delete icon */}
                             <button
                                 onClick={() =>

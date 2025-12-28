@@ -1,14 +1,14 @@
-import { IoMdClose } from 'react-icons/io';
 import CartContents from "../Cart/CartContents.jsx";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "@/redux/slices/cartSlice";
 import { useEffect, useState } from "react";
+import AnimatedHamburgerButton from "../ui/AnimatedHamburgerButton";
 
 // Helper function to check if it's daytime (between 6 AM and 6 PM)
 const isDaytime = () => {
-  const hours = new Date().getHours();
-  return hours >= 6 && hours < 18;
+    const hours = new Date().getHours();
+    return hours >= 6 && hours < 18;
 };
 
 const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
@@ -50,13 +50,21 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
         }
     };
 
+    const handleClose = (e) => {
+        e.stopPropagation();
+        // Add a small delay to allow the animation to complete
+        setTimeout(() => {
+            toggleCartDrawer();
+        }, 300); // Match this with the animation duration
+    };
+
     return (
         <div
             className={`fixed inset-0 z-[100] flex justify-end transition-opacity duration-300 ${
                 drawerOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
             style={{ backgroundColor: 'rgba(0, 0, 0, 0.65)' }}
-            onClick={toggleCartDrawer}
+            onClick={handleClose}
         >
             {/* Drawer content */}
             <div
@@ -67,9 +75,11 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
             >
                 {/* Close Button */}
                 <div className="flex justify-end p-4">
-                    <button onClick={toggleCartDrawer}>
-                        <IoMdClose className={`h-6 w-6 ${isDay ? 'text-gray-600' : 'text-gray-300'}`} />
-                    </button>
+                    <AnimatedHamburgerButton
+                        active={drawerOpen}
+                        onClick={handleClose}
+                        className={isDay ? 'text-gray-600' : 'text-gray-300'}
+                    />
                 </div>
 
                 {/* Cart content */}

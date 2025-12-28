@@ -61,44 +61,57 @@ const VARIANTS = {
     },
 };
 
-const AnimatedHamburgerButton = ({ active, onClick, className = '' }) => (
-    <MotionConfig
-        transition={{
-            duration: 0.5,
-            ease: "easeInOut",
-        }}
-    >
-        <motion.button
-            initial={false}
-            animate={active ? "open" : "closed"}
-            onClick={onClick}
-            className={`relative h-6 w-6 focus:outline-none ${className}`}
-            aria-label="Toggle menu"
-        >
-            <motion.span
-                variants={VARIANTS.top}
-                className="absolute h-0.5 w-6 bg-current"
-                style={{ y: "-50%", left: "50%", x: "-50%", top: "25%" }}
-            />
-            <motion.span
-                variants={VARIANTS.middle}
-                className="absolute h-0.5 w-6 bg-current"
-                style={{ left: "50%", x: "-50%", top: "50%", y: "-50%" }}
-            />
-            <motion.span
-                variants={VARIANTS.bottom}
-                className="absolute h-0.5 w-3 bg-current"
-                style={{
-                    x: "-50%",
-                    y: "50%",
-                    bottom: "25%",
-                    left: "50%"
-                }}
-            />
-        </motion.button>
-    </MotionConfig>
-);
+const AnimatedHamburgerButton = ({ active, onClick, className = '' }) => {
+    const [isAnimating, setIsAnimating] = useState(false);
 
+    const handleClick = (e) => {
+        e.stopPropagation();
+        if (!isAnimating) {
+            setIsAnimating(true);
+            onClick(e);
+            // Reset animation state after animation completes
+            setTimeout(() => setIsAnimating(false), 500);
+        }
+    };
+
+    return (
+        <MotionConfig
+            transition={{
+                duration: 0.5,
+                ease: "easeInOut",
+            }}
+        >
+            <motion.button
+                initial={false}
+                animate={active ? "open" : "closed"}
+                onClick={handleClick}
+                className={`relative h-6 w-6 focus:outline-none ${className}`}
+                aria-label="Toggle menu"
+            >
+                <motion.span
+                    variants={VARIANTS.top}
+                    className="absolute h-0.5 w-6 bg-current"
+                    style={{ y: "-50%", left: "50%", x: "-50%", top: "25%" }}
+                />
+                <motion.span
+                    variants={VARIANTS.middle}
+                    className="absolute h-0.5 w-6 bg-current"
+                    style={{ left: "50%", x: "-50%", top: "50%", y: "-50%" }}
+                />
+                <motion.span
+                    variants={VARIANTS.bottom}
+                    className="absolute h-0.5 w-3 bg-current"
+                    style={{
+                        x: "-50%",
+                        y: "50%",
+                        bottom: "25%",
+                        left: "50%"
+                    }}
+                />
+            </motion.button>
+        </MotionConfig>
+    );
+};
 const Navbar = ({ transparent = false }) => {
 
     // to open and  const navigate = useNavigate();
