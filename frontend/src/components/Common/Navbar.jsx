@@ -407,7 +407,7 @@ const Navbar = ({ transparent = false }) => {
                     <div className="z-10 -ml-3 pl-2">
                         <DarkModeToggle />
                     </div>
-                    
+
                     {/* Centered Logo */}
                     <div className="absolute left-1/2 transform -translate-x-1/2 opacity-75">
                         <Link to="/" onClick={toggleNavDrawer}>
@@ -423,7 +423,7 @@ const Navbar = ({ transparent = false }) => {
                             />
                         </Link>
                     </div>
-                    
+
                     {/* Close Button */}
                     <div className="z-10">
                         <AnimatedHamburgerButton
@@ -512,8 +512,8 @@ const Navbar = ({ transparent = false }) => {
                         <Link
                             to="/profile"
                             className={`flex items-center p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${
-                                window.location.pathname === '/profile' 
-                                    ? 'text-black dark:text-neutral-50' 
+                                window.location.pathname === '/profile'
+                                    ? 'text-black dark:text-neutral-50'
                                     : 'text-neutral-700 hover:text-black dark:text-neutral-400 dark:hover:text-neutral-50'
                             }`}
                             onClick={toggleNavDrawer}
@@ -535,8 +535,8 @@ const Navbar = ({ transparent = false }) => {
                         {/* Wishlist */}
                         <div
                             className={`flex items-center p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer ${
-                                window.location.pathname === '/wishlist' 
-                                    ? 'text-black dark:text-neutral-50' 
+                                window.location.pathname === '/wishlist'
+                                    ? 'text-black dark:text-neutral-50'
                                     : 'text-neutral-700 hover:text-black dark:text-neutral-400 dark:hover:text-neutral-50'
                             }`}
                             onClick={(e) => {
@@ -584,7 +584,7 @@ const Navbar = ({ transparent = false }) => {
                             </div>
                             <span className="text-sm font-normal ml-6">Cart</span>
                         </div>
-                        
+
                         <div className="h-2 md:hidden"></div>
 
                         {/* Language Selector */}
@@ -607,7 +607,7 @@ const Navbar = ({ transparent = false }) => {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                     </svg>
                                 </button>
-                                <div 
+                                <div
                                     className={`absolute bottom-full left-0 right-0 mb-2 bg-white dark:bg-neutral-900 rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-200 ${isLanguageOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
                                     onMouseEnter={() => setIsLanguageOpen(true)}
                                     onMouseLeave={() => setIsLanguageOpen(false)}
