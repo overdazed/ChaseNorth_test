@@ -73,7 +73,7 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
     };
     // Sample filter options
     const categories = ["Top Wear", "Bottom Wear"];
-    const genders = ["Men", "Women"];
+    const genders = ["All", "Men", "Women"];
     const materials = ["Cotton", "Polyester", "Wool"];
     const brands = ["Nike", "Adidas", "Puma"];
     
@@ -122,12 +122,66 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
 
         // Handle gender filter specifically
         if (name === 'gender') {
-            if (value) {
+            if (value === 'All') {
+                params.delete('gender');
+            } else if (value) {
                 params.set('gender', value);
             } else {
                 params.delete('gender');
             }
             setSearchParams(params);
+        }
+
+        if (name === 'color') {
+            if (filters.color === value) {
+                // If clicking the same color again, remove the filter
+                params.delete('color');
+                setFilters(prev => ({ ...prev, color: '' }));
+            } else {
+                // Set the new color filter
+                params.set('color', value);
+                setFilters(prev => ({ ...prev, color: value }));
+            }
+            setSearchParams(params);
+        }
+
+        if (name === 'category') {
+            if (filters.category === value) {
+                // If clicking the same category again, remove the filter
+                params.delete('category');
+                setFilters(prev => ({ ...prev, category: '' }));
+            } else {
+                // Set the new category filter
+                params.set('category', value);
+                setFilters(prev => ({ ...prev, category: value }));
+            }
+            setSearchParams(params);
+        }
+
+        if (name === 'size') {
+            // Create a new array with the updated sizes
+            let newSizes;
+            if (filters.size.includes(value)) {
+                // If size is already selected, remove it
+                newSizes = filters.size.filter(size => size !== value);
+            } else {
+                // Otherwise add it
+                newSizes = [...filters.size, value];
+            }
+
+            // Update the URL
+            if (newSizes.length > 0) {
+                params.set('size', newSizes.join(','));
+            } else {
+                params.delete('size');
+            }
+            setSearchParams(params);
+
+            // Update local state
+            setFilters(prev => ({
+                ...prev,
+                size: newSizes
+            }));
         }
 
         // Update local state
@@ -145,6 +199,7 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
             onFilterApply();
         }
     };
+
 
 
     return (
