@@ -105,6 +105,7 @@ const productsSlice = createSlice({
         similarProducts: [],
         loading: false,
         error: null,
+        wishlistCount: 0,
         // this will track the active filters for fetching products
         filters: {
             category: "",
@@ -142,6 +143,9 @@ const productsSlice = createSlice({
                 material: "",
                 collection: "",
             }
+        },
+        updateWishlistCount: (state, action) => {
+            state.wishlistCount = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -233,7 +237,11 @@ const productsSlice = createSlice({
     }
 });
 
-export const { setFilters, clearFilters } = productsSlice.actions;
+export const {
+    setFilters,
+    clearFilters,
+    updateWishlistCount  // Add this line
+} = productsSlice.actions;
 export default productsSlice.reducer;
 
 // import productsReducer from "./slices/productsSlice"; in store.js

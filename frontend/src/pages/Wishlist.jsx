@@ -281,6 +281,9 @@ const Wishlist = () => {
         const items = saved ? JSON.parse(saved) : [];
         setWishlist(items);
 
+        // Update Redux store with initial count
+        dispatch(updateWishlistCount(items.length));
+
         if (items.length === 0) {
           setLoading(false);
           return;
@@ -303,6 +306,7 @@ const Wishlist = () => {
         setProducts(validProducts);
       } catch (error) {
         console.error('Error in fetchWishlistProducts:', error);
+        setLoading(false);
       } finally {
         setLoading(false);
       }
@@ -319,11 +323,14 @@ const Wishlist = () => {
     setWishlist(updatedWishlist);
     setProducts(prevProducts => prevProducts.filter(product => product._id !== productId));
 
+    // Update filtered products to remove the unliked item
+    setFilteredProducts(prev => prev.filter(product => product._id !== productId));
+
     // Update localStorage
     localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
 
-    // Force a re-render to ensure UI updates
-    setWishlist(prev => [...updatedWishlist]);
+    // Update Redux store with the new wishlist count
+    dispatch(updateWishlistCount(updatedWishlist.length));
   };
 
   const handleProductClick = () => {
@@ -462,6 +469,7 @@ const Wishlist = () => {
                                 containerClass="w-full h-full"
                                 isFilled={true}
                                 noAnimation={true}
+                                count={wishlistCount}
                             />
                           </div>
                         </div>
