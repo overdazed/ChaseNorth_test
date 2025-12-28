@@ -117,7 +117,7 @@ const CartContents = ({cart, userId, guestId}) => {
                                         product.color
                                     )
                                 }
-                                className="p-1 hover:scale-110 transition-transform duration-200 self-end"
+                                className="pt-3 hover:scale-110 transition-transform duration-200 self-end"
                                 aria-label="Remove item"
                             >
                                 <div className="relative p-1 w-8 h-8 flex items-center justify-center">

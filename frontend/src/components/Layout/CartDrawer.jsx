@@ -59,8 +59,8 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
             setTimeout(() => {
                 toggleCartDrawer();
                 // Reset animation state after animation completes
-                setTimeout(() => setIsAnimating(false), 800);
-            }, 300);
+                setTimeout(() => setIsAnimating(false), 500);
+            }, 0); // Small delay to ensure state updates
         }
     };
 
