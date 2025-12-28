@@ -477,7 +477,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                 {/* Main Image */}
                                 <div className="w-full md:w-[calc(80%-2rem)] -mt-5 relative scale-95 origin-top-left">
                                     <div className="md:pr-3">
-                                        <div className={`relative w-full ${isDay ? 'bg-gray-50' : 'bg-neutral-900'} overflow-visible aspect-[4/5] scale-95`}>
+                                        <div className={`relative w-full ${isDay ? 'bg-neutral-50' : 'bg-neutral-900'} overflow-visible aspect-[4/5] scale-95`}>
                                             <div className="absolute inset-0 overflow-hidden">
                                                 <Lens
                                                     zoomFactor={2.5}
@@ -587,7 +587,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                             key={product._id}
                                                             className="group block"
                                                         >
-                                                        <div className="w-full aspect-square overflow-hidden rounded-lg bg-gray-100 mb-2">
+                                                        <div className="w-full aspect-square overflow-hidden rounded-lg bg-neutral-100 mb-2">
                                                             <div className="w-full h-full">
                                                                 <img
                                                                     src={product.images?.[0]?.url || `https://picsum.photos/150/150?random=${product._id}`}
@@ -603,7 +603,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                         <p className={`text-sm font-medium ${!isDay ? 'text-neutral-50' : 'text-neutral-950'}`}>
                                                             {product.name || 'Product'}
                                                         </p>
-                                                        <p className={`text-sm ${!isDay ? 'text-neutral-400' : 'text-gray-500'}`}>
+                                                        <p className={`text-sm ${!isDay ? 'text-neutral-400' : 'text-neutral-500'}`}>
                                                             ${product.price || '0.00'}
                                                         </p>
                                                     </Link>
@@ -638,7 +638,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                 </div>
 
                                 {/* Vertical Divider - Thin */}
-                                <div className={`hidden md:block h-auto w-[0.5px] mx-8 ${isDay ? 'bg-gray-200/80' : 'bg-gray-600/80'}`}></div>
+                                <div className={`hidden md:block h-auto w-[0.5px] mx-8 ${isDay ? 'bg-neutral-200/80' : 'bg-neutral-600/80'}`}></div>
 
                                 {/* Right Content */}
                                 <div className="w-full md:w-1/2 pl-0 md:pl-6">
@@ -669,7 +669,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                 <p className={`ms-2 text-sm font-bold ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
                                                     {selectedProduct?.rating?.toFixed(1) || '0.0'}
                                                 </p>
-                                                <span className="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                                                <span className="w-1 h-1 mx-1.5 bg-neutral-500 rounded-full dark:bg-neutral-400"></span>
                                                 <button
                                                     onClick={(e) => {
                                                         e.preventDefault();
@@ -678,7 +678,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                             reviewsSection.scrollIntoView({ behavior: 'smooth' });
                                                         }
                                                     }}
-                                                    className="text-sm font-medium text-gray-600 underline hover:no-underline dark:text-white focus:outline-none"
+                                                    className="text-sm font-medium text-neutral-600 underline hover:no-underline dark:text-white focus:outline-none"
                                                 >
                                                     ({selectedProduct?.numReviews || 0})
                                                 </button>
@@ -696,22 +696,28 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     {/* Color Selection */}
                                     <div className="mb-6">
                                         <p className={`mb-2 ${themeClasses.characteristics.text}`}>Color:</p>
-                                        <div className="flex gap-2">
+                                        <div className="flex flex-wrap gap-2">
                                             {selectedProduct.colors?.map((color) => (
-                                                <button
-                                                    key={color}
-                                                    onClick={() => setSelectedColor(color)}
-                                                    className={`w-10 h-10 rounded-full border-2 transition-all ${
-                                                        selectedColor === color
-                                                            ? `${isDay ? 'border-accent' : 'border-accent'} scale-110`
-                                                            : `${isDay ? 'border-white' : 'border-neutral-600'} ${isDay ? 'hover:border-gray-400' : 'hover:border-gray-400'}`
-                                                    }`}
-                                                    style={{
-                                                        backgroundColor: color.toLowerCase(),
-                                                        filter: "brightness(0.8)"
-                                                    }}
-                                                    aria-label={`Select color ${color}`}
-                                                />
+                                                <div key={color} className="flex flex-col items-center">
+                                                    <button
+                                                        onClick={() => setSelectedColor(color)}
+                                                        className={`w-10 h-10 rounded-full border-2 transition-all ${
+                                                            selectedColor === color
+                                                                ? `${isDay ? 'border-accent' : 'border-accent'} scale-110`
+                                                                : `${isDay ? 'border-white' : 'border-neutral-600'} ${isDay ? 'hover:border-neutral-400' : 'hover:border-neutral-400'}`
+                                                        }`}
+                                                        style={{
+                                                            backgroundColor: color.toLowerCase(),
+                                                            filter: "brightness(0.8)"
+                                                        }}
+                                                        aria-label={`Select color ${color}`}
+                                                    />
+                                                    {selectedColor === color && (
+                                                        <span className="text-xs mt-1 text-center text-neutral-600 dark:text-neutral-300">
+                                                            {color}
+                                                        </span>
+                                                    )}
+                                                </div>
                                             ))}
                                         </div>
                                     </div>
@@ -730,7 +736,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                     //             ? 'bg-black text-white border-black'
                                                     //             : 'bg-white text-black border-white'
                                                     //         : isDay
-                                                    //             ? 'bg-white border-gray-300 hover:border-gray-400 hover:bg-neutral-100 text-black'
+                                                    //             ? 'bg-white border-neutral-300 hover:border-neutral-400 hover:bg-neutral-100 text-black'
                                                     //             : 'bg-neutral-950 border-neutral-700 hover:border-neutral-600 hover:bg-neutral-800 text-white'
                                                     // }`}
                                                     className={`w-full h-12 flex items-center justify-center rounded-full border border-[0.5px] transition-all ${
@@ -739,7 +745,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                                 ? 'bg-black text-white border-black'
                                                                 : 'bg-white text-black border-black'
                                                             : isDay
-                                                                ? 'bg-white border-gray-300 hover:border-gray-400 hover:bg-neutral-100 text-black'
+                                                                ? 'bg-white border-neutral-300 hover:border-neutral-400 hover:bg-neutral-100 text-black'
                                                                 : 'bg-black border-black hover:border-black hover:bg-neutral-900 text-white'
                                                     }`}
                                                 >
@@ -754,7 +760,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                         <p className={`mb-2 ${themeClasses.characteristics.text}`}>Quantity:</p>
                                         <div className={`flex items-center border-[0.5px] ${themeClasses.border} w-32 rounded-md overflow-hidden`}>
                                             <button
-                                                className={`w-10 h-10 flex items-center justify-center border-r ${themeClasses.border} ${isDay ? 'hover:bg-gray-100' : 'hover:bg-neutral-800'}`}
+                                                className={`w-10 h-10 flex items-center justify-center border-r ${themeClasses.border} ${isDay ? 'hover:bg-neutral-100' : 'hover:bg-neutral-800'}`}
                                                 onClick={() => handleQuantityChange('minus')}
                                             >
                                                 <span className={themeClasses.text}>-</span>
@@ -763,7 +769,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                 {quantity}
                                             </div>
                                             <button
-                                                className={`w-10 h-10 flex items-center justify-center border-l ${themeClasses.border} ${isDay ? 'hover:bg-gray-100' : 'hover:bg-neutral-800'}`}
+                                                className={`w-10 h-10 flex items-center justify-center border-l ${themeClasses.border} ${isDay ? 'hover:bg-neutral-100' : 'hover:bg-neutral-800'}`}
                                                 onClick={() => handleQuantityChange('plus')}
                                             >
                                                 <span className={themeClasses.text}>+</span>
@@ -778,12 +784,12 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                             disabled={isButtonDisabled}
                                             // className={`flex-1 h-12 flex items-center justify-center rounded-full text-sm font-slim transition-colors duration-200 ${
                                             //     isButtonDisabled
-                                            //         ? 'bg-gray-400 cursor-not-allowed'
+                                            //         ? 'bg-neutral-400 cursor-not-allowed'
                                             //         : `${themeClasses.button.background} ${themeClasses.button.text} hover:opacity-90`
                                             // }`}
                                             className={`flex-1 h-12 flex items-center justify-center rounded-full text-sm font-slim transition-colors duration-200 ${
                                                 isButtonDisabled
-                                                    ? 'bg-gray-400 cursor-not-allowed'
+                                                    ? 'bg-neutral-400 cursor-not-allowed'
                                                     : `bg-black text-neutral-50 hover:bg-neutral-900`
                                             }`}
                                         >
@@ -897,7 +903,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                 {/* Review Form Modal */}
                 {showReviewForm && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                        <div className="bg-white dark:bg-gray-800 rounded-xl w-full max-w-md p-6 relative">
+                        <div className="bg-white dark:bg-neutral-800 rounded-xl w-full max-w-md p-6 relative">
                             {/*<button*/}
                             {/*    type="button"*/}
                             {/*    onClick={() => setShowReviewModal(true)}*/}
@@ -909,7 +915,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
                             <form onSubmit={handleReviewSubmit}>
                                 <div className="mb-6">
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
                                         Your Rating
                                     </label>
                                     <div className="flex flex-wrap gap-2">
@@ -923,27 +929,27 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                 onMouseLeave={() => setHover(0)}
                                             >
                                                 <Star
-                                                    className={`w-8 h-8 ${(hover || rating) >= star ? 'text-yellow-400' : 'text-gray-300'}`}
+                                                    className={`w-8 h-8 ${(hover || rating) >= star ? 'text-yellow-400' : 'text-neutral-300'}`}
                                                     fill={(hover || rating) >= star ? 'currentColor' : 'none'}
                                                     stroke="currentColor"
                                                     strokeWidth={1.5}
                                                 />
                                             </button>
                                         ))}
-                                        <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
+                                        <span className="ml-2 text-sm text-neutral-500 dark:text-neutral-400">
                                             {rating ? `${rating} star${rating > 1 ? 's' : ''}` : 'Rate this product'}
                                         </span>
                                     </div>
                                 </div>
 
                                 <div className="mb-4">
-                                    <label htmlFor="review-title" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    <label htmlFor="review-title" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                                         Review Title
                                     </label>
                                     <input
                                         type="text"
                                         id="review-title"
-                                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-gray-700 dark:text-white"
+                                        className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-neutral-700 dark:text-white"
                                         placeholder="Summarize your experience"
                                         value={review.title}
                                         onChange={(e) => setReview({...review, title: e.target.value})}
@@ -952,13 +958,13 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                 </div>
 
                                 <div className="mb-4">
-                                    <label htmlFor="review-comment" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    <label htmlFor="review-comment" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                                         Your Review
                                     </label>
                                     <textarea
                                         id="review-comment"
                                         rows="4"
-                                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-gray-700 dark:text-white"
+                                        className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-neutral-700 dark:text-white"
                                         placeholder="Share details about your experience with this product"
                                         value={review.comment}
                                         onChange={(e) => setReview({...review, comment: e.target.value})}
@@ -968,13 +974,13 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                     <div>
-                                        <label htmlFor="reviewer-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        <label htmlFor="reviewer-name" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                                             Your Name
                                         </label>
                                         <input
                                             type="text"
                                             id="reviewer-name"
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-gray-700 dark:text-white"
+                                            className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-neutral-700 dark:text-white"
                                             placeholder="Enter your name"
                                             value={review.name}
                                             onChange={(e) => setReview({...review, name: e.target.value})}
@@ -982,13 +988,13 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                         />
                                     </div>
                                     <div>
-                                        <label htmlFor="reviewer-email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        <label htmlFor="reviewer-email" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                                             Email Address
                                         </label>
                                         <input
                                             type="email"
                                             id="reviewer-email"
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-gray-700 dark:text-white"
+                                            className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-neutral-700 dark:text-white"
                                             placeholder="your@email.com"
                                             value={review.email}
                                             onChange={(e) => setReview({...review, email: e.target.value})}
@@ -1001,13 +1007,13 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     <button
                                         type="button"
                                         onClick={() => setShowReviewForm(false)}
-                                        className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                                        className="px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         type="submit"
-                                        className="px-6 py-2 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="px-6 py-2 bg-black text-white rounded-full text-sm font-medium hover:bg-neutral-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                         disabled={!rating || !review.title || !review.comment || !review.name || !review.email}
                                     >
                                         Submit Review
@@ -1034,13 +1040,13 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     <PartialStarRating rating={selectedProduct?.rating || 0} size="md" />
                                 </div>
                             </div>
-                            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                            <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                                 {selectedProduct?.numReviews || 0} global ratings
                             </p>
                         </div>
                         {/*<button */}
                         {/*    onClick={() => setShowReviewForm(true)}*/}
-                        {/*    className="px-4 py-2 text-sm font-medium text-white bg-black rounded-full hover:bg-gray-800 transition-colors"*/}
+                        {/*    className="px-4 py-2 text-sm font-medium text-white bg-black rounded-full hover:bg-neutral-800 transition-colors"*/}
                         {/*>*/}
                         {/*    Write a Review*/}
                         {/*</button>*/}
@@ -1071,9 +1077,9 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {/* Left Column - Star Ratings */}
                             <div className="space-y-4">
-                                {/*<h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">Overall Rating</h4>*/}
+                                {/*<h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Overall Rating</h4>*/}
                                 {reviewsLoading ? (
-                                    <div className="py-4 text-center text-gray-500">
+                                    <div className="py-4 text-center text-neutral-500">
                                         Loading reviews...
                                     </div>
                                 ) : (
@@ -1092,13 +1098,13 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                 <a href={`#reviews`} className="w-12 text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                                     {stars} star{stars > 1 ? 's' : ''}
                                                 </a>
-                                                <div className="flex-1 h-3 mx-4 bg-gray-200 rounded-full dark:bg-gray-700">
+                                                <div className="flex-1 h-3 mx-4 bg-neutral-200 rounded-full dark:bg-neutral-700">
                                                     <div
                                                         className="h-3 bg-yellow-300 rounded-full transition-all duration-500"
                                                         style={{ width: `${percentage}%` }}
                                                     ></div>
                                                 </div>
-                                                <span className="w-6 text-sm font-medium text-gray-500 dark:text-gray-400 text-right">
+                                                <span className="w-6 text-sm font-medium text-neutral-500 dark:text-neutral-400 text-right">
                                                     {percentage.toFixed(0)}%
                                                 </span>
                                             </div>
@@ -1177,23 +1183,23 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     return ratingItems.map(({ label, value, count, showFitLabels }, index) => (
                                         <div key={label} className={`space-y-1 ${index === 3 ? 'pb-3' : ''}`}>
                                             <div className="flex items-center justify-between">
-                                                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                                <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                                     {label}
                                                 </span>
                                                 {!showFitLabels && (
-                                                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                                                    <span className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                                                         {`${value > 0 ? Math.round(value * 10) / 10 : '0'}/5`}
                                                         {/*{count > 0 && ` (${count})`}*/}
                                                     </span>
                                                 )}
                                             </div>
-                                            <div className="h-3 w-full bg-gray-200 rounded-full dark:bg-gray-700 relative">
+                                            <div className="h-3 w-full bg-neutral-200 rounded-full dark:bg-neutral-700 relative">
                                                 <div
                                                     className="h-3 bg-yellow-300 rounded-full"
                                                     style={{ width: `${(value / 5) * 100}%` }}
                                                 ></div>
                                                 {showFitLabels && (
-                                                    <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                                    <div className="flex justify-between text-xs text-neutral-500 dark:text-neutral-400 mt-1">
                                                         <span>{label === 'Length' ? 'too short' : 'too tight'}</span>
                                                         <span>perfect</span>
                                                         <span>{label === 'Length' ? 'too long' : 'too wide'}</span>
