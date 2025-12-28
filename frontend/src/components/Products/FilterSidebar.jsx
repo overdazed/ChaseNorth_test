@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
-const FilterSidebar = ({ onFilterApply, highestPrice = 0 }) => {
+const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, products = [] }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const location = useLocation();
     const priceFilterRef = useRef(null);
@@ -74,10 +74,37 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0 }) => {
     // Sample filter options
     const categories = ["Top Wear", "Bottom Wear"];
     const genders = ["Men", "Women"];
-    const colors = ["Red", "Blue", "Black", "Green", "Yellow"];
-    const sizes = ["S", "M", "L", "XL"];
     const materials = ["Cotton", "Polyester", "Wool"];
     const brands = ["Nike", "Adidas", "Puma"];
+    
+    // Get unique colors and sizes from the current products
+    const colors = React.useMemo(() => {
+        if (!products || products.length === 0) return [];
+        
+        // Extract all colors from products
+        const allColors = products.flatMap(product => 
+            product.colors ? product.colors : []
+        );
+        
+        // Remove duplicates and return
+        return [...new Set(allColors)];
+    }, [products]);
+
+    // Get unique sizes from the current products
+    const sizes = React.useMemo(() => {
+        if (!products || products.length === 0) return [];
+        
+        // Extract all sizes from products
+        const allSizes = products.flatMap(product => 
+            product.sizes ? product.sizes : []
+        );
+        
+        // Remove duplicates, sort, and return
+        return [...new Set(allSizes)].sort((a, b) => {
+            const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+            return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
+        });
+    }, [products]);
 
     // State for filters
     const [filters, setFilters] = useState({
@@ -91,7 +118,19 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0 }) => {
 
     const handleFilterChange = (e) => {
         const { name, value, checked, type } = e.target;
+        const params = new URLSearchParams(location.search);
 
+        // Handle gender filter specifically
+        if (name === 'gender') {
+            if (value) {
+                params.set('gender', value);
+            } else {
+                params.delete('gender');
+            }
+            setSearchParams(params);
+        }
+
+        // Update local state
         setFilters(prevFilters => ({
             ...prevFilters,
             [name]: type === 'checkbox'
@@ -155,40 +194,49 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0 }) => {
             {/* Color Filter */}
             <div className="mb-6">
                 <h4 className="font-medium mb-2">Color</h4>
-                <div className="flex flex-wrap gap-2">
-                    {colors.map(color => (
-                        <button
-                            key={color}
-                            type="button"
-                            name="color"
-                            value={color}
-                            onClick={handleFilterChange}
-                            className={`w-6 h-6 rounded-full ${filters.color === color ? 'ring-2 ring-offset-1 ring-blue-500' : ''}`}
-                            style={{ backgroundColor: color.toLowerCase() }}
-                            aria-label={color}
-                        />
-                    ))}
-                </div>
+                {colors.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                        {colors.map(color => (
+                            <button
+                                key={color}
+                                type="button"
+                                name="color"
+                                value={color}
+                                onClick={handleFilterChange}
+                                className={`w-6 h-6 rounded-full ${filters.color === color ? 'ring-2 ring-offset-1 ring-blue-500' : ''}`}
+                                style={{ backgroundColor: color.toLowerCase() }}
+                                aria-label={color}
+                                title={color}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-sm text-gray-500">No colors available</p>
+                )}
             </div>
 
             {/* Size Filter */}
             <div className="mb-6">
                 <h4 className="font-medium mb-2">Size</h4>
-                <div className="flex flex-wrap gap-2">
-                    {sizes.map(size => (
-                        <label key={size} className="flex items-center">
-                            <input
-                                type="checkbox"
-                                name="size"
-                                value={size}
-                                checked={filters.size.includes(size)}
-                                onChange={handleFilterChange}
-                                className="mr-1"
-                            />
-                            {size}
-                        </label>
-                    ))}
-                </div>
+                {sizes.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                        {sizes.map(size => (
+                            <label key={size} className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    name="size"
+                                    value={size}
+                                    checked={filters.size.includes(size)}
+                                    onChange={handleFilterChange}
+                                    className="mr-1"
+                                />
+                                {size}
+                            </label>
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-sm text-gray-500">No sizes available</p>
+                )}
             </div>
 
             {/* Price Filter */}
