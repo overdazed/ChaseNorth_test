@@ -233,24 +233,12 @@ router.get('/', async (req, res) => {
             query.gender = gender
         }
 
-        if (minPrice || maxPrice) {
-            query.$or = [
-                // Match either price or discountPrice within the range
-                {
-                    $and: [
-                        { price: {} },
-                        ...(minPrice ? [{ price: { $gte: Number(minPrice) } }] : []),
-                        ...(maxPrice ? [{ price: { $lte: Number(maxPrice) } }] : [])
-                    ]
-                },
-                {
-                    $and: [
-                        { discountPrice: { $exists: true, $ne: null } },
-                        ...(minPrice ? [{ discountPrice: { $gte: Number(minPrice) } }] : []),
-                        ...(maxPrice ? [{ discountPrice: { $lte: Number(maxPrice) } }] : [])
-                    ]
-                }
-            ];
+        if (minPrice || maxPrice)  {
+            query.price = {};
+            // gte = greater than or equal to
+            if (minPrice) query.price.$gte = Number(minPrice);
+            // lte = less than or equal to
+            if (maxPrice) query.price.$lte = Number(maxPrice);
         }
 
         if (search)  {
