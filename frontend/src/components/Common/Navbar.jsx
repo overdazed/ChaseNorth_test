@@ -116,7 +116,7 @@ const AnimatedHamburgerButton = ({ active, onClick, className = '' }) => {
 };
 const Navbar = ({ transparent = false }) => {
 
-    // to open and  const navigate = useNavigate();
+    // to open and const navigate = useNavigate();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -125,6 +125,7 @@ const Navbar = ({ transparent = false }) => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [language, setLanguage] = useState('German / Deutsch');
     const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+    const [prevScrollPos, setPrevScrollPos] = useState(0);
 
     // Load wishlist count from localStorage
     useEffect(() => {
@@ -156,6 +157,7 @@ const Navbar = ({ transparent = false }) => {
 
     // Pass wishlist count to HeartIcon
     <HeartIcon count={wishlistCount} />
+
     const { user } = useSelector((state) => state.auth);
 
     const cartItemCount = cart?.products?.reduce(
@@ -216,11 +218,35 @@ const Navbar = ({ transparent = false }) => {
         };
     }, [navDrawerOpen]);
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollPos = window.scrollY;
+            const isScrollingDown = currentScrollPos > prevScrollPos && currentScrollPos > 10;
+
+            if (isScrollingDown) {
+                setIsScrolled(true);  // Scrolling down - stick to top
+            } else if (currentScrollPos < prevScrollPos) {
+                setIsScrolled(true);  // Scrolling up - also stick to top
+            } else if (currentScrollPos <= 10) {
+                setIsScrolled(false); // At the top - show at top-7
+            }
+
+            setPrevScrollPos(currentScrollPos);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [prevScrollPos]);
+
     return (
         <>
             {/* Full width background with fade effect - Sticky on mobile */}
             {/*<div className={`w-full ${transparent ? 'bg-transparent' : 'bg-white dark:bg-neutral-900'} transition-colors duration-300 fixed top-0 left-0 right-0 z-50`}>*/}
-            <div className={`w-full relative ${!transparent ? 'bg-neutral-50' : ''} sticky top-0 z-50`}>
+            <div className={`w-full transition-all duration-300 fixed md:fixed ${
+                isScrolled ? 'top-0' : 'md:top-7 top-7'
+            } z-40 ${
+                transparent ? 'bg-transparent' : 'bg-white dark:bg-neutral-900 shadow-sm'
+            }`}>
                 {/* Fade effect overlay */}
                 {transparent && (
                     <div className="absolute inset-0 bg-gradient-to-b from-neutral-50/70 to-neutral-50/70 backdrop-blur-sm"></div>
