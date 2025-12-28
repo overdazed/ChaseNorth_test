@@ -18,6 +18,7 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
     const { cart, loading } = useSelector((state) => state.cart);
     const userId = user ? user._id : null;
     const [isDay, setIsDay] = useState(isDaytime());
+    const [isAnimating, setIsAnimating] = useState(false);
 
     // Fetch cart when component mounts or when user/guestId changes
     useEffect(() => {
@@ -52,10 +53,15 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
 
     const handleClose = (e) => {
         e.stopPropagation();
-        // Add a small delay to allow the animation to complete
-        setTimeout(() => {
-            toggleCartDrawer();
-        }, 300); // Match this with the animation duration
+        if (!isAnimating) {
+            setIsAnimating(true);
+            // Start the animation
+            setTimeout(() => {
+                toggleCartDrawer();
+                // Reset animation state after animation completes
+                setTimeout(() => setIsAnimating(false), 800);
+            }, 300);
+        }
     };
 
     return (
