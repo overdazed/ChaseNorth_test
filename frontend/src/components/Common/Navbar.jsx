@@ -412,12 +412,12 @@ const Navbar = ({ transparent = false }) => {
                     <div className="absolute left-1/2 transform -translate-x-1/2 opacity-75">
                         <Link to="/" onClick={toggleNavDrawer}>
                             <img
-                                src={ChaseNorthLogoMobileBlac}
+                                src={ChaseNorthLogoMobileBlack}
                                 alt="ChaseNorth Logo"
                                 className="h-8 w-auto dark:hidden"
                             />
                             <img
-                                src={ChaseNorthLogo}
+                                src={ChaseNorthLogoMobileWhite}
                                 alt="ChaseNorth Logo"
                                 className="h-8 w-auto hidden dark:block"
                             />
@@ -447,7 +447,7 @@ const Navbar = ({ transparent = false }) => {
                             {() => {
                                 const isActive = window.location.search === '?gender=Men';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
+                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
                                         Men
                                         <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
@@ -463,7 +463,7 @@ const Navbar = ({ transparent = false }) => {
                             {() => {
                                 const isActive = window.location.search === '?gender=Women';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
+                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
                                         Women
                                         <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
@@ -479,7 +479,7 @@ const Navbar = ({ transparent = false }) => {
                             {() => {
                                 const isActive = window.location.search === '?category=Top+Wear';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
+                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
                                         Top Wear
                                         <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
@@ -495,7 +495,7 @@ const Navbar = ({ transparent = false }) => {
                             {() => {
                                 const isActive = window.location.search === '?category=Bottom+Wear';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
+                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
                                         Bottom Wear
                                         <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
