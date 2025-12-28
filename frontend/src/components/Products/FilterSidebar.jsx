@@ -1,6 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
-const FilterSidebar = ({ onFilterApply }) => {
+const FilterSidebar = ({ onFilterApply, highestPrice = 0 }) => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const location = useLocation();
+    const priceFilterRef = useRef(null);
+    
+    // Price filter state
+    const [priceRange, setPriceRange] = useState({
+        min: '',
+        max: ''
+    });
+    
+    // highestPrice is now destructured from props with default value of 0
+    
+    // Initialize price range from URL params
+    useEffect(() => {
+        const minPrice = searchParams.get('minPrice');
+        const maxPrice = searchParams.get('maxPrice');
+        setPriceRange({
+            min: minPrice || '',
+            max: maxPrice || ''
+        });
+    }, [searchParams]);
+    
+    // Apply price filter
+    const applyPriceFilter = () => {
+        const params = new URLSearchParams(location.search);
+
+        // Convert to numbers
+        const minPrice = priceRange.min ? parseFloat(priceRange.min) : null;
+        const maxPrice = priceRange.max ? parseFloat(priceRange.max) : null;
+
+        // Clear existing price params
+        params.delete('minPrice');
+        params.delete('maxPrice');
+
+        // Only set params if they have valid values
+        if (minPrice !== null && !isNaN(minPrice) && minPrice >= 0) {
+            params.set('minPrice', minPrice.toString());
+        }
+        if (maxPrice !== null && !isNaN(maxPrice) && maxPrice >= 0) {
+            params.set('maxPrice', maxPrice.toString());
+        }
+
+        setSearchParams(params);
+        
+        // Close the sidebar on mobile when a filter is applied
+        if (onFilterApply && window.innerWidth < 1024) {
+            onFilterApply();
+        }
+    };
+    
+    // Clear price filter
+    const clearPriceFilter = () => {
+        setPriceRange({ min: '', max: '' });
+        const params = new URLSearchParams(location.search);
+        params.delete('minPrice');
+        params.delete('maxPrice');
+        setSearchParams(params);
+        
+        // Close the sidebar on mobile when a filter is applied
+        if (onFilterApply && window.innerWidth < 1024) {
+            onFilterApply();
+        }
+    };
+    
+    const handlePriceKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            applyPriceFilter();
+        }
+    };
     // Sample filter options
     const categories = ["Top Wear", "Bottom Wear"];
     const genders = ["Men", "Women"];
@@ -16,8 +86,7 @@ const FilterSidebar = ({ onFilterApply }) => {
         color: "",
         size: [],
         material: [],
-        brand: [],
-        priceRange: [0, 100]
+        brand: []
     });
 
     const handleFilterChange = (e) => {
@@ -38,13 +107,6 @@ const FilterSidebar = ({ onFilterApply }) => {
         }
     };
 
-    const handlePriceChange = (e) => {
-        const newPrice = e.target.value;
-        setFilters(prev => ({
-            ...prev,
-            priceRange: [0, newPrice]
-        }));
-    };
 
     return (
         <div className="w-64 p-4 bg-white shadow-sm">
@@ -129,20 +191,56 @@ const FilterSidebar = ({ onFilterApply }) => {
                 </div>
             </div>
 
-            {/* Price Range */}
-            <div className="mb-6">
+            {/* Price Filter */}
+            <div className="mb-6" ref={priceFilterRef}>
                 <h4 className="font-medium mb-2">Price Range</h4>
-                <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={filters.priceRange[1]}
-                    onChange={handlePriceChange}
-                    className="w-full"
-                />
-                <div className="flex justify-between text-sm text-gray-600">
-                    <span>${filters.priceRange[0]}</span>
-                    <span>${filters.priceRange[1]}</span>
+                <div className="space-y-3">
+                    <div className="text-xs text-gray-500">
+                        The highest price is ${highestPrice.toFixed(2)}
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <div className="relative flex-1">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                            <input
+                                type="number"
+                                placeholder="From"
+                                value={priceRange.min}
+                                onChange={(e) => setPriceRange({...priceRange, min: e.target.value})}
+                                onKeyDown={handlePriceKeyDown}
+                                min="0"
+                                step="0.01"
+                                className="w-full pl-8 pr-3 py-2 text-sm border rounded"
+                            />
+                        </div>
+                        <span className="text-gray-400">-</span>
+                        <div className="relative flex-1">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                            <input
+                                type="number"
+                                placeholder="To"
+                                value={priceRange.max}
+                                onChange={(e) => setPriceRange({...priceRange, max: e.target.value})}
+                                onKeyDown={handlePriceKeyDown}
+                                min={priceRange.min || "0"}
+                                step="0.01"
+                                className="w-full pl-8 pr-3 py-2 text-sm border rounded"
+                            />
+                        </div>
+                    </div>
+                    <div className="flex justify-between pt-2">
+                        <button
+                            onClick={clearPriceFilter}
+                            className="text-sm text-gray-500 hover:text-black hover:underline"
+                        >
+                            Reset
+                        </button>
+                        <button
+                            onClick={applyPriceFilter}
+                            className="px-4 py-1.5 text-sm rounded bg-black text-white hover:bg-gray-800"
+                        >
+                            Apply
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
