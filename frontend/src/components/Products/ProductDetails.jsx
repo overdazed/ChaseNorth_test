@@ -694,7 +694,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     </div>
 
                                     {/* Color Selection */}
-                                    <div className="mb-6">
+                                    <div className={`${selectedColor ? 'mb-1' : 'mb-6'}`}>
                                         <p className={`mb-2 ${themeClasses.characteristics.text}`}>Color:</p>
                                         <div className="flex flex-wrap gap-2">
                                             {selectedProduct.colors?.map((color) => (
