@@ -9,29 +9,29 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
     // Theme classes
     const themeClasses = {
         container: isDay
-            ? 'bg-neutral-50 text-gray-900'
-            : 'bg-gray-900 text-gray-100',
+            ? 'bg-neutral-50 text-neutral-900'
+            : 'bg-neutral-900 text-neutral-100',
         header: isDay
-            ? 'text-gray-900 border-b border-gray-200'
-            : 'text-gray-100 border-b border-gray-700',
+            ? 'text-neutral-900 border-b border-neutral-200'
+            : 'text-neutral-100 border-b border-neutral-700',
         section: isDay
-            ? 'border-b border-gray-200'
-            : 'border-b border-gray-700',
+            ? 'border-b border-neutral-200'
+            : 'border-b border-neutral-700',
         label: isDay
-            ? 'text-gray-700'
-            : 'text-gray-300',
+            ? 'text-neutral-700'
+            : 'text-neutral-300',
         input: isDay
-            ? 'text-gray-900 bg-neutral-50 border-gray-300'
-            : 'bg-gray-800 border-gray-600 text-neutral-50',
+            ? 'text-neutral-900 bg-neutral-50 border-neutral-300'
+            : 'bg-neutral-800 border-neutral-600 text-neutral-50',
         priceInput: isDay
-            ? 'bg-neutral-50 border-gray-300'
-            : 'bg-gray-700 border-gray-600 text-neutral-50',
+            ? 'bg-neutral-50 border-neutral-300'
+            : 'bg-neutral-700 border-neutral-600 text-neutral-50',
         button: isDay
-            ? 'bg-black text-neutral-50 hover:bg-gray-800'
-            : 'bg-blue-700 text-neutral-50 hover:bg-blue-600',
+            ? 'bg-black text-neutral-50 text-sm rounded-full hover:bg-neutral-900'
+            : 'bg-black text-neutral-50 text-sm rounded-full hover:bg-neutral-900',
         resetButton: isDay
-            ? 'text-gray-500 hover:text-black hover:underline'
-            : 'text-gray-400 hover:text-gray-200 hover:underline'
+            ? 'text-neutral-500 hover:text-black hover:underline'
+            : 'text-neutral-400 hover:text-neutral-200 hover:underline'
     };
 
     // Price filter state
@@ -229,8 +229,8 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
 
 
     return (
-        <div className={`top-20 h-screen w-full p-4 shadow-sm overflow-y-auto bg-neutral-900 ${themeClasses.container}`}>
-            <h3 className={`text-lg font-semibold mb-4 pb-2 ${themeClasses.header}`}>
+        <div className={`-mt-28 h-screen w-full p-4 shadow-sm overflow-y-auto dark:bg-neutral-900 ${themeClasses.container}`}>
+            <h3 className={`mt-40 text-lg font-semibold mb-4 pb-2 ${themeClasses.header}`}>
                 Filters
             </h3>
 
@@ -296,7 +296,7 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                         ))}
                     </div>
                 ) : (
-                    <p className={`text-sm ${isDay ? 'text-gray-500' : 'text-gray-400'}`}>No colors available</p>
+                    <p className={`text-sm ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>No colors available</p>
                 )}
             </div>
 
@@ -320,7 +320,7 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                         ))}
                     </div>
                 ) : (
-                    <p className={`text-sm ${isDay ? 'text-gray-500' : 'text-gray-400'}`}>No sizes available</p>
+                    <p className={`text-sm ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>No sizes available</p>
                 )}
             </div>
 
@@ -328,13 +328,13 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
             <div className="mb-6" ref={priceFilterRef}>
                 <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Price Range</h4>
                 <div className="space-y-3">
-                    <div className={`text-xs ${isDay ? 'text-gray-500' : 'text-gray-400'}`}>
+                    <div className={`text-xs ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>
                         The highest price is ${highestPrice.toFixed(2)}
                     </div>
                     <div className="flex items-center space-x-2">
                         <div className="relative flex-1">
                             <span className={`absolute left-3 top-1/2 -translate-y-1/2 ${
-                                isDay ? 'text-gray-500' : 'text-gray-400'
+                                isDay ? 'text-neutral-500' : 'text-neutral-400'
                             }`}>$</span>
                             <input
                                 type="number"
@@ -349,10 +349,10 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                                 }`}
                             />
                         </div>
-                        <span className={isDay ? 'text-gray-400' : 'text-gray-500'}>-</span>
+                        <span className={isDay ? 'text-neutral-400' : 'text-neutral-500'}>-</span>
                         <div className="relative flex-1">
                             <span className={`absolute left-3 top-1/2 -translate-y-1/2 ${
-                                isDay ? 'text-gray-500' : 'text-gray-400'
+                                isDay ? 'text-neutral-500' : 'text-neutral-400'
                             }`}>$</span>
                             <input
                                 type="number"
@@ -377,7 +377,7 @@ const FilterSidebar = ({ onFilterApply, highestPrice = 0, currentCategory, produ
                         </button>
                         <button
                             onClick={applyPriceFilter}
-                            className={`px-4 py-1.5 text-sm rounded ${themeClasses.button}`}
+                            className={`px-5 py-2 text-sm rounded ${themeClasses.button}`}
                         >
                             Apply
                         </button>
