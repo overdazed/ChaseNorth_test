@@ -299,95 +299,71 @@ const Navbar = ({ transparent = false }) => {
                     </div>
                     {/* work on right sections for the icons */}
                     {/* Right - Icons */}
-                    <div className="flex items-center space-x-2 lg:space-x-2 pl-4" style={{ minWidth: '200px', justifyContent: 'flex-end' }}>
-
-
-                        {/* Admin Button */}
-                        {/* Admin Button - Only visible for admin users */}
-                        {user && user.role === "admin" && (
-                            <Link
-                                to="/admin"
-                                onClick={(e) => {
-                                    if (window.location.pathname === '/admin') {
-                                        e.preventDefault();
-                                        window.location.href = '/admin';
-                                    }
-                                }}
-                                className="bg-black px-3 py-1 rounded-full text-sm text-white hover:bg-gray-800 transition-colors"
-                            >
-                                Admin
-                            </Link>
-                        )}
-
-                        {/* 1. Search Icon */}
-                        {/* For Search functionality create a different component, we will come back to it later */}
-                        {/* when you click the search icon, the search form opens up, where you can enter the query */}
-                        {/* when you submit the request, it will take you to the collection page and display the matching results */}
-                        {/* 1. when you click search icon, we want the form to open up */}
-                        {/* 2. ensure that we want to capture the search term from the form */}
-                        {/* make use of the State hook */}
-                        {/* create file under Common folder -> SearchBar.jsx */}
-                        <div className="overflow-auto ">
+                    <div className="flex items-center space-x-4 lg:space-x-2 pl-4" style={{ minWidth: 'auto', justifyContent: 'flex-end' }}>
+                        {/* Search Bar - Always visible on mobile */}
+                        <div className="overflow-auto">
                             <SearchBar className="h-6 w-6 text-gray-700 hover:text-black"/>
                         </div>
-                        {/* you now should be able to see SearchBar Txt on the screen */}
 
-                        {/* 2. Account Icon - Shows login icon when not logged in, user icon when logged in */}
-                        <Link to="/profile" className="">
-                            {user ? (
-                                // <HiOutlineUserCircle className="h-6 w-6 text-gray-700 hover:text-black"/>
-                                <AiOutlineUser className="h-6 w-6 text-gray-700 hover:text-black"/>
-                            ) : (
-                                <HiArrowLeftEndOnRectangle className="h-6 w-6 text-gray-700 hover:text-black"/>
-                            )}
-                        </Link>
-
-                        {/* Wishlist Icon */}
-                        <div
-                            className="relative group cursor-pointer"
-                            style={{ padding: '0 0.3rem' }}
-                        >
-                            <div onClick={handleWishlistClick}>
-                                <HeartIcon
-                                    className="w-5 h-5 text-gray-700 group-hover:text-black"
-                                    color="currentColor"
-                                    hoverColor="#000000"
-                                    noAnimation={true}
-                                    wishlistCount={wishlistCount}
-                                />
-                            </div>
+                        {/* Hamburger Menu Icon for mobile */}
+                        <div className="md:hidden">
+                            <AnimatedHamburgerButton
+                                active={navDrawerOpen}
+                                onClick={toggleNavDrawer}
+                                className="text-gray-700 hover:text-black"
+                            />
                         </div>
 
-                        {/* Cart Icon */}
-                        <button
-                            onClick={toggleCartDrawer}
-                            className="relative"
-                        >
-                            <HiOutlineShoppingBag className="h-6 w-6 text-gray-700 hover:text-black"/>
-                            {/* to display the count of items in the cart */}
-                            {/* FIX: position on top of the cart -> -top-1*/}
-                            {cartItemCount > 0 && (
-                                <span className="absolute -top-1 bg-accent text-white text-xs rounded-full px-2 py-0.5">
-                                {cartItemCount}
-                            </span>
+                        {/* Desktop Icons - Hidden on mobile */}
+                        <div className="hidden md:flex items-center space-x-2">
+                            {/* Admin Button - Only visible for admin users */}
+                            {user && user.role === "admin" && (
+                                <Link
+                                    to="/admin"
+                                    onClick={(e) => {
+                                        if (window.location.pathname === '/admin') {
+                                            e.preventDefault();
+                                            window.location.href = '/admin';
+                                        }
+                                    }}
+                                    className="bg-black px-3 py-1 rounded-full text-sm text-white hover:bg-gray-800 transition-colors"
+                                >
+                                    Admin
+                                </Link>
                             )}
 
-                        </button>
+                            <Link to="/profile" className="">
+                                {user ? (
+                                    <AiOutlineUser className="h-6 w-6 text-gray-700 hover:text-black"/>
+                                ) : (
+                                    <HiArrowLeftEndOnRectangle className="h-6 w-6 text-gray-700 hover:text-black"/>
+                                )}
+                            </Link>
 
-                        {/* 3. Hamburger Menu Icon for smaller devices */}
-                        {/* for the menu to work add onClick event handler*/}
-                        <div className="flex items-center space-x-2">
-                            <div className="hidden md:block">
-                                <DarkModeToggle />
+                            <div className="relative group cursor-pointer" style={{ padding: '0 0.3rem' }}>
+                                <div onClick={handleWishlistClick}>
+                                    <HeartIcon
+                                        className="w-5 h-5 text-gray-700 group-hover:text-black"
+                                        color="currentColor"
+                                        hoverColor="#000000"
+                                        noAnimation={true}
+                                        wishlistCount={wishlistCount}
+                                    />
+                                </div>
                             </div>
-                            <div className="md:hidden">
-                                <AnimatedHamburgerButton
-                                    active={navDrawerOpen}
-                                    onClick={toggleNavDrawer}
-                                    className="text-gray-700 hover:text-black"
-                                />
-                            </div>
+
+                            <button onClick={toggleCartDrawer} className="relative">
+                                <HiOutlineShoppingBag className="h-6 w-6 text-gray-700 hover:text-black"/>
+                                {cartItemCount > 0 && (
+                                    <span className="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                        {cartItemCount}
+                                    </span>
+                                )}
+                            </button>
+
+                            <DarkModeToggle />
                         </div>
+                    </div>
                     </div>
                 </nav>
             </div>
@@ -402,39 +378,33 @@ const Navbar = ({ transparent = false }) => {
                 }`}
             >
                 {/* Header with Dark Mode Toggle and Close Button */}
-                <div className="flex justify-between items-center p-4">
+                <div className="flex justify-between items-center pt-3 pl-2 pr-12">
                     <div className="flex items-center">
                         <DarkModeToggle />
                     </div>
-                    <button
+                    <AnimatedHamburgerButton
+                        active={navDrawerOpen}
                         onClick={(e) => {
                             e.stopPropagation();
                             toggleNavDrawer();
                         }}
-                        className="text-gray-500 hover:text-gray-700 focus:outline-none"
-                        aria-label="Close menu"
-                    >
-                        <IoMdClose className="h-6 w-6" />
-                    </button>
+                        className="text-gray-500 hover:text-gray-700"
+                    />
                 </div>
-                {/*    navigation links */}
-                <div className="p-4">
-                    {/*<h2 className="text-6xl font-semibold mb-12">*/}
-                    {/*    Menu*/}
-                    {/*</h2>*/}
-                    {/* add spacing */}
-                    <nav className="space-y-4">
+                {/* Navigation links container */}
+                <div className="h-[calc(100%-4rem)] flex flex-col justify-center p-4">
+                    <nav className="space-y-12">
                         <NavLink
                             to="/collections/all?gender=Men"
-                            className="relative block text-gray-700 hover:text-black group uppercase font-medium"
+                            className="relative block text-center text-gray-700 hover:text-black group uppercase font-medium"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?gender=Men';
                                 return (
-                                    <span className={`relative inline-block text-xl md:text-base ${isActive ? 'text-black' : ''}`}>
+                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black' : ''}`}>
                                         Men
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
@@ -442,15 +412,15 @@ const Navbar = ({ transparent = false }) => {
 
                         <NavLink
                             to="/collections/all?gender=Women"
-                            className="relative block text-gray-600 hover:text-black group uppercase font-medium"
+                            className="relative block text-center text-gray-700 hover:text-black group uppercase font-medium"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?gender=Women';
                                 return (
-                                    <span className={`relative inline-block text-xl md:text-base ${isActive ? 'text-black' : ''}`}>
+                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black' : ''}`}>
                                         Women
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
@@ -458,15 +428,15 @@ const Navbar = ({ transparent = false }) => {
 
                         <NavLink
                             to="/collections/all?category=Top+Wear"
-                            className="relative block text-gray-600 hover:text-black group uppercase font-medium"
+                            className="relative block text-center text-gray-700 hover:text-black group uppercase font-medium"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?category=Top+Wear';
                                 return (
-                                    <span className={`relative inline-block text-xl md:text-base ${isActive ? 'text-black' : ''}`}>
+                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black' : ''}`}>
                                         Top Wear
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
@@ -474,20 +444,90 @@ const Navbar = ({ transparent = false }) => {
 
                         <NavLink
                             to="/collections/all?category=Bottom+Wear"
-                            className="relative block text-gray-600 hover:text-black group uppercase font-medium"
+                            className="relative block text-center text-gray-700 hover:text-black group uppercase font-medium"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?category=Bottom+Wear';
                                 return (
-                                    <span className={`relative inline-block text-xl md:text-base ${isActive ? 'text-black' : ''}`}>
+                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black' : ''}`}>
                                         Bottom Wear
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
                         </NavLink>
                     </nav>
+                </div>
+                
+                {/* Mobile Bottom Navigation */}
+                <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-3 px-6">
+                    <div className="flex justify-around items-center">
+                        {/* Account */}
+                        <Link 
+                            to="/profile" 
+                            className="flex flex-col items-center text-gray-700 hover:text-black"
+                            onClick={toggleNavDrawer}
+                        >
+                            {user ? (
+                                <AiOutlineUser className="h-6 w-6 mb-1"/>
+                            ) : (
+                                <HiArrowLeftEndOnRectangle className="h-6 w-6 mb-1"/>
+                            )}
+                            <span className="text-xs">Account</span>
+                        </Link>
+
+                        {/* Wishlist */}
+                        <div 
+                            className="flex flex-col items-center text-gray-700 hover:text-black cursor-pointer"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                toggleNavDrawer();
+                                handleWishlistClick();
+                            }}
+                        >
+                            <div className="relative">
+                                <HeartIcon
+                                    className="w-6 h-6 mb-1"
+                                    color="currentColor"
+                                    hoverColor="#000000"
+                                    noAnimation={true}
+                                />
+                                {wishlistCount > 0 && (
+                                    <span className="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                                        {wishlistCount}
+                                    </span>
+                                )}
+                            </div>
+                            <span className="text-xs">Wishlist</span>
+                        </div>
+
+                        {/* Cart */}
+                        <div 
+                            className="flex flex-col items-center text-gray-700 hover:text-black cursor-pointer"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                toggleNavDrawer();
+                                toggleCartDrawer();
+                            }}
+                        >
+                            <div className="relative">
+                                <HiOutlineShoppingBag className="h-6 w-6 mb-1"/>
+                                {cartItemCount > 0 && (
+                                    <span className="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                                        {cartItemCount}
+                                    </span>
+                                )}
+                            </div>
+                            <span className="text-xs">Cart</span>
+                        </div>
+
+                        {/* Dark Mode Toggle */}
+                        <div className="flex flex-col items-center">
+                            <DarkModeToggle />
+                            <span className="text-xs mt-1">Theme</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
