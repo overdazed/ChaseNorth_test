@@ -684,3 +684,4 @@ const Navbar = ({ transparent = false }) => {
     )
 }
 export default Navbar
+
