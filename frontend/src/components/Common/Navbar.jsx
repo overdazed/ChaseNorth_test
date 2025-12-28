@@ -396,26 +396,26 @@ const Navbar = ({ transparent = false }) => {
             {/* Mobile Navigation */}
             <div
                 ref={mobileMenuRef}
-                className={`fixed top-0 left-0 w-3/4 sm:w-1/2 md:w-1/3 h-full bg-white shadow-lg transform 
+                className={`fixed top-0 left-0 w-full h-full bg-white shadow-lg transform 
                 transition-transform duration-300 z-50 ${
                     navDrawerOpen ? "translate-x-0" : "-translate-x-full"
                 }`}
             >
-                {/* Dark Mode Toggle for Mobile */}
-                <div className="flex justify-end p-4">
-                    <DarkModeToggle />
-                </div>
-                {/*    close button */}
-                <div className="flex justify-end p-4">
-                    {/* close button to work, onClick event handler*/}
-                    {/*<button*/}
-                    {/*    onClick={(e) => {*/}
-                    {/*        e.stopPropagation();*/}
-                    {/*        toggleNavDrawer();*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    <IoMdClose className="h-6 w-6 text-gray-600"/>*/}
-                    {/*</button>*/}
+                {/* Header with Dark Mode Toggle and Close Button */}
+                <div className="flex justify-between items-center p-4">
+                    <div className="flex items-center">
+                        <DarkModeToggle />
+                    </div>
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            toggleNavDrawer();
+                        }}
+                        className="text-gray-500 hover:text-gray-700 focus:outline-none"
+                        aria-label="Close menu"
+                    >
+                        <IoMdClose className="h-6 w-6" />
+                    </button>
                 </div>
                 {/*    navigation links */}
                 <div className="p-4">
