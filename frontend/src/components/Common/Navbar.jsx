@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 // HiOutlineShoppingBag = Cart
 // HiBars3BottomRight = Mobile Navbar Drawer
-import { TbBrandMeta } from "react-icons/tb";
+import {TbBrandMeta, TbMail} from "react-icons/tb";
 import { IoLogoInstagram } from "react-icons/io";
 import { RiTwitterXLine } from "react-icons/ri";
 import {
@@ -16,7 +16,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import ChaseNorthLogo from "../../assets/ChaseNorth.svg";
 import SearchBar from "./SearchBar.jsx";
 import CartDrawer from "../Layout/CartDrawer.jsx";
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { motion, MotionConfig, AnimatePresence } from "framer-motion";
@@ -532,9 +532,11 @@ const Navbar = ({ transparent = false }) => {
                             </div>
                             <span className="text-sm font-medium ml-6">Cart</span>
                         </div>
+                        
+                        <div className="h-2 md:hidden"></div>
 
                         {/* Language Selector */}
-                        <div className="mt-auto pt-4 border-t border-neutral-200 dark:border-neutral-800">
+                        <div className="mt-auto pt-3 border-t border-neutral-200 dark:border-neutral-800">
                             <div className="relative">
                                 <button
                                     className="w-full flex items-center justify-between px-4 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
@@ -585,16 +587,23 @@ const Navbar = ({ transparent = false }) => {
                         </div>
 
                         {/* Social Media Links */}
-                        <div className="pt-4 pb-8 border-t border-neutral-200 dark:border-neutral-800">
-                            <p className="text-center text-neutral-500 dark:text-neutral-400 text-sm mb-4">FOLLOW US</p>
-                            <div className="flex justify-center space-x-6">
+                        <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800">
+                            {/*<p className="text-center text-neutral-500 dark:text-neutral-400 text-sm mb-4">FOLLOW US</p>*/}
+                            <div className="flex mt-6 justify-center flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0 mb-6">
                                 <a
-                                    href="https://www.instagram.com"
+                                    href="https://www.facebook.com"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-neutral-400 hover:text-gray-600"
                                 >
-                                    <span className="sr-only">Instagram</span>
+                                    <TbBrandMeta className="h-5 w-5" />
+                                </a>
+                                <a
+                                    href="https://www.facebook.com"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-neutral-400 hover:text-gray-600"
+                                >
                                     <IoLogoInstagram className="h-5 w-5" />
                                 </a>
                                 <a
@@ -603,19 +612,15 @@ const Navbar = ({ transparent = false }) => {
                                     rel="noopener noreferrer"
                                     className="text-neutral-400 hover:text-gray-600"
                                 >
-                                    <span className="sr-only">Facebook</span>
-                                    <TbBrandMeta className="h-5 w-5" />
+                                    <RiTwitterXLine className="h-4 w-4" />
                                 </a>
                                 <a
-                                    href="https://www.twitter.com"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                    href="mailto:shop@chasenorth.com"
+                                    // target="_blank"
+                                    // rel="no opener no referrer"
                                     className="text-neutral-400 hover:text-gray-600"
                                 >
-                                    <span className="sr-only">Twitter</span>
-                                    <RiTwitterXLine className="h-4 w-4" />
-                                </a> 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                                    </svg>
+                                    <TbMail className="h-5 w-5" />
                                 </a>
                             </div>
                         </div>
