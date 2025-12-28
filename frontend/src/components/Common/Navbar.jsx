@@ -199,10 +199,10 @@ const Navbar = ({ transparent = false }) => {
     return (
         <>
             {/* Full width background with fade effect */}
-            <div className={`w-full relative ${!transparent ? 'bg-white' : ''}`}>
+            <div className={`w-full relative ${!transparent ? 'bg-neutral-50' : ''}`}>
                 {/* Fade effect overlay */}
                 {transparent && (
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/70 to-white/70 backdrop-blur-sm"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-neutral-50/70 to-neutral-50/70 backdrop-blur-sm"></div>
                 )}
                 <nav className="container mx-auto flex items-center justify-between py-3 px-4 relative z-10">
                     {/*<nav className="w-full px-20 md:px-36 lg:px-40 flex items-center justify-between py-4 relative z-10">*/}
@@ -326,7 +326,7 @@ const Navbar = ({ transparent = false }) => {
                                             window.location.href = '/admin';
                                         }
                                     }}
-                                    className="bg-black px-3 py-1 rounded-full text-sm text-white hover:bg-gray-800 transition-colors"
+                                    className="bg-black px-3 py-1 rounded-full text-sm text-neutral-50 hover:bg-gray-800 transition-colors"
                                 >
                                     Admin
                                 </Link>
@@ -349,7 +349,7 @@ const Navbar = ({ transparent = false }) => {
                                         noAnimation={true}
                                     />
                                     {wishlistCount > 0 && (
-                                        <span className="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                                        <span className="absolute -top-1 -right-1 bg-accent text-neutral-50 text-xs rounded-full h-4 w-4 flex items-center justify-center">
                                             {wishlistCount}
                                         </span>
                                     )}
@@ -359,7 +359,7 @@ const Navbar = ({ transparent = false }) => {
                             <button onClick={toggleCartDrawer} className="relative">
                                 <HiOutlineShoppingBag className="h-6 w-6 text-gray-700 hover:text-black"/>
                                 {cartItemCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                                    <span className="absolute -top-1 -right-1 bg-accent text-neutral-50 text-xs rounded-full h-4 w-4 flex items-center justify-center">
                                         {cartItemCount}
                                     </span>
                                 )}
@@ -376,7 +376,7 @@ const Navbar = ({ transparent = false }) => {
             {/* Mobile Navigation */}
             <div
                 ref={mobileMenuRef}
-                className={`fixed top-0 left-0 w-full h-full bg-white shadow-lg transform 
+                className={`fixed top-0 left-0 w-full h-full bg-neutral-50 dark:bg-neutral-950 shadow-lg transform 
                 transition-transform duration-300 z-50 ${
                     navDrawerOpen ? "translate-x-0" : "-translate-x-full"
                 }`}
@@ -400,15 +400,15 @@ const Navbar = ({ transparent = false }) => {
                     <nav className="space-y-12">
                         <NavLink
                             to="/collections/all?gender=Men"
-                            className="relative block text-center text-gray-700 hover:text-black group uppercase font-medium"
+                            className="relative block text-center text-gray-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-medium"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?gender=Men';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black' : ''}`}>
+                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-50'}`}>
                                         Men
-                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
@@ -416,15 +416,15 @@ const Navbar = ({ transparent = false }) => {
 
                         <NavLink
                             to="/collections/all?gender=Women"
-                            className="relative block text-center text-gray-700 hover:text-black group uppercase font-medium"
+                            className="relative block text-center text-gray-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-medium"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?gender=Women';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black' : ''}`}>
+                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-50'}`}>
                                         Women
-                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
@@ -432,15 +432,15 @@ const Navbar = ({ transparent = false }) => {
 
                         <NavLink
                             to="/collections/all?category=Top+Wear"
-                            className="relative block text-center text-gray-700 hover:text-black group uppercase font-medium"
+                            className="relative block text-center text-gray-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-medium"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?category=Top+Wear';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black' : ''}`}>
+                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-50'}`}>
                                         Top Wear
-                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
@@ -448,15 +448,15 @@ const Navbar = ({ transparent = false }) => {
 
                         <NavLink
                             to="/collections/all?category=Bottom+Wear"
-                            className="relative block text-center text-gray-700 hover:text-black group uppercase font-medium"
+                            className="relative block text-center text-gray-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-medium"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?category=Bottom+Wear';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black' : ''}`}>
+                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-50'}`}>
                                         Bottom Wear
-                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
@@ -465,7 +465,7 @@ const Navbar = ({ transparent = false }) => {
                 </div>
                 
                 {/* Mobile Bottom Navigation */}
-                <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white bg-neutral-200 py-3 px-6">
+                <div className="md:hidden fixed bottom-0 left-0 right-0 bg-neutral-50 dark:bg-neutral-900 bg-neutral-200 py-3 px-6">
                     <div className="flex justify-around items-center">
                         {/* Account */}
                         <Link 
@@ -474,11 +474,11 @@ const Navbar = ({ transparent = false }) => {
                             onClick={toggleNavDrawer}
                         >
                             {user ? (
-                                <AiOutlineUser className="h-6 w-6 mb-1"/>
+                                <AiOutlineUser className="h-6 w-6 mb-1 dark:text-neutral-400"/>
                             ) : (
-                                <HiArrowLeftEndOnRectangle className="h-6 w-6 mb-1"/>
+                                <HiArrowLeftEndOnRectangle className="h-6 w-6 mb-1 dark:text-neutral-400"/>
                             )}
-                            <span className="text-xs">Account</span>
+                            <span className="text-xs dark:text-neutral-400">Account</span>
                         </Link>
 
                         {/* Wishlist */}
@@ -492,18 +492,18 @@ const Navbar = ({ transparent = false }) => {
                         >
                             <div className="relative">
                                 <HeartIcon
-                                    className="w-6 h-6 mb-1"
+                                    className="w-6 h-6 mb-1 dark:text-neutral-400"
                                     color="currentColor"
                                     hoverColor="#000000"
                                     noAnimation={true}
                                 />
                                 {wishlistCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                                    <span className="absolute -top-1 -right-1 bg-accent text-neutral-50 text-xs rounded-full h-4 w-4 flex items-center justify-center">
                                         {wishlistCount}
                                     </span>
                                 )}
                             </div>
-                            <span className="text-xs mt-1">Wishlist</span>
+                            <span className="text-xs dark:text-neutral-400 mt-1">Wishlist</span>
                         </div>
 
                         {/* Cart */}
@@ -516,14 +516,14 @@ const Navbar = ({ transparent = false }) => {
                             }}
                         >
                             <div className="relative">
-                                <HiOutlineShoppingBag className="h-6 w-6 mb-1"/>
+                                <HiOutlineShoppingBag className="h-6 w-6 mb-1 dark:text-neutral-400"/>
                                 {cartItemCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                                    <span className="absolute -top-1 -right-1 bg-accent text-neutral-50 text-xs rounded-full h-4 w-4 flex items-center justify-center">
                                         {cartItemCount}
                                     </span>
                                 )}
                             </div>
-                            <span className="text-xs">Cart</span>
+                            <span className="text-xs dark:text-neutral-400">Cart</span>
                         </div>
 
                         {/*/!* Dark Mode Toggle *!/*/}
