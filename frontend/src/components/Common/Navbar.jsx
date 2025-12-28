@@ -401,7 +401,7 @@ const Navbar = ({ transparent = false }) => {
                     />
                 </div>
                 {/* Navigation links container */}
-                <div className="h-[calc(100vh-12rem)] flex flex-col justify-center p-4 overflow-y-auto">
+                <div className="h-[calc(100vh-12rem)] flex flex-col justify-start pt-20 p-4 overflow-y-auto">
                     <nav className="space-y-12">
                         <NavLink
                             to="/collections/all?gender=Men"
@@ -539,7 +539,7 @@ const Navbar = ({ transparent = false }) => {
                         <div className="mt-auto pt-3 border-t border-neutral-200 dark:border-neutral-800">
                             <div className="relative">
                                 <button
-                                    className="w-full flex items-center justify-between px-4 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
+                                    className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
                                     onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
@@ -556,12 +556,12 @@ const Navbar = ({ transparent = false }) => {
                                     </svg>
                                 </button>
                                 <div 
-                                    className={`absolute bottom-full left-0 right-0 mb-1 bg-white dark:bg-neutral-900 rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-200 ${isLanguageOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+                                    className={`absolute bottom-full left-0 right-0 mb-2 bg-white dark:bg-neutral-900 rounded-lg shadow-lg overflow-hidden z-10 transition-all duration-200 ${isLanguageOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
                                     onMouseEnter={() => setIsLanguageOpen(true)}
                                     onMouseLeave={() => setIsLanguageOpen(false)}
                                 >
                                     <button
-                                        className="w-full px-4 py-2 text-left text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                                        className="w-full px-4 py-6 text-left text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
                                         onClick={(e) => {
                                             e.preventDefault();
                                             e.stopPropagation();
@@ -572,7 +572,7 @@ const Navbar = ({ transparent = false }) => {
                                         English
                                     </button>
                                     <button
-                                        className="w-full px-4 py-2 text-left text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                                        className="w-full px-4 py-6 text-left text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
                                         onClick={(e) => {
                                             e.preventDefault();
                                             e.stopPropagation();
@@ -589,7 +589,7 @@ const Navbar = ({ transparent = false }) => {
                         {/* Social Media Links */}
                         <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800">
                             {/*<p className="text-center text-neutral-500 dark:text-neutral-400 text-sm mb-4">FOLLOW US</p>*/}
-                            <div className="flex mt-6 justify-center flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0 mb-6">
+                            <div className="flex mt-6 justify-center items-center space-x-4 mb-6">
                                 <a
                                     href="https://www.facebook.com"
                                     target="_blank"
