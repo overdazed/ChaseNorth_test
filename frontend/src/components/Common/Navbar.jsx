@@ -386,19 +386,40 @@ const Navbar = ({ transparent = false }) => {
                     navDrawerOpen ? "translate-x-0" : "-translate-x-full"
                 }`}
             >
-                {/* Header with Dark Mode Toggle and Close Button */}
-                <div className="flex justify-between items-center pt-3 pl-6 pr-12">
-                    <div className="flex items-center">
+                {/* Header with Logo and Navigation */}
+                <div className="relative flex items-center justify-between pt-4 px-6 pb-2">
+                    {/* Dark Mode Toggle */}
+                    <div className="z-10">
                         <DarkModeToggle />
                     </div>
-                    <AnimatedHamburgerButton
-                        active={navDrawerOpen}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            toggleNavDrawer();
-                        }}
-                        className="text-neutral-500 hover:text-neutral-700"
-                    />
+                    
+                    {/* Centered Logo */}
+                    <div className="absolute left-1/2 transform -translate-x-1/2 opacity-50">
+                        <Link to="/" onClick={toggleNavDrawer}>
+                            <img
+                                src={ChaseNorthLogo}
+                                alt="ChaseNorth Logo"
+                                className="h-8 w-auto dark:hidden"
+                            />
+                            <img
+                                src={ChaseNorthLogo.replace('ChaseNorth', 'ChaseNorth-white')}
+                                alt="ChaseNorth Logo"
+                                className="h-8 w-auto hidden dark:block"
+                            />
+                        </Link>
+                    </div>
+                    
+                    {/* Close Button */}
+                    <div className="z-10">
+                        <AnimatedHamburgerButton
+                            active={navDrawerOpen}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                toggleNavDrawer();
+                            }}
+                            className="text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
+                        />
+                    </div>
                 </div>
                 {/* Navigation links container */}
                 <div className="h-[calc(100vh-12rem)] flex flex-col justify-start pt-20 p-4 overflow-y-auto">
