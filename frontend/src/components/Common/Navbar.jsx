@@ -426,13 +426,13 @@ const Navbar = ({ transparent = false }) => {
                     <nav className="space-y-12">
                         <NavLink
                             to="/collections/all?gender=Men"
-                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-medium"
+                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-normal"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?gender=Men';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
+                                    <span className={`relative inline-block text-4xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
                                         Men
                                         <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
@@ -442,13 +442,13 @@ const Navbar = ({ transparent = false }) => {
 
                         <NavLink
                             to="/collections/all?gender=Women"
-                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-medium"
+                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-normal"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?gender=Women';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
+                                    <span className={`relative inline-block text-4xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
                                         Women
                                         <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
@@ -458,13 +458,13 @@ const Navbar = ({ transparent = false }) => {
 
                         <NavLink
                             to="/collections/all?category=Top+Wear"
-                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-medium"
+                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-normal"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?category=Top+Wear';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
+                                    <span className={`relative inline-block text-4xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
                                         Top Wear
                                         <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
@@ -474,13 +474,13 @@ const Navbar = ({ transparent = false }) => {
 
                         <NavLink
                             to="/collections/all?category=Bottom+Wear"
-                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-medium"
+                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-normal"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?category=Bottom+Wear';
                                 return (
-                                    <span className={`relative inline-block text-4xl font-medium ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
+                                    <span className={`relative inline-block text-4xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
                                         Bottom Wear
                                         <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
@@ -496,7 +496,11 @@ const Navbar = ({ transparent = false }) => {
                         {/* Account */}
                         <Link
                             to="/profile"
-                            className="flex items-center text-neutral-700 hover:text-black dark:text-neutral-400 dark:hover:text-neutral-50 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                            className={`flex items-center p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${
+                                window.location.pathname === '/profile' 
+                                    ? 'text-black dark:text-neutral-50' 
+                                    : 'text-neutral-700 hover:text-black dark:text-neutral-400 dark:hover:text-neutral-50'
+                            }`}
                             onClick={toggleNavDrawer}
                         >
                             <div className="relative w-6 flex-shrink-0">
@@ -506,12 +510,20 @@ const Navbar = ({ transparent = false }) => {
                                     <HiArrowLeftEndOnRectangle className="h-6 w-6"/>
                                 )}
                             </div>
-                            <span className="text-sm font-medium ml-6">Account</span>
+                            <span className={`text-sm font-normal ml-6 ${
+                                window.location.pathname === '/profile' ? 'border-b border-black dark:border-white' : ''
+                            }`}>
+                                Account
+                            </span>
                         </Link>
 
                         {/* Wishlist */}
                         <div
-                            className="flex items-center text-neutral-700 hover:text-black dark:text-neutral-400 dark:hover:text-neutral-50 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
+                            className={`flex items-center p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer ${
+                                window.location.pathname === '/wishlist' 
+                                    ? 'text-black dark:text-neutral-50' 
+                                    : 'text-neutral-700 hover:text-black dark:text-neutral-400 dark:hover:text-neutral-50'
+                            }`}
                             onClick={(e) => {
                                 e.stopPropagation();
                                 toggleNavDrawer();
@@ -521,7 +533,7 @@ const Navbar = ({ transparent = false }) => {
                             <div className="relative w-6 flex-shrink-0">
                                 <HeartIcon
                                     className="w-6 h-6"
-                                    color="currentColor"
+                                    color={window.location.pathname === '/wishlist' ? (document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000') : 'currentColor'}
                                     hoverColor="#000000"
                                     noAnimation={true}
                                 />
@@ -531,7 +543,11 @@ const Navbar = ({ transparent = false }) => {
                                     </span>
                                 )}
                             </div>
-                            <span className="text-sm font-medium ml-6">Wishlist</span>
+                            <span className={`text-sm font-normal ml-6 ${
+                                window.location.pathname === '/wishlist' ? 'border-b border-black dark:border-white' : ''
+                            }`}>
+                                Wishlist
+                            </span>
                         </div>
 
                         {/* Cart */}
@@ -551,7 +567,7 @@ const Navbar = ({ transparent = false }) => {
                                     </span>
                                 )}
                             </div>
-                            <span className="text-sm font-medium ml-6">Cart</span>
+                            <span className="text-sm font-normal ml-6">Cart</span>
                         </div>
                         
                         <div className="h-2 md:hidden"></div>

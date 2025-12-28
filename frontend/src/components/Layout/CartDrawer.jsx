@@ -52,7 +52,7 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
 
     return (
         <div
-            className={`fixed inset-0 z-40 flex justify-end transition-opacity duration-300 ${
+            className={`fixed inset-0 z-[100] flex justify-end transition-opacity duration-300 ${
                 drawerOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
             style={{ backgroundColor: 'rgba(0, 0, 0, 0.65)' }}
@@ -60,7 +60,7 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
         >
             {/* Drawer content */}
             <div
-                className={`w-3/4 sm:w-1/2 md:w-[30rem] h-full shadow-lg transform transition-all duration-300 ease-in-out flex flex-col z-50 ${
+                className={`w-full md:w-3/4 lg:w-1/2 xl:w-[30rem] h-full shadow-lg transform transition-all duration-300 ease-in-out flex flex-col z-[101] ${
                     drawerOpen ? 'translate-x-0' : 'translate-x-full'
                 } ${isDay ? 'bg-neutral-50' : 'bg-neutral-700'}`}
                 onClick={(e) => e.stopPropagation()}
