@@ -306,6 +306,8 @@ router.get('/', async (req, res) => {
             );
         }
 
+        console.log('Sending response with', products.length, 'products');
+
         res.json(products);
     } catch (error) {
         console.error(error);

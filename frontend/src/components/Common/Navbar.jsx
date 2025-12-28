@@ -394,7 +394,7 @@ const Navbar = ({ transparent = false }) => {
                                         noAnimation={true}
                                     />
                                     {wishlistCount > 0 && (
-                                        <span className="absolute -top-1 -right-1 bg-accent text-neutral-50 text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                                        <span className="absolute -top-1.5 -right-1 bg-accent text-neutral-50 text-xs rounded-full h-4 w-4 flex items-center justify-center">
                                             {wishlistCount}
                                         </span>
                                     )}

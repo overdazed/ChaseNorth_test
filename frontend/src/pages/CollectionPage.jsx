@@ -182,7 +182,8 @@ const CollectionPage = () => {
         const params = {
             collection,
             ...queryParams,
-            sortBy: queryParams.sortBy || 'bestSelling'
+            sortBy: queryParams.sortBy || 'bestSelling',
+            limit: queryParams.limit || 10 // Add default limit
         };
 
         // Add the debug log here
@@ -351,7 +352,7 @@ const CollectionPage = () => {
 
                 {/* Filter Sidebar */}
                 <div className={`${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} fixed top-0 left-0 h-full z-30 w-3/4 sm:w-1/2`}>
-                    <div className="absolute inset-0 bg-white"></div>
+                    <div className="absolute inset-0 bg-neutral-50"></div>
                     <div ref={sidebarRef} className="relative h-full overflow-y-auto pt-[112px]">
                         <FilterSidebar />
                     </div>
@@ -367,10 +368,10 @@ const CollectionPage = () => {
                         <div className="flex items-center gap-2">
                             <button
                                 onClick={toggleSidebar}
-                                className={`flex items-center h-[38px] border rounded-md px-3 text-sm ${
+                                className={`flex items-center h-[38px] rounded-md px-3 text-sm ${
                                     isDay
-                                        ? 'border-neutral-300 text-neutral-700 bg-white hover:bg-neutral-50'
-                                        : 'border-neutral-700 text-neutral-50 bg-neutral-900 hover:bg-neutral-800'
+                                        ? 'text-neutral-700 bg-neutral-50 hover:bg-neutral-50'
+                                        : 'text-neutral-400 bg-neutral-900 hover:bg-neutral-800'
                                 }`}
                             >
                                 <FaFilter size={14} className="mr-2" />
@@ -448,7 +449,7 @@ const CollectionPage = () => {
                                                 </button>
                                                 <button
                                                     onClick={applyPriceFilter}
-                                                    className="px-5 py-2 text-sm rounded-full bg-black text-white hover:bg-neutral-900"
+                                                    className="px-5 py-2 text-sm rounded-full bg-black text-neutral-50 hover:bg-neutral-900"
                                                 >
                                                     Apply
                                                 </button>
@@ -476,7 +477,7 @@ const CollectionPage = () => {
                     {products.length > 0 && (
                         <>
                             {/* First two rows of products (6 products total) */}
-                            {products.length > 12 && (
+                            {products.length > 6 ? (
                                 <ProductGrid
                                     products={sortedProducts.slice(0, 12)}
                                     loading={loading}
@@ -484,10 +485,7 @@ const CollectionPage = () => {
                                     isDay={isDay}
                                     newStarBadgeSize="md"
                                 />
-                            )}
-
-                            {/* Show all products if 6 or fewer */}
-                            {products.length > 0 && products.length <= 6 && (
+                            ) : (
                                 <ProductGrid
                                     products={sortedProducts}
                                     loading={loading}
@@ -497,17 +495,14 @@ const CollectionPage = () => {
                                 />
                             )}
 
-                            {/* SwipeCards section */}
-                            {products.length > 12 && (
+                            {/* SwipeCards section - only show if there are more than 6 products */}
+                            {products.length > 6 && (
                                 <div className="mt-12 mb-12">
-                                    {/*<h3 className={`text-xl text-center font-medium mb-4 ${isDay ? 'text-neutral-900' : 'text-white'}`}>*/}
-                                    {/*    Featured Picks*/}
-                                    {/*</h3>*/}
                                     <SwipeCards products={sortedProducts} />
                                 </div>
                             )}
 
-                            {/* Remaining products after first two rows */}
+                            {/* Show remaining products if there are more than 12 */}
                             {products.length > 12 && (
                                 <ProductGrid
                                     products={sortedProducts.slice(12)}
@@ -516,16 +511,6 @@ const CollectionPage = () => {
                                     isDay={isDay}
                                     newStarBadgeSize="md"
                                 />
-                            )}
-
-                            {/* If 6 or fewer products, show SwipeCards after all products */}
-                            {products.length > 0 && products.length <= 6 && (
-                                <div className="mt-4 mb-8">
-                                    <h3 className={`text-xl text-center font-medium mb-8 ${isDay ? 'text-neutral-900' : 'text-white'}`}>
-                                        Featured Picks
-                                    </h3>
-                                    <SwipeCards products={sortedProducts} />
-                                </div>
                             )}
                         </>
                     )}
