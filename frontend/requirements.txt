@@ -1,0 +1,24 @@
+# Frontend Development Dependencies
+# These are Python packages that might be used for frontend development tasks
+
+# Testing
+pytest-playwright==0.3.3
+playwright==1.42.0
+
+# Code Quality
+black==24.1.1
+flake8==7.1.1
+isort==5.13.2
+mypy==1.9.0
+
+# Environment Management
+python-dotenv==1.0.0
+
+# API Testing
+pytest-html==4.1.1
+pytest-cov==4.1.0
+requests==2.31.0
+
+# Documentation
+mkdocs==1.5.3
+mkdocs-material==9.5.24
