@@ -16,6 +16,7 @@ const FilterSidebar = ({
     const priceFilterRef = useRef(null);
 
     const [selectedBrands, setSelectedBrands] = useState([]);
+    const isInitialMount = useRef(true);
 
     // Theme classes
     const themeClasses = {
@@ -306,34 +307,38 @@ const FilterSidebar = ({
     // });
 
     const handleBrandChange = (brand) => {
-        const params = new URLSearchParams(location.search);
-        const currentBrands = selectedBrands.includes(brand)
+        // Toggle brand selection
+        const newSelectedBrands = selectedBrands.includes(brand)
             ? selectedBrands.filter(b => b !== brand)
             : [...selectedBrands, brand];
 
-        // Update local state
-        setSelectedBrands(currentBrands);
-
         // Update URL
-        params.delete('brand');
-        currentBrands.forEach(b => params.append('brand', b));
+        const params = new URLSearchParams(location.search);
+        if (newSelectedBrands.length > 0) {
+            params.set('brand', newSelectedBrands.join(','));
+        } else {
+            params.delete('brand');
+        }
+
+        // Update state and URL
+        setSelectedBrands(newSelectedBrands);
         setSearchParams(params, { replace: true });
 
-        // Notify parent if needed
+        // Notify parent component if needed
         if (onFilterChange) {
             onFilterChange({
                 target: {
                     name: 'brand',
-                    value: currentBrands
+                    value: newSelectedBrands
                 }
             });
         }
     };
 
     // Check if a brand is currently selected
-    const isBrandSelected = (brand) => {
-        return selectedBrands.includes(brand);
-    };
+    // const isBrandSelected = (brand) => {
+    //     return selectedBrands.includes(brand);
+    // };
 
     const handleFilterChange = (e) => {
         const { name, value, checked, type } = e.target;
@@ -463,9 +468,10 @@ const FilterSidebar = ({
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
-        const brandsFromUrl = params.getAll('brand');
+        const brandsParam = params.get('brand');
+        const brandsFromUrl = brandsParam ? brandsParam.split(',').filter(Boolean) : [];
         setSelectedBrands(brandsFromUrl);
-    }, [location.search]);
+    }, [location.search]); // Only run when URL changes
 
     return (
         <div className={`-mt-28 h-screen w-full p-4 shadow-sm overflow-y-auto dark:bg-neutral-900 ${themeClasses.container}`}>
@@ -549,7 +555,7 @@ const FilterSidebar = ({
                                 <input
                                     type="checkbox"
                                     id={`brand-${brand}`}
-                                    checked={isBrandSelected(brand)}
+                                    checked={selectedBrands.includes(brand)}
                                     onChange={() => handleBrandChange(brand)}
                                     className={`h-4 w-4 rounded ${themeClasses.input} focus:ring-0`}
                                 />
