@@ -26,61 +26,60 @@ const AdminSidebar = () => {
             </div>
 
             <nav className="flex flex-col space-y-2">
-                <NavLink
-                    to="/admin"
-                    end
-                    className={({isActive}) => isActive
+                <a
+                    href="/admin"
+                    className={window.location.pathname === '/admin' 
                         ? "bg-neutral-700 text-white py-3 px-4 rounded flex items-center space-x-2"
                         : "text-neutral-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
                     }
                 >
                     <FaChartLine size={20}/>
                     <span>Dashboard</span>
-                </NavLink>
+                </a>
 
-                <NavLink
-                    to="/admin/users"
-                    className={({isActive}) => isActive
+                <a
+                    href="/admin/users"
+                    className={window.location.pathname === '/admin/users' 
                         ? "bg-neutral-700 text-white py-3 px-4 rounded flex items-center space-x-2"
                         : "text-neutral-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
                     }
                 >
                     <FaUserGear size={20}/>
                     <span>Users</span>
-                </NavLink>
+                </a>
 
-                <NavLink
-                    to="/admin/products"
-                    className={({isActive}) => isActive
+                <a
+                    href="/admin/products"
+                    className={window.location.pathname === '/admin/products' 
                         ? "bg-neutral-700 text-white py-3 px-4 rounded flex items-center space-x-2"
                         : "text-neutral-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
                     }
                 >
                     <FaBoxOpen size={20}/>
                     <span>Products</span>
-                </NavLink>
+                </a>
 
-                <NavLink
-                    to="/admin/orders"
-                    className={({isActive}) => isActive
+                <a
+                    href="/admin/orders"
+                    className={window.location.pathname === '/admin/orders' 
                         ? "bg-neutral-700 text-white py-3 px-4 rounded flex items-center space-x-2"
                         : "text-neutral-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
                     }
                 >
                     <FaClipboardList size={20}/>
                     <span>Orders</span>
-                </NavLink>
+                </a>
 
-                <NavLink
-                    to="/admin/reports"
-                    className={({isActive}) => isActive
+                <a
+                    href="/admin/reports"
+                    className={window.location.pathname === '/admin/reports' 
                         ? "bg-neutral-700 text-white py-3 px-4 rounded flex items-center space-x-2"
                         : "text-neutral-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
                     }
                 >
                     <FaFileAlt size={20}/>
                     <span>Reports</span>
-                </NavLink>
+                </a>
 
                 <NavLink
                     to="/"

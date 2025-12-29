@@ -711,16 +711,7 @@ const Checkout = () => {
                         </p>
                     </div>
                     <div className="mt-4">
-                        {!checkoutId ? (
-                            <button
-                                type="submit"
-                                className={`w-full bg-black text-white py-3 rounded-full ${
-                                    isFormSubmitted ? 'opacity-75' : ''
-                                }`}
-                            >
-                                Continue to Payment
-                            </button>
-                        ) : (
+                        {checkoutId && (
                             <div>
                                 {/*<h3 className="text-lg mb-4">Pay with Paypal</h3>*/}
                                 {/*{isFormSubmitted && (*/}
@@ -731,23 +722,23 @@ const Checkout = () => {
                                 {/*    </div>*/}
                                 {/*)}*/}
                                 {/* Paypal payment button Component */}
-                                <PaypalButton
-                                    amount={(
-                                        (discountApplied ? discountedPrice : cart.totalPrice) +
-                                        (discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 0 : shippingCost)
-                                    ).toFixed(2)}
-                                    onSuccess={handlePaymentSuccess}
-                                    onError={(err) => {
-                                        setIsFormSubmitted(true);
-                                        if (!validateForm()) {
-                                            return;
-                                        }
-                                        alert("Payment failed. Please try again.");
-                                    }}
-                                    onClick={() => {
-                                        setIsFormSubmitted(true);
-                                    }}
-                                />
+                                {/*<PaypalButton*/}
+                                {/*    amount={(*/}
+                                {/*        (discountApplied ? discountedPrice : cart.totalPrice) +*/}
+                                {/*        (discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 0 : shippingCost)*/}
+                                {/*    ).toFixed(2)}*/}
+                                {/*    onSuccess={handlePaymentSuccess}*/}
+                                {/*    onError={(err) => {*/}
+                                {/*        setIsFormSubmitted(true);*/}
+                                {/*        if (!validateForm()) {*/}
+                                {/*            return;*/}
+                                {/*        }*/}
+                                {/*        alert("Payment failed. Please try again.");*/}
+                                {/*    }}*/}
+                                {/*    onClick={() => {*/}
+                                {/*        setIsFormSubmitted(true);*/}
+                                {/*    }}*/}
+                                {/*/>*/}
                             </div>
                         )}
                     </div>
@@ -918,10 +909,45 @@ const Checkout = () => {
                     </p>
                 </div>
 
-
-                {/* UI complete, work on Orders Confirmation page */}
-
-
+                {/* Continue to Payment Button */}
+                <div className="mt-6">
+                    {!checkoutId ? (
+                        <button
+                            type="button"
+                            onClick={(e) => {
+                                setIsFormSubmitted(true);
+                                if (validateForm()) {
+                                    handleCreateCheckout(e);
+                                }
+                            }}
+                            className={`w-full bg-black text-white py-3 rounded-full ${
+                                isFormSubmitted ? 'opacity-75' : ''
+                            }`}
+                        >
+                            Continue to Payment
+                        </button>
+                    ) : (
+                        <div className="mt-4">
+                            <PaypalButton
+                                amount={(
+                                    (discountApplied ? discountedPrice : cart.totalPrice) +
+                                    (discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 0 : shippingCost)
+                                ).toFixed(2)}
+                                onSuccess={handlePaymentSuccess}
+                                onError={(err) => {
+                                    setIsFormSubmitted(true);
+                                    if (!validateForm()) {
+                                        return;
+                                    }
+                                    alert("Payment failed. Please try again.");
+                                }}
+                                onClick={() => {
+                                    setIsFormSubmitted(true);
+                                }}
+                            />
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     )

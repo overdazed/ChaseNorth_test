@@ -213,14 +213,37 @@ router.delete("/", async (req, res) => {
 // @access Public
 router.get("/", async (req, res) => {
     const { userId, guestId } = req.query;
+    
+    if (!userId && !guestId) {
+        return res.status(400).json({ message: 'Either userId or guestId is required' });
+    }
+    
     try {
         const cart = await getCart(userId, guestId);
-        // If cart is present, respond with the cart information
-        if(cart) {
-            res.json(cart);
-        } else {
-            res.status(404).json({message: "Cart not found"});
+        
+        if (!cart) {
+            // If no cart exists, return an empty cart
+            return res.status(200).json({ 
+                products: [],
+                totalPrice: 0,
+                totalItems: 0
+            });
         }
+        
+        // Calculate total price and items
+        const totalPrice = cart.products.reduce((total, item) => {
+            return total + (item.quantity * item.price);
+        }, 0);
+        
+        const totalItems = cart.products.reduce((total, item) => {
+            return total + item.quantity;
+        }, 0);
+        
+        res.status(200).json({
+            products: cart.products,
+            totalPrice,
+            totalItems
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({message: "Server Error"});

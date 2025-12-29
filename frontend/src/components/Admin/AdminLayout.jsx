@@ -36,7 +36,7 @@ const AdminLayout = () => {
             theme === 'dark' ? 'bg-neutral-900 text-white' : 'bg-white text-neutral-900'
         }`}>
             {/* Mobile Toggle Button */}
-            <div className={`flex md:hidden p-4 z-20 ${
+            <div className={`flex md:hidden p-4 z-20 fixed w-full ${
                 theme === 'dark' ? 'bg-neutral-800' : 'bg-white border-b'
             }`}>
                 <button
@@ -59,18 +59,23 @@ const AdminLayout = () => {
                 ></div>
             )}
 
-            {/* Sidebar */}
+            {/* Sidebar - Made sticky for desktop */}
             <div
-                className={`w-64 min-h-screen absolute md:relative transform ${
+                className={`w-64 min-h-screen fixed md:sticky top-0 left-0 transform ${
                     isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-                } transition-transform duration-300 md:translate-x-0 md:static md:block z-30`}
+                } transition-transform duration-300 md:translate-x-0 z-30 ${
+                    theme === 'dark' ? 'bg-neutral-800' : 'bg-white'
+                }`}
+                style={{ height: '100vh' }}
             >
-                <AdminSidebar />
+                <div className="h-full overflow-y-auto">
+                    <AdminSidebar />
+                </div>
             </div>
 
-            {/* Main Content */}
-            <main className="flex-1 overflow-x-hidden overflow-y-auto">
-                <div className="p-6 max-w-7xl mx-auto">
+            {/* Main Content - Adjusted padding for mobile header */}
+            <main className="flex-1 overflow-x-hidden overflow-y-auto pt-16 md:pt-0">
+                <div className="p-4 md:p-6 max-w-7xl mx-auto">
                     <div className="hidden md:flex justify-between items-center mb-6">
                         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
                         <DarkModeToggle />

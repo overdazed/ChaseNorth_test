@@ -56,22 +56,40 @@ const OrderDetailsPage = () => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [existingReport, setExistingReport] = useState(null);
 
-    // Add this inside the existing useEffect that fetches order details
+    // Check if a report already exists for this order
     const checkExistingReport = async () => {
         try {
-            const response = await fetch(`${API_URL}/api/reports/order/${id}`);
+            const response = await fetch(`${API_URL}/api/reports/order/${id}`, {
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
             const data = await response.json();
 
             if (!response.ok) {
-                console.error('Error fetching report:', data.message || 'Unknown error');
-                return;
+                if (response.status === 404) {
+                    // No report exists for this order, which is fine
+                    setExistingReport(null);
+                    return;
+                }
+                throw new Error(data.message || 'Failed to check for existing report');
             }
 
+            // The backend returns { success: true, data: report } on success
             if (data.success && data.data) {
                 setExistingReport(data.data);
+            } else {
+                setExistingReport(null);
             }
         } catch (error) {
             console.error('Error checking for existing report:', error);
+            // Don't show error to user for 404s as it's an expected case
+            if (error.message !== 'No report found for this order') {
+                console.error('Unexpected error checking for report:', error);
+            }
+            setExistingReport(null);
         }
     };
 
@@ -114,143 +132,143 @@ const OrderDetailsPage = () => {
     return (
         <div className={`min-h-screen ${bgClass} transition-colors duration-300`}>
             <div className="max-w-7xl mx-auto p-4 sm:p-6">
-            <h2 className={`text-2xl md:text-3xl font-bold mb-6 ${textClass}`}>Order Details</h2>
-            {/* check if the order details are present, if so, display them */}
-            {!orderDetails ? (
-                <p>No Order Details Found</p>
-            ) : (
-                <div className={`shadow-md dark:bg-neutral-900 bg-neutral-50 p-4 sm:p-6 rounded-lg ${bgClass} ${textClass}`}>
-                    {/* Order Info */}
-                    <div className="flex flex-col sm:flex-row justify-between mb-8">
-                        <div className="">
-                            <h3 className="text-md md:text-xl font-semibold">
-                                Order ID: #{orderDetails._id}
-                            </h3>
-                            <p className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-md">
-                                Order date: {new Date(orderDetails.createdAt).toLocaleDateString()}
-                            </p>
-                        </div>
-                        <div className="flex flex-col items-start sm:items-end mt-4 sm:mt-0">
+                <h2 className={`text-2xl md:text-3xl font-bold mb-6 ${textClass}`}>Order Details</h2>
+                {/* check if the order details are present, if so, display them */}
+                {!orderDetails ? (
+                    <p>No Order Details Found</p>
+                ) : (
+                    <div className={`shadow-md dark:bg-neutral-900 bg-neutral-50 p-4 sm:p-6 rounded-lg ${bgClass} ${textClass}`}>
+                        {/* Order Info */}
+                        <div className="flex flex-col sm:flex-row justify-between mb-8">
+                            <div className="">
+                                <h3 className="text-md md:text-xl font-semibold">
+                                    Order ID: #{orderDetails._id}
+                                </h3>
+                                <p className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-md">
+                                    Order date: {new Date(orderDetails.createdAt).toLocaleDateString()}
+                                </p>
+                            </div>
+                            <div className="flex flex-col items-start sm:items-end mt-4 sm:mt-0">
                             <span
                                 className={`${
                                     // Add !oderDetails to test if not paid
-                                    orderDetails.isPaid 
-                                        ? "bg-green-100 text-green-700" 
+                                    orderDetails.isPaid
+                                        ? "bg-green-100 text-green-700"
                                         : "bg-red-100 text-red-700"
                                 } px-3 py-1 rounded-full text-sm font-medium mb-2`}
                                 // Add !oderDetails to test if not paid
                             >Payment: {orderDetails.isPaid ? "Approved" : "Pending"}
                             </span>
-                            <span
-                                className={`${
+                                <span
+                                    className={`${
+                                        // Add !oderDetails to test if not paid
+                                        orderDetails.isDelivered
+                                            ? "bg-green-100 text-green-700"
+                                            : "bg-yellow-100 text-yellow-700"
+                                    } px-3 py-1 rounded-full text-sm font-medium mb-2`}
                                     // Add !oderDetails to test if not paid
-                                    orderDetails.isDelivered
-                                        ? "bg-green-100 text-green-700"
-                                        : "bg-yellow-100 text-yellow-700"
-                                } px-3 py-1 rounded-full text-sm font-medium mb-2`}
-                                // Add !oderDetails to test if not paid
-                            >Delivery: {orderDetails.isDelivered ? "Delivered" : "Pending"}
+                                >Delivery: {orderDetails.isDelivered ? "Delivered" : "Pending"}
                             </span>
-                            {/* Status Pill */}
-                            <span
-                                className={`${
-                                    orderDetails.status === 'Delivered'
-                                        ? "bg-green-100 text-green-700"
-                                        : orderDetails.status === 'Shipped'
-                                            ? "bg-blue-100 text-blue-700"
-                                            : orderDetails.status === 'Processing'
-                                                ? "bg-yellow-100 text-yellow-700"
-                                                : "bg-red-100 text-red-700" // For Cancelled status
-                                } px-3 py-1 rounded-full text-sm font-medium mb-4`}
-                            >
+                                {/* Status Pill */}
+                                <span
+                                    className={`${
+                                        orderDetails.status === 'Delivered'
+                                            ? "bg-green-100 text-green-700"
+                                            : orderDetails.status === 'Shipped'
+                                                ? "bg-blue-100 text-blue-700"
+                                                : orderDetails.status === 'Processing'
+                                                    ? "bg-yellow-100 text-yellow-700"
+                                                    : "bg-red-100 text-red-700" // For Cancelled status
+                                    } px-3 py-1 rounded-full text-sm font-medium mb-4`}
+                                >
                             Status: {orderDetails.status}
                             </span>
 
-                            {/*/!* Add this Download Invoice button *!/*/}
-                            {/*{orderDetails.isPaid && (*/}
-                            {/*    <button*/}
-                            {/*        onClsick={() => window.open(`/api/orders/${orderDetails._id}/invoice`, '_blank')}*/}
-                            {/*        alert={ ("here will be a function")}*/}
-                            {/*        className="flex items-center gap-2 bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"*/}
-                            {/* Add this Download Invoice button */}
-                            <div className="mb-2">
-                                {orderDetails.isPaid && (
-                                    <button
-                                        onClick={async () => {
-                                            try {
-                                                // Check for token in common storage locations
-                                                const getAuthToken = () => {
-                                                    // Check common token storage keys
-                                                    const possibleKeys = ['token', 'userToken', 'authToken', 'accessToken', 'jwt'];
-                                                    for (const key of possibleKeys) {
-                                                        const token = localStorage.getItem(key) || sessionStorage.getItem(key);
-                                                        if (token) {
-                                                            console.log(`Found token with key: ${key}`);
-                                                            return token;
+                                {/*/!* Add this Download Invoice button *!/*/}
+                                {/*{orderDetails.isPaid && (*/}
+                                {/*    <button*/}
+                                {/*        onClsick={() => window.open(`/api/orders/${orderDetails._id}/invoice`, '_blank')}*/}
+                                {/*        alert={ ("here will be a function")}*/}
+                                {/*        className="flex items-center gap-2 bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"*/}
+                                {/* Add this Download Invoice button */}
+                                <div className="mb-2">
+                                    {orderDetails.isPaid && (
+                                        <button
+                                            onClick={async () => {
+                                                try {
+                                                    // Check for token in common storage locations
+                                                    const getAuthToken = () => {
+                                                        // Check common token storage keys
+                                                        const possibleKeys = ['token', 'userToken', 'authToken', 'accessToken', 'jwt'];
+                                                        for (const key of possibleKeys) {
+                                                            const token = localStorage.getItem(key) || sessionStorage.getItem(key);
+                                                            if (token) {
+                                                                console.log(`Found token with key: ${key}`);
+                                                                return token;
+                                                            }
                                                         }
+                                                        return null;
+                                                    };
+
+                                                    const token = getAuthToken();
+                                                    if (!token) {
+                                                        console.log('Available localStorage keys:', Object.keys(localStorage));
+                                                        throw new Error('You need to be logged in to download invoices');
                                                     }
-                                                    return null;
-                                                };
 
-                                                const token = getAuthToken();
-                                                if (!token) {
-                                                    console.log('Available localStorage keys:', Object.keys(localStorage));
-                                                    throw new Error('You need to be logged in to download invoices');
+                                                    console.log('Token found, length:', token.length);
+
+                                                    const response = await fetch(`${API_URL}/api/invoices/generate`, {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                            'Authorization': `Bearer ${token}`
+                                                        },
+                                                        body: JSON.stringify({ orderId: orderDetails._id })
+                                                    });
+
+                                                    if (response.status === 401) {
+                                                        throw new Error('Session expired. Please log in again.');
+                                                    }
+
+                                                    if (!response.ok) {
+                                                        const errorData = await response.json().catch(() => ({}));
+                                                        throw new Error(errorData.message || 'Failed to generate invoice');
+                                                    }
+
+                                                    // Create a blob from the response
+                                                    const blob = await response.blob();
+
+                                                    // Create a URL for the blob
+                                                    const url = window.URL.createObjectURL(blob);
+
+                                                    // Create a temporary anchor element
+                                                    const a = document.createElement('a');
+                                                    a.href = url;
+                                                    a.download = `invoice_${orderDetails._id}.pdf`;
+
+                                                    // Trigger the download
+                                                    document.body.appendChild(a);
+                                                    a.click();
+
+                                                    // Clean up
+                                                    window.URL.revokeObjectURL(url);
+                                                    document.body.removeChild(a);
+                                                } catch (error) {
+                                                    console.error('Error downloading invoice:', error);
+                                                    alert(error.message || 'Failed to download invoice. Please try again.');
                                                 }
-
-                                                console.log('Token found, length:', token.length);
-
-                                                const response = await fetch(`${API_URL}/api/invoices/generate`, {
-                                                    method: 'POST',
-                                                    headers: {
-                                                        'Content-Type': 'application/json',
-                                                        'Authorization': `Bearer ${token}`
-                                                    },
-                                                    body: JSON.stringify({ orderId: orderDetails._id })
-                                                });
-
-                                                if (response.status === 401) {
-                                                    throw new Error('Session expired. Please log in again.');
-                                                }
-
-                                                if (!response.ok) {
-                                                    const errorData = await response.json().catch(() => ({}));
-                                                    throw new Error(errorData.message || 'Failed to generate invoice');
-                                                }
-
-                                                // Create a blob from the response
-                                                const blob = await response.blob();
-
-                                                // Create a URL for the blob
-                                                const url = window.URL.createObjectURL(blob);
-
-                                                // Create a temporary anchor element
-                                                const a = document.createElement('a');
-                                                a.href = url;
-                                                a.download = `invoice_${orderDetails._id}.pdf`;
-
-                                                // Trigger the download
-                                                document.body.appendChild(a);
-                                                a.click();
-
-                                                // Clean up
-                                                window.URL.revokeObjectURL(url);
-                                                document.body.removeChild(a);
-                                            } catch (error) {
-                                                console.error('Error downloading invoice:', error);
-                                                alert(error.message || 'Failed to download invoice. Please try again.');
-                                            }
-                                        }}
-                                        className="flex items-center gap-2 bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"
-                                    >
-                                        <TbFileEuro size={14}/>
-                                        <span>Download Invoice</span>
-                                    </button>
-                                )}
-                            </div>
-                            {/* Replace the existing button with this */}
-                            {existingReport ? (
-                                <div className="flex flex-col items-start sm:items-end mt-4 sm:mt-0">
+                                            }}
+                                            className="flex items-center gap-2 bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"
+                                        >
+                                            <TbFileEuro size={14}/>
+                                            <span>Download Invoice</span>
+                                        </button>
+                                    )}
+                                </div>
+                                {/* Replace the existing button with this */}
+                                {existingReport ? (
+                                    <div className="flex flex-col items-start sm:items-end mt-4 sm:mt-0">
         <span className={`px-3 py-1 rounded-full text-sm font-medium ${
             existingReport.status === 'Resolved'
                 ? 'bg-green-100 text-green-700'
@@ -266,66 +284,67 @@ const OrderDetailsPage = () => {
         }`}>
             Report: {existingReport.status || 'Submitted'} • {new Date(existingReport.createdAt).toLocaleDateString()}
         </span>
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-col items-start sm:items-end">
+                                        <button
+                                            onClick={() => navigate('/report', {
+                                                state: {
+                                                    orderId: orderDetails._id,
+                                                    shippingAddress: orderDetails.shippingAddress
+                                                }
+                                            })}
+                                            className="flex items-center gap-2 bg-red-100 text-red-700 hover:bg-red-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                            </svg>
+                                            <span>Report a problem</span>
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Customer, Payment, Shipping Info */}
+                        <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8 ${innerBgClass}`}>
+                            {/* Payment Info*/}
+                            <div>
+                                <h4 className="text-md sm:text-lg font-semibold mb-2">Payment Info</h4>
+                                <p className="text-sm sm:text-md">Payment Method: {orderDetails.paymentMethod}</p>
+                                <p className="text-sm sm:text-md">Status: {orderDetails.isPaid ? "Paid" : "Unpaid"}</p>
+                            </div>
+
+                            <div>
+                                <h4 className="text-md sm:text-lg font-semibold mb-2">Shipping Info</h4>
+                                {/*<p>Shipping Method: {orderDetails.shippingMethod}</p>*/}
+                                <p className="text-sm sm:text-md">Shipping Method: Standard</p>
+                                <div className="text-sm sm:text-md">
+                                    Address: <br />
+                                    <div className="text-sm sm:text-md mt-1">
+                                        {`${orderDetails.shippingAddress.firstName} ${orderDetails.shippingAddress.lastName}`}
+                                        <br />
+                                        {orderDetails.shippingAddress.address}
+                                        <br />
+                                        {`${orderDetails.shippingAddress.city}, ${orderDetails.shippingAddress.country}`}
+                                    </div>
                                 </div>
-                            ) : (
-                                <div className="flex flex-col items-start sm:items-end">
-                                    <button
-                                        onClick={() => navigate('/report', {
-                                            state: {
-                                                orderId: orderDetails._id,
-                                                shippingAddress: orderDetails.shippingAddress
-                                            }
-                                        })}
-                                        className="flex items-center gap-2 bg-red-100 text-red-700 hover:bg-red-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                        </svg>
-                                        <span>Report a problem</span>
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Customer, Payment, Shipping Info */}
-                    <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8 ${innerBgClass}`}>
-                        {/* Payment Info*/}
-                        <div>
-                            <h4 className="text-md sm:text-lg font-semibold mb-2">Payment Info</h4>
-                            <p className="text-sm sm:text-md">Payment Method: {orderDetails.paymentMethod}</p>
-                            <p className="text-sm sm:text-md">Status: {orderDetails.isPaid ? "Paid" : "Unpaid"}</p>
+                            </div>
                         </div>
 
-                        <div>
-                            <h4 className="text-md sm:text-lg font-semibold mb-2">Shipping Info</h4>
-                            {/*<p>Shipping Method: {orderDetails.shippingMethod}</p>*/}
-                            <p className="text-sm sm:text-md">Shipping Method: Standard</p>
-                            <p className="text-sm sm:text-md">Address: <br />
-                                <p className="text-sm sm:text-md">
-                                    {`${orderDetails.shippingAddress.firstName} ${orderDetails.shippingAddress.lastName}`}
-                                    <br />
-                                    {orderDetails.shippingAddress.address}
-                                    <br />
-                                    {`${orderDetails.shippingAddress.city}, ${orderDetails.shippingAddress.country}`}
-                                </p>
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Product List */}
+                        {/* Product List */}
                         <h4 className="text-lg font-semibold mb-4">Products</h4>
-                    <div className="relative shadow-md sm:rounded-lg overflow-hidden mb-6">
-                        <table className={`min-w-full text-left ${textClass}`}>
-                            <thead className={`uppercase text-left text-xs ${innerBgClass} ${textClass}`}>
+                        <div className="relative shadow-md sm:rounded-lg overflow-hidden mb-6">
+                            <table className={`min-w-full text-left ${textClass}`}>
+                                <thead className={`uppercase text-left text-xs ${innerBgClass} ${textClass}`}>
                                 <tr>
                                     <th className="py-2 px-4 sm:py-3">Name</th>
                                     <th className="py-2 px-4 sm:py-3">Unit Price</th>
                                     <th className="py-2 px-4 sm:py-3">Quantity</th>
                                     <th className="py-2 px-4 sm:py-3">Total</th>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                </thead>
+                                <tbody>
                                 {orderDetails.orderItems.map((item) => (
                                     <tr key={item.productId} className={`border-b cursor-pointer ${borderClass}`}>
                                         <td className="py-2 px-4 flex items-center">
@@ -345,30 +364,30 @@ const OrderDetailsPage = () => {
                                         <td className="py-2 px-4">${item.price * item.quantity}</td>
                                     </tr>
                                 ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
 
-                    {/* Add the Order Summary section here */}
-                    <div className={`mt-8 p-6 ${innerBgClass} rounded-lg shadow-md`}>
-                        <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+                        {/* Add the Order Summary section here */}
+                        <div className={`mt-8 p-6 ${innerBgClass} rounded-lg shadow-md`}>
+                            <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
 
-                        <div className="space-y-2">
-                            <div className="flex justify-between">
-                                <span>Subtotal</span>
-                                <span>${orderDetails.subtotal?.toFixed(2) || orderDetails.orderItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2) || '0.00'}</span>
-                            </div>
-
-                            {orderDetails.discount?.amount > 0 && (
+                            <div className="space-y-2">
                                 <div className="flex justify-between">
-                                    <span>Discount {orderDetails.discount.percentage > 0 ? `(${orderDetails.discount.percentage}% off)` : ''}</span>
-                                    <span className="text-green-600">-${orderDetails.discount.amount.toFixed(2)}</span>
+                                    <span>Subtotal</span>
+                                    <span>${orderDetails.subtotal?.toFixed(2) || orderDetails.orderItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2) || '0.00'}</span>
                                 </div>
-                            )}
 
-                            <div className="flex justify-between">
-                                <span>Shipping</span>
-                                <span>
+                                {orderDetails.discount?.amount > 0 && (
+                                    <div className="flex justify-between">
+                                        <span>Discount {orderDetails.discount.percentage > 0 ? `(${orderDetails.discount.percentage}% off)` : ''}</span>
+                                        <span className="text-green-600">-${orderDetails.discount.amount.toFixed(2)}</span>
+                                    </div>
+                                )}
+
+                                <div className="flex justify-between">
+                                    <span>Shipping</span>
+                                    <span>
                                     {orderDetails.discount?.isFreeShipping ? (
                                         <span className="text-green-600">Free</span>
                                     ) : orderDetails.shippingCost > 0 ? (
@@ -384,58 +403,58 @@ const OrderDetailsPage = () => {
                                         'Not available'
                                     )}
                                 </span>
-                            </div>
+                                </div>
 
-                            <div className={`border-t ${borderClass} my-3`}></div>
+                                <div className={`border-t ${borderClass} my-3`}></div>
 
-                            <div className="flex justify-between text-lg font-semibold">
-                                <span>Total</span>
-                                <span>${(() => {
-                                    // Calculate subtotal from items if not provided
-                                    const subtotal = orderDetails.subtotal || 
-                                        orderDetails.orderItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0;
-                                    
-                                    // Get shipping cost
-                                    let shippingCost = 0;
-                                    if (orderDetails.shippingCost > 0) {
-                                        shippingCost = orderDetails.shippingCost;
-                                    } else if (orderDetails.shippingAddress?.country) {
-                                        shippingCost = getShippingCost(orderDetails.shippingAddress.country);
-                                    }
-                                    
-                                    // Apply discount if any
-                                    const discountAmount = orderDetails.discount?.amount || 0;
-                                    
-                                    // Calculate total (subtotal - discount + shipping)
-                                    const total = (subtotal - discountAmount) + shippingCost;
-                                    
-                                    // Return formatted total
-                                    return total.toFixed(2);
-                                })()}</span>
+                                <div className="flex justify-between text-lg font-semibold">
+                                    <span>Total</span>
+                                    <span>${(() => {
+                                        // Calculate subtotal from items if not provided
+                                        const subtotal = orderDetails.subtotal ||
+                                            orderDetails.orderItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0;
+
+                                        // Get shipping cost
+                                        let shippingCost = 0;
+                                        if (orderDetails.shippingCost > 0) {
+                                            shippingCost = orderDetails.shippingCost;
+                                        } else if (orderDetails.shippingAddress?.country) {
+                                            shippingCost = getShippingCost(orderDetails.shippingAddress.country);
+                                        }
+
+                                        // Apply discount if any
+                                        const discountAmount = orderDetails.discount?.amount || 0;
+
+                                        // Calculate total (subtotal - discount + shipping)
+                                        const total = (subtotal - discountAmount) + shippingCost;
+
+                                        // Return formatted total
+                                        return total.toFixed(2);
+                                    })()}</span>
+                                </div>
                             </div>
                         </div>
+
+                        {/* Back to Orders Link */}
+                        {/* Add Route to /my-orders in App.jsx*/}
+
+                        <Link
+                            to="/my-orders"
+                            className="mt-4 sm:mt-6 flex-1 h-12 flex items-center justify-center rounded-full text-sm font-slim transition-colors duration-200 bg-black text-neutral-50 hover:bg-neutral-800"
+                        >
+                            Back to My Orders
+                        </Link>
+
+                        {/*<Link*/}
+                        {/*    to="/my-orders"*/}
+                        {/*    className="inline-flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-black hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"*/}
+                        {/*>*/}
+                        {/*    Back to My Orders*/}
+                        {/*</Link>*/}
+                        {/*    If I click an Order ID in My Orders Page, nothing happens, because we haven't added the Link  */}
+                        {/*    Change it in MyOrdersPage.jsx  -> onClick={() => handleRowClick(order._id)}*/}
                     </div>
-
-                    {/* Back to Orders Link */}
-                    {/* Add Route to /my-orders in App.jsx*/}
-
-                    <Link
-                        to="/my-orders"
-                        className="mt-4 sm:mt-6 flex-1 h-12 flex items-center justify-center rounded-full text-sm font-slim transition-colors duration-200 bg-black text-neutral-50 hover:bg-neutral-800"
-                    >
-                        Back to My Orders
-                    </Link>
-
-                    {/*<Link*/}
-                    {/*    to="/my-orders"*/}
-                    {/*    className="inline-flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-black hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"*/}
-                    {/*>*/}
-                    {/*    Back to My Orders*/}
-                    {/*</Link>*/}
-                {/*    If I click an Order ID in My Orders Page, nothing happens, because we haven't added the Link  */}
-                {/*    Change it in MyOrdersPage.jsx  -> onClick={() => handleRowClick(order._id)}*/}
-                </div>
-            )}
+                )}
             </div>
         </div>
     )

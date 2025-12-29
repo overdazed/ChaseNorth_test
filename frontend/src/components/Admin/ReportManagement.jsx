@@ -1,19 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FaSearch, FaArrowLeft, FaPaperclip, FaCheck, FaTimes, FaSpinner } from 'react-icons/fa';
+import { FaSearch, FaArrowLeft, FaPaperclip, FaCheck, FaTimes, FaSpinner, FaExpand, FaTimesCircle } from 'react-icons/fa';
+import { supabase } from '../../lib/supabase';
 import { toast } from 'sonner';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
+
+// Image Modal Component
+const ImageModal = ({ imageUrl, onClose }) => (
+  <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4" onClick={onClose}>
+    <div className="relative max-w-4xl w-full max-h-[90vh]" onClick={e => e.stopPropagation()}>
+      <button 
+        onClick={onClose}
+        className="absolute -top-10 right-0 text-neutral-50 hover:text-neutral-300 focus:outline-none"
+        aria-label="Close"
+      >
+        <FaTimesCircle size={24} />
+      </button>
+      <img 
+        src={imageUrl} 
+        alt="Full size" 
+        className="max-w-full max-h-[80vh] mx-auto object-contain"
+      />
+    </div>
+  </div>
+);
 
 const ReportManagement = () => {
+    const theme = useSelector((state) => state.theme?.theme || 'light', shallowEqual);
     const [reports, setReports] = useState([]);
+
+    // Add dark mode class to the body when theme changes
+    useEffect(() => {
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [theme]);
     const [selectedReport, setSelectedReport] = useState(null);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [newNote, setNewNote] = useState('');
     const [status, setStatus] = useState('Submitted');
     const [isSubmitting, setIsSubmitting] = useState(false);
-
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [imageLoading, setImageLoading] = useState({});
     const [editingNoteId, setEditingNoteId] = useState(null);
     const [editingNoteContent, setEditingNoteContent] = useState('');
 
@@ -124,8 +156,8 @@ const ReportManagement = () => {
             'Needs Info': 'bg-purple-100 text-purple-800 border-purple-200',
             'Rejected': 'bg-red-100 text-red-800 border-red-200',
             'Resolved': 'bg-green-100 text-green-800 border-green-200',
-            'Archived': 'bg-gray-100 text-gray-800 border-gray-200',
-            'default': 'bg-gray-100 text-gray-800 border-gray-200'
+            'Archived': 'bg-neutral-100 text-neutral-800 border-neutral-200',
+            'default': 'bg-neutral-100 text-neutral-800 border-neutral-200'
         };
         return statusClasses[status] || statusClasses['default'];
     };
@@ -145,8 +177,8 @@ const ReportManagement = () => {
             'Needs Info': 'bg-purple-50 border-purple-200',
             'Rejected': 'bg-red-50 border-red-200',
             'Resolved': 'bg-green-50 border-green-200',
-            'Archived': 'bg-gray-50 border-gray-200',
-            'default': 'bg-gray-50 border-gray-200'
+            'Archived': 'bg-neutral-50 border-neutral-200',
+            'default': 'bg-neutral-50 border-neutral-200'
         };
         return statusClasses[status] || statusClasses['default'];
     };
@@ -247,11 +279,11 @@ const ReportManagement = () => {
                         <h1 className="text-2xl font-bold">Reports</h1>
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <FaSearch className="text-gray-400" />
+                                <FaSearch className="text-neutral-400" />
                             </div>
                             <input
                                 type="text"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5"
+                                className="bg-neutral-50 text-neutral-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5"
                                 placeholder="Search reports..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -259,54 +291,54 @@ const ReportManagement = () => {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-lg shadow overflow-hidden">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Report ID
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Customer
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Status
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Date
-                                    </th>
-                                </tr>
+                    <div className="bg-neutral-50 dark:bg-neutral-800 rounded-lg shadow overflow-hidden">
+                        <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-700">
+                            <thead className="bg-neutral-50 dark:bg-neutral-700">
+                            <tr>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
+                                    Report ID
+                                </th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
+                                    Customer
+                                </th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
+                                    Status
+                                </th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
+                                    Date
+                                </th>
+                            </tr>
                             </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {filteredReports.length > 0 ? (
-                                    filteredReports.map((report) => (
-                                        <tr 
-                                            key={report._id} 
-                                            className="hover:bg-gray-50 cursor-pointer"
-                                            onClick={() => handleReportClick(report)}
-                                        >
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {report.referenceNumber || `#${report._id.substring(0, 8)}`}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="text-sm text-gray-900">{report.customerName || 'N/A'}</div>
-                                                <div className="text-sm text-gray-500">{report.email || ''}</div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                {getStatusBadge(report.status)}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                {new Date(report.createdAt).toLocaleDateString()}
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="4" className="px-6 py-4 text-center text-sm text-gray-500">
-                                            No reports found
+                            <tbody className="bg-neutral-50 dark:bg-neutral-800 divide-y divide-neutral-200 dark:divide-neutral-700">
+                            {filteredReports.length > 0 ? (
+                                filteredReports.map((report) => (
+                                    <tr
+                                        key={report._id}
+                                        className="hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer transition-colors"
+                                        onClick={() => handleReportClick(report)}
+                                    >
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                                            {report.referenceNumber || `#${report._id.substring(0, 8)}`}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-neutral-900 dark:text-neutral-100">{report.customerName || 'N/A'}</div>
+                                            <div className="text-sm text-neutral-500 dark:text-neutral-400">{report.email || ''}</div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            {getStatusBadge(report.status)}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                                            {new Date(report.createdAt).toLocaleDateString()}
                                         </td>
                                     </tr>
-                                )}
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="4" className="px-6 py-4 text-center text-sm text-neutral-500 dark:text-neutral-400">
+                                        No reports found
+                                    </td>
+                                </tr>
+                            )}
                             </tbody>
                         </table>
                     </div>
@@ -321,69 +353,108 @@ const ReportManagement = () => {
                         <FaArrowLeft className="mr-2" /> Back to Reports
                     </button>
 
-                    <div className="bg-white rounded-lg shadow overflow-hidden">
+                    <div className="bg-neutral-50 dark:bg-neutral-800 rounded-lg shadow overflow-hidden transition-colors duration-200">
                         <div className="p-6">
                             <div className="flex justify-between items-start mb-6">
                                 <div>
-                                    <h2 className="text-xl font-bold">Report #{selectedReport._id.substring(0, 8)}</h2>
+                                    <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-50">Report for Order ID: {selectedReport.orderId?._id || 'N/A'}</h2>
                                     <div className="mt-1">
                                         {getStatusBadge(selectedReport.status)}
                                     </div>
                                 </div>
-                                <div className="text-sm text-gray-500">
+                                <div className="text-sm text-neutral-500 dark:text-neutral-400">
                                     Submitted on {new Date(selectedReport.createdAt).toLocaleString()}
                                 </div>
                             </div>
 
                             <div className="mb-6">
-                                <h3 className="text-lg font-medium mb-2">Customer</h3>
-                                <div className="bg-gray-50 p-4 rounded-lg">
+                                <h3 className="text-lg font-medium mb-2 text-neutral-900 dark:text-neutral-50">Customer</h3>
+                                <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg">
                                     <p className="font-medium">
                                         {selectedReport.orderId?.shippingAddress?.name ||
                                             selectedReport.customerName ||
                                             'N/A'}
                                     </p>
-                                    <p className="text-gray-600">{selectedReport.email || ''}</p>
+                                    <p className="text-neutral-600 dark:text-neutral-300">{selectedReport.email || ''}</p>
                                 </div>
                             </div>
 
                             <div className="mb-6">
-                                <h3 className="text-lg font-medium mb-2">What's the problem?</h3>
-                                <div className="bg-gray-50 p-4 rounded-lg">
+                                <h3 className="text-lg font-medium mb-2 text-neutral-900 dark:text-neutral-50">What's the problem?</h3>
+                                <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg text-neutral-900 dark:text-neutral-50">
                                     {selectedReport.problemType || 'No problem type specified'}
                                 </div>
                             </div>
 
                             <div className="mb-6">
-                                <h3 className="text-lg font-medium mb-2">What went wrong? Include dates or photos if relevant.</h3>
-                                <div className="bg-gray-50 p-4 rounded-lg whitespace-pre-line mb-4">
+                                <h3 className="text-lg font-medium mb-2 text-neutral-900 dark:text-neutral-50">What went wrong? Include dates or photos if relevant.</h3>
+                                <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg neutral-50space-pre-line mb-4 text-neutral-900 dark:text-neutral-50">
                                     {selectedReport.details || 'No details provided'}
                                 </div>
 
                                 {selectedReport.attachments && selectedReport.attachments.length > 0 && (
                                     <div className="mt-4">
-                                        <div className="flex flex-wrap gap-4">
-                                            {selectedReport.attachments.map((attachment, index) => (
-                                                <div key={index} className="border rounded-lg overflow-hidden">
-                                                    <img
-                                                        src={attachment.path}
-                                                        alt={`Attachment ${index + 1}`}
-                                                        className="h-48 object-cover"
-                                                    />
-                                                </div>
-                                            ))}
+                                        <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Attachments ({selectedReport.attachments.length})</h4>
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                            {selectedReport.attachments.map((attachment, index) => {
+                                                const imageUrl = attachment.path.startsWith('http')
+                                                    ? attachment.path
+                                                    : `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/reports/${attachment.path}`;
+                                                
+                                                return (
+                                                    <div key={index} className="mb-4 p-4 bg-neutral-50 dark:bg-neutral-700 rounded-lg">
+                                                        <div className="relative aspect-square bg-neutral-100 dark:bg-neutral-600 rounded-lg overflow-hidden">
+                                                            {imageLoading[attachment.path] ? (
+                                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                                    <FaSpinner className="animate-spin text-neutral-400 dark:text-neutral-500" />
+                                                                </div>
+                                                            ) : null}
+                                                            <img
+                                                                src={imageUrl}
+                                                                alt={`Attachment ${index + 1}`}
+                                                                className={`w-full h-full object-cover transition-opacity duration-200 ${imageLoading[attachment.path] ? 'opacity-0' : 'opacity-100'}`}
+                                                                onLoad={() => setImageLoading(prev => ({ ...prev, [attachment.path]: false }))}
+                                                                onError={() => setImageLoading(prev => ({ ...prev, [attachment.path]: false }))}
+                                                            />
+                                                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                                                <button
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        setSelectedImage(imageUrl);
+                                                                    }}
+                                                                    className="p-2 bg-neutral-50 bg-opacity-80 rounded-full text-neutral-700 hover:bg-opacity-100 transition-all"
+                                                                    aria-label="View full size"
+                                                                >
+                                                                    <FaExpand size={16} />
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div className="mt-1 text-xs text-neutral-500 dark:text-neutral-400 truncate">
+                                                            {attachment.filename || `image_${index + 1}.jpg`}
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     </div>
+                                )}
+                                
+                                {/* Image Modal */}
+                                {selectedImage && (
+                                    <ImageModal 
+                                        imageUrl={selectedImage} 
+                                        onClose={() => setSelectedImage(null)} 
+                                    />
                                 )}
                             </div>
 
                             {/* Status Dropdown */}
                             <div className="mb-6">
-                                <h3 className="text-lg font-medium mb-2">Status</h3>
+                                <h3 className="text-lg font-medium mb-2 text-neutral-900 dark:text-neutral-50">Status</h3>
                                 <select
                                     value={status}
                                     onChange={(e) => setStatus(e.target.value)}
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    className="dark:bg-neutral-700 bg-neutral-50 text-neutral-900 dark:text-neutral-50 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:border-transparent"
                                 >
                                     <option value="Submitted">Submitted</option>
                                     <option value="In Review">In Review</option>
@@ -397,7 +468,7 @@ const ReportManagement = () => {
                             {/* Admin Notes */}
                             {selectedReport.adminNotes?.length > 0 && (
                                 <div className="mb-6">
-                                    <h3 className="text-lg font-medium mb-2">Admin Notes</h3>
+                                    <h3 className="text-lg font-medium mb-2 text-neutral-900 dark:text-neutral-50">Admin Notes</h3>
                                     <div className="space-y-4">
                                         {selectedReport.adminNotes.map((note, index) => {
                                             const statusClass = getStatusClasses(note.status || 'Submitted');
@@ -407,9 +478,9 @@ const ReportManagement = () => {
                                                 <div key={note._id || index} className={`p-4 rounded-lg border ${statusClass} bg-opacity-20`}>
                                                     <div className="flex justify-between items-start mb-2">
                                                         <div>
-                                                            <p className="font-medium">{note.adminName || 'Admin'}</p>
+                                                            <p className="font-medium text-neutral-900 dark:text-neutral-50">{note.adminName || 'Admin'}</p>
                                                             <div className="flex items-center gap-2 mt-1">
-                                                                <span className="text-xs text-gray-500">
+                                                                <span className="text-xs text-neutral-500 dark:text-neutral-400">
                                                                     {new Date(note.timestamp).toLocaleString()}
                                                                     {note.editedAt && ` (Edited: ${new Date(note.editedAt).toLocaleString()})`}
                                                                 </span>
@@ -425,7 +496,7 @@ const ReportManagement = () => {
                                                                         e.stopPropagation();
                                                                         handleEditNote(note);
                                                                     }}
-                                                                    className="text-gray-500 hover:text-blue-500 transition-colors"
+                                                                    className="text-neutral-500 hover:text-blue-500 transition-colors"
                                                                     title="Edit note"
                                                                 >
                                                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -438,7 +509,7 @@ const ReportManagement = () => {
                                                                     e.stopPropagation();
                                                                     handleDeleteNote(note._id || index);
                                                                 }}
-                                                                className="text-gray-500 hover:text-red-500 transition-colors"
+                                                                className="text-neutral-500 hover:text-red-500 transition-colors"
                                                                 title="Delete note"
                                                             >
                                                                 <FaTimes />
@@ -451,7 +522,7 @@ const ReportManagement = () => {
                                                             <textarea
                                                                 value={editingNoteContent}
                                                                 onChange={(e) => setEditingNoteContent(e.target.value)}
-                                                                className="w-full p-2 border rounded text-sm"
+                                                                className="w-full p-2 border rounded-md mb-4 bg-neutral-50 dark:bg-neutral-600 border-neutral-300 dark:border-neutral-500 text-neutral-900 dark:text-neutral-50"
                                                                 rows="3"
                                                             />
                                                             <div className="flex justify-end gap-2 mt-2">
@@ -460,20 +531,20 @@ const ReportManagement = () => {
                                                                         setEditingNoteId(null);
                                                                         setEditingNoteContent('');
                                                                     }}
-                                                                    className="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded"
+                                                                    className="px-3 py-1 text-sm text-neutral-600 hover:bg-neutral-100 rounded"
                                                                 >
                                                                     Cancel
                                                                 </button>
                                                                 <button
                                                                     onClick={() => handleUpdateNote(selectedReport._id, note._id || index)}
-                                                                    className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+                                                                    className="px-3 py-1 text-sm bg-blue-600 text-neutral-50 rounded hover:bg-blue-700"
                                                                 >
                                                                     Save
                                                                 </button>
                                                             </div>
                                                         </div>
                                                     ) : (
-                                                        <p className="whitespace-pre-line text-gray-800 mt-2">{note.content}</p>
+                                                        <p className="neutral-50space-pre-line text-neutral-900 dark:text-neutral-50">{note.content}</p>
                                                     )}
                                                 </div>
                                             );
@@ -484,13 +555,13 @@ const ReportManagement = () => {
 
                             {/* Add New Note */}
                             <div className="mb-6">
-                                <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-2">
+                                <label htmlFor="notes" className="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-2">
                                     Add Admin Note
                                 </label>
                                 <textarea
                                     id="notes"
                                     rows="4"
-                                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                    className="block p-2.5 w-full text-sm text-neutral-900 dark:text-neutral-50 bg-neutral-50 dark:bg-neutral-700 rounded-lg focus:outline-none focus:border-transparent"
                                     placeholder="Add your notes here..."
                                     value={newNote}
                                     onChange={(e) => setNewNote(e.target.value)}
@@ -501,7 +572,7 @@ const ReportManagement = () => {
                             <div className="flex justify-end space-x-3">
                                 <button
                                     onClick={handleBackToList}
-                                    className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                    className="px-5 py-3 rounded-full shadow-sm text-sm font-medium text-neutral-700 bg-neutral-50 hover:bg-neutral-300 focus:outline-none"
                                     disabled={isSubmitting}
                                 >
                                     Cancel
@@ -509,9 +580,9 @@ const ReportManagement = () => {
                                 <button
                                     onClick={handleStatusUpdate}
                                     disabled={isSubmitting || (status === selectedReport.status && !newNote.trim())}
-                                    className={`px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-                                        isSubmitting ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-                                    } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+                                    className={`cursor-pointer px-5 py-3 rounded-full shadow-sm text-sm font-normal text-neutral-50 ${
+                                        isSubmitting ? 'bg-accent' : 'bg-black hover:bg-neutral-900'
+                                    } focus:outline-none`}
                                 >
                                     {isSubmitting ? (
                                         <span className="flex items-center">

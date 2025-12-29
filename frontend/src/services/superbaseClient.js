@@ -1,16 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+// This file is deprecated. Please use the centralized supabase instance from '@/lib/supabase' instead.
+import { supabase } from '@/lib/supabase';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
-
-if (!supabaseUrl || !supabaseAnonKey) {
-    console.error('Missing Supabase URL or Anon Key. Please check your .env file.');
-}
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-    auth: {
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: true
-    }
-});
+export { supabase };

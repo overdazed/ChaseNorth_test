@@ -26,11 +26,18 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async ({userId, gues
                 },
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                withCredentials: true
             }
         );
-        // return the cart data
-        return response.data;
+        
+        // Return the cart data with the expected format
+        return {
+            products: response.data.products || [],
+            totalPrice: response.data.totalPrice || 0,
+            totalItems: response.data.totalItems || 0,
+            guestId: response.data.guestId || guestId
+        };
     } catch (error) {
         console.error('Error fetching cart:', error);
         const errorMessage = error.response?.data?.message || 'Failed to fetch cart';

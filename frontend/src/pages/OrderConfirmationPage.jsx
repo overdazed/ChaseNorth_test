@@ -30,10 +30,27 @@
 //     }
 // }
 
-import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import {useEffect} from "react";
-import {clearCart} from "../redux/slices/cartSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { clearCart } from "../redux/slices/cartSlice.js";
+
+// Helper function to calculate shipping cost based on country
+const getShippingCost = (country) => {
+    const shippingRates = {
+        'United States': 10.00,
+        'Canada': 15.00,
+        'United Kingdom': 12.00,
+        'Germany': 14.00,
+        'France': 14.00,
+        'Spain': 16.00,
+        'Italy': 16.00,
+        'Australia': 25.00,
+        'Japan': 22.00,
+        'China': 20.00,
+    };
+    return shippingRates[country] || 20.00; // Default shipping cost
+};
 
 const OrderConfirmationPage = () => {
 
@@ -109,30 +126,107 @@ const OrderConfirmationPage = () => {
                             ))}
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4 sm:gap-8">
-                            <div>
-                                <h4 className="text-xs sm:text-lg font-semibold mb-2 text-neutral-900 dark:text-neutral-50">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                            {/* Payment Information */}
+                            <div className="md:col-span-1">
+                                <h4 className="text-sm sm:text-lg font-semibold mb-2 text-neutral-900 dark:text-neutral-50">
                                     Payment
                                 </h4>
-                                <p className="text-xs sm:text-base text-neutral-600 dark:text-neutral-300">PayPal</p>
+                                <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300">
+                                    {checkout.paymentMethod || 'PayPal'}
+                                </p>
                             </div>
 
-                            <div>
-                                <h4 className="text-xs sm:text-lg font-semibold mb-2 text-neutral-900 dark:text-neutral-50">
+                            {/* Shipping Information */}
+                            <div className="md:col-span-1">
+                                <h4 className="text-sm sm:text-lg font-semibold mb-2 text-neutral-900 dark:text-neutral-50">
                                     Delivery
                                 </h4>
-                                <p className="text-xs sm:text-base text-neutral-600 dark:text-neutral-300 line-clamp-1">
+                                <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300">
                                     {checkout.shippingAddress.firstName} {checkout.shippingAddress.lastName}
                                 </p>
-                                <p className="text-xs sm:text-base text-neutral-600 dark:text-neutral-300 line-clamp-1">
+                                <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300">
                                     {checkout.shippingAddress.address}
                                 </p>
-                                <p className="text-xs sm:text-base text-neutral-600 dark:text-neutral-300">
+                                <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300">
                                     {checkout.shippingAddress.postalCode} {checkout.shippingAddress.city}
                                 </p>
-                                <p className="text-xs sm:text-base text-neutral-600 dark:text-neutral-300">
+                                <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300">
                                     {checkout.shippingAddress.country}
                                 </p>
+                            </div>
+
+                            {/* Order Summary */}
+                            <div className="md:col-span-1 mt-6 md:mt-0">
+                                    <h4 className="text-sm sm:text-lg font-semibold mb-4 text-neutral-900 dark:text-neutral-50">
+                                        Order Summary
+                                    </h4>
+                                    
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between text-sm text-neutral-600 dark:text-neutral-300">
+                                            <span>Subtotal</span>
+                                            <span>
+                                                ${checkout.subtotal?.toFixed(2) || 
+                                                  checkout.checkoutItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2) || '0.00'}
+                                            </span>
+                                        </div>
+
+                                        {checkout.discount?.amount > 0 && (
+                                            <div className="flex justify-between text-sm text-neutral-600 dark:text-neutral-300">
+                                                <span>Discount {checkout.discount.percentage > 0 ? `(${checkout.discount.percentage}% off)` : ''}</span>
+                                                <span className="text-green-600">-${checkout.discount.amount.toFixed(2)}</span>
+                                            </div>
+                                        )}
+
+                                        <div className="flex justify-between text-sm text-neutral-600 dark:text-neutral-300">
+                                            <span>Shipping</span>
+                                            <span>
+                                                {checkout.discount?.isFreeShipping ? (
+                                                    <span className="text-green-600">Free</span>
+                                                ) : checkout.shippingCost > 0 ? (
+                                                    `$${checkout.shippingCost.toFixed(2)}`
+                                                ) : checkout.shippingAddress?.country ? (
+                                                    (() => {
+                                                        const countryName = checkout.shippingAddress.country;
+                                                        const shippingCost = getShippingCost(countryName);
+                                                        return `$${shippingCost.toFixed(2)}`;
+                                                    })()
+                                                ) : (
+                                                    'Not available'
+                                                )}
+                                            </span>
+                                        </div>
+
+                                        <div className="border-t border-neutral-200 dark:border-neutral-600 my-3"></div>
+
+                                        <div className="flex justify-between font-semibold text-neutral-600 dark:text-neutral-300">
+                                            <span>Total</span>
+                                            <span>
+                                                {(() => {
+                                                    // Calculate subtotal from items if not provided
+                                                    const subtotal = checkout.subtotal ||
+                                                        checkout.checkoutItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0;
+
+                                                    // Get shipping cost
+                                                    let shippingCost = 0;
+                                                    if (checkout.shippingCost > 0) {
+                                                        shippingCost = checkout.shippingCost;
+                                                    } else if (checkout.shippingAddress?.country) {
+                                                        shippingCost = getShippingCost(checkout.shippingAddress.country);
+                                                    }
+
+                                                    // Apply discount if any
+                                                    const discountAmount = checkout.discount?.amount || 0;
+
+                                                    // Calculate total (subtotal - discount + shipping)
+                                                    const total = (subtotal - discountAmount) + shippingCost;
+
+                                                    // Return formatted total
+                                                    return `$${total.toFixed(2)}`;
+                                                })()}
+                                            </span>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
