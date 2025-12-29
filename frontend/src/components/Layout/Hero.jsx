@@ -88,19 +88,35 @@ const Hero = () => {
 
             {/* Hero Content */}
             <div className="absolute inset-0 flex items-center justify-center z-10">
-                <div className="text-center text-white p-6">
-                    <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter uppercase mb-4">
-                        {/*Vacation <br /> Ready*/}
-                    </h1>
-                    {/*<p className="text-sm sm:text-base md:text-lg mb-6 tracking-tighter">*/}
-                    {/*    Explore our vacation-ready outfits with fast worldwide shipping.*/}
-                    {/*</p>*/}
-                    {/*<Link*/}
-                    {/*    to="#"*/}
-                    {/*    className="inline-block bg-white text-gray-950 py-2 px-6 rounded-sm text-lg transition-colors duration-300 hover:bg-gray-100"*/}
-                    {/*>*/}
-                    {/*    Shop Now*/}
-                    {/*</Link>*/}
+                <div className="text-center text-white p-6 max-w-4xl mx-auto">
+                    <motion.h1 
+                        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter uppercase mb-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        Adventure Awaits
+                    </motion.h1>
+                    <motion.p 
+                        className="text-lg sm:text-xl md:text-2xl mb-8 tracking-tight leading-relaxed"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                    >
+                        Discover the perfect gear for your next outdoor journey. High-quality equipment designed for adventurers who demand the best.
+                    </motion.p>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                    >
+                        <Link
+                            to="/collections/all"
+                            className="inline-block bg-white text-gray-950 py-3 px-8 rounded-sm text-lg font-medium transition-all duration-300 hover:bg-gray-100 hover:scale-105"
+                        >
+                            Shop Now
+                        </Link>
+                    </motion.div>
                 </div>
             </div>
         </section>

@@ -87,6 +87,7 @@ const authSlice = createSlice({
             localStorage.removeItem('userToken');
             // save new guest ID back into local storage
             localStorage.setItem('guestId', state.guestId); // Set new guest ID in localStorage
+            state.error = null; // Clear any errors on logout
         },
         // Add an action that generates a new guest ID anytime
         generateNewGuestId: (state) => {
@@ -94,6 +95,10 @@ const authSlice = createSlice({
             state.guestId = `guest_${new Date().getTime()}`;
             // save new guest ID back into local storage
             localStorage.setItem('guestId', state.guestId); // Set new guest ID in localStorage
+        },
+        // Clear any authentication errors
+        clearError: (state) => {
+            state.error = null;
         },
     },
     // handle the external users for our async thunks
