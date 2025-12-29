@@ -89,15 +89,15 @@ const StyledWrapper = styled.div`
 
   /* Dark mode overrides */
   .dark & {
-    --select-bg: rgb(55 65 81);
-    --select-border: rgb(75 85 99);
-    --select-text: rgb(255 255 255);
+    --select-bg: rgb(64 64 64);
+    --select-border: rgb(82 82 82);
+    --select-text: rgb(250 250 250);
     --select-hover-bg: rgb(75 85 99);
     --select-selected-bg: rgb(30 58 138);
-    --select-selected-text: rgb(191 219 254);
-    --select-arrow: rgb(250 250 250);
-    --options-bg: rgb(55 65 81);
-    --options-border: rgb(75 85 99);
+    --select-selected-text: rgb(163 163 163);
+    --select-arrow: rgb(163 163 163);
+    --options-bg: rgb(64 64 64);
+    --options-border: rgb(82 82 82);
     --option-hover-bg: rgb(75 85 99);
   }
 
