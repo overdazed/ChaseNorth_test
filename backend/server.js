@@ -69,7 +69,7 @@ const newsletterRoutes = require('./routes/newsletterRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const bugReportRoutes = require('./routes/bugReportRoutes');
 const initializeCounters = require('./initializeCounter');
-
+const adminReportRoutes = require('./routes/adminReportRoutes');
 
 // Test route from minimal.js
 app.get('/api/test', (req, res) => {
@@ -102,6 +102,7 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin/products', productAdminRoutes);
 app.use('/api/admin/orders', adminOrderRoutes);
+app.use('/api/admin/reports', adminReportRoutes);
 
 // Error handling middleware (from minimal.js)
 app.use((err, req, res, next) => {

@@ -29,6 +29,7 @@ const reportSchema = new mongoose.Schema({
         enum: ['Submitted', 'In Review', 'Needs Info', 'Rejected', 'Resolved', 'Archived'],
         default: 'Submitted'
     },
+    adminNotes: String,
     attachments: [{
         filename: String,
         path: String,
@@ -54,5 +55,5 @@ reportSchema.pre('save', async function(next) {
     next();
 });
 
-const Report = mongoose.model('Report', reportSchema);
+// const Report = mongoose.model('Report', reportSchema);
 module.exports = mongoose.model('Report', reportSchema);
