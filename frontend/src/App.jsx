@@ -1,8 +1,11 @@
-// LAST WORKING: 2025-12-27 18:51
+// LAST WORKING: 2025-12-29 05:13
 // To FIX:
 // Admin Panel
     // Report Tab
 // Preise überall
+// Filter Selection
+// colors
+// language
 
 
 // Farben
