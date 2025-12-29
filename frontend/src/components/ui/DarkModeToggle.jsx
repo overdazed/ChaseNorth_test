@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const DarkModeToggle = () => {
+const DarkModeToggle = ({ onToggle }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -31,6 +31,11 @@ const DarkModeToggle = () => {
     // Update DOM
     document.documentElement.classList.toggle('dark', newIsDarkMode);
     localStorage.setItem('theme', theme);
+
+    // Call the onToggle callback if provided
+    if (onToggle) {
+      onToggle();
+    }
 
     // Notify other components
     window.dispatchEvent(new CustomEvent('themeChange', {

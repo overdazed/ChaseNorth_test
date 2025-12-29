@@ -107,7 +107,7 @@ const OrderDetailsPage = () => {
     // Set background and text classes based on theme
     const bgClass = isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50 transition-colors duration-300'
     const textClass = isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
-    const linkClass = isDarkMode ? 'text-red-700 hover:text-accent' : 'text-accent hover:text-red-700'
+    const linkClass = isDarkMode ? 'text-red-700 hover:text-accent text-sm sm:text-md' : 'text-accent hover:text-red-700 text-sm sm:text-md'
     const innerBgClass = isDarkMode ? 'bg-neutral-800 p-4 rounded-lg' : 'bg-neutral-100 p-4 rounded-lg'
     const borderClass = isDarkMode ? 'border-neutral-700' : 'border-neutral-50'
 
@@ -298,7 +298,7 @@ const OrderDetailsPage = () => {
                         </div>
 
                         <div>
-                            <h4 className="text-lg font-semibold mb-2">Shipping Info</h4>
+                            <h4 className="text-md sm:text-lg font-semibold mb-2">Shipping Info</h4>
                             {/*<p>Shipping Method: {orderDetails.shippingMethod}</p>*/}
                             <p className="text-sm sm:text-md">Shipping Method: Standard</p>
                             <p className="text-sm sm:text-md">Address: <br />
@@ -421,7 +421,7 @@ const OrderDetailsPage = () => {
 
                     <Link
                         to="/my-orders"
-                        className="flex-1 h-12 flex items-center justify-center rounded-full text-sm font-slim transition-colors duration-200 bg-black text-neutral-50 hover:bg-neutral-800"
+                        className="mt-4 sm:mt-6 flex-1 h-12 flex items-center justify-center rounded-full text-sm font-slim transition-colors duration-200 bg-black text-neutral-50 hover:bg-neutral-800"
                     >
                         Back to My Orders
                     </Link>

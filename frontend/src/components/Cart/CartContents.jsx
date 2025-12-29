@@ -69,7 +69,7 @@ const CartContents = ({cart, userId, guestId}) => {
                                 <p className="text-sm text-neutral-500">
                                     size: {product.size} | color: {product.color}
                                 </p>
-                                <div className="mt-2">
+                                <div className="mt-2 bg-neutral-500">
                                     <div className={`flex items-center border-[0.5px] border-neutral-200 dark:border-neutral-800 w-32 rounded-md overflow-hidden`}>
                                         <button 
                                             className={`w-10 h-10 flex items-center justify-center border-r border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors`}

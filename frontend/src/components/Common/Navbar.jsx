@@ -408,7 +408,7 @@ const Navbar = ({ transparent = false }) => {
                 <div className="relative flex items-center justify-between pt-3 pb-2 pr-4">
                     {/* Dark Mode Toggle */}
                     <div className="z-10 -ml-3 pl-2">
-                        <DarkModeToggle />
+                        <DarkModeToggle onToggle={() => setNavDrawerOpen(false)} />
                     </div>
 
                     {/* Centered Logo */}
