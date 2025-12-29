@@ -183,7 +183,7 @@ const Report = () => {
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="bg-neutral-50 dark:bg-neutral-900 rounded-lg shadow-md p-6 md:p-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-neutral-50 mb-2">
           Report a problem with your order
         </h1>
         <p className="text-gray-600 dark:text-gray-300 mb-8">
@@ -192,11 +192,11 @@ const Report = () => {
 
         {/* Order Context */}
         <div className="bg-neutral-100 dark:bg-neutral-800 p-4 rounded-lg mb-8">
-          <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-3">Order Details</h2>
+          <h2 className="text-lg font-medium text-gray-900 dark:text-neutral-50 mb-3">Order Details</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <p className="text-sm text-gray-500 dark:text-gray-400">Order ID</p>
-              <p className="font-medium text-gray-900 dark:text-white">{orderDetails.orderNumber}</p>
+              <p className="font-medium text-gray-900 dark:text-neutral-50">{orderDetails.orderNumber}</p>
             </div>
             {/* Product selection temporarily disabled
             <div>
@@ -207,7 +207,7 @@ const Report = () => {
                 id="product"
                 value={selectedProduct}
                 onChange={(e) => setSelectedProduct(e.target.value)}
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-neutral-50"
               >
                 {orderItems.length > 0 ? (
                   orderItems.map((item) => (
@@ -226,13 +226,13 @@ const Report = () => {
             */}
             <div>
               <p className="text-sm text-gray-500 dark:text-gray-400">Delivery Date</p>
-              <p className="font-medium text-gray-900 dark:text-white">
+              <p className="font-medium text-gray-900 dark:text-neutral-50">
                 {new Date(orderDetails.deliveryDate).toLocaleDateString()}
               </p>
             </div>
             <div>
               <p className="text-sm text-gray-500 dark:text-gray-400">Shipping Address</p>
-              <div className="font-medium text-gray-900 dark:text-white">
+              <div className="font-medium text-gray-900 dark:text-neutral-50">
                 {orderDetails.shippingAddress ? (
                   <>
                     {orderDetails.shippingAddress.address && <div>{orderDetails.shippingAddress.address}</div>}
@@ -254,7 +254,7 @@ const Report = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Problem Type */}
           <div>
-            <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-3">What's the problem?</h2>
+            <h2 className="text-lg font-medium text-gray-900 dark:text-neutral-50 mb-3">What's the problem?</h2>
             <div className="space-y-2">
               {problemTypes.map((type) => (
                 <div key={type} className="flex items-start">
@@ -279,7 +279,7 @@ const Report = () => {
                 <div className="mt-2 ml-7">
                   <input
                     type="text"
-                    className="mt-1 block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm dark:bg-neutral-800 dark:border-gray-600 dark:text-white py-2 px-3 h-10"
+                    className="mt-1 block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm dark:bg-neutral-800 dark:border-gray-600 dark:text-neutral-50 py-2 px-3 h-10"
                     placeholder="Please specify the problem"
                     style={{ minHeight: '2rem' }}
                     {...register('otherProblem', { 
@@ -306,7 +306,7 @@ const Report = () => {
               <textarea
                   id="details"
                   rows={4}
-                  className="pt-3 pl-3 shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md dark:bg-neutral-800 dark:text-white"
+                  className="pt-3 pl-3 shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md dark:bg-neutral-800 dark:text-neutral-50"
                   placeholder="Provide details about the issue..."
                   style={{ textAlign: 'left' }}
                   {...register('details', {
@@ -349,7 +349,7 @@ const Report = () => {
                     htmlFor="file-upload"
                     className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none"
                   >
-                    <span>Upload files</span>
+                    <span className="text-red-800" >Upload files</span>
                     <input
                       id="file-upload"
                       name="file-upload"
@@ -390,7 +390,7 @@ const Report = () => {
                       <button
                         type="button"
                         onClick={() => removeImage(index)}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="absolute -top-2 -right-2 bg-red-500 text-neutral-50 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                         title="Remove"
                       >
                         <svg
@@ -416,7 +416,7 @@ const Report = () => {
 
           {/* Desired Outcome */}
           <div>
-            <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-3">What would you like to happen?</h2>
+            <h2 className="text-lg font-medium text-gray-900 dark:text-neutral-50 mb-3">What would you like to happen?</h2>
             <div className="space-y-2">
               {desiredOutcomes.map((outcome) => (
                 <div key={outcome} className="flex items-center">
@@ -452,7 +452,8 @@ const Report = () => {
               <input
                 type="text"
                 id="email"
-                className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-1/3 sm:text-sm border-gray-300 dark:border-gray-600 rounded-md dark:bg-neutral-800 dark:text-white py-2 px-3 h-10"
+                className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-1/3 sm:text-sm border-gray-300 dark:border-gray-600 rounded-md dark:bg-neutral-800 dark:text-neutral-50 py-2 px-3 h-10"
+                placeholder="your@email.com"
                 style={{ minHeight: '2rem' }}
                 title="Please enter a valid email address (e.g. yourname@example.com)"
                 {...register('email', {
