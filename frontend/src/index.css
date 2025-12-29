@@ -39,3 +39,33 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+/* Add smooth transition for the accordion */
+.accordion-content {
+  transition: max-height 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+/* Ensure the active section has a smooth appearance */
+.accordion-content[aria-expanded="true"] {
+  display: block;
+}
+
+/* Style for the accordion buttons */
+.accordion-button {
+  transition: all 0.2s ease;
+}
+
+.accordion-button:focus {
+  outline: none;
+}
+
+/* Add a subtle border between sections */
+.accordion-section {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1rem 0;
+}
+
+.accordion-section:last-child {
+  border-bottom: none;
+}
