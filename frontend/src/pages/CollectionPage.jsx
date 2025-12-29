@@ -405,26 +405,50 @@ const CollectionPage = () => {
 
                 <div className="flex-grow px-4 pt-0 pb-4 container mx-auto">  {/* Changed pt-2 to pt-0 to remove top padding */}
                     {gender.toUpperCase() === 'MEN' ? (
-                        <h1 className={`text-4xl font-bold mb-4 -mt-20 uppercase ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>  {/* Added -mt-2 to pull the heading up */}
-                            Men
-                        </h1>
-                        <p>Llsdnfgdfng KJFNkusfdgj FKAJDJKdfkjgnkd</p>
+                        <div>
+                            <h1 className={`text-3xl font-medium mb-2 -mt-20 uppercase ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
+                                Men
+                            </h1>
+                            <p className={`text-sm ${isDay ? 'text-neutral-600' : 'text-neutral-400'} mb-4`}>
+                                Discover our men's collection
+                            </p>
+                        </div>
                     ) : gender.toUpperCase() === 'WOMEN' ? (
-                        <h1 className={`text-4xl font-bold mb-4 -mt-20 uppercase ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
-                            Women
-                        </h1>
+                        <div>
+                            <h1 className={`text-3xl font-medium mb-2 -mt-20 uppercase ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
+                                Women
+                            </h1>
+                            <p className={`text-sm ${isDay ? 'text-neutral-600' : 'text-neutral-400'} mb-4`}>
+                                Explore our women's collection
+                            </p>
+                        </div>
                     ) : category.toLowerCase().includes('top') ? (
-                        <h1 className={`text-4xl font-bold mb-4 -mt-20 uppercase ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
-                            Top Wear
-                        </h1>
+                        <div>
+                            <h1 className={`text-3xl font-medium mb-2 -mt-20 uppercase ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
+                                Top Wear
+                            </h1>
+                            <p className={`text-sm ${isDay ? 'text-neutral-600' : 'text-neutral-400'} mb-4`}>
+                                Browse our top wear selection
+                            </p>
+                        </div>
                     ) : category.toLowerCase().includes('bottom') ? (
-                        <h1 className={`text-4xl font-bold mb-4 -mt-20 uppercase ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
-                            Bottom Wear
-                        </h1>
+                        <div>
+                            <h1 className={`text-3xl font-medium mb-2 -mt-20 uppercase ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
+                                Bottom Wear
+                            </h1>
+                            <p className={`text-sm ${isDay ? 'text-neutral-600' : 'text-neutral-400'} mb-4`}>
+                                Find your perfect bottom wear
+                            </p>
+                        </div>
                     ) : (
-                        <h2 className={`text-2xl uppercase mb-4 -mt-20 ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
-                            All Collection
-                        </h2>
+                        <div>
+                            <h2 className={`text-3xl uppercase mb-2 -mt-20 ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
+                                All Collection
+                            </h2>
+                            <p className={`text-sm ${isDay ? 'text-neutral-600' : 'text-neutral-400'} mb-4`}>
+                                Browse our complete collection
+                            </p>
+                        </div>
                     )}
 
                     {/* Filter and Sort Controls */}
