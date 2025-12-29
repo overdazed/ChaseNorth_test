@@ -108,26 +108,29 @@ const OrderConfirmationPage = () => {
                         ))}
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-2 gap-4 sm:gap-8">
                         <div>
-                            <h4 className="text-lg font-semibold mb-2 text-neutral-900 dark:text-neutral-50">
+                            <h4 className="text-xs sm:text-lg font-semibold mb-2 text-neutral-900 dark:text-neutral-50">
                                 Payment
                             </h4>
-                            <p className="text-neutral-600 dark:text-neutral-300">PayPal</p>
+                            <p className="text-xs sm:text-mdr text-neutral-600 dark:text-neutral-300">PayPal</p>
                         </div>
 
                         <div>
-                            <h4 className="text-lg font-semibold mb-2 text-neutral-900 dark:text-neutral-50">
+                            <h4 className="text-xs sm:text-lg font-semibold mb-2 text-neutral-900 dark:text-neutral-50">
                                 Delivery
                             </h4>
-                            <p className="text-neutral-600 dark:text-neutral-300">
+                            <p className="text-xs sm:text-md text-neutral-600 dark:text-neutral-300 line-clamp-1">
                                 {checkout.shippingAddress.firstName} {checkout.shippingAddress.lastName}
                             </p>
-                            <p className="text-neutral-600 dark:text-neutral-300">
+                            <p className="text-xs sm:text-md text-neutral-600 dark:text-neutral-300 line-clamp-1">
                                 {checkout.shippingAddress.address}
                             </p>
-                            <p className="text-neutral-600 dark:text-neutral-300">
-                                {checkout.shippingAddress.city}, {checkout.shippingAddress.country}
+                            <p className="text-xs sm:text-md text-neutral-600 dark:text-neutral-300">
+                                {checkout.shippingAddress.postalCode} {checkout.shippingAddress.city}
+                            </p>
+                            <p className="text-xs sm:text-md text-neutral-600 dark:text-neutral-300">
+                                {checkout.shippingAddress.country}
                             </p>
                         </div>
                     </div>
