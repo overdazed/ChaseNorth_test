@@ -77,7 +77,7 @@ const OrderManagement = () => {
                             orders.map((order) => (
                                 <tr
                                     key={order._id}
-                                    className="border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-accent cursor-pointer"
+                                    className="group border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-accent cursor-pointer"
                                 >
                                     <td className="p-4 font-medium text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">
                                         #{order._id}
@@ -103,10 +103,17 @@ const OrderManagement = () => {
                                         </select>
                                     </td>
                                     <td className="p-4">
-                                        <button
-                                            onClick={() => handleStatusChange(order._id, "Delivered")}
-                                            className="bg-green-600 text-white py-2 px-4 rounded-full hover:bg-green-700"
-                                        >Mark as Delivered</button>
+                                        <div className="invisible group-hover:visible">
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleStatusChange(order._id, "Delivered");
+                                                }}
+                                                className="bg-green-600 text-white py-2 px-4 rounded-full hover:bg-green-700 transition-opacity duration-200"
+                                            >
+                                                Mark as Delivered
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))
