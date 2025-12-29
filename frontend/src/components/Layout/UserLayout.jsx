@@ -72,7 +72,7 @@ const UserLayout = () => {
                 !isLoginPage &&
                 !location.pathname.startsWith('/reset-password') &&
                 !location.pathname.startsWith('/forgot-password') && (
-                    <div className="w-full mt-14 md:mt-16">
+                    <div className="w-full mt-14 md:mt-15 dark:md:mt-16">
                         <Breadcrumbs />
                     </div>
 

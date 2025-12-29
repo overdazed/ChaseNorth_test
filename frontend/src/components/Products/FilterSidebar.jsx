@@ -82,9 +82,9 @@ const FilterSidebar = ({
         setSearchParams(params);
 
         // Close the sidebar on mobile when a filter is applied
-        if (onFilterApply && window.innerWidth < 1024) {
-            onFilterApply();
-        }
+        // if (onFilterApply && window.innerWidth < 1024) {
+        //     onFilterApply();
+        // }
     };
 
     // Clear price filter
@@ -96,9 +96,9 @@ const FilterSidebar = ({
         setSearchParams(params);
 
         // Close the sidebar on mobile when a filter is applied
-        if (onFilterApply && window.innerWidth < 1024) {
-            onFilterApply();
-        }
+        // if (onFilterApply && window.innerWidth < 1024) {
+        //     onFilterApply();
+        // }
     };
 
     const handlePriceKeyDown = (e) => {
@@ -320,9 +320,9 @@ const FilterSidebar = ({
         setSearchParams(params);
         
         // Close the sidebar on mobile when a filter is applied
-        if (onFilterApply && window.innerWidth < 1024) {
-            onFilterApply();
-        }
+        // if (onFilterApply && window.innerWidth < 1024) {
+        //     onFilterApply();
+        // }
     };
 
     // Check if a brand is currently selected
@@ -412,9 +412,9 @@ const FilterSidebar = ({
         }
 
         // Close the sidebar on mobile when a filter is applied
-        if (onFilterApply && window.innerWidth < 1024) {
-            onFilterApply();
-        }
+        // if (onFilterApply && window.innerWidth < 1024) {
+        //     onFilterApply();
+        // }
     };
 
     const handlePriceChange = (e) => {
