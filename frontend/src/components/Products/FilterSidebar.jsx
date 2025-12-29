@@ -58,7 +58,7 @@ const FilterSidebar = ({
             max: maxPrice || ''
         });
     }, [searchParams]);
-    
+
     // Apply price filter
     const applyPriceFilter = () => {
         const params = new URLSearchParams(location.search);
@@ -80,13 +80,13 @@ const FilterSidebar = ({
         }
 
         setSearchParams(params);
-        
+
         // Close the sidebar on mobile when a filter is applied
         if (onFilterApply && window.innerWidth < 1024) {
             onFilterApply();
         }
     };
-    
+
     // Clear price filter
     const clearPriceFilter = () => {
         setPriceRange({ min: '', max: '' });
@@ -94,13 +94,13 @@ const FilterSidebar = ({
         params.delete('minPrice');
         params.delete('maxPrice');
         setSearchParams(params);
-        
+
         // Close the sidebar on mobile when a filter is applied
         if (onFilterApply && window.innerWidth < 1024) {
             onFilterApply();
         }
     };
-    
+
     const handlePriceKeyDown = (e) => {
         if (e.key === 'Enter') {
             applyPriceFilter();
@@ -109,9 +109,8 @@ const FilterSidebar = ({
     // Sample filter options
     const categories = ["Top Wear", "Bottom Wear"];
     const genders = ["All", "Men", "Women"];
-    const materials = ["Cotton", "Polyester", "Wool"];
     const brands = ["Nike", "Adidas", "Puma"];
-    
+
     // Color name to hex mapping
     const colorMap = {
         'almond': '#EFDECD',
@@ -246,15 +245,15 @@ const FilterSidebar = ({
         'yellow': '#FFFF00'
     };
 
-    // Get unique colors and sizes from the current products
+    // Get unique colors, sizes, and materials from the current products
     const colors = React.useMemo(() => {
         if (!products || products.length === 0) return [];
-        
+
         // Extract all colors from products
-        const allColors = products.flatMap(product => 
+        const allColors = products.flatMap(product =>
             product.colors ? product.colors : []
         );
-        
+
         // Remove duplicates and return
         return [...new Set(allColors)];
     }, [products]);
@@ -262,17 +261,30 @@ const FilterSidebar = ({
     // Get unique sizes from the current products
     const sizes = React.useMemo(() => {
         if (!products || products.length === 0) return [];
-        
+
         // Extract all sizes from products
-        const allSizes = products.flatMap(product => 
+        const allSizes = products.flatMap(product =>
             product.sizes ? product.sizes : []
         );
-        
+
         // Remove duplicates, sort, and return
         return [...new Set(allSizes)].sort((a, b) => {
             const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
             return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
         });
+    }, [products]);
+
+    // Get unique materials from the current products
+    const availableMaterials = React.useMemo(() => {
+        if (!products || products.length === 0) return [];
+
+        // Extract all materials from products
+        const allMaterials = products.flatMap(product =>
+            product.material ? [product.material] : []
+        );
+
+        // Remove duplicates and sort alphabetically
+        return [...new Set(allMaterials)].sort();
     }, [products]);
 
     // State for filters
@@ -319,6 +331,36 @@ const FilterSidebar = ({
                 params.set('category', value);
             }
             setSearchParams(params);
+        } else if (name === 'material') {
+            // Get current materials from URL or initialize empty array
+            const currentMaterials = searchParams.get('material')
+                ? searchParams.get('material').split(',')
+                : [];
+
+            let newMaterials;
+            if (currentMaterials.includes(value)) {
+                newMaterials = currentMaterials.filter(m => m !== value);
+            } else {
+                newMaterials = [...currentMaterials, value];
+            }
+
+            // Update URL parameters
+            if (newMaterials.length > 0) {
+                params.set('material', newMaterials.join(','));
+            } else {
+                params.delete('material');
+            }
+            setSearchParams(params);
+
+            // Update parent component's state
+            if (onFilterChange) {
+                onFilterChange({
+                    target: {
+                        name: 'material',
+                        value: newMaterials
+                    }
+                });
+            }
         } else if (name === 'size') {
             let newSizes = [...(filters.size || [])];
             if (newSizes.includes(value)) {
@@ -427,6 +469,32 @@ const FilterSidebar = ({
                 </div>
             </div>
 
+            {/* Material Filter */}
+            <div className={`mb-6 pb-4 ${themeClasses.section}`}>
+                <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Material</h4>
+                {availableMaterials.length > 0 ? (
+                    <div className="space-y-1">
+                        {availableMaterials.map(material => (
+                            <label key={material} className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    name="material"
+                                    value={material}
+                                    checked={(filters.material || []).includes(material)}
+                                    onChange={handleFilterChange || onFilterChange}
+                                    className={`mr-2 ${themeClasses.input}`}
+                                />
+                                <span>{material}</span>
+                            </label>
+                        ))}
+                    </div>
+                ) : (
+                    <p className={`text-sm ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>
+                        No materials available
+                    </p>
+                )}
+            </div>
+
             {/* Color Filter */}
             <div className={`mb-6 pb-4 ${themeClasses.section}`}>
                 <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Color</h4>
@@ -445,7 +513,7 @@ const FilterSidebar = ({
                                         className={`w-6 h-6 rounded-full mb-1 ${
                                             filters.color === color ? 'ring-2 ring-offset-1 ring-blue-500' : ''
                                         }`}
-                                        style={{ 
+                                        style={{
                                             backgroundColor: colorValue,
                                             // Add a border for light colors to make them visible on white background
                                             border: colorValue === '#FFFFFF' || colorValue === '#FFF' ? '1px solid #E5E7EB' : 'none'
