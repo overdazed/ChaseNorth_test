@@ -29,6 +29,9 @@ const CollectionPage = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [highestPrice, setHighestPrice] = useState(0);
 
+    const gender = searchParams.get('gender') || '';
+    const category = searchParams.get('category') || '';
+
     useEffect(() => {
         const minPrice = searchParams.get('minPrice');
         const maxPrice = searchParams.get('maxPrice');
@@ -400,10 +403,29 @@ const CollectionPage = () => {
                     </div>
                 </div>
 
-                <div className="flex-grow px-4 py-4 container mx-auto">
-                    <h2 className={`text-2xl uppercase mb-4 ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
-                        All Collection
-                    </h2>
+                <div className="flex-grow px-4 pt-0 pb-4 container mx-auto">  {/* Changed pt-2 to pt-0 to remove top padding */}
+                    {gender.toUpperCase() === 'MEN' ? (
+                        <h1 className={`text-4xl font-bold mb-4 -mt-20 uppercase ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>  {/* Added -mt-2 to pull the heading up */}
+                            Men
+                        </h1>
+                        <p>Llsdnfgdfng KJFNkusfdgj FKAJDJKdfkjgnkd</p>
+                    ) : gender.toUpperCase() === 'WOMEN' ? (
+                        <h1 className={`text-4xl font-bold mb-4 -mt-20 uppercase ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
+                            Women
+                        </h1>
+                    ) : category.toLowerCase().includes('top') ? (
+                        <h1 className={`text-4xl font-bold mb-4 -mt-20 uppercase ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
+                            Top Wear
+                        </h1>
+                    ) : category.toLowerCase().includes('bottom') ? (
+                        <h1 className={`text-4xl font-bold mb-4 -mt-20 uppercase ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
+                            Bottom Wear
+                        </h1>
+                    ) : (
+                        <h2 className={`text-2xl uppercase mb-4 -mt-20 ${isDay ? 'text-neutral-950' : 'text-neutral-50'}`}>
+                            All Collection
+                        </h2>
+                    )}
 
                     {/* Filter and Sort Controls */}
                     <div className="flex justify-between items-baseline mb-4">

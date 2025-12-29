@@ -117,10 +117,8 @@ const Wishlist = () => {
       }
 
       // Filter by size
-      const sizeFilter = Array.isArray(filters2.size) ? filters2.size : [];
-      if (sizeFilter.length > 0 && !sizeFilter.some(size =>
-          product.size && product.size.includes(size)
-      )) {
+      if (filters.size && filters.size.length > 0 &&
+          !filters.size.some(size => product.sizes?.includes(size))) {
         return false;
       }
 
