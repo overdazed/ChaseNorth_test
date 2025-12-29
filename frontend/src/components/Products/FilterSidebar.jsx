@@ -107,7 +107,7 @@ const FilterSidebar = ({
         }
     };
     // Sample filter options
-    const categories = ["Top Wear", "Bottom Wear"];
+    const categories = ['All', 'Top Wear', 'Bottom Wear'];
     const genders = ["All", "Men", "Women"];
     const brands = React.useMemo(() => {
         if (!products || products.length === 0) return [];
@@ -306,7 +306,7 @@ const FilterSidebar = ({
     const handleBrandChange = (brand) => {
         const params = new URLSearchParams(location.search);
         const currentBrands = params.getAll('brand');
-        
+
         if (currentBrands.includes(brand)) {
             // Remove brand if already selected
             const newBrands = currentBrands.filter(b => b !== brand);
@@ -316,9 +316,9 @@ const FilterSidebar = ({
             // Add brand if not selected
             params.append('brand', brand);
         }
-        
+
         setSearchParams(params);
-        
+
         // Close the sidebar on mobile when a filter is applied
         // if (onFilterApply && window.innerWidth < 1024) {
         //     onFilterApply();
@@ -490,11 +490,25 @@ const FilterSidebar = ({
                     {genders.map(gender => (
                         <label key={gender} className="flex items-center">
                             <input
-                                type="radio"
+                                type="checkbox"
                                 name="gender"
                                 value={gender}
-                                checked={filters.gender === gender}
-                                onChange={handleFilterChange || onFilterChange}
+                                checked={filters.gender?.includes(gender) || false}
+                                onChange={(e) => {
+                                    const newGenders = filters.gender || [];
+                                    const updatedGenders = e.target.checked
+                                        ? [...newGenders, gender]
+                                        : newGenders.filter(g => g !== gender);
+                                    
+                                    const event = {
+                                        target: {
+                                            name: 'gender',
+                                            value: updatedGenders,
+                                            type: 'checkbox'
+                                        }
+                                    };
+                                    (handleFilterChange || onFilterChange)(event);
+                                }}
                                 className={`mr-2 ${themeClasses.input}`}
                             />
                             <span>{gender}</span>
@@ -543,9 +557,9 @@ const FilterSidebar = ({
                                     onChange={() => handleBrandChange(brand)}
                                     className={`h-4 w-4 rounded ${themeClasses.input} focus:ring-0`}
                                 />
-                                <label 
-                                    htmlFor={`brand-${brand}`} 
-                                    className="ml-2 text-sm cursor-pointer"
+                                <label
+                                    htmlFor={`brand-${brand}`}
+                                    className="ml-2 cursor-pointer"
                                 >
                                     {brand}
                                 </label>
@@ -611,8 +625,8 @@ const FilterSidebar = ({
                                 onClick={handleFilterChange || onFilterChange}
                                 className={`flex items-center justify-center w-10 h-10 text-sm rounded-full transition-all ${
                                     (filters.size || []).includes(size)
-                                        ? 'bg-black text-white'
-                                        : `${isDay ? 'bg-white text-neutral-700 hover:bg-neutral-100' : 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700'} border ${isDay ? 'border-neutral-300' : 'border-neutral-600'}`
+                                        ? 'bg-black text-neutral-50'
+                                        : `${isDay ? 'bg-neutral-50 text-neutral-700 hover:bg-neutral-100' : 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700'} border ${isDay ? 'border-neutral-300' : 'border-neutral-600'}`
                                 }`}
                             >
                                 {size}
