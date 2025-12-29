@@ -307,7 +307,6 @@ const FilterSidebar = ({
     // });
 
     const handleBrandChange = (brand) => {
-        // Toggle brand selection
         const newSelectedBrands = selectedBrands.includes(brand)
             ? selectedBrands.filter(b => b !== brand)
             : [...selectedBrands, brand];
@@ -471,10 +470,7 @@ const FilterSidebar = ({
         const brandsParam = params.get('brand');
         const brandsFromUrl = brandsParam ? brandsParam.split(',').filter(Boolean) : [];
         setSelectedBrands(brandsFromUrl);
-
-        // Only run this effect when the component mounts or when the URL changes from an external source
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location.search, products]); // Add products to dependencies to handle initial load
+    }, [location.search]);
 
     return (
         <div className={`-mt-28 h-screen w-full p-4 shadow-sm overflow-y-auto dark:bg-neutral-900 ${themeClasses.container}`}>

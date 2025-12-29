@@ -377,6 +377,7 @@ const CollectionPage = () => {
                     <div ref={sidebarRef} className="relative h-full overflow-y-auto pt-[112px]">
                         <div className="relative z-40">
                             <FilterSidebar
+                                key={collection}
                                 highestPrice={highestPrice}
                                 currentCategory={collection}
                                 products={products}
@@ -384,6 +385,9 @@ const CollectionPage = () => {
                                 isDay={isDay}
                                 filters={filters}
                                 onFilterChange={(e) => {
+                                    // Skip brand changes as they're handled internally
+                                    if (e.target.name === 'brand') return;
+
                                     const { name, value, checked, type } = e.target;
 
                                     if (name === 'size') {
