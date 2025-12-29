@@ -179,17 +179,16 @@ const BugReport = () => {
                       <div className="space-y-1 text-center">
                         <svg
                             className="mx-auto h-8 w-8 text-neutral-500"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
+                            stroke="currentColor"
                             fill="none"
-                            viewBox="0 0 20 16"
+                            viewBox="0 0 48 48"
+                            aria-hidden="true"
                         >
                           <path
-                              stroke="currentColor"
+                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                              strokeWidth={4}
                               strokeLinecap="round"
                               strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                           />
                         </svg>
                         <div className="flex text-sm text-neutral-600 dark:text-neutral-400 justify-center">

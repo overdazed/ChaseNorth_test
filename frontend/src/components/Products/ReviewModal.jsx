@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { createReview } from '../../services/reviewService';
 import { toast } from 'react-toastify';
 import xMarkIcon from '../../assets/x-mark.svg';
@@ -362,10 +362,10 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
             onMouseDown={handleModalClick}
             style={{ cursor: 'default' }}
         >
-            <div className="relative w-full max-w-2xl rounded-lg bg-white shadow-lg dark:bg-gray-800 my-8 max-h-[calc(100vh-4rem)] flex flex-col">
-                <div className="flex-shrink-0 flex items-center justify-between rounded-t border-b border-gray-200 p-4 dark:border-gray-700 md:p-5">
+            <div className="relative w-full max-w-2xl rounded-lg bg-neutral-50 shadow-lg dark:bg-neutral-800 my-8 max-h-[calc(100vh-4rem)] flex flex-col">
+                <div className="flex-shrink-0 flex items-center justify-between rounded-t border-b border-neutral-200 p-4 dark:border-neutral-700 md:p-5">
                     <div>
-                        <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+                        <h3 className="mb-1 text-lg font-semibold text-neutral-900 dark:text-neutral-50">
                             Add a review for:
                         </h3>
                         <p className="font-medium text-primary-700 dark:text-neutral-50">{productName}</p>
@@ -373,7 +373,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                     <button
                         type="button"
                         onClick={onClose}
-                        className="group ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-500 hover:bg-gray-200 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-gray-200"
+                        className="group ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
                         aria-label="Close modal"
                     >
                         <img
@@ -418,17 +418,17 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                         {star <= (hover || formData.rating) ? (
                                             <span className="text-yellow-400">★</span>
                                         ) : (
-                                            <span className="text-gray-300 dark:text-gray-500">★</span>
+                                            <span className="text-neutral-300 dark:text-neutral-500">★</span>
                                         )}
                                     </button>
                                 ))}
-                                <span className="ms-2 text-lg font-bold text-gray-900 dark:text-white">
+                                <span className="ms-2 text-lg font-bold text-neutral-900 dark:text-neutral-50">
                                     {formData.rating} / 5
                                 </span>
                             </div>
                         </div>
                         <div className="col-span-2">
-                            <label htmlFor="title" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                            <label htmlFor="title" className="mb-2 block text-sm font-medium text-neutral-900 dark:text-neutral-50">
                                 Title
                             </label>
                             <input
@@ -437,13 +437,13 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                 id="title"
                                 value={formData.title}
                                 onChange={(e) => setFormData({...formData, title: e.target.value})}
-                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                                className="block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-sm text-neutral-900 focus:border-primary-600 focus:ring-primary-600 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50 dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                                 placeholder="e.g. I would buy that again!"
                                 required
                             />
                         </div>
                         <div className="col-span-2">
-                            <label htmlFor="description" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                            <label htmlFor="description" className="mb-2 block text-sm font-medium text-neutral-900 dark:text-neutral-50">
                                 Review
                             </label>
                             <textarea
@@ -452,12 +452,12 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                 rows="4"
                                 value={formData.description}
                                 onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                                className="block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-sm text-neutral-900 focus:border-primary-500 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50 dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                                 placeholder="Your review"
                                 required
                             />
                             {/* Report */}
-                            <p className="mt-4 text-xs text-gray-500 dark:text-gray-400">
+                            <p className="mt-4 text-xs text-neutral-500 dark:text-neutral-400">
                                 Problems with the product or delivery?{' '}
                                 <Link to="/report" className="text-primary-600 hover:underline dark:text-primary-500">
                                     Send a report
@@ -466,7 +466,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                             <div className="mt-4 grid grid-cols-3 gap-4">
                                 {/* Quality Rating */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 text-center">
+                                    <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1 text-center">
                                         Quality
                                     </label>
                                     <div className="flex justify-center">
@@ -482,7 +482,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                                 {star <= (hoverQuality || formData.qualityRating) ? (
                                                     <span className="text-yellow-400">★</span>
                                                 ) : (
-                                                    <span className="text-gray-300 dark:text-gray-500">★</span>
+                                                    <span className="text-neutral-300 dark:text-neutral-500">★</span>
                                                 )}
                                             </button>
                                         ))}
@@ -491,7 +491,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
 
                                 {/* Design Rating */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 text-center">
+                                    <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1 text-center">
                                         Design
                                     </label>
                                     <div className="flex justify-center">
@@ -507,7 +507,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                                 {star <= (hoverDesign || formData.designRating) ? (
                                                     <span className="text-yellow-400">★</span>
                                                 ) : (
-                                                    <span className="text-gray-300 dark:text-gray-500">★</span>
+                                                    <span className="text-neutral-300 dark:text-neutral-500">★</span>
                                                 )}
                                             </button>
                                         ))}
@@ -516,7 +516,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
 
                                 {/* Fit Rating */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 text-center">
+                                    <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1 text-center">
                                         Fit
                                     </label>
                                     <div className="flex justify-center">
@@ -532,7 +532,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                                 {star <= (hoverFit || formData.fitRating) ? (
                                                     <span className="text-yellow-400">★</span>
                                                 ) : (
-                                                    <span className="text-gray-300 dark:text-gray-500">★</span>
+                                                    <span className="text-neutral-300 dark:text-neutral-500">★</span>
                                                 )}
                                             </button>
                                         ))}
@@ -542,11 +542,11 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
 
                             {/*/!* Width Selector *!/*/}
                             {/*<div className="mt-6 flex items-center">*/}
-                            {/*    <label className="text-sm font-medium text-gray-700 dark:text-gray-300 w-20 -mt-5">*/}
+                            {/*    <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300 w-20 -mt-5">*/}
                             {/*        Width*/}
                             {/*    </label>*/}
                             {/*    <div className="flex-1 relative">*/}
-                            {/*        <div className="h-px bg-gray-200 absolute top-1.5 left-0 right-0"></div>*/}
+                            {/*        <div className="h-px bg-neutral-200 absolute top-1.5 left-0 right-0"></div>*/}
                             {/*        <div className="w-full grid grid-cols-5 relative z-10">*/}
                             {/*            {['too tight', 'slightly tight', 'perfect', 'slightly wide', 'too wide'].map((option, index) => (*/}
                             {/*                <div*/}
@@ -559,7 +559,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                             {/*                    }}*/}
                             {/*                >*/}
                             {/*                    <div*/}
-                            {/*                        className={`w-3 h-3 rounded-full border-2 mb-1 cursor-pointer transition-colors ${formData.width === option.toLowerCase().replace(' ', '-') ? 'bg-accent border-accent' : 'bg-white border-gray-300'}`}*/}
+                            {/*                        className={`w-3 h-3 rounded-full border-2 mb-1 cursor-pointer transition-colors ${formData.width === option.toLowerCase().replace(' ', '-') ? 'bg-accent border-accent' : 'bg-neutral-50 border-neutral-300'}`}*/}
                             {/*                        onClick={() => {*/}
                             {/*                            const widthValue = index + 1; // 1-5 based on position*/}
                             {/*                            setFormData(prev => ({*/}
@@ -569,7 +569,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                             {/*                            }));*/}
                             {/*                        }}*/}
                             {/*                    />*/}
-                            {/*                    <span className={`text-xs text-gray-500 whitespace-nowrap ${index === 0 ? 'pr-1' : index === 4 ? 'pl-1' : ''}`}>*/}
+                            {/*                    <span className={`text-xs text-neutral-500 neutral-50space-nowrap ${index === 0 ? 'pr-1' : index === 4 ? 'pl-1' : ''}`}>*/}
                             {/*                        {option}*/}
                             {/*                    </span>*/}
                             {/*                </div>*/}
@@ -580,11 +580,11 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
 
                             {/* Length Selector */}
                             {/*<div className="mt-6 flex items-center">*/}
-                            {/*    <label className="text-sm font-medium text-gray-700 dark:text-gray-300 w-20 -mt-5">*/}
+                            {/*    <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300 w-20 -mt-5">*/}
                             {/*        Length*/}
                             {/*    </label>*/}
                             {/*    <div className="flex-1 relative">*/}
-                            {/*        <div className="h-px bg-gray-200 absolute top-1.5 left-0 right-0"></div>*/}
+                            {/*        <div className="h-px bg-neutral-200 absolute top-1.5 left-0 right-0"></div>*/}
                             {/*        <div className="w-full grid grid-cols-5 relative z-10">*/}
                             {/*            {['too short', 'slightly short', 'perfect', 'slightly long', 'too long'].map((option, index) => (*/}
                             {/*                <div*/}
@@ -597,7 +597,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                             {/*                    }}*/}
                             {/*                >*/}
                             {/*                    <div*/}
-                            {/*                        className={`w-3 h-3 rounded-full border-2 mb-1 cursor-pointer transition-colors ${formData.length === option.toLowerCase().replace(' ', '-') ? 'bg-accent border-accent' : 'bg-white border-gray-300'}`}*/}
+                            {/*                        className={`w-3 h-3 rounded-full border-2 mb-1 cursor-pointer transition-colors ${formData.length === option.toLowerCase().replace(' ', '-') ? 'bg-accent border-accent' : 'bg-neutral-50 border-neutral-300'}`}*/}
                             {/*                        onClick={() => {*/}
                             {/*                            const lengthValue = index + 1; // 1-5 based on position*/}
                             {/*                            setFormData(prev => ({*/}
@@ -607,7 +607,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                             {/*                            }));*/}
                             {/*                        }}*/}
                             {/*                    />*/}
-                            {/*                    <span className={`text-xs text-gray-500 whitespace-nowrap ${index === 0 ? 'pr-1' : index === 4 ? 'pl-1' : ''}`}>*/}
+                            {/*                    <span className={`text-xs text-neutral-500 neutral-50space-nowrap ${index === 0 ? 'pr-1' : index === 4 ? 'pl-1' : ''}`}>*/}
                             {/*                        {option}*/}
                             {/*                    </span>*/}
                             {/*                </div>*/}
@@ -619,8 +619,8 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                             {/* Weight, Height and Size Fields */}
                             <div className="mt-6 grid grid-cols-3 gap-4">
                                 <div>
-                                    <label htmlFor="weight" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                        Your Weight (kg) <span className="text-gray-500 dark:text-gray-400">(Optional)</span>
+                                    <label htmlFor="weight" className="block mb-2 text-sm font-medium text-neutral-900 dark:text-neutral-50">
+                                        Your Weight (kg) <span className="text-neutral-500 dark:text-neutral-400">(Optional)</span>
                                     </label>
                                     <input
                                         type="number"
@@ -636,13 +636,13 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                                 weight: isNaN(value) ? '' : value
                                             }));
                                         }}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        className="bg-neutral-50 border border-neutral-300 text-neutral-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="e.g. 65.5"
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="height" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                        Your Height (cm) <span className="text-gray-500 dark:text-gray-400">(Optional)</span>
+                                    <label htmlFor="height" className="block mb-2 text-sm font-medium text-neutral-900 dark:text-neutral-50">
+                                        Your Height (cm) <span className="text-neutral-500 dark:text-neutral-400">(Optional)</span>
                                     </label>
                                     <input
                                         type="number"
@@ -658,13 +658,13 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                                 height: isNaN(value) ? '' : value
                                             }));
                                         }}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        className="bg-neutral-50 border border-neutral-300 text-neutral-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="e.g. 175"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                        Size Purchased <span className="text-gray-500 dark:text-gray-400">(Optional)</span>
+                                    <label className="block mb-2 text-sm font-medium text-neutral-900 dark:text-neutral-50">
+                                        Size Purchased <span className="text-neutral-500 dark:text-neutral-400">(Optional)</span>
                                     </label>
                                     <CustomSelect
                                         value={formData.size}
@@ -674,43 +674,60 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                             value: size,
                                             label: size
                                         }))}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        className="bg-neutral-50 border border-neutral-300 text-neutral-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-neutral-50 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     />
                                 </div>
                             </div>
                         </div>
 
                         <div className="col-span-2">
-                            <p className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                            <p className="mb-2 block text-sm font-medium text-neutral-900 dark:text-neutral-50">
                                 Add real photos of the product to help other customers{' '}
-                                <span className="text-gray-500 dark:text-gray-400">(Optional)</span>
+                                <span className="text-neutral-500 dark:text-neutral-400">(Optional)</span>
                             </p>
                             <div className="w-full">
                                 {formData.images.length === 0 ? (
                                     <label
                                         htmlFor="dropzone-file"
-                                        className="dark:hover:bg-bray-800 flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                        className="dark:hover:bg-bray-800 flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-neutral-300 bg-neutral-50 hover:bg-neutral-100 dark:border-neutral-600 dark:bg-neutral-700 dark:hover:border-neutral-500 dark:hover:bg-neutral-600"
                                     >
-                                        <div className="flex flex-col items-center justify-center px-5 pb-6 pt-5">
+
+                                        <div className="space-y-1 text-center">
                                             <svg
-                                                className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
-                                                aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="mx-auto h-8 w-8 text-neutral-500"
+                                                stroke="currentColor"
                                                 fill="none"
-                                                viewBox="0 0 20 16"
+                                                viewBox="0 0 48 48"
+                                                aria-hidden="true"
                                             >
                                                 <path
-                                                    stroke="currentColor"
+                                                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                    strokeWidth={4}
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                                                 />
                                             </svg>
-                                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                                <span className="font-semibold">Click to upload</span> or drag and drop
+                                            <div className="flex text-sm text-neutral-600 dark:text-neutral-400">
+                                                <label
+                                                    htmlFor="file-upload"
+                                                    className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none"
+                                                >
+                                                    <span className="text-red-800" >Upload files</span>
+                                                    <input
+                                                        id="file-upload"
+                                                        name="file-upload"
+                                                        type="file"
+                                                        className="sr-only"
+                                                        multiple
+                                                        onChange={handleFileChange}
+                                                        accept="image/*,.pdf"
+                                                    />
+                                                </label>
+                                                <p className="pl-1">or drag and drop</p>
+                                            </div>
+                                            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                                                SVG, PNG, JPG or GIF (MAX. 5MB)
                                             </p>
-                                            <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 5MB)</p>
                                             {isUploading && (
                                                 <div className="mt-2 text-sm text-blue-600">Uploading images...</div>
                                             )}
@@ -719,7 +736,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                 ) : (
                                     <div className="flex flex-wrap gap-4">
                                         {formData.images.map((image, index) => (
-                                            <div key={image.id || index} className="group relative h-24 w-24 overflow-visible rounded-lg border border-gray-200 dark:border-gray-600">
+                                            <div key={image.id || index} className="group relative h-24 w-24 overflow-visible rounded-lg border border-neutral-200 dark:border-neutral-600">
                                                 <img
                                                     src={image.preview || image.url}
                                                     alt={`Preview ${index}`}
@@ -733,7 +750,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                                 {/*        e.stopPropagation();*/}
                                                 {/*        await removeImage(index);*/}
                                                 {/*    }}*/}
-                                                {/*    className="absolute right-1 top-1 rounded-full bg-black/50 p-1 text-white hover:bg-black/70"*/}
+                                                {/*    className="absolute right-1 top-1 rounded-full bg-black/50 p-1 text-neutral-50 hover:bg-black/70"*/}
                                                 {/*    disabled={isUploading}*/}
                                                 {/*>*/}
                                                 {/*    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">*/}
@@ -743,12 +760,12 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
 
                                                 {image.status === 'uploading' && (
                                                     <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                                                        <div className="text-white text-xs">Uploading...</div>
+                                                        <div className="text-neutral-50 text-xs">Uploading...</div>
                                                     </div>
                                                 )}
                                                 {image.status === 'error' && (
                                                     <div className="absolute inset-0 bg-red-500 bg-opacity-50 flex items-center justify-center">
-                                                        <div className="text-white text-xs">Upload failed</div>
+                                                        <div className="text-neutral-50 text-xs">Upload failed</div>
                                                     </div>
                                                 )}
                                                 <button
@@ -757,7 +774,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                                         e.stopPropagation();
                                                         removeImage(index);
                                                     }}
-                                                    className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-white hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100 z-10"
+                                                    className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-neutral-50 hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100 z-10"
                                                     title="Remove image"
                                                 >
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -766,7 +783,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                                 </button>
 
                                                 {image.status === 'uploading' && (
-                                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-200">
+                                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-neutral-200">
                                                         <div
                                                             className="h-full bg-blue-500"
                                                             style={{ width: `${image.progress || 0}%` }}
@@ -778,10 +795,10 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                         {formData.images.length < 4 && (
                                             <label
                                                 htmlFor="dropzone-file"
-                                                className={`flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600 ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                                className={`flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-neutral-300 bg-neutral-50 hover:bg-neutral-100 dark:border-neutral-600 dark:bg-neutral-700 dark:hover:border-neutral-500 dark:hover:bg-neutral-600 ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
                                             >
                                                 <svg
-                                                    className="h-8 w-8 text-gray-500 dark:text-gray-400"
+                                                    className="h-8 w-8 text-neutral-500 dark:text-neutral-400"
                                                     aria-hidden="true"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     fill="none"
@@ -791,7 +808,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                                         stroke="currentColor"
                                                         strokeLinecap="round"
                                                         strokeLinejoin="round"
-                                                        strokeWidth="2"
+                                                        strokeWidth="4"
                                                         d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                                                     />
                                                 </svg>
@@ -819,10 +836,10 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                     type="checkbox"
                                     checked={agreed}
                                     onChange={(e) => setAgreed(e.target.checked)}
-                                    className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+                                    className="h-4 w-4 rounded border-neutral-300 bg-neutral-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-neutral-600 dark:bg-neutral-700 dark:ring-offset-neutral-800 dark:focus:ring-primary-600"
                                     required
                                 />
-                                <label htmlFor="review-checkbox" className="ms-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                <label htmlFor="review-checkbox" className="ms-2 text-sm font-medium text-neutral-500 dark:text-neutral-400">
                                     By publishing this review you agree with the{' '}
                                     <Link to="/terms-and-conditions" className="text-primary-600 hover:underline dark:text-primary-500">
                                         terms and conditions
@@ -832,11 +849,11 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-end space-x-3 border-t border-gray-200 pt-4 dark:border-gray-700">
+                    <div className="flex items-center justify-end space-x-3 border-t border-neutral-200 pt-4 dark:border-neutral-700">
                         <button
                             type="submit"
                             disabled={!agreed || isSubmitting}
-                            className="rounded-full bg-black px-5 py-2.5 text-center text-sm font-medium text-neutral-50 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 disabled:opacity-50 dark:bg-neutral-200 dark:text-black dark:hover:bg-gray-400 dark:focus:ring-gray-300"
+                            className="rounded-full bg-black px-5 py-2.5 text-center text-sm font-medium text-neutral-50 hover:bg-neutral-700 focus:outline-none focus:ring-4 focus:ring-neutral-300 disabled:opacity-50 dark:bg-neutral-200 dark:text-black dark:hover:bg-neutral-400 dark:focus:ring-neutral-300"
                         >
                             {isSubmitting ? 'Submitting...' : 'Add review'}
                         </button>
