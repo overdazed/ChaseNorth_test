@@ -464,12 +464,8 @@ const FilterSidebar = ({
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const brandsFromUrl = params.getAll('brand');
-
-        // Only update if the URL brands are different from our current state
-        if (JSON.stringify(brandsFromUrl) !== JSON.stringify(selectedBrands)) {
-            setSelectedBrands(brandsFromUrl);
-        }
-    }, [location.search, selectedBrands]);
+        setSelectedBrands(brandsFromUrl);
+    }, [location.search]);
 
     return (
         <div className={`-mt-28 h-screen w-full p-4 shadow-sm overflow-y-auto dark:bg-neutral-900 ${themeClasses.container}`}>
