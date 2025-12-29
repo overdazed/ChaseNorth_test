@@ -113,23 +113,23 @@ const OrderConfirmationPage = () => {
                             <h4 className="text-xs sm:text-lg font-semibold mb-2 text-neutral-900 dark:text-neutral-50">
                                 Payment
                             </h4>
-                            <p className="text-xs sm:text-mdr text-neutral-600 dark:text-neutral-300">PayPal</p>
+                            <p className="text-xs sm:text-base text-neutral-600 dark:text-neutral-300">PayPal</p>
                         </div>
 
                         <div>
                             <h4 className="text-xs sm:text-lg font-semibold mb-2 text-neutral-900 dark:text-neutral-50">
                                 Delivery
                             </h4>
-                            <p className="text-xs sm:text-md text-neutral-600 dark:text-neutral-300 line-clamp-1">
+                            <p className="text-xs sm:text-base text-neutral-600 dark:text-neutral-300 line-clamp-1">
                                 {checkout.shippingAddress.firstName} {checkout.shippingAddress.lastName}
                             </p>
-                            <p className="text-xs sm:text-md text-neutral-600 dark:text-neutral-300 line-clamp-1">
+                            <p className="text-xs sm:text-base text-neutral-600 dark:text-neutral-300 line-clamp-1">
                                 {checkout.shippingAddress.address}
                             </p>
-                            <p className="text-xs sm:text-md text-neutral-600 dark:text-neutral-300">
+                            <p className="text-xs sm:text-base text-neutral-600 dark:text-neutral-300">
                                 {checkout.shippingAddress.postalCode} {checkout.shippingAddress.city}
                             </p>
-                            <p className="text-xs sm:text-md text-neutral-600 dark:text-neutral-300">
+                            <p className="text-xs sm:text-base text-neutral-600 dark:text-neutral-300">
                                 {checkout.shippingAddress.country}
                             </p>
                         </div>
