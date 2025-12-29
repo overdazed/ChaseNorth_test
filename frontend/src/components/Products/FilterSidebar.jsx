@@ -305,30 +305,38 @@ const FilterSidebar = ({
 
     const handleBrandChange = (brand) => {
         const params = new URLSearchParams(location.search);
-        const currentBrands = params.getAll('brand');
-
+        const currentBrands = params.get('brand') ? params.get('brand').split(',') : [];
+        
+        // Toggle the brand in the URL
         if (currentBrands.includes(brand)) {
-            // Remove brand if already selected
-            const newBrands = currentBrands.filter(b => b !== brand);
-            params.delete('brand');
-            newBrands.forEach(b => params.append('brand', b));
+            const updatedBrands = currentBrands.filter(b => b !== brand);
+            if (updatedBrands.length > 0) {
+                params.set('brand', updatedBrands.join(','));
+            } else {
+                params.delete('brand');
+            }
         } else {
-            // Add brand if not selected
-            params.append('brand', brand);
+            params.set('brand', [...currentBrands, brand].join(','));
         }
 
         setSearchParams(params);
-
-        // Close the sidebar on mobile when a filter is applied
-        // if (onFilterApply && window.innerWidth < 1024) {
-        //     onFilterApply();
-        // }
+        
+        // Update the parent component's state if needed
+        if (onFilterChange) {
+            onFilterChange({
+                target: {
+                    name: 'brand',
+                    value: params.get('brand') ? params.get('brand').split(',') : []
+                }
+            });
+        }
     };
 
     // Check if a brand is currently selected
     const isBrandSelected = (brand) => {
         const params = new URLSearchParams(location.search);
-        return params.getAll('brand').includes(brand);
+        const selectedBrands = params.get('brand') ? params.get('brand').split(',') : [];
+        return selectedBrands.includes(brand);
     };
 
     const handleFilterChange = (e) => {
@@ -490,25 +498,11 @@ const FilterSidebar = ({
                     {genders.map(gender => (
                         <label key={gender} className="flex items-center">
                             <input
-                                type="checkbox"
+                                type="radio"
                                 name="gender"
                                 value={gender}
-                                checked={filters.gender?.includes(gender) || false}
-                                onChange={(e) => {
-                                    const newGenders = filters.gender || [];
-                                    const updatedGenders = e.target.checked
-                                        ? [...newGenders, gender]
-                                        : newGenders.filter(g => g !== gender);
-                                    
-                                    const event = {
-                                        target: {
-                                            name: 'gender',
-                                            value: updatedGenders,
-                                            type: 'checkbox'
-                                        }
-                                    };
-                                    (handleFilterChange || onFilterChange)(event);
-                                }}
+                                checked={filters.gender === gender}
+                                onChange={handleFilterChange || onFilterChange}
                                 className={`mr-2 ${themeClasses.input}`}
                             />
                             <span>{gender}</span>
