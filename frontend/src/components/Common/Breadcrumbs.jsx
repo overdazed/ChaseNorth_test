@@ -77,7 +77,7 @@ const Breadcrumbs = () => {
 
     return (
         <div className={`${isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'}`}>
-          <nav className="py-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+          <nav className="text-sm py-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full">
             <ol className="flex items-center space-x-1 md:space-x-2">
               <li>
                 <Link to="/" className={`${

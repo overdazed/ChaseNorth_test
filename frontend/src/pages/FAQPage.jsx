@@ -39,24 +39,72 @@ const FAQPage = () => {
       <div className="min-h-600px bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
         <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
           {/* Grid */}
-          <div className="grid md:grid-cols-5 gap-10">
-            <div className="md:col-span-2">
-              <div className="max-w-xs">
-                <h2 className="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Frequently<br />asked questions</h2>
-                <p className="mt-1 hidden md:block text-gray-600 dark:text-neutral-400">Answers to the most frequently asked questions.</p>
+          <div className="flex flex-col gap-10">
+            <div className="md:grid md:grid-cols-5 gap-10">
+              {/* Title and FAQ list */}
+              <div className="md:col-span-2">
+                <div className="max-w-xs">
+                  <h2 className="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">
+                    Frequently<br />asked questions
+                  </h2>
+                  <p className="mt-1 hidden md:block text-gray-600 dark:text-neutral-400">
+                    Answers to the most frequently asked questions.
+                  </p>
+                </div>
               </div>
-              <div className="mt-12 shadow-md bg-neutral-100 dark:bg-neutral-800 p-6 rounded-lg">
-                <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Still need help?</h2>
+
+              <div className="md:col-span-3">
+                {/* Accordion */}
+                <div className="divide-y divide-gray-200/50 dark:divide-neutral-700/50">
+                  {faqs.map((faq, index) => (
+                      <div key={index} className="py-6">
+                        <button
+                            onClick={() => toggleAccordion(index)}
+                            className="group inline-flex items-center justify-between gap-x-3 w-full md:text-lg font-semibold text-start text-gray-800 rounded-lg transition hover:text-gray-500 focus:outline-none dark:text-neutral-200 dark:hover:text-neutral-400"
+                        >
+                          {faq.question}
+                          <svg
+                              className={`shrink-0 size-5 text-gray-600 group-hover:text-gray-500 dark:text-neutral-400 transition-transform duration-200 ${
+                                  activeIndex === index ? 'rotate-180' : ''
+                              }`}
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                          >
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </button>
+                        <div
+                            className={`overflow-hidden transition-all duration-300 ${
+                                activeIndex === index ? 'max-h-96 mt-2' : 'max-h-0'
+                            }`}
+                        >
+                          <p className="text-gray-600 dark:text-neutral-400">
+                            {faq.answer}
+                          </p>
+                        </div>
+                      </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* "Still need help?" section - shown below on mobile, in sidebar on desktop */}
+            <div className="md:hidden w-full">
+              <div className="shadow-md bg-neutral-100 dark:bg-neutral-800 p-6 rounded-lg">
+                <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+                  Still need help?
+                </h2>
                 <p className="text-gray-600 dark:text-neutral-300 mb-4">
                   If you can't find the answer to your question, our customer support team is here to help.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button
-                      onClick={() => window.location.href = "#"}
-                      className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-gray-800 dark:hover:bg-neutral-900 transition-colors duration-200"
-                  >
-                    Start Chat
-                  </button>
                   <button
                       onClick={() => window.location.href = "mailto:support@chasenorth.com"}
                       className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-gray-800 dark:hover:bg-neutral-900 transition-colors duration-200"
@@ -67,40 +115,23 @@ const FAQPage = () => {
               </div>
             </div>
 
-            <div className="md:col-span-3">
-              {/* Accordion */}
-              <div className="divide-y divide-gray-200/50 dark:divide-neutral-700/50">
-                {faqs.map((faq, index) => (
-                    <div key={index} className="py-6">
-                      <button
-                          onClick={() => toggleAccordion(index)}
-                          className="group inline-flex items-center justify-between gap-x-3 w-full md:text-lg font-semibold text-start text-gray-800 rounded-lg transition hover:text-gray-500 focus:outline-none dark:text-neutral-200 dark:hover:text-neutral-400"
-                      >
-                        {faq.question}
-                        <svg
-                            className={`shrink-0 size-5 text-gray-600 group-hover:text-gray-500 dark:text-neutral-400 transition-transform duration-200 ${activeIndex === index ? 'rotate-180' : ''}`}
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                          <path d="m6 9 6 6 6-6"/>
-                        </svg>
-                      </button>
-                      <div
-                          className={`overflow-hidden transition-all duration-300 ${activeIndex === index ? 'max-h-96 mt-2' : 'max-h-0'}`}
-                      >
-                        <p className="text-gray-600 dark:text-neutral-400">
-                          {faq.answer}
-                        </p>
-                      </div>
-                    </div>
-                ))}
+            {/* Original "Still need help?" section - hidden on mobile, shown on desktop */}
+            <div className="hidden md:block md:col-span-2 md:row-start-1 md:row-span-2">
+              <div className="sticky top-24 mt-12 shadow-md bg-neutral-100 dark:bg-neutral-800 p-6 rounded-lg">
+                <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+                  Still need help?
+                </h2>
+                <p className="text-gray-600 dark:text-neutral-300 mb-4">
+                  If you can't find the answer to your question, our customer support team is here to help.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button
+                      onClick={() => window.location.href = "mailto:support@chasenorth.com"}
+                      className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-gray-800 dark:hover:bg-neutral-900 transition-colors duration-200"
+                  >
+                    Contact Us
+                  </button>
+                </div>
               </div>
             </div>
           </div>
