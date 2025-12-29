@@ -30,7 +30,7 @@ const NewFooter = () => {
                     className="flex justify-between items-center w-full text-left py-2"
                 >
                   <h3 className="uppercase text-neutral-400 text-sm">Customer Service</h3>
-                  <span className="text-white text-lg">
+                  <span className="text-neutral-400 text-lg">
                   {expandedSection === 'customerService' ? '−' : '+'}
                 </span>
                 </button>

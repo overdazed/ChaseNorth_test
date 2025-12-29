@@ -185,9 +185,16 @@ const ImageComponent = ({ card, className, style }) => {
             src={card.thumbnail}
             height="500"
             width="500"
-            className={cn("object-cover object-top absolute inset-0 h-full w-full transition duration-200", className)}
+            className={cn(
+                "object-cover absolute inset-0 h-full w-full transition duration-200",
+                className,
+                card.id === 4 ? "object-top md:object-center" : "object-center"
+            )}
             alt="thumbnail"
-            style={style}
+            style={{
+                ...style,
+                objectPosition: card.id === 4 ? "center 30%" : (card.objectPosition || "center")
+            }}
         />
     );
 };
