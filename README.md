@@ -21,3 +21,16 @@ I plan to add more features to the website:
 ## Functions
 cd frontend > npm run dev <br>
 cd backend > npm run dev
+
+______________________________________________________________________________________
+
+Project’s title: ChaseNorth E-Commerce Website
+
+Svetlana Pantschenko
+
+Github: overdazed
+edX: s-pantschenko
+
+Nienburg (Weser), Germany
+
+29.12.2025
