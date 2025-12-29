@@ -16,7 +16,7 @@ const FilterSidebar = ({
     const priceFilterRef = useRef(null);
 
     const [selectedBrands, setSelectedBrands] = useState([]);
-    const isInitialMount = useRef(true);
+    // const isInitialMount = useRef(true);
 
     // Theme classes
     const themeClasses = {
@@ -325,14 +325,14 @@ const FilterSidebar = ({
         setSearchParams(params, { replace: true });
 
         // Notify parent component if needed
-        if (onFilterChange) {
-            onFilterChange({
-                target: {
-                    name: 'brand',
-                    value: newSelectedBrands
-                }
-            });
-        }
+        // if (onFilterChange) {
+        //     onFilterChange({
+        //         target: {
+        //             name: 'brand',
+        //             value: newSelectedBrands
+        //         }
+        //     });
+        // }
     };
 
     // Check if a brand is currently selected
@@ -471,7 +471,10 @@ const FilterSidebar = ({
         const brandsParam = params.get('brand');
         const brandsFromUrl = brandsParam ? brandsParam.split(',').filter(Boolean) : [];
         setSelectedBrands(brandsFromUrl);
-    }, [location.search]); // Only run when URL changes
+
+        // Only run this effect when the component mounts or when the URL changes from an external source
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location.search, products]); // Add products to dependencies to handle initial load
 
     return (
         <div className={`-mt-28 h-screen w-full p-4 shadow-sm overflow-y-auto dark:bg-neutral-900 ${themeClasses.container}`}>
