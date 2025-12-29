@@ -372,14 +372,15 @@ const Wishlist = () => {
 
           {/* Filter and Sort Controls */}
           <div className="flex justify-between items-baseline mb-cd4">
-            <div className="flex items-center">
+            <div className="flex items-center gap-2">
               <button
                   onClick={toggleSidebar}
-                  className={`flex items-center h-[38px] border rounded-md px-3 text-sm focus:outline-none ${
+                  className={`flex items-center h-[38px] rounded-md px-3 text-sm ${
                       isDay
-                          ? 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
-                          : 'border-gray-700 text-neutral-950 bg-neutral-50 hover:bg-neutral-300'
-                  }`}>
+                          ? 'text-neutral-600 bg-neutral-50 hover:bg-neutral-50'
+                          : 'text-neutral-400 bg-neutral-900 hover:bg-neutral-800'
+                  }`}
+              >
                 <FaFilter size={14} className="mr-2" />
                 <span>Filters</span>
               </button>

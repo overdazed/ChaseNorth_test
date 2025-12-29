@@ -67,12 +67,16 @@ const UserLayout = () => {
         {/* Header */}
             <Header transparent={isHomePage}/>
         {/* Main Content */}
-                {!isHomePage &&
-                    !isRegisterPage &&
-                    !isLoginPage &&
-                    !location.pathname.startsWith('/reset-password') &&
-                    !location.pathname.startsWith('/forgot-password') &&
-                    <Breadcrumbs />}
+            {!isHomePage &&
+                !isRegisterPage &&
+                !isLoginPage &&
+                !location.pathname.startsWith('/reset-password') &&
+                !location.pathname.startsWith('/forgot-password') && (
+                    <div className="w-full text-sm mt-14 md:mt-16">
+                        <Breadcrumbs />
+                    </div>
+
+                )}
 
 
             <main className="flex-grow">
