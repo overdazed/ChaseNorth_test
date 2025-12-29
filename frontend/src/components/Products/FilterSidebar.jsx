@@ -473,15 +473,15 @@ const FilterSidebar = ({
             <div className={`mb-6 pb-4 ${themeClasses.section}`}>
                 <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Material</h4>
                 {availableMaterials.length > 0 ? (
-                    <div className="space-y-1">
+                    <div className="filter-options space-y-1">
                         {availableMaterials.map(material => (
                             <label key={material} className="flex items-center">
                                 <input
                                     type="checkbox"
                                     name="material"
                                     value={material}
-                                    checked={(filters.material || []).includes(material)}
-                                    onChange={handleFilterChange || onFilterChange}
+                                    checked={filters.material?.includes(material) || false}
+                                    onChange={handleFilterChange}
                                     className={`mr-2 ${themeClasses.input}`}
                                 />
                                 <span>{material}</span>

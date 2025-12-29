@@ -232,12 +232,20 @@ const CollectionPage = () => {
         // Only handle clicks if sidebar is open
         if (!isSidebarOpen) return;
 
-        // Check if the click is outside the sidebar and not on the filter button
+        // Check if the click is on the apply button
+        const isApplyButton = e.target.closest('button')?.textContent?.trim() === 'Apply';
+
+        // Check if the click is on a filter input, label, or inside the sidebar
+        const isFilterElement = e.target.closest('.filter-options, input, label, select, .price-range, .price-inputs');
+
+        // Don't close if clicking on filter elements or apply button
+        if (isFilterElement && !isApplyButton) {
+            return;
+        }
+
+        // Close the sidebar if clicking outside of it
         if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
-            const filterButton = e.target.closest('button');
-            if (!filterButton || !filterButton.contains(e.target)) {
-                setIsSidebarOpen(false);
-            }
+            setIsSidebarOpen(false);
         }
     };
 
@@ -377,7 +385,7 @@ const CollectionPage = () => {
                                 filters={filters}
                                 onFilterChange={(e) => {
                                     const { name, value, checked, type } = e.target;
-                                    
+
                                     if (name === 'size') {
                                         let newSizes = [...(filters.size || [])];
                                         if (newSizes.includes(value)) {
@@ -391,7 +399,7 @@ const CollectionPage = () => {
                                         const currentValues = filters[name] || [];
                                         const newValues = checked
                                             ? [...currentValues, value]
-                                            : current.filter(v => v !== value);
+                                            : currentValues.filter(v => v !== value);  // Fixed: changed 'current' to 'currentValues'
                                         dispatch(setFilters({ ...filters, [name]: newValues }));
                                     } else {
                                         // Handle other input types (radio, etc.)
