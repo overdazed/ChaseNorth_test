@@ -123,11 +123,11 @@ const OrderDetailsPage = () => {
                     {/* Order Info */}
                     <div className="flex flex-col sm:flex-row justify-between mb-8">
                         <div className="">
-                            <h3 className="text-lg md:text-xl font-semibold">
+                            <h3 className="text-md md:text-xl font-semibold">
                                 Order ID: #{orderDetails._id}
                             </h3>
-                            <p className="text-neutral-600">
-                                {new Date(orderDetails.createdAt).toLocaleDateString()}
+                            <p className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-md">
+                                Order date: {new Date(orderDetails.createdAt).toLocaleDateString()}
                             </p>
                         </div>
                         <div className="flex flex-col items-start sm:items-end mt-4 sm:mt-0">
@@ -292,17 +292,23 @@ const OrderDetailsPage = () => {
                     <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8 ${innerBgClass}`}>
                         {/* Payment Info*/}
                         <div>
-                            <h4 className="text-lg font-semibold mb-2">Payment Info</h4>
-                            <p>Payment Method: {orderDetails.paymentMethod}</p>
-                            <p>Status: {orderDetails.isPaid ? "Paid" : "Unpaid"}</p>
+                            <h4 className="text-md sm:text-lg font-semibold mb-2">Payment Info</h4>
+                            <p className="text-sm sm:text-md">Payment Method: {orderDetails.paymentMethod}</p>
+                            <p className="text-sm sm:text-md">Status: {orderDetails.isPaid ? "Paid" : "Unpaid"}</p>
                         </div>
 
                         <div>
                             <h4 className="text-lg font-semibold mb-2">Shipping Info</h4>
                             {/*<p>Shipping Method: {orderDetails.shippingMethod}</p>*/}
-                            <p>Shipping Method: Standard</p>
-                            <p>Address:{" "}
-                                {`${orderDetails.shippingAddress.city}, ${orderDetails.shippingAddress.country}`}
+                            <p className="text-sm sm:text-md">Shipping Method: Standard</p>
+                            <p className="text-sm sm:text-md">Address: <br />
+                                <p className="text-sm sm:text-md">
+                                    {`${orderDetails.shippingAddress.firstName} ${orderDetails.shippingAddress.lastName}`}
+                                    <br />
+                                    {orderDetails.shippingAddress.address}
+                                    <br />
+                                    {`${orderDetails.shippingAddress.city}, ${orderDetails.shippingAddress.country}`}
+                                </p>
                             </p>
                         </div>
                     </div>
