@@ -51,7 +51,7 @@ const products = [
     category: "Top Wear",
     brand: "Modern Fit",
     sizes: ["S", "M", "L", "XL"],
-    colors: ["Black", "Navy Blue", "Burgundy"],
+    colors: ["Black", "Navy", "Burgundy"],
     collections: "Formal Wear",
     material: "Cotton Blend",
     gender: "Men",
