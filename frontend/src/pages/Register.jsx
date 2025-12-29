@@ -178,26 +178,26 @@ const Register = () => {
                             </button>
                         </div>
                         {password && (
-                            <div className="mt-4 mb-6 p-4 bg-gray-50 rounded-lg dark:bg-neutral-800 text-xs">
-                                <p className="font-medium text-gray-700 dark:text-gray-300 mb-2">Password must contain:</p>
+                            <div className="mt-4 mb-6 p-4 bg-neutral-50 rounded-lg dark:bg-neutral-800 text-xs">
+                                <p className="font-medium text-neutral-700 dark:text-neutral-300 mb-2">Password must contain:</p>
                                 <ul className="space-y-2">
-                                    <li className={`flex items-center ${passwordErrors.minLength ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                                    <li className={`flex items-center ${passwordErrors.minLength ? 'text-green-600 dark:text-green-400' : 'text-neutral-500 dark:text-neutral-400'}`}>
                                         <span className="mr-2">{passwordErrors.minLength ? '✓' : '•'}</span>
                                         At least 12 characters
                                     </li>
-                                    <li className={`flex items-center ${passwordErrors.hasUppercase ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                                    <li className={`flex items-center ${passwordErrors.hasUppercase ? 'text-green-600 dark:text-green-400' : 'text-neutral-500 dark:text-neutral-400'}`}>
                                         <span className="mr-2">{passwordErrors.hasUppercase ? '✓' : '•'}</span>
                                         1 uppercase letter
                                     </li>
-                                    <li className={`flex items-center ${passwordErrors.hasLowercase ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                                    <li className={`flex items-center ${passwordErrors.hasLowercase ? 'text-green-600 dark:text-green-400' : 'text-neutral-500 dark:text-neutral-400'}`}>
                                         <span className="mr-2">{passwordErrors.hasLowercase ? '✓' : '•'}</span>
                                         1 lowercase letter
                                     </li>
-                                    <li className={`flex items-center ${passwordErrors.hasNumber ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                                    <li className={`flex items-center ${passwordErrors.hasNumber ? 'text-green-600 dark:text-green-400' : 'text-neutral-500 dark:text-neutral-400'}`}>
                                         <span className="mr-2">{passwordErrors.hasNumber ? '✓' : '•'}</span>
                                         1 number
                                     </li>
-                                    <li className={`flex items-center ${passwordErrors.hasSpecialChar ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                                    <li className={`flex items-center ${passwordErrors.hasSpecialChar ? 'text-green-600 dark:text-green-400' : 'text-neutral-500 dark:text-neutral-400'}`}>
                                         <span className="mr-2">{passwordErrors.hasSpecialChar ? '✓' : '•'}</span>
                                         1 special character
                                     </li>

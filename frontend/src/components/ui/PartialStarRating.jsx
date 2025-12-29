@@ -30,9 +30,9 @@ const PartialStarRating = ({ rating, size = 'md' }) => {
                 
                 return (
                     <div key={starIndex} className="relative inline-block">
-                        {/* Gray background star */}
+                        {/* neutral background star */}
                         <svg 
-                            className={`${sizeClass} text-gray-300 dark:text-gray-600`}
+                            className={`${sizeClass} text-neutral-300 dark:text-neutral-600`}
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 22 20"

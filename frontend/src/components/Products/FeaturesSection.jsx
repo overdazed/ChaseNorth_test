@@ -34,7 +34,7 @@ const FeaturesSection = () => {
                 <h4 className="tracking-tighter mb-2 uppercase dark:text-white">
                     Free International Shipping
                 </h4>
-                <p className="dark:text-gray-300 text-gray-600 text-sm tracking-tighter">
+                <p className="dark:text-neutral-300 text-neutral-600 text-sm tracking-tighter">
                     On all orders over $100.00
                 </p>
             </div>
@@ -47,7 +47,7 @@ const FeaturesSection = () => {
                 <h4 className="tracking-tighter mb-2 uppercase dark:text-white">
                     45 days return
                 </h4>
-                <p className="dark:text-gray-300 text-gray-600 text-sm tracking-tighter">
+                <p className="dark:text-neutral-300 text-neutral-600 text-sm tracking-tighter">
                     Money back guarantee
                 </p>
             </div>
@@ -60,7 +60,7 @@ const FeaturesSection = () => {
                 <h4 className="tracking-tighter mb-2 uppercase dark:text-white">
                     Secure checkout
                 </h4>
-                <p className="dark:text-gray-300 text-gray-600 text-sm tracking-tighter">
+                <p className="dark:text-neutral-300 text-neutral-600 text-sm tracking-tighter">
                     100% secured checkout process
                 </p>
             </div>

@@ -75,7 +75,7 @@ const OrderConfirmationPage = () => {
                         <div>
                             <h2 className="text-xl font-semibold">Order ID: {checkout._id}
                             </h2>
-                            <p className="text-gray-500">
+                            <p className="text-neutral-500">
                                 Order date: {new Date(checkout.createdAt).toLocaleDateString()}
                             </p>
                         </div>
@@ -97,11 +97,11 @@ const OrderConfirmationPage = () => {
                                 />
                                 <div>
                                     <h4 className="text-md font-semibold">{item.name}</h4>
-                                    <p className="text-gray-500 text-sm">{item.color} | {item.size}</p>
+                                    <p className="text-neutral-500 text-sm">{item.color} | {item.size}</p>
                                 </div>
                                 <div className="ml-auto text-right">
                                     <p className="text-md">${item.price}</p>
-                                    <p className="text-gray-500 text-sm">Qty: {item.quantity}</p>
+                                    <p className="text-neutral-500 text-sm">Qty: {item.quantity}</p>
                                 </div>
                             </div>
                         ))}
@@ -113,14 +113,14 @@ const OrderConfirmationPage = () => {
                             <h4 className="text-lg font-semibold mb-2">
                                 Payment
                             </h4>
-                            <p className="text-gray-600">PayPal</p>
+                            <p className="text-neutral-600">PayPal</p>
                         </div>
 
                         {/* Delivery Info */}
                         <div>
                             <h4 className="text-lg font-semibold mb-2">Delivery</h4>
-                            <p className="text-gray-600">{checkout.shippingAddress.address}</p>
-                            <p className="text-gray-600">{checkout.shippingAddress.city},{" "}{checkout.shippingAddress.country}</p>
+                            <p className="text-neutral-600">{checkout.shippingAddress.address}</p>
+                            <p className="text-neutral-600">{checkout.shippingAddress.city},{" "}{checkout.shippingAddress.country}</p>
                         </div>
                     </div>
                 </div>

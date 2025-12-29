@@ -36,11 +36,11 @@ const GenderCollectionSection = () => {
         
     const headingClass = isNightMode 
         ? "text-2xl font-bold text-white mb-3" 
-        : "text-2xl font-bold text-gray-900 mb-3";
+        : "text-2xl font-bold text-neutral-900 mb-3";
         
     const linkClass = isNightMode 
-        ? "text-white underline hover:text-gray-300" 
-        : "text-gray-950 underline hover:text-gray-700";
+        ? "text-white underline hover:text-neutral-300" 
+        : "text-neutral-950 underline hover:text-neutral-700";
     return (
         <section className={sectionClass}>
             <div className="container mx-auto flex flex-col md:flex-row gap-8">

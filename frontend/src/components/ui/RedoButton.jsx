@@ -8,8 +8,8 @@ const RedoButton = ({ onClick, disabled = false }) => {
       whileTap={!disabled ? { scale: 0.95 } : {}}
       className={`w-12 h-12 rounded-full flex items-center justify-center shadow-md transition-colors ${
         disabled 
-          ? 'bg-gray-300 cursor-not-allowed' 
-          : 'bg-gray-300 hover:bg-gray-300 cursor-pointer'
+          ? 'bg-neutral-300 cursor-not-allowed' 
+          : 'bg-neutral-300 hover:bg-neutral-300 cursor-pointer'
       }`}
       onClick={!disabled ? onClick : undefined}
       disabled={disabled}

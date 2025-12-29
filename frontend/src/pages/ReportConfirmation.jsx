@@ -18,10 +18,10 @@ const ReportConfirmation = () => {
               <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
                 <CheckCircleIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
               </div>
-              <h2 className="mt-3 text-2xl font-bold text-gray-900 dark:text-white">
+              <h2 className="mt-3 text-2xl font-bold text-neutral-900 dark:text-white">
                 Report received
               </h2>
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
                 Thank you for reporting this issue.
                 <br />
                 We've received your submission and our team is on it.
@@ -29,19 +29,19 @@ const ReportConfirmation = () => {
             </div>
 
             <div className="mt-8 border-t border-neutral-200 dark:border-neutral-800 pt-8">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">Reference Number: {referenceNumber}</h3>
-              {/*<p className="mt-1 text-sm text-gray-500 dark:text-gray-400">*/}
+              <h3 className="text-lg font-medium text-neutral-900 dark:text-white">Reference Number: {referenceNumber}</h3>
+              {/*<p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">*/}
               {/*  {referenceNumber}*/}
               {/*</p>*/}
-              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
                 A copy has been sent to {email} <br />
                 <p className="text-[0.6rem]">(If you don’t see it, please check your spam or junk folder.)</p>
               </p>
             </div>
 
             <div className="mt-6 border-t border-neutral-200 dark:border-neutral-800 pt-6">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">What happens next?</h3>
-              <ul className="mt-2 text-sm text-gray-500 dark:text-gray-400 space-y-2">
+              <h3 className="text-lg font-medium text-neutral-900 dark:text-white">What happens next?</h3>
+              <ul className="mt-2 text-sm text-neutral-500 dark:text-neutral-400 space-y-2">
                 <li className="flex items-start">
                   <span className="h-5 flex items-center sm:h-6">
                     <svg
@@ -121,7 +121,7 @@ const ReportConfirmation = () => {
           </div>
         </div>
 
-        <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+        <div className="mt-6 text-center text-sm text-neutral-500 dark:text-neutral-400">
           <p>
             Need immediate assistance?{' '}
             <a href="mailto:support@chasenorth.com" className="font-bold text-primary-600 hover:text-primary-500 dark:text-accent dark:hover:text-primary-300">

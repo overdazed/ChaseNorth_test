@@ -70,7 +70,7 @@ const AdminHomePage = () => {
             <div className="mt-6">
                 <h2 className="text-2xl font-bold mb-4">Recent Orders</h2>
                 <div className="overflow-x-auto shadow-md sm:rounded-lg">
-                    <table className="min-w-full text-left text-gray-500">
+                    <table className="min-w-full text-left text-neutral-500">
                         <thead className="bg-neutral-300 text-xs text-neutral-800 uppercase">
                             <tr>
                                 <th className="py-3 px-4">Order ID</th>
@@ -85,15 +85,15 @@ const AdminHomePage = () => {
                                 .filter(order => order && order.user)
                                 .map((order) => (
                                     <tr key={order._id} className="group border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-accent cursor-pointer">
-                                        <td className="p-4 font-medium text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">#{order._id}</td>
-                                        <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{order.user?.name || "Unknown User"}</td>
-                                        <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">${order.totalPrice.toFixed(2)}</td>
-                                        <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{order.status}</td>
+                                        <td className="p-4 font-medium text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">#{order._id}</td>
+                                        <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{order.user?.name || "Unknown User"}</td>
+                                        <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">${order.totalPrice.toFixed(2)}</td>
+                                        <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{order.status}</td>
                                     </tr>
                                 ))
                         ) : (
                             <tr>
-                                <td colSpan={4} className="p-4 text-center text-gray-500">
+                                <td colSpan={4} className="p-4 text-center text-neutral-500">
                                     No recent orders found.
                                 </td>
                             </tr>

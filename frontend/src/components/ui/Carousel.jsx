@@ -70,7 +70,7 @@ const Carousel = ({ children, itemsToShow = 3, autoPlay = true, interval = 5000 
 
       <button
         onClick={prevSlide}
-        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 z-10"
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 z-10"
         aria-label="Previous slide"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -80,7 +80,7 @@ const Carousel = ({ children, itemsToShow = 3, autoPlay = true, interval = 5000 
 
       <button
         onClick={nextSlide}
-        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 z-10"
+        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 z-10"
         aria-label="Next slide"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -96,7 +96,7 @@ const Carousel = ({ children, itemsToShow = 3, autoPlay = true, interval = 5000 
             className={`w-2 h-2 rounded-full transition-colors ${
               currentIndex >= i * itemsToShow && currentIndex < (i + 1) * itemsToShow 
                 ? 'bg-primary-500' 
-                : 'bg-gray-300 dark:bg-gray-600'
+                : 'bg-neutral-300 dark:bg-neutral-600'
             }`}
             aria-label={`Go to slide ${i + 1}`}
           />

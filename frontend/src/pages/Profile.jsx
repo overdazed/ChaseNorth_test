@@ -60,7 +60,7 @@ const Profile = () => {
                         <h1 className={`text-2xl md:text-3xl font-bold mb-4 ${textClass}`}>
                             {user?.name}
                         </h1>
-                        <p className="text-lg text-gray-600 mb-4">{user?.email}</p>
+                        <p className="text-lg text-neutral-600 mb-4">{user?.email}</p>
                         <button
                             onClick={handleLogout}
                             className="w-full bg-red-800 text-white py-3 px-4 rounded-full hover:bg-accent flex items-center justify-center gap-2">

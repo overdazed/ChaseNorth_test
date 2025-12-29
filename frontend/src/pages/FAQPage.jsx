@@ -45,20 +45,20 @@ const FAQPage = () => {
                 <h1 className="text-3xl font-bold md:text-4xl md:leading-tight dark:text-white">
                   Frequently<br />asked questions
                 </h1>
-                <p className="mt-1 hidden md:block text-gray-600 dark:text-neutral-400">
+                <p className="mt-1 hidden md:block text-neutral-600 dark:text-neutral-400">
                   Answers to the most frequently asked questions.
                 </p>
               </div>
               {/* Desktop "Still need help?" - Hidden on mobile */}
               <div className="hidden md:block mt-12 shadow-md bg-neutral-100 dark:bg-neutral-800 p-6 rounded-lg">
-                <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Still need help?</h2>
-                <p className="text-gray-600 dark:text-neutral-300 mb-4">
+                <h2 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">Still need help?</h2>
+                <p className="text-neutral-600 dark:text-neutral-300 mb-4">
                   If you can't find the answer to your question, our customer support team is here to help.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <button
                       onClick={() => (window.location.href = "mailto:support@chasenorth.com")}
-                      className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-gray-800 dark:hover:bg-neutral-900 transition-colors duration-200"
+                      className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-900 transition-colors duration-200"
                   >
                     Contact Us
                   </button>
@@ -68,16 +68,16 @@ const FAQPage = () => {
 
             <div className="md:col-span-3">
               {/* Accordion */}
-              <div className="divide-y divide-gray-200/50 dark:divide-neutral-700/50">
+              <div className="divide-y divide-neutral-200/50 dark:divide-neutral-700/50">
                 {faqs.map((faq, index) => (
                     <div key={index} className="py-6">
                       <button
                           onClick={() => toggleAccordion(index)}
-                          className="group inline-flex items-center justify-between gap-x-3 w-full md:text-lg font-semibold text-start text-gray-800 rounded-lg transition hover:text-gray-500 focus:outline-none dark:text-neutral-200 dark:hover:text-neutral-400"
+                          className="group inline-flex items-center justify-between gap-x-3 w-full md:text-lg font-semibold text-start text-neutral-800 rounded-lg transition hover:text-neutral-500 focus:outline-none dark:text-neutral-200 dark:hover:text-neutral-400"
                       >
                         {faq.question}
                         <svg
-                            className={`shrink-0 size-5 text-gray-600 group-hover:text-gray-500 dark:text-neutral-400 transition-transform duration-200 ${
+                            className={`shrink-0 size-5 text-neutral-600 group-hover:text-neutral-500 dark:text-neutral-400 transition-transform duration-200 ${
                                 activeIndex === index ? "rotate-180" : ""
                             }`}
                             xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +98,7 @@ const FAQPage = () => {
                               activeIndex === index ? "max-h-96 mt-2" : "max-h-0"
                           }`}
                       >
-                        <p className="text-gray-600 dark:text-neutral-400">{faq.answer}</p>
+                        <p className="text-neutral-600 dark:text-neutral-400">{faq.answer}</p>
                       </div>
                     </div>
                 ))}
@@ -108,14 +108,14 @@ const FAQPage = () => {
 
           {/* Mobile "Still need help?" - Only shows on mobile */}
           <div className="md:hidden mt-8 shadow-md bg-neutral-100 dark:bg-neutral-800 p-6 rounded-lg">
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Still need help?</h2>
-            <p className="text-gray-600 dark:text-neutral-300 mb-4">
+            <h2 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">Still need help?</h2>
+            <p className="text-neutral-600 dark:text-neutral-300 mb-4">
               If you can't find the answer to your question, our customer support team is here to help.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                   onClick={() => (window.location.href = "mailto:support@chasenorth.com")}
-                  className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-gray-800 dark:hover:bg-neutral-900 transition-colors duration-200"
+                  className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-900 transition-colors duration-200"
               >
                 Contact Us
               </button>

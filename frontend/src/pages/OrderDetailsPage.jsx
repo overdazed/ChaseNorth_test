@@ -126,7 +126,7 @@ const OrderDetailsPage = () => {
                             <h3 className="text-lg md:text-xl font-semibold">
                                 Order ID: #{orderDetails._id}
                             </h3>
-                            <p className="text-gray-600">
+                            <p className="text-neutral-600">
                                 {new Date(orderDetails.createdAt).toLocaleDateString()}
                             </p>
                         </div>

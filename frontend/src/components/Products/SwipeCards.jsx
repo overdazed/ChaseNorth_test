@@ -370,13 +370,13 @@ function SwipeCards() {
       <div className={`w-full py-16 ${!isDay ? 'bg-neutral-950' : 'bg-neutral-50'}`}>
         <div className="container mx-auto px-4">
           <h2 className={`text-3xl font-bold text-center mb-8 ${!isDay ? 'text-neutral-50' : ''}`}>No More Items</h2>
-          <p className="text-center text-gray-600 mb-6">
+          <p className="text-center text-neutral-600 mb-6">
             You've seen all available items.
           </p>
           <div className="flex justify-center">
             <button
               onClick={loadAvailableProducts}
-              className={`px-6 py-3 rounded-full font-medium transition-colors duration-200 ${!isDay ? 'bg-neutral-50 text-neutral-950 hover:bg-neutral-200' : 'bg-black text-white hover:bg-gray-800'}`}
+              className={`px-6 py-3 rounded-full font-medium transition-colors duration-200 ${!isDay ? 'bg-neutral-50 text-neutral-950 hover:bg-neutral-200' : 'bg-black text-white hover:bg-neutral-800'}`}
             >
               Swipe Again
             </button>
@@ -596,7 +596,7 @@ function SwipeCards() {
                             {card.price}
                           </span>
                         </div>
-                        <p className="text-gray-200 mt-1">{card.brand}</p>
+                        <p className="text-neutral-200 mt-1">{card.brand}</p>
                       </div>
                     </div>
                   </motion.div>
@@ -604,12 +604,12 @@ function SwipeCards() {
               </div>
             ) : (
               <div className="text-center">
-                <p className="text-gray-600 text-lg mb-6">
+                <p className="text-neutral-600 text-lg mb-6">
                   No more items to show
                 </p>
                 <button
                   onClick={resetCards}
-                  className="px-6 py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors"
+                  className="px-6 py-3 bg-black text-white rounded-lg font-medium hover:bg-neutral-800 transition-colors"
                 >
                   Reset Cards
                 </button>

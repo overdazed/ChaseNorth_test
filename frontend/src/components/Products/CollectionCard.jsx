@@ -11,9 +11,9 @@ const CollectionCard = ({
   const [hovered, setHovered] = useState(false);
   
   const cardClass = `relative flex-1 h-[700px] overflow-hidden group ${isNightMode ? 'bg-neutral-900' : 'bg-white'}`;
-  const contentClass = `absolute bottom-8 left-8 p-6 ${isNightMode ? 'bg-neutral-900/90 text-white' : 'bg-white/90 text-gray-900'}`;
+  const contentClass = `absolute bottom-8 left-8 p-6 ${isNightMode ? 'bg-neutral-900/90 text-white' : 'bg-white/90 text-neutral-900'}`;
   const titleClass = `text-2xl font-bold mb-3`;
-  const linkClass = `underline hover:opacity-80 transition-opacity ${isNightMode ? 'text-white' : 'text-gray-900'}`;
+  const linkClass = `underline hover:opacity-80 transition-opacity ${isNightMode ? 'text-white' : 'text-neutral-900'}`;
 
   return (
     <div 

@@ -475,7 +475,7 @@ const Wishlist = () => {
               </div>
           ) : (
               <div className="bg-white dark:bg-neutral-900 rounded-lg shadow p-6 text-center max-w-2xl mx-auto">
-                <p className="text-gray-600 dark:text-gray-300 mb-4">Your wishlist is currently empty.</p>
+                <p className="text-neutral-600 dark:text-neutral-300 mb-4">Your wishlist is currently empty.</p>
                 <Link
                     to="/collections/all"
                     className="bg-black text-white px-6 py-2.5 rounded-full hover:bg-neutral-800 transition-colors inline-block"

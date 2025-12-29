@@ -156,7 +156,7 @@ const MyOrdersPage = () => {
                         <tr>
                             <td
                                 colSpan={7}
-                                className="py-4 px-4 text-center text-gray-500"
+                                className="py-4 px-4 text-center text-neutral-500"
                             >
                                 You have no orders
                             </td>

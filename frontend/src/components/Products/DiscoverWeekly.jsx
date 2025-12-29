@@ -240,7 +240,7 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                       </span>
                         </div>
                         {weeklyProduct.brand && (
-                            <p className="text-gray-200 mt-1">{weeklyProduct.brand}</p>
+                            <p className="text-neutral-200 mt-1">{weeklyProduct.brand}</p>
                         )}
                       </div>
                     </Card>
