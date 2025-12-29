@@ -183,4 +183,53 @@ router.delete('/:reportId/notes/:noteId', protect, admin, async (req, res) => {
     }
 });
 
+// Add this route for updating a note
+router.put('/:reportId/notes/:noteId', protect, admin, async (req, res) => {
+    try {
+        const { reportId, noteId } = req.params;
+        const { content, isEdited } = req.body;
+
+        if (!content || typeof content !== 'string') {
+            return res.status(400).json({ message: 'Content is required' });
+        }
+
+        const report = await Report.findById(reportId);
+        if (!report) {
+            return res.status(404).json({ message: 'Report not found' });
+        }
+
+        const noteIndex = report.adminNotes.findIndex(
+            note => note._id.toString() === noteId
+        );
+
+        if (noteIndex === -1) {
+            return res.status(404).json({ message: 'Note not found' });
+        }
+
+        // Update the note
+        report.adminNotes[noteIndex].content = content;
+        if (isEdited) {
+            report.adminNotes[noteIndex].editedAt = new Date();
+        }
+
+        await report.save();
+
+        // Return the updated report with populated fields
+        const updatedReport = await Report.findById(reportId)
+            .populate({
+                path: 'orderId',
+                select: 'shippingAddress'
+            })
+            .lean();
+
+        res.json(updatedReport);
+    } catch (error) {
+        console.error('Error updating note:', error);
+        res.status(500).json({
+            message: 'Error updating note',
+            error: error.message
+        });
+    }
+});
+
 module.exports = router;

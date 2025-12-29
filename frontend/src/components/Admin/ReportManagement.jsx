@@ -14,6 +14,9 @@ const ReportManagement = () => {
     const [status, setStatus] = useState('Submitted');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const [editingNoteId, setEditingNoteId] = useState(null);
+    const [editingNoteContent, setEditingNoteContent] = useState('');
+
     const navigate = useNavigate();
     const { id } = useParams();
     const { user } = useSelector((state) => state.auth);
@@ -157,6 +160,49 @@ const ReportManagement = () => {
         );
     }
 
+    const handleEditNote = (note) => {
+        setEditingNoteId(note._id);
+        setEditingNoteContent(note.content);
+    };
+
+    const handleUpdateNote = async (reportId, noteId) => {
+        if (!editingNoteContent.trim()) {
+            toast.error('Note cannot be empty');
+            return;
+        }
+
+        try {
+            const { data: updatedReport } = await axios.put(
+                `${import.meta.env.VITE_BACKEND_URL}/api/admin/reports/${reportId}/notes/${noteId}`,
+                {
+                    content: editingNoteContent.trim(),
+                    isEdited: true
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('userToken')}`,
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true
+                }
+            );
+
+            const updatedReports = reports.map(r =>
+                r._id === reportId ? updatedReport : r
+            );
+
+            setReports(updatedReports);
+            setSelectedReport(updatedReport);
+            setEditingNoteId(null);
+            setEditingNoteContent('');
+
+            toast.success('Note updated successfully');
+        } catch (error) {
+            console.error('Error updating note:', error);
+            toast.error(error.response?.data?.message || 'Failed to update note');
+        }
+    };
+
     const handleDeleteNote = async (noteId) => {
         if (!selectedReport || !window.confirm('Are you sure you want to delete this note?')) {
             return;
@@ -292,7 +338,11 @@ const ReportManagement = () => {
                             <div className="mb-6">
                                 <h3 className="text-lg font-medium mb-2">Customer</h3>
                                 <div className="bg-gray-50 p-4 rounded-lg">
-                                    <p className="font-medium">{selectedReport.customerName || 'N/A'}</p>
+                                    <p className="font-medium">
+                                        {selectedReport.orderId?.shippingAddress?.name ||
+                                            selectedReport.customerName ||
+                                            'N/A'}
+                                    </p>
                                     <p className="text-gray-600">{selectedReport.email || ''}</p>
                                 </div>
                             </div>
@@ -351,35 +401,80 @@ const ReportManagement = () => {
                                     <div className="space-y-4">
                                         {selectedReport.adminNotes.map((note, index) => {
                                             const statusClass = getStatusClasses(note.status || 'Submitted');
+                                            const isEditing = editingNoteId === note._id;
+
                                             return (
-                                                <div
-                                                    key={index}
-                                                    className={`p-4 rounded-lg border ${statusClass} bg-opacity-20`}
-                                                >
+                                                <div key={note._id || index} className={`p-4 rounded-lg border ${statusClass} bg-opacity-20`}>
                                                     <div className="flex justify-between items-start mb-2">
                                                         <div>
                                                             <p className="font-medium">{note.adminName || 'Admin'}</p>
                                                             <div className="flex items-center gap-2 mt-1">
-                                    <span className="text-xs text-gray-500">
-                                        {new Date(note.timestamp).toLocaleString()}
-                                    </span>
+                                                                <span className="text-xs text-gray-500">
+                                                                    {new Date(note.timestamp).toLocaleString()}
+                                                                    {note.editedAt && ` (Edited: ${new Date(note.editedAt).toLocaleString()})`}
+                                                                </span>
                                                                 <span className={`text-xs px-2 py-0.5 rounded-full ${statusClass}`}>
-                                        {note.status || 'Submitted'}
-                                    </span>
+                                                                    {note.status || 'Submitted'}
+                                                                </span>
                                                             </div>
                                                         </div>
-                                                        <button
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                handleDeleteNote(note._id || index);
-                                                            }}
-                                                            className="text-gray-400 hover:text-red-500 transition-colors"
-                                                            title="Delete note"
-                                                        >
-                                                            <FaTimes />
-                                                        </button>
+                                                        <div className="flex gap-2">
+                                                            {!isEditing && (
+                                                                <button
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        handleEditNote(note);
+                                                                    }}
+                                                                    className="text-gray-500 hover:text-blue-500 transition-colors"
+                                                                    title="Edit note"
+                                                                >
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                                    </svg>
+                                                                </button>
+                                                            )}
+                                                            <button
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleDeleteNote(note._id || index);
+                                                                }}
+                                                                className="text-gray-500 hover:text-red-500 transition-colors"
+                                                                title="Delete note"
+                                                            >
+                                                                <FaTimes />
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                    <p className="whitespace-pre-line text-gray-800 mt-2">{note.content}</p>
+
+                                                    {isEditing ? (
+                                                        <div className="mt-2">
+                                                            <textarea
+                                                                value={editingNoteContent}
+                                                                onChange={(e) => setEditingNoteContent(e.target.value)}
+                                                                className="w-full p-2 border rounded text-sm"
+                                                                rows="3"
+                                                            />
+                                                            <div className="flex justify-end gap-2 mt-2">
+                                                                <button
+                                                                    onClick={() => {
+                                                                        setEditingNoteId(null);
+                                                                        setEditingNoteContent('');
+                                                                    }}
+                                                                    className="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded"
+                                                                >
+                                                                    Cancel
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => handleUpdateNote(selectedReport._id, note._id || index)}
+                                                                    className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+                                                                >
+                                                                    Save
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    ) : (
+                                                        <p className="whitespace-pre-line text-gray-800 mt-2">{note.content}</p>
+                                                    )}
                                                 </div>
                                             );
                                         })}

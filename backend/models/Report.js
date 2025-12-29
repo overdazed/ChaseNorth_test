@@ -33,7 +33,8 @@ const reportSchema = new mongoose.Schema({
         content: String,
         adminName: String,
         timestamp: { type: Date, default: Date.now },
-        status: { type: String, default: 'Submitted' }  // Add this line
+        status: { type: String, default: 'Submitted' },
+        editedAt: { type: Date }
     }],
     attachments: [{
         filename: String,
