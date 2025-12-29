@@ -208,9 +208,9 @@ const UserManagement = () => {
                                             e.stopPropagation();
                                             handleDeleteUser(user._id);
                                         }}
-                                        className="flex items-center justify-center bg-red-500 text-white px-1 py-2 rounded-full hover:bg-red-600 w-9 h-9 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                                        className="flex items-center justify-center bg-red-500 text-white px-1 py-2 rounded-full hover:bg-red-600 w-9 h-9 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200"
                                     >
-                                        <BiTrash className="text-xl"/>
+                                        <BiTrash className="text-xl" />
                                     </button>
                                 </div>
                             </td>

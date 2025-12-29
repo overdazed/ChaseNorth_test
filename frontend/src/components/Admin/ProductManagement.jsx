@@ -66,7 +66,7 @@ const ProductManagement = () => {
                                 <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{product.sku}</td>
                                 <td className="p-4">
                                     <div className="flex justify-center">
-                                        <div className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                        <div className="flex flex-wrap gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
                                             <button
                                                 onClick={(e) => {
                                                     e.stopPropagation();

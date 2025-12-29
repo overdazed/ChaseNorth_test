@@ -18,7 +18,7 @@ const AdminSidebar = () => {
     }
 
     return (
-        <div className="p-6 bg-neutral-950 h-full">
+        <div className="p-6 bg-neutral-950 h-full min-h-screen md:min-h-0">
             <div className="mb-6">
                 <Link to="/admin" className="text-2xl font-medium text-white">
                     ChaseNorth
