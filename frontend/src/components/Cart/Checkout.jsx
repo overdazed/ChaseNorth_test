@@ -732,7 +732,10 @@ const Checkout = () => {
                                 {/*)}*/}
                                 {/* Paypal payment button Component */}
                                 <PaypalButton
-                                    amount={cart.totalPrice}
+                                    amount={(
+                                        (discountApplied ? discountedPrice : cart.totalPrice) +
+                                        (discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 0 : shippingCost)
+                                    ).toFixed(2)}
                                     onSuccess={handlePaymentSuccess}
                                     onError={(err) => {
                                         setIsFormSubmitted(true);
@@ -743,7 +746,6 @@ const Checkout = () => {
                                     }}
                                     onClick={() => {
                                         setIsFormSubmitted(true);
-                                        return validateForm();
                                     }}
                                 />
                             </div>
