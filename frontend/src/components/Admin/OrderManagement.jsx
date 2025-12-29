@@ -62,8 +62,8 @@ const OrderManagement = () => {
             <h2 className="text-2xl font-bold mb-6">Order Management</h2>
 
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
-                <table className="min-w-full text-left text-gray-500">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-100">
+                <table className="min-w-full text-left text-neutral-500">
+                    <thead className="text-xs text-neutral-700 uppercase bg-neutral-100">
                         <tr>
                             <th scope="col" className="px-4 py-3">Order ID</th>
                             <th scope="col" className="px-4 py-3">Customer</th>
@@ -79,12 +79,12 @@ const OrderManagement = () => {
                                     key={order._id}
                                     className="border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-accent cursor-pointer"
                                 >
-                                    <td className="p-4 font-medium text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">
+                                    <td className="p-4 font-medium text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">
                                         #{order._id}
                                     </td>
-                                    <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{order.user?.name}</td>
-                                    <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">${order.totalPrice.toFixed(2)}</td>
-                                    <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">
+                                    <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{order.user?.name}</td>
+                                    <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">${order.totalPrice.toFixed(2)}</td>
+                                    <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">
                                         <select
                                             value={order.status}
                                             onChange={(e) =>
@@ -112,7 +112,7 @@ const OrderManagement = () => {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={5} className="p-4 text-center text-gray-500">
+                                <td colSpan={5} className="p-4 text-center text-neutral-500">
                                     No Orders found.
                                 </td>
                             </tr>

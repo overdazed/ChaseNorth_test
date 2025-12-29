@@ -52,13 +52,13 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, title, message })
             <div ref={modalRef} onClick={(e) => e.stopPropagation()}>
                 <ModalContent onClick={(e) => e.stopPropagation()}>
                 <ModalHeader>
-                    <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+                    <h3 className="mb-1 text-lg font-semibold text-neutral-900 dark:text-white">
                         {title || 'Delete Review?'}
                     </h3>
                     <button
                         type="button"
                         onClick={onClose}
-                        className="group ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-500 hover:bg-gray-200 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-gray-200"
+                        className="group ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
                         aria-label="Close modal"
                     >
                         <img
@@ -71,7 +71,7 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, title, message })
                     </button>
                 </ModalHeader>
                 <ModalBody>
-                    <p className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    <p className="mb-2 block text-sm font-medium text-neutral-900 dark:text-white">
                         {message || 'Are you sure you want to delete this review? This action cannot be undone.'}
                     </p>
                 </ModalBody>

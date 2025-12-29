@@ -36,17 +36,17 @@ const Newsletter = () => {
     };
 
     return (
-        // <footer className="border-t-[0.5px] border-gray-200 dark:border-neutral-800 py-12 bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
-        <footer className="border-t-[0.1px] border-gray-200 dark:border-neutral-900 py-12 bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
+        // <footer className="border-t-[0.5px] border-neutral-200 dark:border-neutral-800 py-12 bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
+        <footer className="border-t-[0.1px] border-neutral-200 dark:border-neutral-900 py-12 bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
             <div className="md:col-span-4 flex justify-center">
                 <div className="max-w-md mx-8 sm:mx-0">
-                    <h3 className="text-lg text-gray-800 dark:text-white mb-4">
+                    <h3 className="text-lg text-neutral-800 dark:text-white mb-4">
                         Get your compass and set a clear direction
                     </h3>
-                    <p className="text-gray-500 dark:text-gray-300 mb-4">
+                    <p className="text-neutral-500 dark:text-neutral-300 mb-4">
                         Carefully chosen releases, honest stories and things we truly stand behind.
                     </p>
-                    <p className="font-medium text-sm text-gray-600 dark:text-gray-300 mb-6">
+                    <p className="font-medium text-sm text-neutral-600 dark:text-neutral-300 mb-6">
                         And a small thank you when you arrive.
                     </p>
 
@@ -57,7 +57,7 @@ const Newsletter = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter your email"
                             className="p-3 w-full text-sm pl-5 border border-neutral-200 dark:border-neutral-800 rounded-full
-                            focus:outline-none focus:ring-0.5 focus:ring-gray-500 transition-all
+                            focus:outline-none focus:ring-0.5 focus:ring-neutral-500 transition-all
                             bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400"
                             required
                             pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
@@ -67,7 +67,7 @@ const Newsletter = () => {
                             type="submit"
                             disabled={isSubmitting}
                             className={`w-full bg-black text-white px-6 py-3 text-sm rounded-full
-                            hover:bg-gray-800 dark:hover:bg-neutral-900 mb-4 transition-colors duration-200
+                            hover:bg-neutral-800 dark:hover:bg-neutral-900 mb-4 transition-colors duration-200
                             ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                         >
                             {isSubmitting ? 'Subscribing...' : 'Subscribe'}
@@ -80,11 +80,11 @@ const Newsletter = () => {
                         )}
 
                         <div className="text-center">
-                            <p className="text-gray-500 dark:text-gray-400 text-xs">
+                            <p className="text-neutral-500 dark:text-neutral-400 text-xs">
                                 We respect your privacy.
                                 No third parties. Unsubscribe anytime.<br/>
                                 By signing up, you agree to our{' '}
-                                <Link to="/privacy-policy" className="text-gray-500 hover:underline dark:text-gray-400">
+                                <Link to="/privacy-policy" className="text-neutral-500 hover:underline dark:text-neutral-400">
                                     privacy policy
                                 </Link>
                                 .

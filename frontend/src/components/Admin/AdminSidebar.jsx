@@ -31,7 +31,7 @@ const AdminSidebar = () => {
                     end
                     className={({isActive}) => isActive
                         ? "bg-neutral-700 text-white py-3 px-4 rounded flex items-center space-x-2"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+                        : "text-neutral-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
                     }
                 >
                     <FaChartLine size={20}/>
@@ -42,7 +42,7 @@ const AdminSidebar = () => {
                     to="/admin/users"
                     className={({isActive}) => isActive
                         ? "bg-neutral-700 text-white py-3 px-4 rounded flex items-center space-x-2"
-                        : "text-gray-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+                        : "text-neutral-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
                     }
                 >
                     <FaUserGear size={20}/>
@@ -53,7 +53,7 @@ const AdminSidebar = () => {
                     to="/admin/products"
                     className={({isActive}) => isActive
                         ? "bg-neutral-700 text-white py-3 px-4 rounded flex items-center space-x-2"
-                        : "text-gray-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+                        : "text-neutral-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
                     }
                 >
                     <FaBoxOpen size={20}/>
@@ -64,7 +64,7 @@ const AdminSidebar = () => {
                     to="/admin/orders"
                     className={({isActive}) => isActive
                         ? "bg-neutral-700 text-white py-3 px-4 rounded flex items-center space-x-2"
-                        : "text-gray-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+                        : "text-neutral-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
                     }
                 >
                     <FaClipboardList size={20}/>
@@ -75,7 +75,7 @@ const AdminSidebar = () => {
                     to="/"
                     className={({isActive}) => isActive
                         ? "bg-neutral-700 text-white py-3 px-4 rounded flex items-center space-x-2"
-                        : "text-gray-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+                        : "text-neutral-300 hover:bg-neutral-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
                     }
                 >
                     <FaStore size={20}/>

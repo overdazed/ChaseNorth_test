@@ -33,15 +33,15 @@ const AdminLayout = () => {
 
     return (
         <div className={`min-h-screen flex flex-col md:flex-row relative transition-colors duration-200 ${
-            theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
+            theme === 'dark' ? 'bg-neutral-900 text-white' : 'bg-white text-neutral-900'
         }`}>
             {/* Mobile Toggle Button */}
             <div className={`flex md:hidden p-4 z-20 ${
-                theme === 'dark' ? 'bg-gray-800' : 'bg-white border-b'
+                theme === 'dark' ? 'bg-neutral-800' : 'bg-white border-b'
             }`}>
                 <button
                     onClick={toggleSidebar}
-                    className={`${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}
+                    className={`${theme === 'dark' ? 'text-white' : 'text-neutral-900'}`}
                 >
                     <FaBars size={24} />
                 </button>

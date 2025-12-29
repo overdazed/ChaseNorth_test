@@ -504,7 +504,7 @@ const Checkout = () => {
                         </div>
                     )}
                     <h3 className="text-lg mb-4">Contact Details</h3>
-                    <div className="mb-4"><label className="block text-gray-700">Email</label>
+                    <div className="mb-4"><label className="block text-neutral-700">Email</label>
                         <input
                             type="email"
                             // name="email"
@@ -518,7 +518,7 @@ const Checkout = () => {
                     <h3 className="text-lg mb-4">Delivery</h3>
                     <div className="mb-4 grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-gray-700">First Name</label>
+                            <label className="block text-neutral-700">First Name</label>
                             <input
                                 type="text"
                                 name="firstName"
@@ -537,7 +537,7 @@ const Checkout = () => {
                                 }}
                                 className={`w-full p-2 border rounded ${
                                     formErrors.firstName ? 'border-red-500' : ''
-                                } ${isFormSubmitted ? 'bg-gray-100' : ''}`}
+                                } ${isFormSubmitted ? 'bg-neutral-100' : ''}`}
                                 required
                                 pattern="[A-Za-z\s]+" // allows letters and spaces only
                                 title="Please enter a valid name"
@@ -548,7 +548,7 @@ const Checkout = () => {
                             )}
                         </div>
                         <div>
-                            <label className="block text-gray-700">Last Name</label>
+                            <label className="block text-neutral-700">Last Name</label>
                             <input
                                 type="text"
                                 name="lastName"
@@ -567,7 +567,7 @@ const Checkout = () => {
                                 }}
                                 className={`w-full p-2 border rounded ${
                                     formErrors.lastName ? 'border-red-500' : ''
-                                } ${isFormSubmitted ? 'bg-gray-100' : ''}`}
+                                } ${isFormSubmitted ? 'bg-neutral-100' : ''}`}
                                 required
                                 pattern="[A-Za-z\s]+" // allows letters and spaces only
                                 title="Please enter a valid last name"
@@ -579,7 +579,7 @@ const Checkout = () => {
                         </div>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-gray-700">Address</label>
+                        <label className="block text-neutral-700">Address</label>
                         <input
                             type="text"
                             name="address"
@@ -591,7 +591,7 @@ const Checkout = () => {
                                     address: capitalizeFirstLetter(e.target.value)
                                 })
                             }
-                            className={`w-full p-2 border rounded ${isFormSubmitted ? 'bg-gray-100' : ''}`}
+                            className={`w-full p-2 border rounded ${isFormSubmitted ? 'bg-neutral-100' : ''}`}
                             required
                             pattern="^[A-Za-zßüöäÜÖÄ.\s]+\s\d+.*$" // requires at least one digit anywhere in the string
                             title="Address must include a street name followed by a space and number"
@@ -600,7 +600,7 @@ const Checkout = () => {
                     </div>
                     <div className="mb-4 grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-gray-700">City</label>
+                            <label className="block text-neutral-700">City</label>
                             <input
                                 type="text"
                                 name="city"
@@ -612,7 +612,7 @@ const Checkout = () => {
                                         city: capitalizeFirstLetter(e.target.value)
                                     })
                                 }
-                                className={`w-full p-2 border rounded ${isFormSubmitted ? 'bg-gray-100' : ''}`}
+                                className={`w-full p-2 border rounded ${isFormSubmitted ? 'bg-neutral-100' : ''}`}
                                 required
                                 pattern="^[A-Za-z\s]+$" // only allows letters
                                 title="City name must contain only letters"
@@ -620,7 +620,7 @@ const Checkout = () => {
                             />
                         </div>
                         <div>
-                            <label className="block text-gray-700">Postal Code</label>
+                            <label className="block text-neutral-700">Postal Code</label>
                             <input
                                 type="text"
                                 name="postalCode"
@@ -632,7 +632,7 @@ const Checkout = () => {
                                         postalCode: e.target.value.trim()
                                     })
                                 }
-                                className={`w-full p-2 border rounded ${isFormSubmitted ? 'bg-gray-100' : ''}`}
+                                className={`w-full p-2 border rounded ${isFormSubmitted ? 'bg-neutral-100' : ''}`}
                                 required
                                 pattern="^[0-9A-Z]{3,7}$"
                                 maxLength="7"
@@ -643,7 +643,7 @@ const Checkout = () => {
                         </div>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-gray-700">Country</label>
+                        <label className="block text-neutral-700">Country</label>
                         <div className="relative">
                             <select
                                 name="country"
@@ -659,12 +659,12 @@ const Checkout = () => {
                                 onMouseDown={() => !isFormSubmitted && setIsDropdownOpen(!isDropdownOpen)}
                                 onBlur={() => setIsDropdownOpen(false)}
                                 className={`w-full p-2 pr-8 border rounded appearance-none ${
-                                    isFormSubmitted ? 'bg-gray-100' : 'bg-white'
+                                    isFormSubmitted ? 'bg-neutral-100' : 'bg-white'
                                 }`}
                                 required
                                 disabled={isFormSubmitted}
                             >
-                                {/*<option value="" placeholder="Select a country..." className="text-gray-400"></option>*/}
+                                {/*<option value="" placeholder="Select a country..." className="text-neutral-400"></option>*/}
                                 {/*<option value="" disabled hidden>Select a country...</option>*/}
                                 <option value="" disabled hidden></option>
                                 {countries.map((country) => (
@@ -678,15 +678,15 @@ const Checkout = () => {
                                 isFormSubmitted ? 'pointer-events-none' : 'pointer-events-auto'
                             }`}>
                                 {isDropdownOpen ? (
-                                    <FaCaretRight className="text-gray-400" />
+                                    <FaCaretRight className="text-neutral-400" />
                                 ) : (
-                                    <FaCaretDown className="text-gray-400" />
+                                    <FaCaretDown className="text-neutral-400" />
                                 )}
                             </div>
                         </div>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-gray-700">Phone</label>
+                        <label className="block text-neutral-700">Phone</label>
                         <input
                             type="text"
                             name="phone"
@@ -694,7 +694,7 @@ const Checkout = () => {
                             onChange={handlePhoneChange}
                             className={`w-full p-2 border rounded ${
                                 formErrors.phone ? 'border-red-500' : ''
-                            } ${isFormSubmitted ? 'bg-gray-100' : ''}`}
+                            } ${isFormSubmitted ? 'bg-neutral-100' : ''}`}
                             required
                             pattern="^\+?[0-9\s\-()]*$"
                             title="Enter a valid phone number"
@@ -753,7 +753,7 @@ const Checkout = () => {
             </div>
 
             {/* Right Section: Summary of our Order */}
-            <div className="bg-gray-50 p-6 rounded-lg ">
+            <div className="bg-neutral-50 p-6 rounded-lg ">
                 <h3 className="text-lg mb-4">Order Summary</h3>
                 <div className="border-t py-4 ">
                     {cart.products.map((product, index) => (
@@ -769,12 +769,12 @@ const Checkout = () => {
                                 />
                                 <div>
                                     <h3 className="text-md">{product.name}</h3>
-                                    <p className="text-sm text-gray-500">Size: {product.size}</p>
-                                    <p className="text-sm text-gray-500">Color: {product.color}</p>
+                                    <p className="text-sm text-neutral-500">Size: {product.size}</p>
+                                    <p className="text-sm text-neutral-500">Color: {product.color}</p>
                                     <div className="mt-2">
-                                        <div className={`flex items-center border-[0.5px] border-gray-300 w-32 rounded-md overflow-hidden`}>
+                                        <div className={`flex items-center border-[0.5px] border-neutral-300 w-32 rounded-md overflow-hidden`}>
                                             <button
-                                                className={`w-10 h-10 flex items-center justify-center border-r border-gray-300 hover:bg-neutral-200`}
+                                                className={`w-10 h-10 flex items-center justify-center border-r border-neutral-300 hover:bg-neutral-200`}
                                                 onClick={() =>
                                                     handleUpdateQuantity(
                                                         product.productId,
@@ -791,7 +791,7 @@ const Checkout = () => {
                                                 {product.quantity}
                                             </div>
                                             <button
-                                                className={`w-10 h-10 flex items-center justify-center border-l border-gray-300 hover:bg-neutral-200`}
+                                                className={`w-10 h-10 flex items-center justify-center border-l border-neutral-300 hover:bg-neutral-200`}
                                                 onClick={() =>
                                                     handleUpdateQuantity(
                                                         product.productId,
@@ -847,7 +847,7 @@ const Checkout = () => {
                             disabled={isFormSubmitted}
                         />
                         <button
-                            className="bg-black text-white px-4 py-2 rounded-r hover:bg-gray-800 transition-colors"
+                            className="bg-black text-white px-4 py-2 rounded-r hover:bg-neutral-800 transition-colors"
                             onClick={handleApplyDiscount}
                             disabled={isFormSubmitted || !discountCode.trim() || isDiscountBeingApplied}
                         >
@@ -871,7 +871,7 @@ const Checkout = () => {
                     <p>
                         {discountApplied && discountCode.trim().toUpperCase() !== import.meta.env.VITE_DISCOUNT_CODE4 ? (
                             <span>
-                                <span className="line-through text-gray-400 mr-2">
+                                <span className="line-through text-neutral-400 mr-2">
                                     ${cart.totalPrice?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                 </span>
                                 <span>${discountedPrice?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>

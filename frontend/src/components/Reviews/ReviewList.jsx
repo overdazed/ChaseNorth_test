@@ -322,7 +322,7 @@ const ReviewList = ({ productId, productName, refreshKey, currentUser, onReviewA
 
   if (reviews.length === 0) {
     return (
-        <div className="text-center py-8 text-gray-500">
+        <div className="text-center py-8 text-neutral-500">
           No reviews yet. Be the first to review this product!
         </div>
     );
@@ -332,7 +332,7 @@ const ReviewList = ({ productId, productName, refreshKey, currentUser, onReviewA
     <>
       <div className="space-y-6">
         {reviews.map((review) => (
-          <div key={review._id} className="border-b border-gray-200 pb-6 last:border-0">
+          <div key={review._id} className="border-b border-neutral-200 pb-6 last:border-0">
             <div className="flex justify-between items-start">
               <div className="flex-1">
                 <div className="flex items-center mb-1">
@@ -349,7 +349,7 @@ const ReviewList = ({ productId, productName, refreshKey, currentUser, onReviewA
                   {Array.from({ length: 5 }).map((_, i) => (
                     <span
                       key={`${review._id}-star-${i}`}
-                      className={`text-lg ${i < Math.round(review.rating) ? 'text-yellow-400' : 'text-gray-300'}`}
+                      className={`text-lg ${i < Math.round(review.rating) ? 'text-yellow-400' : 'text-neutral-300'}`}
                       aria-label={`${i + 1} out of 5 stars`}
                     >
                       ★
@@ -375,19 +375,19 @@ const ReviewList = ({ productId, productName, refreshKey, currentUser, onReviewA
                   <div className="flex flex-wrap gap-4 text-sm text-neutral-600 dark:text-neutral-500 mb-2">
                     <div className="flex items-center">
                       <span className="font-medium">Weight:</span>
-                      <span className={`ml-1 ${review.weight === null || review.weight === undefined ? 'text-gray-400 italic' : ''}`}>
+                      <span className={`ml-1 ${review.weight === null || review.weight === undefined ? 'text-neutral-400 italic' : ''}`}>
                         {review.weight !== null && review.weight !== undefined ? `${review.weight} kg` : 'Not specified'}
                       </span>
                     </div>
                     <div className="flex items-center">
                       <span className="font-medium">Height:</span>
-                      <span className={`ml-1 ${review.height === null || review.height === undefined ? 'text-gray-400 italic' : ''}`}>
+                      <span className={`ml-1 ${review.height === null || review.height === undefined ? 'text-neutral-400 italic' : ''}`}>
                         {review.height !== null && review.height !== undefined ? `${review.height} cm` : 'Not specified'}
                       </span>
                     </div>
                     <div className="flex items-center">
                       <span className="font-medium">Size:</span>
-                      <span className={`ml-1 ${!review.size ? 'text-gray-400 italic' : ''}`}>
+                      <span className={`ml-1 ${!review.size ? 'text-neutral-400 italic' : ''}`}>
                         {review.size || 'Not specified'}
                       </span>
                     </div>
@@ -493,7 +493,7 @@ const ReviewList = ({ productId, productName, refreshKey, currentUser, onReviewA
                         e.stopPropagation();
                         handleEditReview(review);
                       }}
-                      className="text-gray-500 hover:text-blue-600 transition-colors p-1"
+                      className="text-neutral-500 hover:text-blue-600 transition-colors p-1"
                       title="Edit review"
                     >
                       <FaEdit className="w-4 h-4" />
@@ -503,7 +503,7 @@ const ReviewList = ({ productId, productName, refreshKey, currentUser, onReviewA
                         e.stopPropagation();
                         handleDeleteReview(review);
                       }}
-                      className="text-gray-500 hover:text-red-600 transition-colors p-1"
+                      className="text-neutral-500 hover:text-red-600 transition-colors p-1"
                       title="Delete review"
                     >
                       <FaTrash className="w-4 h-4" />

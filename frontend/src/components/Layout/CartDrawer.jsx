@@ -86,17 +86,17 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
                     <AnimatedHamburgerButton
                         active={drawerOpen}
                         onClick={handleClose}
-                        className={isDark ? 'text-gray-300' : 'text-gray-600'}
+                        className={isDark ? 'text-neutral-300' : 'text-neutral-600'}
                     />
                 </div>
 
                 {/* Cart content */}
                 <div className="flex-grow p-4 overflow-y-auto">
-                    <h2 className={`text-2xl uppercase mb-8 ${isDark ? 'text-neutral-50' : 'text-gray-900'}`}>Your Cart</h2>
+                    <h2 className={`text-2xl uppercase mb-8 ${isDark ? 'text-neutral-50' : 'text-neutral-900'}`}>Your Cart</h2>
                     {cart?.products?.length > 0 ? (
                         <CartContents cart={cart} userId={userId} guestId={guestId} />
                     ) : (
-                        <p className={isDark ? 'text-gray-300' : 'text-gray-700'}>Your cart is empty.</p>
+                        <p className={isDark ? 'text-neutral-300' : 'text-neutral-700'}>Your cart is empty.</p>
                     )}
                 </div>
 
@@ -106,11 +106,11 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
                         <>
                             <button
                                 onClick={handleCheckout}
-                                className="text-md w-full bg-black text-neutral-50 py-3 rounded-full font-normal hover:bg-gray-800 transition"
+                                className="text-md w-full bg-black text-neutral-50 py-3 rounded-full font-normal hover:bg-neutral-800 transition"
                             >
                                 Checkout
                             </button>
-                            <p className={`text-xs tracking-tighter mt-3 text-center ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                            <p className={`text-xs tracking-tighter mt-3 text-center ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>
                                 Shipping, taxes and discounts calculated at checkout.
                             </p>
                         </>

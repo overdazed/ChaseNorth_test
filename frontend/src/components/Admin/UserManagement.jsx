@@ -71,15 +71,15 @@ const UserManagement = () => {
         <div className="w-full">
             <h2 className="text-2xl font-bold mb-6">User Management</h2>
 
-            {loading && <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>Loading...</p>}
+            {loading && <p className={theme === 'dark' ? 'text-neutral-300' : 'text-neutral-700'}>Loading...</p>}
             {error && <p className="text-red-500">{error}</p>}
 
             <div className={cardClasses}>
-                <h3 className={`text-lg font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`text-lg font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-neutral-900'}`}>
                     Add New User
                 </h3>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+                    <div className={`${theme === 'dark' ? 'text-neutral-300' : 'text-neutral-700'}`}>
                         <label className={`block mb-1`}>
                             Name
                         </label>
@@ -167,12 +167,12 @@ const UserManagement = () => {
                             className="group border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-accent cursor-pointer"
                         >
                             <td className={`px-4 py-4 whitespace-nowrap ${
-                                theme === 'dark' ? 'text-gray-300' : 'text-gray-900'
+                                theme === 'dark' ? 'text-neutral-300' : 'text-neutral-900'
                             }`}>
                                 {user.name}
                             </td>
                             <td className={`px-4 py-4 whitespace-nowrap ${
-                                theme === 'dark' ? 'text-gray-300' : 'text-gray-900'
+                                theme === 'dark' ? 'text-neutral-300' : 'text-neutral-900'
                             }`}>
                                 {user.email}
                             </td>
@@ -189,13 +189,13 @@ const UserManagement = () => {
                                 >
                                     <option
                                         value="customer"
-                                        className={theme === 'dark' ? 'bg-neutral-900 text-neutral-100' : 'bg-white text-gray-900'}
+                                        className={theme === 'dark' ? 'bg-neutral-900 text-neutral-100' : 'bg-white text-neutral-900'}
                                     >
                                         Customer
                                     </option>
                                     <option
                                         value="admin"
-                                        className={theme === 'dark' ? 'bg-neutral-900 text-white' : 'bg-white text-gray-900 font-semibold'}
+                                        className={theme === 'dark' ? 'bg-neutral-900 text-white' : 'bg-white text-neutral-900 font-semibold'}
                                     >
                                         Admin
                                     </option>

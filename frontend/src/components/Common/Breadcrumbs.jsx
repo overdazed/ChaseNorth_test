@@ -82,23 +82,23 @@ const Breadcrumbs = () => {
               <li>
                 <Link to="/" className={`${
                     isDarkMode
-                        ? 'text-gray-400 hover:text-gray-200'
-                        : 'text-gray-500 hover:text-gray-700'
+                        ? 'text-neutral-400 hover:text-neutral-200'
+                        : 'text-neutral-500 hover:text-neutral-700'
                 } transition-colors`}>
                   Home
                 </Link>
               </li>
               <li className="flex items-center">
                 <ChevronRight className={`h-4 w-4 mx-1 ${
-                    isDarkMode ? 'text-gray-600' : 'text-gray-400'
+                    isDarkMode ? 'text-neutral-600' : 'text-neutral-400'
                 }`} />
                 <Link
                     to="/collections/all"
                     className={`${location.pathname === '/collections/all' && !gender && !category
-                        ? isDarkMode ? 'text-gray-200' : 'text-gray-700 font-medium'
+                        ? isDarkMode ? 'text-neutral-200' : 'text-neutral-700 font-medium'
                         : isDarkMode
-                            ? 'text-gray-400 hover:text-gray-200'
-                            : 'text-gray-500 hover:text-gray-700'
+                            ? 'text-neutral-400 hover:text-neutral-200'
+                            : 'text-neutral-500 hover:text-neutral-700'
                     } transition-colors`}
                 >
                   Collections
@@ -107,10 +107,10 @@ const Breadcrumbs = () => {
               {showLastPart && (
                   <li className="flex items-center">
                     <ChevronRight className={`h-4 w-4 mx-1 ${
-                        isDarkMode ? 'text-gray-600' : 'text-gray-400'
+                        isDarkMode ? 'text-neutral-600' : 'text-neutral-400'
                     }`} />
                     <span className={`font-medium ${
-                        isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                        isDarkMode ? 'text-neutral-200' : 'text-neutral-700'
                     }`}>
                     {displayNames[category_path] || category_path.split('-').map(word =>
                         word.charAt(0).toUpperCase() + word.slice(1)
@@ -134,8 +134,8 @@ const Breadcrumbs = () => {
             <li>
               <Link to="/" className={`${
                   isDarkMode
-                      ? 'text-gray-400 hover:text-gray-200'
-                      : 'text-gray-500 hover:text-gray-700'
+                      ? 'text-neutral-400 hover:text-neutral-200'
+                      : 'text-neutral-500 hover:text-neutral-700'
               } transition-colors`}>
                 Home
               </Link>
@@ -160,11 +160,11 @@ const Breadcrumbs = () => {
               return (
                   <li key={`${name}-${index}`} className="flex items-center">
                     <ChevronRight className={`h-4 w-4 mx-1 ${
-                        isDarkMode ? 'text-gray-600' : 'text-gray-400'
+                        isDarkMode ? 'text-neutral-600' : 'text-neutral-400'
                     }`} />
                     {isLast ? (
                         <span className={`font-medium ${
-                            isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                            isDarkMode ? 'text-neutral-200' : 'text-neutral-700'
                         }`}>
                     {displayName}
                   </span>
@@ -173,8 +173,8 @@ const Breadcrumbs = () => {
                             to={routeTo}
                             className={`${
                                 isDarkMode
-                                    ? 'text-gray-400 hover:text-gray-200'
-                                    : 'text-gray-500 hover:text-gray-700'
+                                    ? 'text-neutral-400 hover:text-neutral-200'
+                                    : 'text-neutral-500 hover:text-neutral-700'
                             } transition-colors`}
                         >
                           {displayName}

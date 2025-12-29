@@ -57,13 +57,13 @@ const ProductManagement = () => {
                                 key={product._id}
                                 className="group border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-accent cursor-pointer"
                             >
-                                <td className="p-4 font-medium text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">
+                                <td className="p-4 font-medium text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">
                                     <Link to={`/product/${product._id}`} className="hover:underline">
                                         {product.name}
                                     </Link>
                                 </td>
-                                <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">${product.price}</td>
-                                <td className="p-4 text-gray-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{product.sku}</td>
+                                <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">${product.price}</td>
+                                <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{product.sku}</td>
                                 <td className="p-4">
                                     <div className="flex justify-center">
                                         <div className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -92,7 +92,7 @@ const ProductManagement = () => {
                         )
                         ) : (
                             <tr>
-                                <td colSpan={4} className="p-4 text-center text-gray-500">
+                                <td colSpan={4} className="p-4 text-center text-neutral-500">
                                     No Products found.
                                 </td>
                             </tr>
