@@ -15,6 +15,8 @@ const FilterSidebar = ({
     const location = useLocation();
     const priceFilterRef = useRef(null);
 
+    const [selectedBrands, setSelectedBrands] = useState([]);
+
     // Theme classes
     const themeClasses = {
         container: isDay
@@ -305,28 +307,24 @@ const FilterSidebar = ({
 
     const handleBrandChange = (brand) => {
         const params = new URLSearchParams(location.search);
-        const currentBrands = params.get('brand') ? params.get('brand').split(',') : [];
-        
-        // Toggle the brand in the URL
-        if (currentBrands.includes(brand)) {
-            const updatedBrands = currentBrands.filter(b => b !== brand);
-            if (updatedBrands.length > 0) {
-                params.set('brand', updatedBrands.join(','));
-            } else {
-                params.delete('brand');
-            }
-        } else {
-            params.set('brand', [...currentBrands, brand].join(','));
-        }
+        const currentBrands = selectedBrands.includes(brand)
+            ? selectedBrands.filter(b => b !== brand)
+            : [...selectedBrands, brand];
 
-        setSearchParams(params);
-        
-        // Update the parent component's state if needed
+        // Update local state
+        setSelectedBrands(currentBrands);
+
+        // Update URL
+        params.delete('brand');
+        currentBrands.forEach(b => params.append('brand', b));
+        setSearchParams(params, { replace: true });
+
+        // Notify parent if needed
         if (onFilterChange) {
             onFilterChange({
                 target: {
                     name: 'brand',
-                    value: params.get('brand') ? params.get('brand').split(',') : []
+                    value: currentBrands
                 }
             });
         }
@@ -334,8 +332,6 @@ const FilterSidebar = ({
 
     // Check if a brand is currently selected
     const isBrandSelected = (brand) => {
-        const params = new URLSearchParams(location.search);
-        const selectedBrands = params.get('brand') ? params.get('brand').split(',') : [];
         return selectedBrands.includes(brand);
     };
 
@@ -464,6 +460,16 @@ const FilterSidebar = ({
         }
     };
 
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const brandsFromUrl = params.getAll('brand');
+
+        // Only update if the URL brands are different from our current state
+        if (JSON.stringify(brandsFromUrl) !== JSON.stringify(selectedBrands)) {
+            setSelectedBrands(brandsFromUrl);
+        }
+    }, [location.search, selectedBrands]);
 
     return (
         <div className={`-mt-28 h-screen w-full p-4 shadow-sm overflow-y-auto dark:bg-neutral-900 ${themeClasses.container}`}>
