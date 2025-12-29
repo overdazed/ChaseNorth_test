@@ -207,6 +207,44 @@ const FilterSidebar = ({
         }
     };
 
+    const handlePriceChange = (e) => {
+        const { name, value } = e.target;
+        const numericValue = value === '' ? '' : parseFloat(value) || 0;
+        const newPriceRange = {
+            ...priceRange,
+            [name]: numericValue };
+
+        setPriceRange(newPriceRange);
+
+        // Update URL parameters immediately
+        const params = new URLSearchParams(location.search);
+
+        if (name === 'min') {
+            if (value !== '') {
+                params.set('minPrice', numericValue);
+            } else {
+                params.delete('minPrice');
+            }
+        } else if (name === 'max') {
+            if (value !== '') {
+                params.set('maxPrice', numericValue);
+            } else {
+                params.delete('maxPrice');
+            }
+        }
+
+        setSearchParams(params);
+
+        // Call the parent's onFilterChange if provided
+        if (onFilterChange) {
+            onFilterChange({
+                target: {
+                    name: 'priceRange',
+                    value: newPriceRange
+                }
+            });
+        }
+    };
 
 
     return (
@@ -328,9 +366,10 @@ const FilterSidebar = ({
                             }`}>$</span>
                             <input
                                 type="number"
+                                name="min"
                                 placeholder="From"
                                 value={priceRange.min}
-                                onChange={(e) => setPriceRange({...priceRange, min: e.target.value})}
+                                onChange={handlePriceChange}
                                 onKeyDown={handlePriceKeyDown}
                                 min="0"
                                 step="0.01"
@@ -346,9 +385,10 @@ const FilterSidebar = ({
                             }`}>$</span>
                             <input
                                 type="number"
+                                name="max"
                                 placeholder="To"
                                 value={priceRange.max}
-                                onChange={(e) => setPriceRange({...priceRange, max: e.target.value})}
+                                onChange={handlePriceChange}
                                 onKeyDown={handlePriceKeyDown}
                                 min={priceRange.min || "0"}
                                 step="0.01"
