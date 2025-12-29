@@ -291,17 +291,20 @@ const FilterSidebar = ({
                 {sizes.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
                         {sizes.map(size => (
-                            <label key={size} className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    name="size"
-                                    value={size}
-                                    checked={(filters.size || []).includes(size)}  // Add null check here
-                                    onChange={handleFilterChange}
-                                    className={`mr-1 ${themeClasses.input}`}
-                                />
-                                <span>{size}</span>
-                            </label>
+                            <button
+                                key={size}
+                                type="button"
+                                name="size"
+                                value={size}
+                                onClick={handleFilterChange || onFilterChange}
+                                className={`flex items-center justify-center w-10 h-10 text-sm rounded-full transition-all ${
+                                    (filters.size || []).includes(size)
+                                        ? 'bg-black text-white'
+                                        : `${isDay ? 'bg-white text-neutral-700 hover:bg-neutral-100' : 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700'} border ${isDay ? 'border-neutral-300' : 'border-neutral-600'}`
+                                }`}
+                            >
+                                {size}
+                            </button>
                         ))}
                     </div>
                 ) : (
@@ -331,7 +334,7 @@ const FilterSidebar = ({
                                 onKeyDown={handlePriceKeyDown}
                                 min="0"
                                 step="0.01"
-                                className={`w-full pl-8 pr-3 py-2 text-sm rounded border ${
+                                className={`dark:bg-neutral-800 w-full pl-8 pr-3 py-2 text-sm rounded focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-transparent dark:focus:border-transparent ${
                                     themeClasses.priceInput
                                 }`}
                             />
@@ -349,7 +352,7 @@ const FilterSidebar = ({
                                 onKeyDown={handlePriceKeyDown}
                                 min={priceRange.min || "0"}
                                 step="0.01"
-                                className={`w-full pl-8 pr-3 py-2 text-sm rounded border ${
+                                className={`dark:bg-neutral-800 w-full pl-8 pr-3 py-2 text-sm rounded focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-transparent dark:focus:border-transparent ${
                                     themeClasses.priceInput
                                 }`}
                             />
