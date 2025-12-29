@@ -387,45 +387,6 @@ const Wishlist = () => {
             </div>
             <SortOptions onSortChange={setSortBy} currentSort={sortBy} />
           </div>
-          
-          {/* Selected Filters */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            {Object.entries(filters).map(([key, value]) => {
-              if (!value || (Array.isArray(value) && value.length === 0)) return null;
-              
-              return (
-                <div 
-                  key={key} 
-                  className={`text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 ${
-                    isDay 
-                      ? 'bg-neutral-100 text-neutral-900' 
-                      : 'bg-neutral-800 text-neutral-100'
-                  }`}
-                >
-                  <span className="font-medium capitalize">{key}:</span>
-                  <span>
-                    {Array.isArray(value) ? value.join(', ') : value}
-                    {key === 'price' && ' $'}
-                  </span>
-                  <button 
-                    onClick={() => {
-                      const newFilters = {...filters};
-                      if (Array.isArray(value)) {
-                        newFilters[key] = [];
-                      } else {
-                        delete newFilters[key];
-                      }
-                      handleFilterChange({ target: { name: key, value: Array.isArray(value) ? [] : '' } });
-                    }}
-                    className="ml-1 hover:opacity-70"
-                    aria-label={`Remove ${key} filter`}
-                  >
-                    ×
-                  </button>
-                </div>
-              );
-            })}
-          </div>
           {filteredProducts.length > 0 ? (
               <div className="w-full">
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 w-full max-w-[1600px] mx-auto px-4">
