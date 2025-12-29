@@ -459,7 +459,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                             {/* Report */}
                             <p className="mt-4 text-xs text-neutral-500 dark:text-neutral-400">
                                 Problems with the product or delivery?{' '}
-                                <Link to="/report" className="text-primary-600 hover:underline dark:text-primary-500">
+                                <Link to="/report" className="text-primary-600 font-semibold text-neutral-200 hover:underline dark:text-primary-500">
                                     Send a report
                                 </Link>
                             </p>
@@ -670,6 +670,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                         value={formData.size}
                                         onChange={(value) => setFormData(prev => ({...prev, size: value}))}
                                         placeholder="Select size"
+                                        placeholderMobile="Size"
                                         options={sizes.map(size => ({
                                             value: size,
                                             label: size
@@ -712,7 +713,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                                     htmlFor="file-upload"
                                                     className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none"
                                                 >
-                                                    <span className="text-red-800" >Upload files</span>
+                                                    <span className="text-accent" >Upload files</span>
                                                     <input
                                                         id="file-upload"
                                                         name="file-upload"
@@ -841,7 +842,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                 />
                                 <label htmlFor="review-checkbox" className="ms-2 text-sm font-medium text-neutral-500 dark:text-neutral-400">
                                     By publishing this review you agree with the{' '}
-                                    <Link to="/terms-and-conditions" className="text-primary-600 hover:underline dark:text-primary-500">
+                                    <Link to="/terms-and-conditions" className="text-primary-600 font-semibold text-neutral-200 hover:underline dark:text-primary-500">
                                         terms and conditions
                                     </Link>
                                 </label>

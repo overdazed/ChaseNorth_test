@@ -632,10 +632,10 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 select-none overflow-y-auto">
       <div className="fixed inset-0 bg-black/65" onClick={onClose}></div>
-      <div className="relative z-10 w-full max-w-2xl rounded-lg bg-white shadow-lg dark:bg-gray-800 max-h-[90vh] flex flex-col">
-        <div className="flex-shrink-0 flex items-center justify-between rounded-t border-b border-gray-200 p-4 dark:border-gray-700 md:p-5">
+      <div className="relative z-10 w-full max-w-2xl rounded-lg bg-neutral-50 shadow-lg dark:bg-neutral-800 max-h-[90vh] flex flex-col">
+        <div className="flex-shrink-0 flex items-center justify-between rounded-t border-b border-neutral-200 p-4 dark:border-neutral-700 md:p-5">
           <div>
-            <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+            <h3 className="mb-1 text-lg font-semibold text-neutral-900 dark:text-neutral-50">
               Edit your review for:
             </h3>
             <p className="font-medium text-primary-700 dark:text-neutral-50">{productName || 'this product'}</p>
@@ -643,7 +643,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
           <button
             type="button"
             onClick={onClose}
-            className="group ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-500 hover:bg-gray-200 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-gray-200"
+            className="group ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
             aria-label="Close modal"
           >
             <span className="text-xl">×</span>
@@ -654,7 +654,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
         <form onSubmit={handleSubmit} className="flex-1 p-4 md:p-5 overflow-y-auto custom-scrollbar">
           {/* Error message */}
           {error && (
-            <div className="mb-4 p-3 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+            <div className="mb-4 p-3 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-neutral-800 dark:text-red-400" role="alert">
               {error}
             </div>
           )}
@@ -674,18 +674,18 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
                     {star <= (hoverStates.rating || formData.rating) ? (
                       <span className="text-yellow-400">★</span>
                     ) : (
-                      <span className="text-gray-300 dark:text-gray-500">★</span>
+                      <span className="text-neutral-300 dark:text-neutral-500">★</span>
                     )}
                   </button>
                 ))}
-                <span className="ms-2 text-lg font-bold text-gray-900 dark:text-white">
+                <span className="ms-2 text-lg font-bold text-neutral-900 dark:text-neutral-50">
                   {formData.rating} / 5
                 </span>
               </div>
             </div>
 
             <div className="col-span-2">
-              <label htmlFor="title" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+              <label htmlFor="title" className="mb-2 block text-sm font-medium text-neutral-900 dark:text-neutral-50">
                 Title
               </label>
               <input
@@ -694,13 +694,13 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
                 id="title"
                 value={formData.title}
                 onChange={handleChange}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                className="block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-sm text-neutral-900 focus:border-primary-600 focus:ring-primary-600 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50 dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                 placeholder="e.g. I would buy that again!"
                 required
               />
             </div>
             <div className="col-span-2">
-              <label htmlFor="comment" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+              <label htmlFor="comment" className="mb-2 block text-sm font-medium text-neutral-900 dark:text-neutral-50">
                 Review
               </label>
               <textarea
@@ -709,7 +709,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
                 rows="4"
                 value={formData.comment}
                 onChange={handleChange}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                className="block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-sm text-neutral-900 focus:border-primary-600 focus:ring-primary-600 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50 dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                 placeholder="Share details about your experience with this product"
                 required
               ></textarea>
@@ -717,7 +717,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
 
             {/* Weight Input */}
             <div className="col-span-1">
-              <label htmlFor="weight" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+              <label htmlFor="weight" className="mb-2 block text-sm font-medium text-neutral-900 dark:text-neutral-50">
                 Weight (kg)
               </label>
               <input
@@ -728,14 +728,14 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
                 step="0.1"
                 value={formData.weight || ''}
                 onChange={handleChange}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                className="block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-sm text-neutral-900 focus:border-primary-600 focus:ring-primary-600 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50 dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                 placeholder="e.g. 75.5"
               />
             </div>
 
             {/* Height Input */}
             <div className="col-span-1">
-              <label htmlFor="height" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+              <label htmlFor="height" className="mb-2 block text-sm font-medium text-neutral-900 dark:text-neutral-50">
                 Height (cm)
               </label>
               <input
@@ -746,7 +746,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
                 step="0.1"
                 value={formData.height || ''}
                 onChange={handleChange}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                className="block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5 text-sm text-neutral-900 focus:border-primary-600 focus:ring-primary-600 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50 dark:placeholder-neutral-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                 placeholder="e.g. 175.5"
               />
             </div>
@@ -760,7 +760,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
               { name: 'fitRating', label: 'Fit' },
             ].map(({ name, label }) => (
               <div key={name} className="space-y-2">
-                <label className="block text-sm font-medium text-gray-900 dark:text-white text-center">
+                <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 text-center">
                   {label}
                 </label>
                 <div className="flex justify-center">
@@ -776,7 +776,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
                       {star <= (hoverStates[name] || formData[name]) ? (
                         <span className="text-yellow-400">★</span>
                       ) : (
-                        <span className="text-gray-300 dark:text-gray-500">★</span>
+                        <span className="text-neutral-300 dark:text-neutral-500">★</span>
                       )}
                     </button>
                   ))}
@@ -787,11 +787,11 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
 
           {/*/!* Width Selector *!/*/}
           {/*<div className="mt-6 flex items-center">*/}
-          {/*  <label className="text-sm font-medium text-gray-700 dark:text-gray-300 w-20 -mt-5">*/}
+          {/*  <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300 w-20 -mt-5">*/}
           {/*    Width*/}
           {/*  </label>*/}
           {/*  <div className="flex-1 relative">*/}
-          {/*    <div className="h-px bg-gray-200 absolute top-1.5 left-0 right-0"></div>*/}
+          {/*    <div className="h-px bg-neutral-200 absolute top-1.5 left-0 right-0"></div>*/}
           {/*    <div className="w-full grid grid-cols-5 relative z-10">*/}
           {/*      {widthOptions.map((option, index) => (*/}
           {/*        <div*/}
@@ -804,7 +804,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
           {/*          }}*/}
           {/*        >*/}
           {/*          <div*/}
-          {/*            className={`w-3 h-3 rounded-full border-2 mb-1 cursor-pointer transition-colors ${formData.width === option.value ? 'bg-accent border-accent' : 'bg-white border-gray-300'}`}*/}
+          {/*            className={`w-3 h-3 rounded-full border-2 mb-1 cursor-pointer transition-colors ${formData.width === option.value ? 'bg-accent border-accent' : 'bg-neutral-50 border-neutral-300'}`}*/}
           {/*            onClick={() => {*/}
           {/*              console.log('Setting width to:', option);*/}
           {/*              setFormData(prev => ({*/}
@@ -815,7 +815,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
           {/*              }));*/}
           {/*            }}*/}
           {/*          />*/}
-          {/*          <span className={`text-xs text-gray-500 whitespace-nowrap text-center ${index === 0 ? 'pr-1' : index === 4 ? 'pl-1' : ''}`}>*/}
+          {/*          <span className={`text-xs text-neutral-500 neutral-50space-nowrap text-center ${index === 0 ? 'pr-1' : index === 4 ? 'pl-1' : ''}`}>*/}
           {/*            {option.label}*/}
           {/*          </span>*/}
           {/*        </div>*/}
@@ -826,11 +826,11 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
 
           {/*/!* Length Selector *!/*/}
           {/*<div className="mt-6 flex items-center">*/}
-          {/*  <label className="text-sm font-medium text-gray-700 dark:text-gray-300 w-20 -mt-5">*/}
+          {/*  <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300 w-20 -mt-5">*/}
           {/*    Length*/}
           {/*  </label>*/}
           {/*  <div className="flex-1 relative">*/}
-          {/*    <div className="h-px bg-gray-200 absolute top-1.5 left-0 right-0"></div>*/}
+          {/*    <div className="h-px bg-neutral-200 absolute top-1.5 left-0 right-0"></div>*/}
           {/*    <div className="w-full grid grid-cols-5 relative z-10">*/}
           {/*      {lengthOptions.map((option, index) => (*/}
           {/*        <div*/}
@@ -843,7 +843,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
           {/*          }}*/}
           {/*        >*/}
           {/*          <div*/}
-          {/*            className={`w-3 h-3 rounded-full border-2 mb-1 cursor-pointer transition-colors ${formData.length === option.value ? 'bg-accent border-accent' : 'bg-white border-gray-300'}`}*/}
+          {/*            className={`w-3 h-3 rounded-full border-2 mb-1 cursor-pointer transition-colors ${formData.length === option.value ? 'bg-accent border-accent' : 'bg-neutral-50 border-neutral-300'}`}*/}
           {/*            onClick={() => {*/}
           {/*              console.log('Setting length to:', option);*/}
           {/*              setFormData(prev => ({*/}
@@ -854,7 +854,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
           {/*              }));*/}
           {/*            }}*/}
           {/*          />*/}
-          {/*          <span className={`text-xs text-gray-500 whitespace-nowrap text-center ${index === 0 ? 'pr-1' : index === 4 ? 'pl-1' : ''}`}>*/}
+          {/*          <span className={`text-xs text-neutral-500 neutral-50space-nowrap text-center ${index === 0 ? 'pr-1' : index === 4 ? 'pl-1' : ''}`}>*/}
           {/*            {option.label}*/}
           {/*          </span>*/}
           {/*        </div>*/}
@@ -864,9 +864,9 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
           {/*</div>*/}
 
           <div className="col-span-2">
-            <p className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+            <p className="mb-2 block text-sm font-medium text-neutral-900 dark:text-neutral-50">
               Product Photos
-              <span className="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">
+              <span className="ml-1 text-xs font-normal text-neutral-500 dark:text-neutral-400">
                 (Click on an image to remove it)
               </span>
             </p>
@@ -882,7 +882,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
 
                 return (
                   <div key={`existing-${image.id || index}`} className="relative group">
-                    <div className="w-24 h-24 rounded-md overflow-hidden bg-transparent border border-gray-200 dark:border-gray-600">
+                    <div className="w-24 h-24 rounded-md overflow-hidden bg-transparent border border-neutral-200 dark:border-neutral-600">
                       <img
                         src={fullUrl}
                         alt={`Review image ${index + 1}`}
@@ -897,7 +897,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
                         e.stopPropagation();
                         handleRemoveImage(image.id, true);
                       }}
-                      className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-white hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100"
+                      className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-neutral-50 hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100"
                       title="Remove image"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -915,7 +915,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
 
                 return (
                   <div key={`new-${image.id || index}`} className="relative group">
-                    <div className="w-24 h-24 rounded-md overflow-hidden bg-transparent border border-gray-200 dark:border-gray-600">
+                    <div className="w-24 h-24 rounded-md overflow-hidden bg-transparent border border-neutral-200 dark:border-neutral-600">
                       <img
                         src={imageUrl}
                         alt={`New image ${index + 1}`}
@@ -930,7 +930,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
                         e.stopPropagation();
                         handleRemoveImage(image.id, false);
                       }}
-                      className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-white hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100"
+                      className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-neutral-50 hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100"
                       title="Remove image"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -944,8 +944,8 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
               {/* Add Image Button */}
               {(formData.existingImages?.length || 0) + (formData.images?.length || 0) < 4 && (
                 <div
-                  // className="w-24 h-24 border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center text-gray-400 hover:text-gray-600 hover:border-gray-400 cursor-pointer transition-colors"
-                    className={`flex h-24 w-24 flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600 ${isUploading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                  // className="w-24 h-24 border-2 border-dashed border-neutral-300 rounded-md flex items-center justify-center text-neutral-400 hover:text-neutral-600 hover:border-neutral-400 cursor-pointer transition-colors"
+                    className={`flex h-24 w-24 flex-col items-center justify-center rounded-lg border-2 border-dashed border-neutral-300 bg-neutral-50 hover:bg-neutral-100 dark:border-neutral-600 dark:bg-neutral-700 dark:hover:border-neutral-500 dark:hover:bg-neutral-600 ${isUploading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                     onClick={() => fileInputRef.current?.click()}
                 >
                   <div className="text-center">
@@ -954,7 +954,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
                     {/*</svg>*/}
                     {/*<span className="text-xs">Add Image</span>*/}
                     <svg
-                        className="h-8 w-8 text-gray-500 dark:text-gray-400"
+                        className="h-8 w-8 text-neutral-500 dark:text-neutral-400"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -987,7 +987,7 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
             </div>
 
             {(formData?.images?.length || 0) + (formData?.existingImages?.length || 0) >= 4 && (
-              <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+              <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
                 Maximum of 4 images reached. Remove some images to add more.
               </p>
             )}
@@ -997,14 +997,14 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
             <button
               type="button"
               onClick={onClose}
-              className="rounded-full border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+              className="rounded-full border border-neutral-300 bg-neutral-50 px-4 py-2.5 text-sm font-medium text-neutral-900 hover:bg-neutral-100 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-50 dark:hover:border-neutral-600 dark:hover:bg-neutral-600 dark:focus:ring-neutral-700"
               disabled={isSubmitting}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="rounded-full bg-black px-5 py-2 text-center text-sm font-medium text-neutral-50 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 disabled:opacity-50 dark:bg-neutral-200 dark:text-black dark:hover:bg-gray-400 dark:focus:ring-gray-300"
+              className="rounded-full bg-black px-5 py-2 text-center text-sm font-medium text-neutral-50 hover:bg-neutral-700 focus:outline-none focus:ring-4 focus:ring-neutral-300 disabled:opacity-50 dark:bg-neutral-200 dark:text-black dark:hover:bg-neutral-400 dark:focus:ring-neutral-300"
               disabled={isSubmitting}
             >
               {isSubmitting ? (

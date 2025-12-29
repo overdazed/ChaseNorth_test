@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-const CustomSelect = ({ options = [], value, onChange, placeholder = 'Select...' }) => {
+const CustomSelect = ({ options = [], value, onChange, placeholder = 'Select...', placeholderMobile }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(value || '');
   const selectRef = useRef(null);
@@ -40,8 +40,14 @@ const CustomSelect = ({ options = [], value, onChange, placeholder = 'Select...'
               onClick={() => setIsOpen(!isOpen)}
               data-value={selectedValue}
           >
-            <span className={!selectedValue ? 'text-gray-400 dark:text-gray-400' : ''}>
-              {selectedValue ? displayText : placeholder}
+            <span className={!selectedValue ? 'text-neutral-400 dark:text-neutral-400' : ''}>
+              {selectedValue ? displayText : (
+                <>
+                  <span className="hidden sm:inline">{placeholder}</span>
+                  {placeholderMobile && <span className="sm:hidden">{placeholderMobile}</span>}
+                  {!placeholderMobile && <span className="sm:hidden">{placeholder}</span>}
+                </>
+              )}
             </span>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
