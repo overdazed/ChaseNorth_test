@@ -3,25 +3,33 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FaSearch, FaArrowLeft, FaPaperclip, FaCheck, FaTimes, FaSpinner } from 'react-icons/fa';
 import { toast } from 'sonner';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const ReportManagement = () => {
     const [reports, setReports] = useState([]);
     const [selectedReport, setSelectedReport] = useState(null);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const [note, setNote] = useState('');
-    const [status, setStatus] = useState('pending');
+    const [newNote, setNewNote] = useState('');
+    const [status, setStatus] = useState('Submitted');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    
+
     const navigate = useNavigate();
     const { id } = useParams();
+    const { user } = useSelector((state) => state.auth);
 
     // Fetch all reports
     useEffect(() => {
         const fetchReports = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get('/api/admin/reports');
+                const token = localStorage.getItem('userToken');
+                const response = await axios.get('http://localhost:9000/api/admin/reports', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    withCredentials: true
+                });
                 setReports(response.data.reports || []);
 
                 // If there's an ID in the URL, select that report
@@ -30,7 +38,7 @@ const ReportManagement = () => {
                     if (report) {
                         setSelectedReport(report);
                         setStatus(report.status);
-                        setNote(report.adminNotes || '');
+                        setNewNote(''); // Changed from setNote to setNewNote
                     }
                 }
             } catch (error) {
@@ -54,7 +62,7 @@ const ReportManagement = () => {
     const handleReportClick = (report) => {
         setSelectedReport(report);
         setStatus(report.status);
-        setNote(report.adminNotes || '');
+        setNewNote(''); // Changed from setNote to setNewNote
         navigate(`/admin/reports/${report._id}`);
     };
 
@@ -68,51 +76,76 @@ const ReportManagement = () => {
 
         try {
             setIsSubmitting(true);
-            // Update the report status and notes
-            await axios.put(`/api/admin/reports/${selectedReport._id}`, {
-                status,
-                adminNotes: note
-            });
 
-            // Update the local state
+            const { data: updatedReport } = await axios.put(
+                `${import.meta.env.VITE_BACKEND_URL}/api/admin/reports/${selectedReport._id}`,
+                {
+                    status,
+                    note: newNote.trim() || undefined,
+                    noteStatus: status // Include the status with the note
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('userToken')}`,
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true
+                }
+            );
+
             const updatedReports = reports.map(r =>
-                r._id === selectedReport._id
-                    ? { ...r, status, adminNotes: note }
-                    : r
+                r._id === selectedReport._id ? updatedReport : r
             );
 
             setReports(updatedReports);
-            setSelectedReport({ ...selectedReport, status, adminNotes: note });
+            setSelectedReport(updatedReport);
+            setNewNote('');
 
             toast.success('Report updated successfully');
         } catch (error) {
             console.error('Error updating report:', error);
-            toast.error('Failed to update report');
+            if (error.response) {
+                console.error('Error response:', error.response.data);
+                console.error('Status code:', error.response.status);
+            }
+            toast.error(error.response?.data?.message || 'Failed to update report');
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    const getStatusBadge = (status) => {
+    const getStatusClasses = (status) => {
         const statusClasses = {
-            pending: 'bg-yellow-100 text-yellow-800',
-            in_progress: 'bg-blue-100 text-blue-800',
-            resolved: 'bg-green-100 text-green-800',
-            rejected: 'bg-red-100 text-red-800'
+            'Submitted': 'bg-blue-100 text-blue-800 border-blue-200',
+            'In Review': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+            'Needs Info': 'bg-purple-100 text-purple-800 border-purple-200',
+            'Rejected': 'bg-red-100 text-red-800 border-red-200',
+            'Resolved': 'bg-green-100 text-green-800 border-green-200',
+            'Archived': 'bg-gray-100 text-gray-800 border-gray-200',
+            'default': 'bg-gray-100 text-gray-800 border-gray-200'
         };
-        
-        const statusText = {
-            pending: 'Pending',
-            in_progress: 'In Progress',
-            resolved: 'Resolved',
-            rejected: 'Rejected'
-        };
-        
+        return statusClasses[status] || statusClasses['default'];
+    };
+
+    const getStatusBadge = (status) => {
         return (
-            <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${statusClasses[status] || 'bg-gray-100 text-gray-800'}`}>
-                {statusText[status] || status}
-            </span>
+            <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${getStatusClasses(status)}`}>
+            {status}
+        </span>
         );
+    };
+
+    const getStatusColorClass = (status) => {
+        const statusClasses = {
+            'Submitted': 'bg-blue-50 border-blue-200',
+            'In Review': 'bg-yellow-50 border-yellow-200',
+            'Needs Info': 'bg-purple-50 border-purple-200',
+            'Rejected': 'bg-red-50 border-red-200',
+            'Resolved': 'bg-green-50 border-green-200',
+            'Archived': 'bg-gray-50 border-gray-200',
+            'default': 'bg-gray-50 border-gray-200'
+        };
+        return statusClasses[status] || statusClasses['default'];
     };
 
     if (loading) {
@@ -123,6 +156,41 @@ const ReportManagement = () => {
             </div>
         );
     }
+
+    const handleDeleteNote = async (noteId) => {
+        if (!selectedReport || !window.confirm('Are you sure you want to delete this note?')) {
+            return;
+        }
+
+        try {
+            const { data: updatedReport } = await axios.delete(
+                `${import.meta.env.VITE_BACKEND_URL}/api/admin/reports/${selectedReport._id}/notes/${noteId}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+                    },
+                    withCredentials: true
+                }
+            );
+
+            // Update the local state
+            const updatedReports = reports.map(r =>
+                r._id === selectedReport._id ? updatedReport : r
+            );
+
+            setReports(updatedReports);
+            setSelectedReport(updatedReport);
+
+            toast.success('Note deleted successfully');
+        } catch (error) {
+            console.error('Error deleting note:', error);
+            if (error.response) {
+                console.error('Error response:', error.response.data);
+                console.error('Status code:', error.response.status);
+            }
+            toast.error(error.response?.data?.message || 'Failed to delete note');
+        }
+    };
 
     return (
         <div className="p-6">
@@ -172,11 +240,11 @@ const ReportManagement = () => {
                                             onClick={() => handleReportClick(report)}
                                         >
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {report._id.substring(0, 8)}...
+                                                {report.referenceNumber || `#${report._id.substring(0, 8)}`}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="text-sm text-gray-900">{report.user?.name || 'N/A'}</div>
-                                                <div className="text-sm text-gray-500">{report.user?.email || ''}</div>
+                                                <div className="text-sm text-gray-900">{report.customerName || 'N/A'}</div>
+                                                <div className="text-sm text-gray-500">{report.email || ''}</div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 {getStatusBadge(report.status)}
@@ -224,38 +292,42 @@ const ReportManagement = () => {
                             <div className="mb-6">
                                 <h3 className="text-lg font-medium mb-2">Customer</h3>
                                 <div className="bg-gray-50 p-4 rounded-lg">
-                                    <p className="font-medium">{selectedReport.user?.name || 'N/A'}</p>
-                                    <p className="text-gray-600">{selectedReport.user?.email || ''}</p>
+                                    <p className="font-medium">{selectedReport.customerName || 'N/A'}</p>
+                                    <p className="text-gray-600">{selectedReport.email || ''}</p>
                                 </div>
                             </div>
 
                             <div className="mb-6">
-                                <h3 className="text-lg font-medium mb-2">Subject</h3>
+                                <h3 className="text-lg font-medium mb-2">What's the problem?</h3>
                                 <div className="bg-gray-50 p-4 rounded-lg">
-                                    {selectedReport.subject || 'No subject provided'}
+                                    {selectedReport.problemType || 'No problem type specified'}
                                 </div>
                             </div>
 
                             <div className="mb-6">
-                                <h3 className="text-lg font-medium mb-2">Description</h3>
-                                <div className="bg-gray-50 p-4 rounded-lg whitespace-pre-line">
-                                    {selectedReport.description || 'No description provided'}
+                                <h3 className="text-lg font-medium mb-2">What went wrong? Include dates or photos if relevant.</h3>
+                                <div className="bg-gray-50 p-4 rounded-lg whitespace-pre-line mb-4">
+                                    {selectedReport.details || 'No details provided'}
                                 </div>
+
+                                {selectedReport.attachments && selectedReport.attachments.length > 0 && (
+                                    <div className="mt-4">
+                                        <div className="flex flex-wrap gap-4">
+                                            {selectedReport.attachments.map((attachment, index) => (
+                                                <div key={index} className="border rounded-lg overflow-hidden">
+                                                    <img
+                                                        src={attachment.path}
+                                                        alt={`Attachment ${index + 1}`}
+                                                        className="h-48 object-cover"
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
-                            {selectedReport.imageUrl && (
-                                <div className="mb-6">
-                                    <h3 className="text-lg font-medium mb-2">Attached Image</h3>
-                                    <div className="bg-gray-50 p-4 rounded-lg">
-                                        <img 
-                                            src={selectedReport.imageUrl} 
-                                            alt="Report attachment" 
-                                            className="max-h-64 rounded"
-                                        />
-                                    </div>
-                                </div>
-                            )}
-
+                            {/* Status Dropdown */}
                             <div className="mb-6">
                                 <h3 className="text-lg font-medium mb-2">Status</h3>
                                 <select
@@ -263,27 +335,74 @@ const ReportManagement = () => {
                                     onChange={(e) => setStatus(e.target.value)}
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 >
-                                    <option value="pending">Pending</option>
-                                    <option value="in_progress">In Progress</option>
-                                    <option value="resolved">Resolved</option>
-                                    <option value="rejected">Rejected</option>
+                                    <option value="Submitted">Submitted</option>
+                                    <option value="In Review">In Review</option>
+                                    <option value="Needs Info">Needs Info</option>
+                                    <option value="Rejected">Rejected</option>
+                                    <option value="Resolved">Resolved</option>
+                                    <option value="Archived">Archived</option>
                                 </select>
                             </div>
 
+                            {/* Admin Notes */}
+                            {selectedReport.adminNotes?.length > 0 && (
+                                <div className="mb-6">
+                                    <h3 className="text-lg font-medium mb-2">Admin Notes</h3>
+                                    <div className="space-y-4">
+                                        {selectedReport.adminNotes.map((note, index) => {
+                                            const statusClass = getStatusClasses(note.status || 'Submitted');
+                                            return (
+                                                <div
+                                                    key={index}
+                                                    className={`p-4 rounded-lg border ${statusClass} bg-opacity-20`}
+                                                >
+                                                    <div className="flex justify-between items-start mb-2">
+                                                        <div>
+                                                            <p className="font-medium">{note.adminName || 'Admin'}</p>
+                                                            <div className="flex items-center gap-2 mt-1">
+                                    <span className="text-xs text-gray-500">
+                                        {new Date(note.timestamp).toLocaleString()}
+                                    </span>
+                                                                <span className={`text-xs px-2 py-0.5 rounded-full ${statusClass}`}>
+                                        {note.status || 'Submitted'}
+                                    </span>
+                                                            </div>
+                                                        </div>
+                                                        <button
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                handleDeleteNote(note._id || index);
+                                                            }}
+                                                            className="text-gray-400 hover:text-red-500 transition-colors"
+                                                            title="Delete note"
+                                                        >
+                                                            <FaTimes />
+                                                        </button>
+                                                    </div>
+                                                    <p className="whitespace-pre-line text-gray-800 mt-2">{note.content}</p>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Add New Note */}
                             <div className="mb-6">
                                 <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-2">
-                                    Admin Notes
+                                    Add Admin Note
                                 </label>
                                 <textarea
                                     id="notes"
                                     rows="4"
                                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="Add your notes here..."
-                                    value={note}
-                                    onChange={(e) => setNote(e.target.value)}
+                                    value={newNote}
+                                    onChange={(e) => setNewNote(e.target.value)}
                                 ></textarea>
                             </div>
 
+                            {/* Action Buttons */}
                             <div className="flex justify-end space-x-3">
                                 <button
                                     onClick={handleBackToList}
@@ -294,14 +413,16 @@ const ReportManagement = () => {
                                 </button>
                                 <button
                                     onClick={handleStatusUpdate}
-                                    disabled={isSubmitting || (status === selectedReport.status && note === (selectedReport.adminNotes || ''))}
-                                    className={`px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${isSubmitting ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+                                    disabled={isSubmitting || (status === selectedReport.status && !newNote.trim())}
+                                    className={`px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                                        isSubmitting ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
+                                    } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
                                 >
                                     {isSubmitting ? (
                                         <span className="flex items-center">
-                                            <FaSpinner className="animate-spin mr-2" />
-                                            Updating...
-                                        </span>
+                                        <FaSpinner className="animate-spin mr-2" />
+                                        Updating...
+                                    </span>
                                     ) : (
                                         'Update Status'
                                     )}

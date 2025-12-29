@@ -22,8 +22,19 @@ router.get('/', protect, admin, async (req, res) => {
             .sort({ createdAt: -1 })
             .limit(pageSize)
             .skip(pageSize * (page - 1))
-            .populate('orderId', 'orderNumber')
+            .populate({
+                path: 'orderId',
+                select: 'orderNumber shippingAddress'
+            })
             .lean();
+            
+        // Add customer name from shipping address to each report
+        reports.forEach(report => {
+            if (report.orderId?.shippingAddress) {
+                const { firstName, lastName } = report.orderId.shippingAddress;
+                report.customerName = `${firstName} ${lastName}`.trim();
+            }
+        });
             
         res.json({
             reports,
@@ -43,7 +54,10 @@ router.get('/', protect, admin, async (req, res) => {
 router.get('/:id', protect, admin, async (req, res) => {
     try {
         const report = await Report.findById(req.params.id)
-            .populate('orderId')
+            .populate({
+                path: 'orderId',
+                select: 'shippingAddress'
+            })
             .lean();
             
         if (!report) {
@@ -58,28 +72,51 @@ router.get('/:id', protect, admin, async (req, res) => {
 });
 
 // @route   PUT /api/admin/reports/:id
-// @desc    Update report status and admin notes
+// @desc    Update report status and add admin notes
 // @access  Private/Admin
 router.put('/:id', protect, admin, async (req, res) => {
     try {
-        const { status, adminNotes } = req.body;
-        
+        const { status, note } = req.body;
         const report = await Report.findById(req.params.id);
-        
+
         if (!report) {
             return res.status(404).json({ message: 'Report not found' });
         }
-        
-        // Update only the fields that are provided
-        if (status) report.status = status;
-        if (adminNotes !== undefined) report.adminNotes = adminNotes;
-        
-        const updatedReport = await report.save();
-        
+
+        // Update status if provided
+        if (status) {
+            report.status = status;
+        }
+
+        // Add new note if provided
+        if (note && note.trim() !== '') {
+            report.adminNotes = report.adminNotes || [];
+            report.adminNotes.push({
+                content: note,
+                adminName: req.user.name,
+                timestamp: new Date(),
+                status: req.body.noteStatus || status || report.status
+            });
+        }
+
+        // Save the report
+        await report.save();
+
+        // Populate the orderId field for the response
+        const updatedReport = await Report.findById(report._id)
+            .populate({
+                path: 'orderId',
+                select: 'shippingAddress'
+            })
+            .lean();
+
         res.json(updatedReport);
     } catch (error) {
         console.error('Error updating report:', error);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({
+            message: 'Error updating report',
+            error: error.message
+        });
     }
 });
 
@@ -100,6 +137,49 @@ router.delete('/:id', protect, admin, async (req, res) => {
     } catch (error) {
         console.error('Error deleting report:', error);
         res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// Add this route to your adminReportRoutes.js file
+router.delete('/:reportId/notes/:noteId', protect, admin, async (req, res) => {
+    try {
+        const { reportId, noteId } = req.params;
+
+        const report = await Report.findById(reportId);
+        if (!report) {
+            return res.status(404).json({ message: 'Report not found' });
+        }
+
+        // Find the index of the note to delete
+        const noteIndex = report.adminNotes.findIndex(
+            note => note._id.toString() === noteId
+        );
+
+        if (noteIndex === -1) {
+            return res.status(404).json({ message: 'Note not found' });
+        }
+
+        // Remove the note from the array
+        report.adminNotes.splice(noteIndex, 1);
+
+        // Save the updated report
+        await report.save();
+
+        // Return the updated report with populated fields
+        const updatedReport = await Report.findById(reportId)
+            .populate({
+                path: 'orderId',
+                select: 'shippingAddress'
+            })
+            .lean();
+
+        res.json(updatedReport);
+    } catch (error) {
+        console.error('Error deleting note:', error);
+        res.status(500).json({
+            message: 'Error deleting note',
+            error: error.message
+        });
     }
 });
 

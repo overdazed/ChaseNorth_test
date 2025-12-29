@@ -29,7 +29,12 @@ const reportSchema = new mongoose.Schema({
         enum: ['Submitted', 'In Review', 'Needs Info', 'Rejected', 'Resolved', 'Archived'],
         default: 'Submitted'
     },
-    adminNotes: String,
+    adminNotes: [{
+        content: String,
+        adminName: String,
+        timestamp: { type: Date, default: Date.now },
+        status: { type: String, default: 'Submitted' }  // Add this line
+    }],
     attachments: [{
         filename: String,
         path: String,
