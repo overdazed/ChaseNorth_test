@@ -109,7 +109,13 @@ const FilterSidebar = ({
     // Sample filter options
     const categories = ["Top Wear", "Bottom Wear"];
     const genders = ["All", "Men", "Women"];
-    const brands = ["Nike", "Adidas", "Puma"];
+    const brands = React.useMemo(() => {
+        if (!products || products.length === 0) return [];
+        // Extract all brands from products
+        const allBrands = products.map(product => product.brand).filter(Boolean);
+        // Remove duplicates and sort alphabetically
+        return [...new Set(allBrands)].sort();
+    }, [products]);
 
     // Color name to hex mapping
     const colorMap = {
@@ -296,6 +302,34 @@ const FilterSidebar = ({
     //     material: [],
     //     brand: []
     // });
+
+    const handleBrandChange = (brand) => {
+        const params = new URLSearchParams(location.search);
+        const currentBrands = params.getAll('brand');
+        
+        if (currentBrands.includes(brand)) {
+            // Remove brand if already selected
+            const newBrands = currentBrands.filter(b => b !== brand);
+            params.delete('brand');
+            newBrands.forEach(b => params.append('brand', b));
+        } else {
+            // Add brand if not selected
+            params.append('brand', brand);
+        }
+        
+        setSearchParams(params);
+        
+        // Close the sidebar on mobile when a filter is applied
+        if (onFilterApply && window.innerWidth < 1024) {
+            onFilterApply();
+        }
+    };
+
+    // Check if a brand is currently selected
+    const isBrandSelected = (brand) => {
+        const params = new URLSearchParams(location.search);
+        return params.getAll('brand').includes(brand);
+    };
 
     const handleFilterChange = (e) => {
         const { name, value, checked, type } = e.target;
@@ -491,6 +525,36 @@ const FilterSidebar = ({
                 ) : (
                     <p className={`text-sm ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>
                         No materials available
+                    </p>
+                )}
+            </div>
+
+            {/* Brand Filter */}
+            <div className={`mb-6 pb-4 ${themeClasses.section}`}>
+                <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Brand</h4>
+                {brands.length > 0 ? (
+                    <div className="space-y-2 max-h-60 overflow-y-auto">
+                        {brands.map((brand) => (
+                            <div key={brand} className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    id={`brand-${brand}`}
+                                    checked={isBrandSelected(brand)}
+                                    onChange={() => handleBrandChange(brand)}
+                                    className={`h-4 w-4 rounded ${themeClasses.input} focus:ring-0`}
+                                />
+                                <label 
+                                    htmlFor={`brand-${brand}`} 
+                                    className="ml-2 text-sm cursor-pointer"
+                                >
+                                    {brand}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p className={`text-sm ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>
+                        No brands available
                     </p>
                 )}
             </div>
