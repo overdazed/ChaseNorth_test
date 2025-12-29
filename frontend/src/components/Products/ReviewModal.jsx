@@ -713,7 +713,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                                     htmlFor="file-upload"
                                                     className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none"
                                                 >
-                                                    <span className="text-accent" >Upload files</span>
+                                                    <span className="text-red-800" >Upload files</span>
                                                     <input
                                                         id="file-upload"
                                                         name="file-upload"
