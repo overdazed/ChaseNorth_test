@@ -703,7 +703,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                         onClick={() => setSelectedColor(color)}
                                                         className={`w-10 h-10 rounded-full border-2 transition-all ${
                                                             selectedColor === color
-                                                                ? `${isDay ? 'border-accent' : 'border-accent'} scale-110`
+                                                                ? `${isDay ? 'ring-1 ring-offset-0.5 ring-accent' : 'ring-1 ring-offset-0.5 ring-accent'} scale-110`
                                                                 : `${isDay ? 'border-white' : 'border-neutral-600'} ${isDay ? 'hover:border-neutral-400' : 'hover:border-neutral-400'}`
                                                         }`}
                                                         style={{

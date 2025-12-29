@@ -7,7 +7,7 @@ import FilterSidebar from "../components/Products/FilterSidebar.jsx";
 import SortOptions from "../components/Products/SortOptions.jsx";
 import ProductGrid from "../components/Products/ProductGrid.jsx";
 import SwipeCards from "../components/Products/SwipeCards.jsx";
-import { fetchProductsByFilters } from "../redux/slices/productsSlice.js";
+import { fetchProductsByFilters, setFilters } from "../redux/slices/productsSlice.js";
 
 const CollectionPage = () => {
     // Theme state
@@ -24,7 +24,7 @@ const CollectionPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const location = useLocation();
     const dispatch = useDispatch();
-    const { products, loading, error } = useSelector((state) => state.products);
+    const { products, loading, error, filters } = useSelector((state) => state.products);
     const queryParams = Object.fromEntries([...searchParams]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [highestPrice, setHighestPrice] = useState(0);
@@ -371,6 +371,30 @@ const CollectionPage = () => {
                                 products={products}
                                 onFilterApply={toggleSidebar}
                                 isDay={isDay}
+                                filters={filters}
+                                onFilterChange={(e) => {
+                                    const { name, value, checked, type } = e.target;
+                                    
+                                    if (name === 'size') {
+                                        let newSizes = [...(filters.size || [])];
+                                        if (newSizes.includes(value)) {
+                                            newSizes = newSizes.filter(size => size !== value);
+                                        } else {
+                                            newSizes = [...newSizes, value];
+                                        }
+                                        dispatch(setFilters({ ...filters, size: newSizes }));
+                                    } else if (type === 'checkbox') {
+                                        // Handle other checkbox filters
+                                        const currentValues = filters[name] || [];
+                                        const newValues = checked
+                                            ? [...currentValues, value]
+                                            : current.filter(v => v !== value);
+                                        dispatch(setFilters({ ...filters, [name]: newValues }));
+                                    } else {
+                                        // Handle other input types (radio, etc.)
+                                        dispatch(setFilters({ ...filters, [name]: value }));
+                                    }
+                                }}
                             />
                         </div>
                     </div>
