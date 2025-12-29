@@ -120,36 +120,14 @@ const Navbar = ({ transparent = false }) => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const [wishlistCount, setWishlistCount] = useState(0);
+    const { wishlistCount } = useSelector((state) => state.products);
     const [navDrawerOpen, setNavDrawerOpen] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [language, setLanguage] = useState('German / Deutsch');
     const [isLanguageOpen, setIsLanguageOpen] = useState(false);
     const [prevScrollPos, setPrevScrollPos] = useState(0);
 
-    // Load wishlist count from localStorage
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const updateWishlistCount = () => {
-                const saved = localStorage.getItem('wishlist');
-                const wishlist = saved ? JSON.parse(saved) : [];
-                setWishlistCount(wishlist.length);
-            };
-
-            // Initial load
-            updateWishlistCount();
-
-            // Listen for storage events to update wishlist count when changed in other tabs
-            const handleStorageChange = (e) => {
-                if (e.key === 'wishlist') {
-                    updateWishlistCount();
-                }
-            };
-
-            window.addEventListener('storage', handleStorageChange);
-            return () => window.removeEventListener('storage', handleStorageChange);
-        }
-    }, []);
+    // Wishlist count is now managed by Redux
 
     // Update SHOPPING BAG Count
     // Get cart from the cartSlice

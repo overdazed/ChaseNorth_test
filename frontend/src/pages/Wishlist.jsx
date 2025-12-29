@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaFilter } from 'react-icons/fa';
 import HeartIcon from '../components/ui/HeartIcon';
-import { fetchProductDetails } from '../redux/slices/productsSlice';
+import { fetchProductDetails, updateWishlistCount } from '../redux/slices/productsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import FilterSidebar from '../components/Products/FilterSidebar';
 import SortOptions from '../components/Products/SortOptions';
@@ -176,6 +176,12 @@ const Wishlist = () => {
     applyFilters(filters);
   }, [sortBy]);
 
+  useEffect(() => {
+    if (products.length > 0) {
+      applyFilters(filters);
+    }
+  }, [sortBy, products, filters]);
+
   // Sort products based on sortBy
   const sortProducts = (productsToSort, sortType) => {
     const sortedProducts = [...productsToSort];
@@ -274,6 +280,9 @@ const Wishlist = () => {
         const saved = localStorage.getItem('wishlist');
         const items = saved ? JSON.parse(saved) : [];
         setWishlist(items);
+        
+        // Update Redux store with initial wishlist count
+        dispatch(updateWishlistCount(items.length));
 
         if (items.length === 0) {
           setLoading(false);
@@ -316,8 +325,8 @@ const Wishlist = () => {
     // Update localStorage
     localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
 
-    // Force a re-render to ensure UI updates
-    setWishlist(prev => [...updatedWishlist]);
+    // Update Redux store with new wishlist count
+    dispatch(updateWishlistCount(updatedWishlist.length));
   };
 
   const handleProductClick = () => {
@@ -350,8 +359,8 @@ const Wishlist = () => {
                 currentCategory={null}
                 onFilterApply={toggleSidebar}
                 isDay={isDay}
-                onFilterChange={handleFilterChange} // Add this prop
-                filters={filters} // Pass the current filters
+                onFilterChange={handleFilterChange}
+                filters={filters}
             />
           </div>
         </div>

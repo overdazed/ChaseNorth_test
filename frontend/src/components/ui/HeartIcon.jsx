@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateWishlistCount } from '../../redux/slices/productsSlice';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
@@ -27,6 +28,7 @@ const HeartIcon = ({
   }, [productId]);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
   const handleClick = (e) => {
@@ -61,6 +63,9 @@ const HeartIcon = ({
       }
 
       localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      
+      // Update Redux store with new wishlist count
+      dispatch(updateWishlistCount(wishlist.length));
     }
   };
   const handleIconClick = (e) => {

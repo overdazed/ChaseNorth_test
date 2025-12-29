@@ -67,15 +67,16 @@ const UserLayout = () => {
         {/* Header */}
             <Header transparent={isHomePage}/>
         {/* Main Content */}
-            <main className="flex-grow">
                 {!isHomePage &&
                     !isRegisterPage &&
                     !isLoginPage &&
                     !location.pathname.startsWith('/reset-password') &&
                     !location.pathname.startsWith('/forgot-password') &&
                     <Breadcrumbs />}
-                <Outlet/>
 
+
+            <main className="flex-grow">
+                <Outlet/>
 
             {/*/!* Featured Section *!/*/}
             {/*<Featured />*/}
