@@ -41,7 +41,6 @@ const Wishlist = () => {
   const [sortBy, setSortBy] = useState('bestSelling');
   const location = useLocation();
   const dispatch = useDispatch();
-  const { user, token } = useSelector((state) => state.auth);
   const sidebarRef = useRef(null);
   const [filters, setFilters] = useState({
     color: '',
@@ -278,54 +277,35 @@ const Wishlist = () => {
   useEffect(() => {
     const fetchWishlistProducts = async () => {
       try {
-        setLoading(true);
+        const saved = localStorage.getItem('wishlist');
+        const items = saved ? JSON.parse(saved) : [];
+        setWishlist(items);
         
-        if (user && token) {
-          // Fetch wishlist from server for logged-in users
-          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/wishlist`, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-          
-          if (response.ok) {
-            const data = await response.json();
-            if (data.success) {
-              setWishlist(data.data || []);
-              
-              // Fetch product details for each item in wishlist
-              if (data.data && data.data.length > 0) {
-                const productPromises = data.data.map(product => 
-                  dispatch(fetchProductDetails(product._id || product)).unwrap()
-                );
-                const productsData = await Promise.all(productPromises);
-                setProducts(productsData);
-                setFilteredProducts(productsData);
-              } else {
-                setProducts([]);
-                setFilteredProducts([]);
-              }
-            }
-          }
-        } else {
-          // Fallback to localStorage for non-logged in users
-          const savedWishlist = localStorage.getItem('wishlist');
-          if (savedWishlist) {
-            const wishlistItems = JSON.parse(savedWishlist);
-            setWishlist(wishlistItems);
-            
-            if (wishlistItems.length > 0) {
-              const productPromises = wishlistItems.map(id => 
-                dispatch(fetchProductDetails(id)).unwrap()
-              );
-              const productsData = await Promise.all(productPromises);
-              setProducts(productsData);
-              setFilteredProducts(productsData);
-            }
-          }
+        // Update Redux store with initial wishlist count
+        dispatch(updateWishlistCount(items.length));
+
+        if (items.length === 0) {
+          setLoading(false);
+          return;
         }
+
+        // Fetch product details for each item in wishlist
+        const productPromises = items.map(async (id) => {
+          try {
+            const product = await dispatch(fetchProductDetails(id)).unwrap();
+            return product;
+          } catch (error) {
+            console.error(`Error fetching product ${id}:`, error);
+            return null; // Return null for failed fetches
+          }
+        });
+
+        const productsData = await Promise.all(productPromises);
+        // Filter out null values (failed fetches)
+        const validProducts = productsData.filter(product => product !== null);
+        setProducts(validProducts);
       } catch (error) {
-        console.error('Error fetching wishlist:', error);
+        console.error('Error in fetchWishlistProducts:', error);
       } finally {
         setLoading(false);
       }

@@ -70,7 +70,6 @@ const reportRoutes = require('./routes/reportRoutes');
 const bugReportRoutes = require('./routes/bugReportRoutes');
 const initializeCounters = require('./initializeCounter');
 const adminReportRoutes = require('./routes/adminReportRoutes');
-const wishlistRoutes = require('./routes/wishlistRoutes');
 
 // Test route from minimal.js
 app.get('/api/test', (req, res) => {
@@ -96,7 +95,6 @@ app.use('/api/invoices', invoiceRoutes);
 app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/bug-report', bugReportRoutes);
-app.use('/api/wishlist', wishlistRoutes);
 
 // Additional routes (commented out for now - enable one by one as needed)
 app.use('/api/upload', uploadRoutes);

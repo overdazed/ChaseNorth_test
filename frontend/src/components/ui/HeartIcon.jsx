@@ -2,131 +2,94 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateWishlistCount } from '../../redux/slices/productsSlice';
-import { addToWishlist, removeFromWishlist, checkWishlist } from '../../services/wishlistService';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 const HeartIcon = ({
-  className = '',
-  color = '#0a0a0a',
-  hoverColor = '#000000',
-  productId,
-  containerClass = '',
-  noAnimation = false,
-  onClick,
-  style
-}) => {
+                     className = '',
+                     color = '#0a0a0a',
+                     hoverColor = '#000000',
+                     productId,
+                     containerClass = '',
+                     noAnimation = false,
+                     onClick,
+                     style
+                   }) => {
+// const HeartIcon = ({ className, color = '#374151', productId, containerClass = '' }) => {
   const [isActive, setIsActive] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user, token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
-  // Check if product is in wishlist when component mounts or user changes
-  useEffect(() => {
-    const checkIfInWishlist = async () => {
-      if (user && token) {
-        try {
-          const isInWishlist = await checkWishlist(productId, token);
-          setIsActive(isInWishlist);
-        } catch (error) {
-          console.error('Error checking wishlist:', error);
-        }
-      } else if (typeof window !== 'undefined') {
-        // Fallback to localStorage for non-logged in users
-        const saved = localStorage.getItem('wishlist');
-        const wishlist = saved ? JSON.parse(saved) : [];
-        const isProductInWishlist = wishlist.some(id => String(id) === String(productId));
-        setIsActive(isProductInWishlist);
-      }
-    };
-
-    checkIfInWishlist();
-  }, [productId, user, token]);
-
-  // Update wishlist count when user logs in/out
-  useEffect(() => {
-    const updateWishlist = async () => {
-      if (user && token) {
-        try {
-          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/wishlist`, {
-            headers: {
-              'Authorization': `Bearer ${token}`
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('wishlist');
+            if (saved) {
+                const wishlist = JSON.parse(saved);
+                // Ensure we're not counting duplicates
+                const uniqueWishlist = [...new Set(wishlist)];
+                if (uniqueWishlist.length !== wishlist.length) {
+                    // If there were duplicates, update localStorage
+                    localStorage.setItem('wishlist', JSON.stringify(uniqueWishlist));
+                }
+                dispatch(updateWishlistCount(uniqueWishlist.length));
+            } else {
+                // If no wishlist exists, ensure count is 0
+                dispatch(updateWishlistCount(0));
             }
-          });
-          const data = await response.json();
-          if (data.success) {
-            dispatch(updateWishlistCount(data.count || 0));
-          }
-        } catch (error) {
-          console.error('Error updating wishlist count:', error);
         }
-      } else if (typeof window !== 'undefined') {
-        // Fallback to localStorage for non-logged in users
-        const saved = localStorage.getItem('wishlist');
-        const wishlist = saved ? JSON.parse(saved) : [];
-        dispatch(updateWishlistCount(wishlist.length));
-      } else {
-        dispatch(updateWishlistCount(0));
-      }
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('wishlist');
+            const wishlist = saved ? JSON.parse(saved) : [];
+            const isProductInWishlist = wishlist.some(id => String(id) === String(productId));
+            setIsActive(isProductInWishlist);
+        }
+    }, [productId]); // Remove dispatch from dependencies here
+
+
+    // In HeartIcon.jsx, update the handleClick function
+    const handleClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (!user) {
+            const pendingWishlist = JSON.parse(localStorage.getItem('pendingWishlist') || '[]');
+            const productIdStr = String(productId);
+            if (!pendingWishlist.includes(productIdStr)) {
+                pendingWishlist.push(productIdStr);
+                localStorage.setItem('pendingWishlist', JSON.stringify(pendingWishlist));
+            }
+            navigate('/login', { state: { from: window.location.pathname } });
+            return;
+        }
+
+        const newActiveState = !isActive;
+        setIsActive(newActiveState);
+
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('wishlist');
+            let wishlist = saved ? JSON.parse(saved) : [];
+            const productIdStr = String(productId);
+
+            if (newActiveState) {
+                // Only add if not already in the list
+                if (!wishlist.includes(productIdStr)) {
+                    wishlist = [...wishlist, productIdStr];
+                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                    dispatch(updateWishlistCount(wishlist.length));
+                }
+            } else {
+                const newWishlist = wishlist.filter(id => String(id) !== productIdStr);
+                if (newWishlist.length !== wishlist.length) {
+                    localStorage.setItem('wishlist', JSON.stringify(newWishlist));
+                    dispatch(updateWishlistCount(newWishlist.length));
+                }
+            }
+        }
     };
-
-    updateWishlist();
-  }, [user, token, dispatch]);
-
-  const handleClick = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    if (isLoading) return;
-    
-    setIsLoading(true);
-    
-    try {
-      if (!user) {
-        // For non-logged in users, use localStorage and redirect to login
-        const pendingWishlist = JSON.parse(localStorage.getItem('pendingWishlist') || '[]');
-        const productIdStr = String(productId);
-        
-        if (!pendingWishlist.includes(productIdStr)) {
-          pendingWishlist.push(productIdStr);
-          localStorage.setItem('pendingWishlist', JSON.stringify(pendingWishlist));
-        }
-        
-        navigate('/login', { state: { from: window.location.pathname } });
-        return;
-      }
-      
-      // For logged-in users, use the API
-      const newActiveState = !isActive;
-      
-      if (newActiveState) {
-        await addToWishlist(productId, token);
-      } else {
-        await removeFromWishlist(productId, token);
-      }
-      
-      setIsActive(newActiveState);
-      
-      // Update the wishlist count after the operation
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/wishlist`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await response.json();
-      
-      if (data.success) {
-        dispatch(updateWishlistCount(data.count || 0));
-      }
-    } catch (error) {
-      console.error('Error updating wishlist:', error);
-      // Revert the state if there was an error
-      setIsActive(!isActive);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleIconClick = (e) => {
     if (onClick) {
