@@ -273,39 +273,24 @@ const Wishlist = () => {
     setSortBy(sortType);
   };
 
-  // Handle login redirect with pending wishlist items
-  useEffect(() => {
-    const pendingWishlist = localStorage.getItem('pendingWishlist');
-    if (pendingWishlist && user) {
-      const items = JSON.parse(pendingWishlist);
-      // Add all pending items to the wishlist
-      items.forEach(item => {
-        if (!wishlist.some(product => product._id === item)) {
-          dispatch(addToWishlist(item));
-        }
-      });
-      localStorage.removeItem('pendingWishlist');
-      toast.success('Your saved items have been added to your wishlist');
-    }
-  }, [user, wishlist, dispatch]);
-
   // Fetch product details for each item in wishlist
   useEffect(() => {
     const fetchWishlistProducts = async () => {
       try {
-        const wishlistItems = await dispatch(fetchWishlist()).unwrap();
-        setWishlist(wishlistItems);
+        const saved = localStorage.getItem('wishlist');
+        const items = saved ? JSON.parse(saved) : [];
+        setWishlist(items);
         
         // Update Redux store with initial wishlist count
-        dispatch(updateWishlistCount(wishlistItems.length));
+        dispatch(updateWishlistCount(items.length));
 
-        if (wishlistItems.length === 0) {
+        if (items.length === 0) {
           setLoading(false);
           return;
         }
 
         // Fetch product details for each item in wishlist
-        const productPromises = wishlistItems.map(async (id) => {
+        const productPromises = items.map(async (id) => {
           try {
             const product = await dispatch(fetchProductDetails(id)).unwrap();
             return product;
