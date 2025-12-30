@@ -18,63 +18,59 @@ const HeartIcon = ({
 // const HeartIcon = ({ className, color = '#374151', productId, containerClass = '' }) => {
   const [isActive, setIsActive] = useState(false);
 
-  // Load saved state from localStorage on mount and sync with Redux
+  // Load saved state from localStorage on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('wishlist');
       const wishlist = saved ? JSON.parse(saved) : [];
-      setIsActive(wishlist.some(id => id === String(productId)));
-      
-      // Update Redux store with current wishlist count
-      if (wishlist.length > 0) {
-        dispatch(updateWishlistCount(wishlist.length));
-      }
+      // setIsActive(wishlist.includes(productId));
+        setIsActive(wishlist.some(id => id === String(productId)));
     }
-  }, [productId, dispatch]);
+  }, [productId]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+    // In HeartIcon.jsx, update the handleClick function
+    const handleClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-    // Check if user is not logged in
-    if (!user) {
-      // Store the product ID in local storage for after login
-      const pendingWishlist = JSON.parse(localStorage.getItem('pendingWishlist') || '[]');
-      if (!pendingWishlist.includes(productId)) {
-        pendingWishlist.push(productId);
-        localStorage.setItem('pendingWishlist', JSON.stringify(pendingWishlist));
-      }
-      // Redirect to login page with a return URL
-      navigate('/login', { state: { from: window.location.pathname } });
-      return;
-    }
+        if (!user) {
+            const pendingWishlist = JSON.parse(localStorage.getItem('pendingWishlist') || '[]');
+            if (!pendingWishlist.some(id => id === String(productId))) {
+                pendingWishlist.push(productId);
+                localStorage.setItem('pendingWishlist', JSON.stringify(pendingWishlist));
+            }
+            navigate('/login', { state: { from: window.location.pathname } });
+            return;
+        }
 
-    const newActiveState = !isActive;
-    setIsActive(newActiveState);
+        const newActiveState = !isActive;
+        setIsActive(newActiveState);
 
-    // Update localStorage and Redux
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('wishlist');
-      let wishlist = saved ? JSON.parse(saved) : [];
-      let updatedWishlist;
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('wishlist');
+            let wishlist = saved ? JSON.parse(saved) : [];
 
-      if (newActiveState) {
-        updatedWishlist = [...new Set([...wishlist, productId])];
-      } else {
-        updatedWishlist = wishlist.filter(id => id !== productId);
-      }
+            // Ensure we're working with strings for consistent comparison
+            const productIdStr = String(productId);
 
-      // Only update localStorage and Redux if there's an actual change
-      if (JSON.stringify(wishlist) !== JSON.stringify(updatedWishlist)) {
-        localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
-        dispatch(updateWishlistCount(updatedWishlist.length));
-      }
-    }
-  };
+            if (newActiveState) {
+                // Only add if not already in the list
+                if (!wishlist.some(id => String(id) === productIdStr)) {
+                    wishlist.push(productIdStr);
+                }
+            } else {
+                wishlist = wishlist.filter(id => String(id) !== productIdStr);
+            }
+
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            dispatch(updateWishlistCount(wishlist.length));
+        }
+    };
+
   const handleIconClick = (e) => {
     if (onClick) {
       onClick(e);
