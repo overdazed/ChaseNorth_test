@@ -48,6 +48,7 @@ const Wishlist = () => {
     category: '',
     gender: 'All'  // Set 'All' as default
   });
+  const { user } = useSelector((state) => state.auth);
 
   // Theme state
   const [isDay, setIsDay] = useState(() => {
@@ -278,15 +279,11 @@ const Wishlist = () => {
     const fetchWishlistProducts = async () => {
       try {
         // Get the current user from Redux state
-        const { user } = useSelector((state) => state.auth);
         const userId = user?._id || 'guest';
-
         // Load wishlist for the current user
         const saved = localStorage.getItem(`wishlist_${userId}`);
         const items = saved ? JSON.parse(saved) : [];
         setWishlist(items);
-
-        // Update Redux store with initial wishlist count
         dispatch(updateWishlistCount(items.length));
 
         if (items.length === 0) {
@@ -294,7 +291,7 @@ const Wishlist = () => {
           return;
         }
 
-        // Rest of the code remains the same...
+        // Fetch product details for each item in wishlist
         const productPromises = items.map(async (id) => {
           try {
             const product = await dispatch(fetchProductDetails(id)).unwrap();
@@ -318,10 +315,9 @@ const Wishlist = () => {
     if (typeof window !== 'undefined') {
       fetchWishlistProducts();
     }
-  }, [dispatch]);
+  }, [dispatch, user?._id]); // Add user._id to dependencies
 
   const removeFromWishlist = (productId) => {
-    const { user } = useSelector((state) => state.auth);
     const userId = user?._id || 'guest';
 
     // Update local state

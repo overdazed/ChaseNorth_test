@@ -132,35 +132,35 @@ const WishlistInitializer = () => {
         // localStorage.removeItem('wishlist');
         // dispatch(updateWishlistCount(0));
 
-        console.log('WishlistInitializer mounted');
-
-        if (typeof window !== 'undefined') {
-            const saved = localStorage.getItem('wishlist');
-            console.log('Initial wishlist from localStorage:', saved);
-
-            if (saved) {
-                const wishlist = JSON.parse(saved);
-                console.log('Parsed wishlist:', wishlist);
-
-                const uniqueWishlist = [...new Set(wishlist.map(id => String(id)))];
-                console.log('Unique wishlist:', uniqueWishlist);
-
-                if (uniqueWishlist.length !== wishlist.length) {
-                    console.log('Found duplicates, updating localStorage');
-                    localStorage.setItem('wishlist', JSON.stringify(uniqueWishlist));
-                }
-                console.log('Dispatching wishlist count:', uniqueWishlist.length);
-                dispatch(updateWishlistCount(uniqueWishlist.length));
-            } else {
-                console.log('No saved wishlist, setting count to 0');
-                dispatch(updateWishlistCount(0));
-            }
-        }
+        // console.log('WishlistInitializer mounted');
+        //
+        // if (typeof window !== 'undefined') {
+        //     const saved = localStorage.getItem('wishlist');
+        //     console.log('Initial wishlist from localStorage:', saved);
+        //
+        //     if (saved) {
+        //         const wishlist = JSON.parse(saved);
+        //         console.log('Parsed wishlist:', wishlist);
+        //
+        //         const uniqueWishlist = [...new Set(wishlist.map(id => String(id)))];
+        //         console.log('Unique wishlist:', uniqueWishlist);
+        //
+        //         if (uniqueWishlist.length !== wishlist.length) {
+        //             console.log('Found duplicates, updating localStorage');
+        //             localStorage.setItem('wishlist', JSON.stringify(uniqueWishlist));
+        //         }
+        //         console.log('Dispatching wishlist count:', uniqueWishlist.length);
+        //         dispatch(updateWishlistCount(uniqueWishlist.length));
+        //     } else {
+        //         console.log('No saved wishlist, setting count to 0');
+        //         dispatch(updateWishlistCount(0));
+        //     }
+        // }
 
         return () => {
             console.log('WishlistInitializer unmounting');
         };
-    }, [dispatch, user?._id]);
+    }, [dispatch, userId]);
 
     return null;
 };
