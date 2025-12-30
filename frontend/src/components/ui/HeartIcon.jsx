@@ -57,8 +57,9 @@ const HeartIcon = ({
 
         if (!user) {
             const pendingWishlist = JSON.parse(localStorage.getItem('pendingWishlist') || '[]');
-            if (!pendingWishlist.includes(String(productId))) {
-                pendingWishlist.push(String(productId));
+            const productIdStr = String(productId);
+            if (!pendingWishlist.includes(productIdStr)) {
+                pendingWishlist.push(productIdStr);
                 localStorage.setItem('pendingWishlist', JSON.stringify(pendingWishlist));
             }
             navigate('/login', { state: { from: window.location.pathname } });
@@ -72,16 +73,20 @@ const HeartIcon = ({
             const saved = localStorage.getItem('wishlist');
             let wishlist = saved ? JSON.parse(saved) : [];
             const productIdStr = String(productId);
-            const isProductInWishlist = wishlist.some(id => String(id) === productIdStr);
 
-            if (newActiveState && !isProductInWishlist) {
-                wishlist.push(productIdStr);
-                localStorage.setItem('wishlist', JSON.stringify(wishlist));
-                dispatch(updateWishlistCount(wishlist.length));
-            } else if (!newActiveState && isProductInWishlist) {
-                wishlist = wishlist.filter(id => String(id) !== productIdStr);
-                localStorage.setItem('wishlist', JSON.stringify(wishlist));
-                dispatch(updateWishlistCount(wishlist.length));
+            if (newActiveState) {
+                // Only add if not already in the list
+                if (!wishlist.includes(productIdStr)) {
+                    wishlist = [...wishlist, productIdStr];
+                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                    dispatch(updateWishlistCount(wishlist.length));
+                }
+            } else {
+                const newWishlist = wishlist.filter(id => String(id) !== productIdStr);
+                if (newWishlist.length !== wishlist.length) {
+                    localStorage.setItem('wishlist', JSON.stringify(newWishlist));
+                    dispatch(updateWishlistCount(newWishlist.length));
+                }
             }
         }
     };
