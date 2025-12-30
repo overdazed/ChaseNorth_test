@@ -56,4 +56,24 @@ I can upload images and instantly also remove them. The imaged get's uploaded to
 After I wrote a review, I can Edit it. Upload or delete images and reset rating. 
 I can also delete the Review and If I want to like another review an other user made, it is also possible.
 
-I
+In Newsletter, I can enter my email and then get greeted shortly after with a discount code.
+
+In Footer are the Links to FAQ and other informational pages.
+On the right side on the top there are social media links.
+On the bottom left corner, there is a Bug Report Button, when someone finds a bug, they can report it.
+When they click submit, they get an "Thank you for the help" and an email get's send with the previously visited site
+and the discription.
+
+On top right I can toggle between light and dark mode.
+
+When I click the cart and check out, I get to the Checkout screen.
+The fields are with patterns: 
+- only letters in first name, last name, city
+- the first letter is automatically uppercase
+- Address must be street + number
+- postalcode is 7 characters, because netherlands has this pattern: 1234 AB
+- Phone should match the country
+
+A dicount can be added and is automatically subtracted from the subtotal (example: SAVE20) (FREESHIPPING)
+
+When I paid, I get redirected to the Order confirmation page
