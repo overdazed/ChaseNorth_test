@@ -27,10 +27,10 @@ const SkeletonOne = ({ onClick }) => {
 
             {/* Content */}
             <div className="absolute bottom-10 left-9 z-10 space-y-4">
-                <p className="font-bold text-white text-6xl transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out">
+                <p className="uppercase font-medium text-white text-6xl transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
                     Women
                 </p>
-                <p className="font-normal text-base text-white transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[18em] break-words opacity-0 group-hover:opacity-100">
+                <p className="font-normal text-lg text-white transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[18em] break-words opacity-0 group-hover:opacity-100">
                     Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
                     sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
                 </p>
@@ -81,8 +81,8 @@ const SkeletonTwo = ({ onClick }) => {
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
 
             {/* Content - Right Aligned */}
-            <div className="absolute bottom-10 right-4 z-10 space-y-4 text-right">
-                <p className="font-bold text-white text-6xl transform translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out">
+            <div className="absolute bottom-10 right-9 z-10 space-y-4 text-right">
+                <p className="uppercase font-medium text-white text-6xl transform translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
                     Top
                 </p>
                 <p className="font-normal text-base text-white transform translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[16em] break-words opacity-0 group-hover:opacity-100">
@@ -114,7 +114,7 @@ const SkeletonThree = ({ onClick }) => {
 
             {/* Content */}
             <div className="absolute top-10 left-9 z-10 space-y-4">
-                <p className="font-bold text-white text-6xl transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out">
+                <p className="uppercase font-medium text-white text-6xl transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
                     Bottom
                 </p>
                 <p className="font-normal text-base text-white transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[16em] break-words opacity-0 group-hover:opacity-100">
@@ -144,8 +144,8 @@ const SkeletonFour = ({ onClick }) => {
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
 
             {/* Content - Right Aligned */}
-            <div className="absolute top-10 right-4 z-10 space-y-4 text-right">
-                <p className="font-bold text-white text-6xl transform translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out">
+            <div className="absolute top-10 right-9 z-10 space-y-4 text-right">
+                <p className="uppercase font-medium text-white text-6xl transform translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
                     Men
                 </p>
                 <p className="font-normal text-base text-white transform translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[16em] break-words opacity-0 group-hover:opacity-100">
