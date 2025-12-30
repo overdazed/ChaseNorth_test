@@ -584,9 +584,30 @@ const FilterSidebar = ({
                                         type="button"
                                         name="color"
                                         value={color}
-                                        onClick={handleFilterChange || onFilterChange}
-                                        className={`w-6 h-6 rounded-full mb-1 ${
-                                            filters.color === color ? 'ring-2 ring-offset-1 ring-blue-500' : ''
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            const newColors = filters.color?.includes(color)
+                                                ? filters.color.filter(c => c !== color)
+                                                : [...(filters.color || []), color];
+                                            
+                                            // Create a synthetic event to match the expected format
+                                            const syntheticEvent = {
+                                                target: {
+                                                    name: 'color',
+                                                    value: newColors,
+                                                    type: 'checkbox',
+                                                    checked: !filters.color?.includes(color)
+                                                }
+                                            };
+                                            
+                                            if (onFilterChange) {
+                                                onFilterChange(syntheticEvent);
+                                            }
+                                        }}
+                                        className={`w-6 h-6 rounded-full mb-1 transition-all ${
+                                            filters.color?.includes(color) 
+                                                ? 'ring-2 ring-offset-1 ring-blue-500' 
+                                                : ''
                                         }`}
                                         style={{
                                             backgroundColor: colorValue,

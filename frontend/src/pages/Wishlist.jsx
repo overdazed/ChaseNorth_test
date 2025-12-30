@@ -43,7 +43,7 @@ const Wishlist = () => {
   const dispatch = useDispatch();
   const sidebarRef = useRef(null);
   const [filters, setFilters] = useState({
-    color: '',
+    color: [],
     size: [],
     category: '',
     gender: 'All'  // Set 'All' as default
@@ -164,9 +164,14 @@ const Wishlist = () => {
         }
       }
 
-      // Filter by color
-      if (filters.color && !product.colors?.includes(filters.color)) {
-        return false;
+      // Filter by color - check if any of the selected colors match the product's colors
+      if (filters.color && filters.color.length > 0) {
+        const hasMatchingColor = filters.color.some(color => 
+          product.colors?.includes(color)
+        );
+        if (!hasMatchingColor) {
+          return false;
+        }
       }
 
       return true;
@@ -361,10 +366,13 @@ const Wishlist = () => {
     dispatch(updateWishlistCount(updatedWishlist.length));
   };
 
-  const handleProductClick = () => {
+  const handleProductClick = (e, productId) => {
+    e.preventDefault();
     // Save scroll position with current path as key
     const scrollY = window.scrollY || document.documentElement.scrollTop;
     sessionStorage.setItem(`scrollPos:${location.pathname}`, scrollY);
+    // Navigate to the product page
+    window.location.href = `/product/${productId}`;
   };
 
   if (loading) {
@@ -437,7 +445,7 @@ const Wishlist = () => {
 
                         <Link
                             to={`/product/${product._id}`}
-                            onClick={handleProductClick}
+                            onClick={(e) => handleProductClick(e, product._id)}
                             className="block w-full relative overflow-hidden"
                         >
                           {/* Aspect ratio container - 4:5 */}
