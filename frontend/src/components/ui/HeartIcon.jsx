@@ -6,89 +6,84 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 const HeartIcon = ({
-                     className = '',
-                     color = '#0a0a0a',
-                     hoverColor = '#000000',
-                     productId,
-                     containerClass = '',
-                     noAnimation = false,
-                     onClick,
-                     style
-                   }) => {
-// const HeartIcon = ({ className, color = '#374151', productId, containerClass = '' }) => {
-  const [isActive, setIsActive] = useState(false);
-  const navigate = useNavigate();
+  className = '',
+  productId,
+  containerClass = '',
+  isFilled = false,
+  noAnimation = false,
+  count = 0
+}) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [isActive, setIsActive] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const saved = localStorage.getItem('wishlist');
-            if (saved) {
-                const wishlist = JSON.parse(saved);
-                // Ensure we're not counting duplicates
-                const uniqueWishlist = [...new Set(wishlist)];
-                if (uniqueWishlist.length !== wishlist.length) {
-                    // If there were duplicates, update localStorage
-                    localStorage.setItem('wishlist', JSON.stringify(uniqueWishlist));
-                }
-                dispatch(updateWishlistCount(uniqueWishlist.length));
-            } else {
-                // If no wishlist exists, ensure count is 0
-                dispatch(updateWishlistCount(0));
-            }
+  // Initialize active state based on wishlist
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedUser = localStorage.getItem('userInfo');
+      const currentUser = savedUser ? JSON.parse(savedUser) : null;
+      const wishlistKey = currentUser ? `wishlist_${currentUser._id}` : 'wishlist_guest';
+      const saved = localStorage.getItem(wishlistKey);
+      const wishlist = saved ? JSON.parse(saved) : [];
+      const isProductInWishlist = wishlist.some(id => String(id) === String(productId));
+      setIsActive(isProductInWishlist);
+    }
+  }, [productId, user]);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Get current user from Redux or local storage
+    const savedUser = localStorage.getItem('userInfo');
+    const currentUser = savedUser ? JSON.parse(savedUser) : null;
+    
+    // Redirect to login if not logged in
+    if (!currentUser) {
+      const pendingWishlist = JSON.parse(localStorage.getItem('pendingWishlist') || '[]');
+      const productIdStr = String(productId);
+      if (!pendingWishlist.includes(productIdStr)) {
+        pendingWishlist.push(productIdStr);
+        localStorage.setItem('pendingWishlist', JSON.stringify(pendingWishlist));
+      }
+      navigate('/login', { state: { from: window.location.pathname } });
+      return;
+    }
+
+    const newActiveState = !isActive;
+    setIsActive(newActiveState);
+
+    if (typeof window !== 'undefined') {
+      // Use user-specific wishlist key
+      const wishlistKey = currentUser ? `wishlist_${currentUser._id}` : 'wishlist_guest';
+      const saved = localStorage.getItem(wishlistKey);
+      let wishlist = saved ? JSON.parse(saved) : [];
+      const productIdStr = String(productId);
+
+      if (newActiveState) {
+        // Add to wishlist if not already present
+        if (!wishlist.includes(productIdStr)) {
+          wishlist = [...wishlist, productIdStr];
+          localStorage.setItem(wishlistKey, JSON.stringify(wishlist));
+          dispatch(updateWishlistCount(wishlist.length));
         }
-    }, [dispatch]);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const saved = localStorage.getItem('wishlist');
-            const wishlist = saved ? JSON.parse(saved) : [];
-            const isProductInWishlist = wishlist.some(id => String(id) === String(productId));
-            setIsActive(isProductInWishlist);
+      } else {
+        // Remove from wishlist
+        const newWishlist = wishlist.filter(id => String(id) !== productIdStr);
+        if (newWishlist.length !== wishlist.length) {
+          localStorage.setItem(wishlistKey, JSON.stringify(newWishlist));
+          dispatch(updateWishlistCount(newWishlist.length));
         }
-    }, [productId]); // Remove dispatch from dependencies here
+      }
 
-
-    // In HeartIcon.jsx, update the handleClick function
-    const handleClick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (!user) {
-            const pendingWishlist = JSON.parse(localStorage.getItem('pendingWishlist') || '[]');
-            const productIdStr = String(productId);
-            if (!pendingWishlist.includes(productIdStr)) {
-                pendingWishlist.push(productIdStr);
-                localStorage.setItem('pendingWishlist', JSON.stringify(pendingWishlist));
-            }
-            navigate('/login', { state: { from: window.location.pathname } });
-            return;
-        }
-
-        const newActiveState = !isActive;
-        setIsActive(newActiveState);
-
-        if (typeof window !== 'undefined') {
-            const saved = localStorage.getItem('wishlist');
-            let wishlist = saved ? JSON.parse(saved) : [];
-            const productIdStr = String(productId);
-
-            if (newActiveState) {
-                // Only add if not already in the list
-                if (!wishlist.includes(productIdStr)) {
-                    wishlist = [...wishlist, productIdStr];
-                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-                    dispatch(updateWishlistCount(wishlist.length));
-                }
-            } else {
-                const newWishlist = wishlist.filter(id => String(id) !== productIdStr);
-                if (newWishlist.length !== wishlist.length) {
-                    localStorage.setItem('wishlist', JSON.stringify(newWishlist));
-                    dispatch(updateWishlistCount(newWishlist.length));
-                }
-            }
-        }
+      // Trigger animation if not disabled
+      if (!noAnimation) {
+        setIsAnimating(true);
+        setTimeout(() => setIsAnimating(false), 1000);
+      }
+    }
     };
 
   const handleIconClick = (e) => {
