@@ -23,7 +23,8 @@ const HeartIcon = ({
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('wishlist');
       const wishlist = saved ? JSON.parse(saved) : [];
-      setIsActive(wishlist.includes(productId));
+      // setIsActive(wishlist.includes(productId));
+        setIsActive(wishlist.some(id => id === String(productId)));
     }
   }, [productId]);
 
@@ -56,17 +57,15 @@ const HeartIcon = ({
       const saved = localStorage.getItem('wishlist');
       let wishlist = saved ? JSON.parse(saved) : [];
 
-      // Ensure we have a valid productId and it's not already in the wishlist
-      if (newActiveState && productId && !wishlist.includes(productId)) {
-        wishlist.push(productId);
-      } else if (!newActiveState && productId) {
+      if (newActiveState) {
+        wishlist = [...new Set([...wishlist, productId])];
+      } else {
         wishlist = wishlist.filter(id => id !== productId);
       }
 
-      // Update localStorage with the new wishlist
       localStorage.setItem('wishlist', JSON.stringify(wishlist));
       
-      // Update Redux store with the actual wishlist length
+      // Update Redux store with new wishlist count
       dispatch(updateWishlistCount(wishlist.length));
     }
   };
