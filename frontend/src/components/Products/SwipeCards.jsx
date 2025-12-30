@@ -4,6 +4,8 @@ import XMarkButton from "../ui/XMarkButton";
 import xMarkIcon from "../../assets/x-mark.svg";
 import BellButton from "../ui/BellButton";
 import RedoButton from "../ui/RedoButton";
+import { useDispatch, useSelector } from 'react-redux';
+import { updateWishlistCount } from '../../redux/wishlistSlice'; // Adjust the path as needed
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -55,6 +57,10 @@ const fetchProducts = async () => {
 };
 
 function SwipeCards() {
+  const { user } = useSelector((state) => state.auth);
+  const userId = user?._id || 'guest';
+  const dispatch = useDispatch();
+
   const [isDay, setIsDay] = useState(() => {
     if (typeof window !== 'undefined') {
       const savedTheme = localStorage.getItem('theme');
@@ -112,11 +118,14 @@ function SwipeCards() {
 
   const addToWishlist = (productId) => {
     try {
-      const saved = localStorage.getItem("wishlist");
+      const wishlistKey = `wishlist_${userId}`;
+      const saved = localStorage.getItem(wishlistKey);
       const wishlist = saved ? JSON.parse(saved) : [];
       if (!wishlist.includes(productId)) {
         const updatedWishlist = [...wishlist, productId];
-        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+        localStorage.setItem(wishlistKey, JSON.stringify(updatedWishlist));
+        // Update Redux store if needed
+        dispatch(updateWishlistCount(updatedWishlist.length));
       }
     } catch (error) {
       console.error("Error adding to wishlist:", error);
@@ -125,11 +134,14 @@ function SwipeCards() {
 
   const removeFromWishlist = (productId) => {
     try {
-      const saved = localStorage.getItem("wishlist");
+      const wishlistKey = `wishlist_${userId}`;
+      const saved = localStorage.getItem(wishlistKey);
       if (saved) {
         const wishlist = JSON.parse(saved);
         const updatedWishlist = wishlist.filter(id => id !== productId);
-        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+        localStorage.setItem(wishlistKey, JSON.stringify(updatedWishlist));
+        // Update Redux store if needed
+        dispatch(updateWishlistCount(updatedWishlist.length));
       }
     } catch (error) {
       console.error("Error removing from wishlist:", error);
@@ -142,11 +154,13 @@ function SwipeCards() {
     setSwipedCards([]);
 
     const products = await fetchProducts();
-    const savedWishlist = localStorage.getItem("wishlist");
+    const wishlistKey = `wishlist_${userId}`;
+    const savedWishlist = localStorage.getItem(wishlistKey);
     const wishlist = savedWishlist ? JSON.parse(savedWishlist) : [];
 
+    // Filter out products that are already in the wishlist
     const availableProducts = products.filter(
-      (product) => !wishlist.includes(product.id)
+        (product) => !wishlist.includes(product.id)
     );
 
     setCards(availableProducts);

@@ -10,8 +10,7 @@ const FilterSidebar = ({
                            isDay = true,
                            onFilterChange,  // Add this
                            filters = { size: [] },     // Add default empty object
-                           onResetFilters
-                        }) => {
+                       }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const location = useLocation();
     const priceFilterRef = useRef(null);
