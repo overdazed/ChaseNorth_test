@@ -18,14 +18,17 @@ const HeartIcon = ({
 // const HeartIcon = ({ className, color = '#374151', productId, containerClass = '' }) => {
   const [isActive, setIsActive] = useState(false);
 
-  // Load saved state from localStorage on mount
+  // Load saved state from localStorage on mount and sync with Redux
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('wishlist');
       const wishlist = saved ? JSON.parse(saved) : [];
       setIsActive(wishlist.includes(productId));
+      
+      // Update Redux store with current wishlist count
+      dispatch(updateWishlistCount(wishlist.length));
     }
-  }, [productId]);
+  }, [productId, dispatch]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -55,17 +58,21 @@ const HeartIcon = ({
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('wishlist');
       let wishlist = saved ? JSON.parse(saved) : [];
+      let updatedWishlist;
 
       if (newActiveState) {
-        wishlist = [...new Set([...wishlist, productId])];
+        // Add to wishlist if not already present
+        updatedWishlist = [...new Set([...wishlist, productId])];
       } else {
-        wishlist = wishlist.filter(id => id !== productId);
+        // Remove from wishlist
+        updatedWishlist = wishlist.filter(id => id !== productId);
       }
 
-      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      // Update localStorage
+      localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
       
       // Update Redux store with new wishlist count
-      dispatch(updateWishlistCount(wishlist.length));
+      dispatch(updateWishlistCount(updatedWishlist.length));
     }
   };
   const handleIconClick = (e) => {
