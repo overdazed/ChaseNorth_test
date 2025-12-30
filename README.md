@@ -22,15 +22,15 @@ I plan to add more features to the website:
 cd frontend > npm run dev <br>
 cd backend > npm run dev
 
-______________________________________________________________________________________
+__________________________________________________________________________________
 
-Project’s title: ChaseNorth E-Commerce Website
+with pip install -r requirements.txt you can install all the required packages in /frontend/ and /backend/
 
-Svetlana Pantschenko
+In backend run node seeder.js to seed all the products and reset.
 
-Github: overdazed
-edX: s-pantschenko
+### Home: 
 
-Nienburg (Weser), Germany
+So the Website begins with a custom loading screen. You are greeted with a video hero and a Action Button that leads to
+/collection/all page.
 
-29.12.2025
+Scrolling further, a scolling text comes and reveals "ChaseNorth" and it's 
