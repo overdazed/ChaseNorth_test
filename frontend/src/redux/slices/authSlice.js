@@ -3,6 +3,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import axios from 'axios';
+import { API_URL } from '../../config/config';
+import { migrateLocalWishlistToServer, processPendingWishlist } from '../../utils/migrateWishlist';
 
 // Retrieve the user info and token from local storage
 const userFromStorage = localStorage.getItem('userInfo')
@@ -17,11 +19,12 @@ const initialGuestId =
 
 // Set up initial state for authentication slice
 const initialState = {
-    user: userFromStorage,
+    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
     guestId: initialGuestId,
-    // by default we are not loading anything
     loading: false,
     error: null,
+    isAuthenticated: !!localStorage.getItem('token'),
+    token: localStorage.getItem('token') || null,
 };
 
 // Declare the async thunk that will handle the login process
@@ -79,15 +82,12 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        logout: (state) => {
+        logoutUser: (state) => {
             state.user = null;
-            state.guestId = `guest_${new Date().getTime()}`; // Reset guest ID on logout
-            // Clean up local storage
-            localStorage.removeItem('userInfo');
-            localStorage.removeItem('userToken');
-            // save new guest ID back into local storage
-            localStorage.setItem('guestId', state.guestId); // Set new guest ID in localStorage
-            state.error = null; // Clear any errors on logout
+            state.token = null;
+            state.isAuthenticated = false;
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
         },
         // Add an action that generates a new guest ID anytime
         generateNewGuestId: (state) => {
@@ -112,6 +112,16 @@ const authSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload;
+                state.token = localStorage.getItem('userToken');
+                state.isAuthenticated = true;
+                localStorage.setItem('token', state.token);
+                localStorage.setItem('user', JSON.stringify(action.payload));
+                
+                // Migrate wishlist from localStorage to server
+                migrateLocalWishlistToServer(state.token);
+                
+                // Process any pending wishlist items
+                processPendingWishlist(state.token);
             })
             // If it fails, we'll stop the loading and set the error state
             .addCase(loginUser.rejected, (state, action) => {
