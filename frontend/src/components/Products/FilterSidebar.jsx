@@ -323,15 +323,15 @@ const FilterSidebar = ({
         setSelectedBrands(newSelectedBrands);
         setSearchParams(params, { replace: true });
 
-        // Notify parent component if needed
-        // if (onFilterChange) {
-        //     onFilterChange({
-        //         target: {
-        //             name: 'brand',
-        //             value: newSelectedBrands
-        //         }
-        //     });
-        // }
+        // Notify parent component
+        if (onFilterChange) {
+            onFilterChange({
+                target: {
+                    name: 'brand',
+                    value: newSelectedBrands
+                }
+            });
+        }
     };
 
     // Check if a brand is currently selected

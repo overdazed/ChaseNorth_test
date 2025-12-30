@@ -74,6 +74,7 @@ const Wishlist = () => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.target) &&
           !event.target.closest('button[onclick*="toggleSidebar"]')) {
         setIsSidebarOpen(false);
+        document.body.style.overflow = ''; // Add this line
       }
     };
 
@@ -86,13 +87,14 @@ const Wishlist = () => {
   }, []);
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-    document.body.style.overflow = isSidebarOpen ? 'auto' : 'hidden';
+    const newState = !isSidebarOpen;
+    setIsSidebarOpen(newState);
+    document.body.style.overflow = newState ? 'hidden' : '';
   };
 
   useEffect(() => {
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = '';
     };
   }, []);
 
@@ -112,17 +114,6 @@ const Wishlist = () => {
             ) : true
       });
 
-      // Filter by color
-      if (filters.color && !product.colors?.includes(filters.color)) {
-        return false;
-      }
-
-      // Filter by size
-      if (filters.size && filters.size.length > 0 &&
-          !filters.size.some(size => product.sizes?.includes(size))) {
-        return false;
-      }
-
       // Filter by category
       if (filters.category && filters.category !== 'All' && product.category !== filters.category) {
         return false;
@@ -138,6 +129,39 @@ const Wishlist = () => {
         } else if (product.gender !== filters.gender) {
           return false;
         }
+      }
+
+      // Filter by size
+      if (filters.size && filters.size.length > 0 &&
+          !filters.size.some(size => product.sizes?.includes(size))) {
+        return false;
+      }
+
+      // Filter by material
+      if (filters.material && filters.material.length > 0) {
+        if (!filters.material.some(material =>
+            product.material &&
+            typeof product.material === 'string' &&
+            product.material.toLowerCase().includes(material.toLowerCase())
+        )) {
+          return false;
+        }
+      }
+
+      // Filter by brand
+      if (filters.brand && filters.brand.length > 0) {
+        if (!filters.brand.some(brand =>
+            product.brand &&
+            typeof product.brand === 'string' &&
+            product.brand.toLowerCase() === brand.toLowerCase()
+        )) {
+          return false;
+        }
+      }
+
+      // Filter by color
+      if (filters.color && !product.colors?.includes(filters.color)) {
+        return false;
       }
 
       return true;
