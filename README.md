@@ -28,77 +28,68 @@ with pip install -r requirements.txt you can install all the required packages i
 
 In backend run node seeder.js to seed all the products and reset.
 
-### Home: 
+The website opens with a custom loading screen, followed by a full-width video hero section. 
+A clear call-to-action button immediately leads users to the /collection/all page.
 
-So the Website begins with a custom loading screen. You are greeted with a video hero and a Action Button that leads to
-/collection/all page.
+As the user scrolls, a scrolling text animation reveals the brand name “ChaseNorth,” zooming into either 
+a light or dark focal point depending on the active theme. Light and dark mode are fully supported and can be 
+toggled at any time from the top-right corner.
 
-Scrolling further, a scolling text comes and reveals "ChaseNorth" and it's zoomed into dark or light point, depending on
-the light or dark mode.
+Next comes a bento-style grid layout. Each tile links directly to its corresponding product collection, 
+offering quick visual navigation.
 
-Then comes a Bento grid Layout which leads to the according collections when you click it.
+Below that, a featured blog snippet introduces “Discover Weekly.” On hover, the content reveals a sneak peek. 
+The section is intentionally partially covered at first to create a sense of surprise and curiosity.
 
-Followed by a snipped of a Blog Post, Discover Weekly is following.
-There when you hover you see a sneak peak, it's with intention that it's covered first, because it should sence a 
-surprise effect. 
+An “Explore New Arrivals” section follows, displaying the latest ten products uploaded within the past 14 days.
 
-After that section a Explore New Arrivals section, it shows the last 10 items uploaded in the last 14 days.
+A parallax transition then leads into the Best Sellers section. Here, users can see product ratings, like items, 
+and add them directly to the cart. Beneath the main product image, the last eight previously viewed items are 
+displayed in a horizontally scrollable carousel.
 
-A parralax effect is leading to best seller section.
+On the product detail page, users can view all product information pulled directly from the database. 
+Reviews are fully interactive: users can write, edit, or delete their own reviews, select a rating that 
+dynamically updates rating bars, and upload or remove images instantly. Review images are stored in a dedicated 
+Supabase “reviews” bucket. Users can also like reviews written by others.
 
-In the Best Seller Section I can see the rating of the Best seller and can click and Add to Cart. 
-I can also Like the Item.
-Under the main picture I see the 8 last previously viewed items and can scroll back and forth.
-In Product Details I can see the Product Information from the Database.
+The newsletter section allows users to enter their email address and, shortly afterward, receive a discount code.
 
-I also can Write a review. I can select rating which later get's updated with the bars.
-I can upload images and instantly also remove them. The imaged get's uploaded to a "reviews" bucket in supabase.
-After I wrote a review, I can Edit it. Upload or delete images and reset rating. 
-I can also delete the Review and If I want to like another review an other user made, it is also possible.
+The footer contains links to FAQs and other informational pages. Social media links are placed at the top-right 
+of the site for visibility.
 
-In Newsletter, I can enter my email and then get greeted shortly after with a discount code.
+In the bottom-left corner, a bug report button allows users to report issues. Upon submission, they receive a 
+thank-you message, and an email is automatically sent containing the previously visited page and the bug description.
 
-In Footer are the Links to FAQ and other informational pages.
-On the right side on the top there are social media links.
-On the bottom left corner, there is a Bug Report Button, when someone finds a bug, they can report it.
-When they click submit, they get an "Thank you for the help" and an email get's send with the previously visited site
-and the discription.
+Clicking the cart icon leads to the checkout screen. All input fields are validated with strict patterns:
 
-On top right I can toggle between light and dark mode.
+- First name, last name, and city accept letters only, with automatic capitalization of the first letter
+- Address must include street name and number
+- Postal code follows the Dutch format (1234 AB)
+- Phone numbers are validated based on country
 
-When I click the cart and check out, I get to the Checkout screen.
-The fields are with patterns: 
-- only letters in first name, last name, city
-- the first letter is automatically uppercase
-- Address must be street + number
-- postalcode is 7 characters, because netherlands has this pattern: 1234 AB
-- Phone should match the country
+Discount codes (e.g. SAVE20, FREESHIPPING) can be applied and are automatically deducted from the subtotal.
 
-A dicount can be added and is automatically subtracted from the subtotal (example: SAVE20) (FREESHIPPING)
+After payment, users are redirected to an order confirmation page. An invoice is generated in the background 
+and stored in Supabase.
 
-When I paid, I get redirected to the Order confirmation page, an invoice is automatically created in the background and
-is stored in supabase.
+In the Account section, users can view all past orders and access detailed order pages. Each order shows its current 
+status, allows invoice download, and includes an option to report a problem. Invoices are generated as PDFs from 
+HTML templates using Python. Problem reports can include images and are sent via email.
 
-When I click in "Account" I see all my orders and can click on it.
-In the Order Details page, I see the statuses and can Download the invoice and report a problem when there is one.
-Downloading Invoice will create an invoice pdf from html template with python.
+The admin panel provides full system oversight. It includes:
 
-Reporing a problem will send a email with the report with images.
+- A dashboard with key statistics
+- User management (add, edit, delete users)
+- Product management (edit or delete products)
+- Order management (update order status, mark orders as delivered)
+- A report/ticket system showing all submitted reports, including sender details, descriptions, images, 
+internal notes, and status updates
 
-In the Admin panel I can see the stats.
-When I click on the "Users" Tab I can Add new users or delete and edit the existing ones.
+Clicking “Shop” returns the admin to the storefront.
 
-In Product Tab I can Edit or delete the product.
+Collection pages support sorting and filtering by category, gender, material, brand, color, size, and price. 
+Midway through collections, a Tinder-style swipe interaction allows users to instantly add items to their wishlist.
 
-In Order Management I can edit the Status of the orders and can mark them as delivered.
+The wishlist updates in real time, including item count and content changes.
 
-In Report Tab is a little Ticket System, I see all the Reports and Status, when I click on it I see the sender, problem,
-images and can make notes and change Status.
-
-When I click "Shop" I get back.
-
-In collection I can sort the items and Filter based on Category, Gender, Material, Brand, Color, Size and Price.
-
-In a collection midway I have Tinder-like swiping, which will land instantly in wishlist.
-
-In Wishlist when I click the counter get's updated and the i
+The system is not fully polished yet, but the core architecture and functionality are in place.
