@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom"
 import HeartIcon from "../ui/HeartIcon"
+import { getColorHex } from "@/utils/colorUtils";
 
 // Helper function to check if product is new (added within last 14 days)
 const isProductNew = (createdAt) => {
@@ -97,8 +98,13 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                                         <div
                                             key={i}
                                             className="w-4 h-4 md:w-6 md:h-6 rounded-full border border-neutral-400 shadow-sm"
-                                            style={{ backgroundColor: color, filter: 'saturate(0.7)' }}
+                                            style={{ 
+                                                backgroundColor: getColorHex(color), 
+                                                filter: 'saturate(0.7)',
+                                                border: getColorHex(color) === '#FFFFFF' || getColorHex(color) === '#FFF' ? '1px solid #E5E7EB' : 'none'
+                                            }}
                                             title={color}
+                                            aria-label={color}
                                         />
                                     ))}
                                 </div>

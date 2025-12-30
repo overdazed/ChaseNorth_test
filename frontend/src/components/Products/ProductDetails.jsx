@@ -3,6 +3,7 @@ import { toast } from "sonner"
 import ProductGrid from "./ProductGrid.jsx";
 import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import { Lens } from "../ui/lens";
+import { getColorHex } from "@/utils/colorUtils";
 import { useDispatch, useSelector } from "react-redux";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/Accordion";
 import { fetchProductDetails, fetchSimilarProducts } from "../../redux/slices/productsSlice.js";
@@ -707,8 +708,9 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                                 : `${isDay ? 'border-white' : 'border-neutral-600'} ${isDay ? 'hover:border-neutral-400' : 'hover:border-neutral-400'}`
                                                         }`}
                                                         style={{
-                                                            backgroundColor: color.toLowerCase(),
-                                                            filter: "brightness(0.8)"
+                                                            backgroundColor: getColorHex(color),
+                                                            filter: "brightness(0.8)",
+                                                            border: getColorHex(color) === '#FFFFFF' || getColorHex(color) === '#FFF' ? '1px solid #E5E7EB' : 'none'
                                                         }}
                                                         aria-label={`Select color ${color}`}
                                                     />

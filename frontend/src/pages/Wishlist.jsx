@@ -43,7 +43,7 @@ const Wishlist = () => {
   const dispatch = useDispatch();
   const sidebarRef = useRef(null);
   const [filters, setFilters] = useState({
-    color: [],
+    color: '',
     size: [],
     category: '',
     gender: 'All'  // Set 'All' as default
@@ -164,12 +164,13 @@ const Wishlist = () => {
         }
       }
 
-      // Filter by color - check if any of the selected colors match the product's colors
-      if (filters.color && filters.color.length > 0) {
-        const hasMatchingColor = filters.color.some(color => 
-          product.colors?.includes(color)
-        );
-        if (!hasMatchingColor) {
+      // Filter by color - updated to handle multiple color selection
+      if (filters.colors && Array.isArray(filters.colors) && filters.colors.length > 0) {
+        if (!filters.colors.some(color => 
+          product.colors && 
+          Array.isArray(product.colors) && 
+          product.colors.some(c => c === color)
+        )) {
           return false;
         }
       }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import {setFilters} from "@/redux/slices/productsSlice.js";
+import { colorMap } from '@/utils/colorUtils.js';
 
 const FilterSidebar = ({
                            onFilterApply,
@@ -246,226 +247,221 @@ const FilterSidebar = ({
         'terracotta': '#E2725B',
         'tropical print': '#2E8B57',
         'turquoise': '#40E0D0',
-        'vanilla': '#F3E5AB',
-        'violet': '#8F00FF',
-        'walnut': '#773F1A',
-        'white': '#FFFFFF',
-        'wine': '#722F37',
-        'yellow': '#FFFF00'
+        'vanilla': '#F3E5AB'
     };
 
     // Get unique colors, sizes, and materials from the current products
     const colors = React.useMemo(() => {
-        if (!products || products.length === 0) return [];
+            if (!products || products.length === 0) return [];
 
-        // Extract all colors from products
-        const allColors = products.flatMap(product =>
-            product.colors ? product.colors : []
-        );
+            // Extract all colors from products
+            const allColors = products.flatMap(product =>
+                product.colors ? product.colors : []
+            );
 
-        // Remove duplicates and return
-        return [...new Set(allColors)];
-    }, [products]);
+            // Remove duplicates and return
+            return [...new Set(allColors)];
+        }, [products]);
 
-    // Get unique sizes from the current products
-    const sizes = React.useMemo(() => {
-        if (!products || products.length === 0) return [];
+        // Get unique sizes from the current products
+        const sizes = React.useMemo(() => {
+            if (!products || products.length === 0) return [];
 
-        // Extract all sizes from products
-        const allSizes = products.flatMap(product =>
-            product.sizes ? product.sizes : []
-        );
+            // Extract all sizes from products
+            const allSizes = products.flatMap(product =>
+                product.sizes ? product.sizes : []
+            );
 
-        // Remove duplicates, sort, and return
-        return [...new Set(allSizes)].sort((a, b) => {
-            const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
-            return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
-        });
-    }, [products]);
-
-    // Get unique materials from the current products
-    const availableMaterials = React.useMemo(() => {
-        if (!products || products.length === 0) return [];
-
-        // Extract all materials from products
-        const allMaterials = products.flatMap(product =>
-            product.material ? [product.material] : []
-        );
-
-        // Remove duplicates and sort alphabetically
-        return [...new Set(allMaterials)].sort();
-    }, [products]);
-
-    // State for filters
-    // const [filters, setFilters] = useState({
-    //     category: "",
-    //     gender: "",
-    //     color: "",
-    //     size: [],
-    //     material: [],
-    //     brand: []
-    // });
-
-    const handleBrandChange = (brand) => {
-        const newSelectedBrands = selectedBrands.includes(brand)
-            ? selectedBrands.filter(b => b !== brand)
-            : [...selectedBrands, brand];
-
-        // Update URL
-        const params = new URLSearchParams(location.search);
-        if (newSelectedBrands.length > 0) {
-            params.set('brand', newSelectedBrands.join(','));
-        } else {
-            params.delete('brand');
-        }
-
-        // Update state and URL
-        setSelectedBrands(newSelectedBrands);
-        setSearchParams(params, { replace: true });
-
-        // Notify parent component
-        if (onFilterChange) {
-            onFilterChange({
-                target: {
-                    name: 'brand',
-                    value: newSelectedBrands
-                }
+            // Remove duplicates, sort, and return
+            return [...new Set(allSizes)].sort((a, b) => {
+                const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+                return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
             });
-        }
-    };
+        }, [products]);
 
-    // Check if a brand is currently selected
-    // const isBrandSelected = (brand) => {
-    //     return selectedBrands.includes(brand);
-    // };
+        // Get unique materials from the current products
+        const availableMaterials = React.useMemo(() => {
+            if (!products || products.length === 0) return [];
 
-    const handleFilterChange = (e) => {
-        const { name, value, checked, type } = e.target;
-        const params = new URLSearchParams(location.search);
+            // Extract all materials from products
+            const allMaterials = products.flatMap(product =>
+                product.material ? [product.material] : []
+            );
 
-        // Call the parent's onFilterChange if provided
-        if (onFilterChange) {
-            onFilterChange(e);
-        }
+            // Remove duplicates and sort alphabetically
+            return [...new Set(allMaterials)].sort();
+        }, [products]);
 
-        // Handle gender filter specifically
-        // Handle URL updates for specific filter types
-        if (name === 'gender') {
-            if (value === 'All') {
-                params.delete('gender');
-            } else if (value) {
-                params.set('gender', value);
+        // State for filters
+        // const [filters, setFilters] = useState({
+        //     category: "",
+        //     gender: "",
+        //     color: "",
+        //     size: [],
+        //     material: [],
+        //     brand: []
+        // });
+
+        const handleBrandChange = (brand) => {
+            const newSelectedBrands = selectedBrands.includes(brand)
+                ? selectedBrands.filter(b => b !== brand)
+                : [...selectedBrands, brand];
+
+            // Update URL
+            const params = new URLSearchParams(location.search);
+            if (newSelectedBrands.length > 0) {
+                params.set('brand', newSelectedBrands.join(','));
             } else {
-                params.delete('gender');
-            }
-            setSearchParams(params);
-        } else if (name === 'color') {
-            if (filters.color === value) {
-                params.delete('color');
-            } else {
-                params.set('color', value);
-            }
-            setSearchParams(params);
-        } else if (name === 'category') {
-            if (filters.category === value) {
-                params.delete('category');
-            } else {
-                params.set('category', value);
-            }
-            setSearchParams(params);
-        } else if (name === 'material') {
-            // Get current materials from URL or initialize empty array
-            const currentMaterials = searchParams.get('material')
-                ? searchParams.get('material').split(',')
-                : [];
-
-            let newMaterials;
-            if (currentMaterials.includes(value)) {
-                newMaterials = currentMaterials.filter(m => m !== value);
-            } else {
-                newMaterials = [...currentMaterials, value];
+                params.delete('brand');
             }
 
-            // Update URL parameters
-            if (newMaterials.length > 0) {
-                params.set('material', newMaterials.join(','));
-            } else {
-                params.delete('material');
-            }
-            setSearchParams(params);
+            // Update state and URL
+            setSelectedBrands(newSelectedBrands);
+            setSearchParams(params, { replace: true });
 
-            // Update parent component's state
+            // Notify parent component
             if (onFilterChange) {
                 onFilterChange({
                     target: {
-                        name: 'material',
-                        value: newMaterials
+                        name: 'brand',
+                        value: newSelectedBrands
                     }
                 });
             }
-        } else if (name === 'size') {
-            let newSizes = [...(filters.size || [])];
-            if (newSizes.includes(value)) {
-                newSizes = newSizes.filter(size => size !== value);
-            } else {
-                newSizes = [...newSizes, value];
+        };
+
+        // Check if a brand is currently selected
+        // const isBrandSelected = (brand) => {
+        //     return selectedBrands.includes(brand);
+        // };
+
+        const handleFilterChange = (e) => {
+            const { name, value, checked, type } = e.target;
+            const params = new URLSearchParams(location.search);
+
+            // Call the parent's onFilterChange if provided
+            if (onFilterChange) {
+                onFilterChange(e);
             }
 
-            if (newSizes.length > 0) {
-                params.set('size', newSizes.join(','));
-            } else {
-                params.delete('size');
-            }
-            setSearchParams(params);
-        }
-
-        // Close the sidebar on mobile when a filter is applied
-        // if (onFilterApply && window.innerWidth < 1024) {
-        //     onFilterApply();
-        // }
-    };
-
-    const handlePriceChange = (e) => {
-        const { name, value } = e.target;
-        const numericValue = value === '' ? '' : parseFloat(value) || 0;
-        const newPriceRange = {
-            ...priceRange,
-            [name]: numericValue };
-
-        setPriceRange(newPriceRange);
-
-        // Update URL parameters immediately
-        const params = new URLSearchParams(location.search);
-
-        if (name === 'min') {
-            if (value !== '') {
-                params.set('minPrice', numericValue);
-            } else {
-                params.delete('minPrice');
-            }
-        } else if (name === 'max') {
-            if (value !== '') {
-                params.set('maxPrice', numericValue);
-            } else {
-                params.delete('maxPrice');
-            }
-        }
-
-        setSearchParams(params);
-
-        // Call the parent's onFilterChange if provided
-        if (onFilterChange) {
-            onFilterChange({
-                target: {
-                    name: 'priceRange',
-                    value: newPriceRange
+            // Handle gender filter specifically
+            // Handle URL updates for specific filter types
+            if (name === 'gender') {
+                if (value === 'All') {
+                    params.delete('gender');
+                } else if (value) {
+                    params.set('gender', value);
+                } else {
+                    params.delete('gender');
                 }
-            });
-        }
-    };
+                setSearchParams(params);
+            } else if (name === 'color') {
+                if (filters.color === value) {
+                    params.delete('color');
+                } else {
+                    params.set('color', value);
+                }
+                setSearchParams(params);
+            } else if (name === 'category') {
+                if (filters.category === value) {
+                    params.delete('category');
+                } else {
+                    params.set('category', value);
+                }
+                setSearchParams(params);
+            } else if (name === 'material') {
+                // Get current materials from URL or initialize empty array
+                const currentMaterials = searchParams.get('material')
+                    ? searchParams.get('material').split(',')
+                    : [];
+
+                let newMaterials;
+                if (currentMaterials.includes(value)) {
+                    newMaterials = currentMaterials.filter(m => m !== value);
+                } else {
+                    newMaterials = [...currentMaterials, value];
+                }
+
+                // Update URL parameters
+                if (newMaterials.length > 0) {
+                    params.set('material', newMaterials.join(','));
+                } else {
+                    params.delete('material');
+                }
+                setSearchParams(params);
+
+                // Update parent component's state
+                if (onFilterChange) {
+                    onFilterChange({
+                        target: {
+                            name: 'material',
+                            value: newMaterials
+                        }
+                    });
+                }
+            } else if (name === 'size') {
+                let newSizes = [...(filters.size || [])];
+                if (newSizes.includes(value)) {
+                    newSizes = newSizes.filter(size => size !== value);
+                } else {
+                    newSizes = [...newSizes, value];
+                }
+
+                if (newSizes.length > 0) {
+                    params.set('size', newSizes.join(','));
+                } else {
+                    params.delete('size');
+                }
+                setSearchParams(params);
+            }
+
+            // Close the sidebar on mobile when a filter is applied
+            // if (onFilterApply && window.innerWidth < 1024) {
+            //     onFilterApply();
+            // }
+        };
+
+        const handlePriceChange = (e) => {
+            const { name, value } = e.target;
+            const numericValue = value === '' ? '' : parseFloat(value) || 0;
+            const newPriceRange = {
+                ...priceRange,
+                [name]: numericValue };
+
+            setPriceRange(newPriceRange);
+
+            // Update URL parameters immediately
+            const params = new URLSearchParams(location.search);
+
+            if (name === 'min') {
+                if (value !== '') {
+                    params.set('minPrice', numericValue);
+                } else {
+                    params.delete('minPrice');
+                }
+            } else if (name === 'max') {
+                if (value !== '') {
+                    params.set('maxPrice', numericValue);
+                } else {
+                    params.delete('maxPrice');
+                }
+            }
+
+            setSearchParams(params);
+
+            // Call the parent's onFilterChange if provided
+            if (onFilterChange) {
+                onFilterChange({
+                    target: {
+                        name: 'priceRange',
+                        value: newPriceRange
+                    }
+                });
+            }
+        };
 
 
-    useEffect(() => {
+        useEffect(() => {
         const params = new URLSearchParams(location.search);
         const brandsParam = params.get('brand');
         const brandsFromUrl = brandsParam ? brandsParam.split(',').filter(Boolean) : [];
@@ -578,36 +574,30 @@ const FilterSidebar = ({
                         {colors.map(color => {
                             // Get the hex code from the color map, or use the color as-is if it's already a hex code
                             const colorValue = colorMap[color.toLowerCase()] || color;
+                            const isSelected = filters.colors?.includes(color) || false;
                             return (
                                 <div key={color} className="flex flex-col items-center">
                                     <button
                                         type="button"
-                                        name="color"
+                                        name="colors"
                                         value={color}
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            const newColors = filters.color?.includes(color)
-                                                ? filters.color.filter(c => c !== color)
-                                                : [...(filters.color || []), color];
-                                            
-                                            // Create a synthetic event to match the expected format
-                                            const syntheticEvent = {
-                                                target: {
-                                                    name: 'color',
-                                                    value: newColors,
-                                                    type: 'checkbox',
-                                                    checked: !filters.color?.includes(color)
-                                                }
-                                            };
-                                            
+                                            const newColors = isSelected
+                                                ? filters.colors?.filter(c => c !== color) || []
+                                                : [...(filters.colors || []), color];
+
                                             if (onFilterChange) {
-                                                onFilterChange(syntheticEvent);
+                                                onFilterChange({
+                                                    target: {
+                                                        name: 'colors',
+                                                        value: newColors
+                                                    }
+                                                });
                                             }
                                         }}
-                                        className={`w-6 h-6 rounded-full mb-1 transition-all ${
-                                            filters.color?.includes(color) 
-                                                ? 'ring-2 ring-offset-1 ring-blue-500' 
-                                                : ''
+                                        className={`w-6 h-6 rounded-full mb-1 ${
+                                            isSelected ? 'ring-2 ring-offset-1 ring-blue-500' : ''
                                         }`}
                                         style={{
                                             backgroundColor: colorValue,
@@ -749,4 +739,4 @@ const FilterSidebar = ({
     );
 };
 
-export default FilterSidebar;
+    export default FilterSidebar;
