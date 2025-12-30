@@ -21,6 +21,8 @@ import CartDrawer from "../Layout/CartDrawer.jsx";
 import React, { useState, useRef, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
+import { updateWishlistCount } from "../../redux/slices/productsSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { motion, MotionConfig, AnimatePresence } from "framer-motion";
 import { isAction } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
@@ -127,14 +129,18 @@ const Navbar = ({ transparent = false }) => {
     const [isLanguageOpen, setIsLanguageOpen] = useState(false);
     const [prevScrollPos, setPrevScrollPos] = useState(0);
 
-    // Wishlist count is now managed by Redux
+    // Sync wishlist count from localStorage to Redux on mount
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('wishlist');
+            const wishlist = saved ? JSON.parse(saved) : [];
+            dispatch(updateWishlistCount(wishlist.length));
+        }
+    }, [dispatch]);
 
     // Update SHOPPING BAG Count
     // Get cart from the cartSlice
     const {cart} = useSelector((state) => state.cart);
-
-    // Pass wishlist count to HeartIcon
-    <HeartIcon count={wishlistCount} />
 
     const { user } = useSelector((state) => state.auth);
 

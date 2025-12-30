@@ -18,17 +18,14 @@ const HeartIcon = ({
 // const HeartIcon = ({ className, color = '#374151', productId, containerClass = '' }) => {
   const [isActive, setIsActive] = useState(false);
 
-  // Load saved state from localStorage on mount and sync with Redux
+  // Load saved state from localStorage on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('wishlist');
       const wishlist = saved ? JSON.parse(saved) : [];
       setIsActive(wishlist.includes(productId));
-      
-      // Update Redux store with current wishlist count
-      dispatch(updateWishlistCount(wishlist.length));
     }
-  }, [productId, dispatch]);
+  }, [productId]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -58,21 +55,19 @@ const HeartIcon = ({
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('wishlist');
       let wishlist = saved ? JSON.parse(saved) : [];
-      let updatedWishlist;
 
-      if (newActiveState) {
-        // Add to wishlist if not already present
-        updatedWishlist = [...new Set([...wishlist, productId])];
-      } else {
-        // Remove from wishlist
-        updatedWishlist = wishlist.filter(id => id !== productId);
+      // Ensure we have a valid productId and it's not already in the wishlist
+      if (newActiveState && productId && !wishlist.includes(productId)) {
+        wishlist.push(productId);
+      } else if (!newActiveState && productId) {
+        wishlist = wishlist.filter(id => id !== productId);
       }
 
-      // Update localStorage
-      localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+      // Update localStorage with the new wishlist
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
       
-      // Update Redux store with new wishlist count
-      dispatch(updateWishlistCount(updatedWishlist.length));
+      // Update Redux store with the actual wishlist length
+      dispatch(updateWishlistCount(wishlist.length));
     }
   };
   const handleIconClick = (e) => {
