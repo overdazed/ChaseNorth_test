@@ -3,20 +3,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import authReducer from "./slices/authSlice";
-
 import productReducer from "./slices/productsSlice";
-
 import cartReducer from "./slices/cartSlice";
-
 import checkoutReducer from "./slices/checkoutSlice";
-
 import orderReducer from "./slices/orderSlice";
-
 import adminReducer from "./slices/adminSlice";
-
 import adminProductReducer from "./slices/adminProductSlice";
-
 import adminOrdersReducer from "./slices/adminOrderSlice";
+import wishlistReducer from "./slices/wishlistSlice";
 
 // declare a store constant, that will use the configureStore function to create redux store
 const store = configureStore({
@@ -45,7 +39,10 @@ const store = configureStore({
         adminProducts: adminProductReducer,
         // Create a new file under slices folder > adminOrderSlice.js
 
-        adminOrders: adminOrdersReducer
+        adminOrders: adminOrdersReducer,
+        
+        // Add wishlist reducer
+        wishlist: wishlistReducer
 
         // REDUX IMPLEMENTED, integrate frontend with backend
     }
