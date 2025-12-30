@@ -274,6 +274,16 @@ const Wishlist = () => {
     setSortBy(sortType);
   };
 
+  const resetFilters = () => {
+    setFilters({
+      color: '',
+      size: [],
+      category: '',
+      gender: 'All'
+    });
+    setSortBy('featured'); // Reset sort to default
+  };
+
   // Fetch product details for each item in wishlist
   useEffect(() => {
     const fetchWishlistProducts = async () => {
@@ -364,6 +374,7 @@ const Wishlist = () => {
                 isDay={isDay}
                 onFilterChange={handleFilterChange}
                 filters={filters}
+                onResetFilters={resetFilters}
             />
           </div>
         </div>
