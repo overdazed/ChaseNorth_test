@@ -570,65 +570,90 @@ const FilterSidebar = ({
                 )}
             </div>
 
-            {/*/!* Color Filter *!/*/}
-            {/*<div className={`mb-6 pb-4 ${themeClasses.section}`}>*/}
-            {/*    <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Color</h4>*/}
-            {/*    {colors.length > 0 ? (*/}
-            {/*        <div className="grid grid-cols-7 gap-2">*/}
-            {/*            {colors.map(color => {*/}
-            {/*                // Get the hex code from the color map, or use the color as-is if it's already a hex code*/}
-            {/*                const colorValue = colorMap[color.toLowerCase()] || color;*/}
-            {/*                return (*/}
-            {/*                    <div key={color} className="flex flex-col items-center">*/}
-            {/*                        <button*/}
-            {/*                            type="button"*/}
-            {/*                            name="color"*/}
-            {/*                            value={color}*/}
-            {/*                            onClick={handleFilterChange || onFilterChange}*/}
-            {/*                            className={`w-6 h-6 rounded-full mb-1 ${*/}
-            {/*                                filters.color === color ? 'ring-2 ring-offset-1 ring-blue-500' : ''*/}
-            {/*                            }`}*/}
-            {/*                            style={{*/}
-            {/*                                backgroundColor: colorValue,*/}
-            {/*                                // Add a border for light colors to make them visible on white background*/}
-            {/*                                border: colorValue === '#FFFFFF' || colorValue === '#FFF' ? '1px solid #E5E7EB' : 'none'*/}
-            {/*                            }}*/}
-            {/*                            aria-label={color}*/}
-            {/*                            title={color}*/}
-            {/*                        />*/}
-            {/*                        <span className="text-[10px] text-center text-neutral-500 dark:text-neutral-400">*/}
-            {/*                            {color}*/}
-            {/*                        </span>*/}
-            {/*                    </div>*/}
-            {/*                );*/}
-            {/*            })}*/}
-            {/*        </div>*/}
-            {/*    ) : (*/}
-            {/*        <p className={`text-sm ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>No colors available</p>*/}
-            {/*    )}*/}
-            {/*</div>*/}
+            {/* Color Filter */}
+            <div className={`mb-6 pb-4 ${themeClasses.section}`}>
+                <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Color</h4>
+                {colors.length > 0 ? (
+                    <div className="grid grid-cols-7 gap-2">
+                        {colors.map(color => {
+                            // Get the hex code from the color map, or use the color as-is if it's already a hex code
+                            const colorValue = colorMap[color.toLowerCase()] || color;
+                            return (
+                                <div key={color} className="flex flex-col items-center">
+                                    <button
+                                        type="button"
+                                        name="color"
+                                        value={color}
+                                        onClick={handleFilterChange || onFilterChange}
+                                        className={`w-6 h-6 rounded-full mb-1 ${
+                                            filters.color === color ? 'ring-2 ring-offset-1 ring-blue-500' : ''
+                                        }`}
+                                        style={{
+                                            backgroundColor: colorValue,
+                                            // Add a border for light colors to make them visible on white background
+                                            border: colorValue === '#FFFFFF' || colorValue === '#FFF' ? '1px solid #E5E7EB' : 'none'
+                                        }}
+                                        aria-label={color}
+                                        title={color}
+                                    />
+                                    <span className="text-[10px] text-center text-neutral-500 dark:text-neutral-400">
+                                        {color}
+                                    </span>
+                                </div>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <p className={`text-sm ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>No colors available</p>
+                )}
+            </div>
 
             {/* Size Filter */}
             <div className={`mb-6 pb-4 ${themeClasses.section}`}>
                 <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Size</h4>
                 {sizes.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
-                        {sizes.map(size => (
-                            <button
-                                key={size}
-                                type="button"
-                                name="size"
-                                value={size}
-                                onClick={handleFilterChange || onFilterChange}
-                                className={`flex items-center justify-center w-10 h-10 text-sm rounded-full transition-all ${
-                                    (filters.size || []).includes(size)
-                                        ? 'bg-black text-neutral-50'
-                                        : `${isDay ? 'bg-neutral-50 text-neutral-700 hover:bg-neutral-100' : 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700'} border ${isDay ? 'border-neutral-300' : 'border-neutral-600'}`
-                                }`}
-                            >
-                                {size}
-                            </button>
-                        ))}
+                        {sizes.map(size => {
+                            const isSelected = filters.size?.includes(size) || false;
+                            return (
+                                <button
+                                    key={size}
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        const newSizes = isSelected
+                                            ? filters.size?.filter(s => s !== size) || []
+                                            : [...(filters.size || []), size];
+
+                                        // Update URL
+                                        const params = new URLSearchParams(location.search);
+                                        if (newSizes.length > 0) {
+                                            params.set('sizes', newSizes.join(','));
+                                        } else {
+                                            params.delete('sizes');
+                                        }
+                                        setSearchParams(params);
+
+                                        // Update parent component
+                                        if (onFilterChange) {
+                                            onFilterChange({
+                                                target: {
+                                                    name: 'size',
+                                                    value: newSizes
+                                                }
+                                            });
+                                        }
+                                    }}
+                                    className={`flex items-center justify-center w-10 h-10 text-sm rounded-full transition-all ${
+                                        isSelected
+                                            ? 'bg-black text-neutral-50'
+                                            : `${isDay ? 'bg-neutral-50 text-neutral-700 hover:bg-neutral-100' : 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700'} border ${isDay ? 'border-neutral-300' : 'border-neutral-600'}`
+                                    }`}
+                                >
+                                    {size}
+                                </button>
+                            );
+                        })}
                     </div>
                 ) : (
                     <p className={`text-sm ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>

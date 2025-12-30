@@ -132,9 +132,14 @@ const Wishlist = () => {
       }
 
       // Filter by size
-      if (filters.size && filters.size.length > 0 &&
-          !filters.size.some(size => product.sizes?.includes(size))) {
-        return false;
+      if (filters.size && Array.isArray(filters.size) && filters.size.length > 0) {
+        if (!filters.size.some(size =>
+            product.sizes &&
+            Array.isArray(product.sizes) &&
+            product.sizes.some(s => s === size)
+        )) {
+          return false;
+        }
       }
 
       // Filter by material
