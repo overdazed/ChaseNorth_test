@@ -17,20 +17,38 @@ const HeartIcon = ({
                    }) => {
 // const HeartIcon = ({ className, color = '#374151', productId, containerClass = '' }) => {
   const [isActive, setIsActive] = useState(false);
-
-  // Load saved state from localStorage on mount
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('wishlist');
-      const wishlist = saved ? JSON.parse(saved) : [];
-      // setIsActive(wishlist.includes(productId));
-        setIsActive(wishlist.some(id => id === String(productId)));
-    }
-  }, [productId]);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('wishlist');
+            if (saved) {
+                const wishlist = JSON.parse(saved);
+                // Ensure we're not counting duplicates
+                const uniqueWishlist = [...new Set(wishlist)];
+                if (uniqueWishlist.length !== wishlist.length) {
+                    // If there were duplicates, update localStorage
+                    localStorage.setItem('wishlist', JSON.stringify(uniqueWishlist));
+                }
+                dispatch(updateWishlistCount(uniqueWishlist.length));
+            } else {
+                // If no wishlist exists, ensure count is 0
+                dispatch(updateWishlistCount(0));
+            }
+        }
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('wishlist');
+            const wishlist = saved ? JSON.parse(saved) : [];
+            const isProductInWishlist = wishlist.some(id => String(id) === String(productId));
+            setIsActive(isProductInWishlist);
+        }
+    }, [productId]); // Remove dispatch from dependencies here
+
 
     // In HeartIcon.jsx, update the handleClick function
     const handleClick = (e) => {
@@ -39,8 +57,8 @@ const HeartIcon = ({
 
         if (!user) {
             const pendingWishlist = JSON.parse(localStorage.getItem('pendingWishlist') || '[]');
-            if (!pendingWishlist.some(id => id === String(productId))) {
-                pendingWishlist.push(productId);
+            if (!pendingWishlist.includes(String(productId))) {
+                pendingWishlist.push(String(productId));
                 localStorage.setItem('pendingWishlist', JSON.stringify(pendingWishlist));
             }
             navigate('/login', { state: { from: window.location.pathname } });
@@ -53,21 +71,18 @@ const HeartIcon = ({
         if (typeof window !== 'undefined') {
             const saved = localStorage.getItem('wishlist');
             let wishlist = saved ? JSON.parse(saved) : [];
-
-            // Ensure we're working with strings for consistent comparison
             const productIdStr = String(productId);
+            const isProductInWishlist = wishlist.some(id => String(id) === productIdStr);
 
-            if (newActiveState) {
-                // Only add if not already in the list
-                if (!wishlist.some(id => String(id) === productIdStr)) {
-                    wishlist.push(productIdStr);
-                }
-            } else {
+            if (newActiveState && !isProductInWishlist) {
+                wishlist.push(productIdStr);
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                dispatch(updateWishlistCount(wishlist.length));
+            } else if (!newActiveState && isProductInWishlist) {
                 wishlist = wishlist.filter(id => String(id) !== productIdStr);
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                dispatch(updateWishlistCount(wishlist.length));
             }
-
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-            dispatch(updateWishlistCount(wishlist.length));
         }
     };
 

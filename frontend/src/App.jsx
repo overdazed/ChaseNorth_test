@@ -13,6 +13,8 @@ import React from 'react'
 import { BrowserRouter, Route, Routes, useLocation, useNavigationType } from "react-router-dom";
 import { useEffect, useRef } from 'react';
 
+
+
 // This component handles scroll restoration
 const ScrollRestoration = () => {
     const { pathname, state } = useLocation();
@@ -104,11 +106,34 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import BugReport from "./pages/BugReport";
 
-import { Provider } from "react-redux";
+import {Provider, useDispatch} from "react-redux";
 import store from "./redux/store";
 import ProtectedRoute from "./components/Common/ProtectedRoute.jsx";
 import BugReportConfirmation from "@/pages/BugReportConfirmation.jsx";
+import {updateWishlistCount} from "@/redux/slices/productsSlice.js";
 
+const WishlistInitializer = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('wishlist');
+            if (saved) {
+                const wishlist = JSON.parse(saved);
+                // Remove any duplicates
+                const uniqueWishlist = [...new Set(wishlist)];
+                if (uniqueWishlist.length !== wishlist.length) {
+                    localStorage.setItem('wishlist', JSON.stringify(uniqueWishlist));
+                }
+                dispatch(updateWishlistCount(uniqueWishlist.length));
+            } else {
+                dispatch(updateWishlistCount(0));
+            }
+        }
+    }, [dispatch]);
+
+    return null;
+};
 
 const App = () => {
     return (
@@ -116,6 +141,7 @@ const App = () => {
             {/* open Login.jsx file > import { loginUser } from '../redux/slices/authSlice' */}
             {/*// enables the client side routing*/}
             <BrowserRouter>
+                <WishlistInitializer />
                 {/*    make sure it gets imported from the react-router-dom */}
 
                 {/*Client side routing. What is this? Why do we need it?*/}
