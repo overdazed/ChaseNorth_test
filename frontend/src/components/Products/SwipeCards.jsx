@@ -5,7 +5,7 @@ import xMarkIcon from "../../assets/x-mark.svg";
 import BellButton from "../ui/BellButton";
 import RedoButton from "../ui/RedoButton";
 import { useDispatch, useSelector } from 'react-redux';
-import { updateWishlistCount } from '../../redux/wishlistSlice'; // Adjust the path as needed
+import { updateWishlistCount } from '../../redux/slices/productsSlice';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 

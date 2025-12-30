@@ -124,7 +124,7 @@ const Wishlist = () => {
       }
 
       // Filter by category
-      if (filters.category && product.category !== filters.category) {
+      if (filters.category && filters.category !== 'All' && product.category !== filters.category) {
         return false;
       }
 
