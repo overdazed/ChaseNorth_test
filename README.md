@@ -76,4 +76,29 @@ The fields are with patterns:
 
 A dicount can be added and is automatically subtracted from the subtotal (example: SAVE20) (FREESHIPPING)
 
-When I paid, I get redirected to the Order confirmation page
+When I paid, I get redirected to the Order confirmation page, an invoice is automatically created in the background and
+is stored in supabase.
+
+When I click in "Account" I see all my orders and can click on it.
+In the Order Details page, I see the statuses and can Download the invoice and report a problem when there is one.
+Downloading Invoice will create an invoice pdf from html template with python.
+
+Reporing a problem will send a email with the report with images.
+
+In the Admin panel I can see the stats.
+When I click on the "Users" Tab I can Add new users or delete and edit the existing ones.
+
+In Product Tab I can Edit or delete the product.
+
+In Order Management I can edit the Status of the orders and can mark them as delivered.
+
+In Report Tab is a little Ticket System, I see all the Reports and Status, when I click on it I see the sender, problem,
+images and can make notes and change Status.
+
+When I click "Shop" I get back.
+
+In collection I can sort the items and Filter based on Category, Gender, Material, Brand, Color, Size and Price.
+
+In a collection midway I have Tinder-like swiping, which will land instantly in wishlist.
+
+In Wishlist when I click the counter get's updated and the i
