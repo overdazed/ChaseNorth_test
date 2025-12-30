@@ -30,7 +30,7 @@ const SkeletonOne = ({ onClick }) => {
                 <p className="font-bold text-white text-6xl transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out">
                     Women
                 </p>
-                <p className="font-normal text-base text-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out delay-100 max-w-[18em] break-words">
+                <p className="font-normal text-base text-white transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[18em] break-words opacity-0 group-hover:opacity-100">
                     Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
                     sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
                 </p>
@@ -85,7 +85,7 @@ const SkeletonTwo = ({ onClick }) => {
                 <p className="font-bold text-white text-6xl transform translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out">
                     Top
                 </p>
-                <p className="font-normal text-base text-white transform translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out delay-100 max-w-[16em] break-words">
+                <p className="font-normal text-base text-white transform translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[16em] break-words opacity-0 group-hover:opacity-100">
                     Perched high above the world, this house offers breathtaking views and a
                     unique living experience. It&apos;s a place where the sky meets home,
                     and tranquility is a way of life.
@@ -113,11 +113,11 @@ const SkeletonThree = ({ onClick }) => {
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
 
             {/* Content */}
-            <div className="absolute top-10 left-5 z-10 space-y-4">
+            <div className="absolute top-10 left-9 z-10 space-y-4">
                 <p className="font-bold text-white text-6xl transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out">
                     Bottom
                 </p>
-                <p className="font-normal text-base text-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out delay-100 max-w-[16em] break-words">
+                <p className="font-normal text-base text-white transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[16em] break-words opacity-0 group-hover:opacity-100">
                     Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
                     sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
                 </p>
@@ -148,7 +148,7 @@ const SkeletonFour = ({ onClick }) => {
                 <p className="font-bold text-white text-6xl transform translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out">
                     Men
                 </p>
-                <p className="font-normal text-base text-white transform translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out delay-100 max-w-[16em] break-words">
+                <p className="font-normal text-base text-white transform translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[16em] break-words opacity-0 group-hover:opacity-100">
                     Perched high above the world, this house offers breathtaking views and a
                     unique living experience. It&apos;s a place where the sky meets home,
                     and tranquility is a way of life.
