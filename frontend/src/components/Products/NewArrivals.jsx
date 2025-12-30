@@ -206,6 +206,15 @@ const HorizontalScrollCarousel = ({ products, isNightMode }) => {
     );
 };
 
+const ColorSwatch = ({ color, isActive, onClick }) => (
+    <button
+        onClick={onClick}
+        className={`w-6 h-6 opacity-80 rounded-full mx-0.5 transition-all duration-200 ${isActive ? 'ring-2 ring-offset-1 ring-white' : ''} lg:opacity-0 lg:group-hover:opacity-80`}
+        style={{ backgroundColor: color }}
+        aria-label={`Color ${color}`}
+    />
+);
+
 const Card = ({ product, isFirst, isLast, isNightMode }) => {
     const [isHovered, setIsHovered] = useState(false);
 
@@ -283,8 +292,44 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
                         }}
                     >
                         <div className="absolute bottom-0 left-0 right-0 pt-10 lg:pt-16 pb-4 lg:pb-6 px-4 lg:px-6">
-                            <h4 className="font-medium text-white text-sm lg:text-base">{product.name}</h4>
-                            <p className="mt-1 text-white text-sm lg:text-base">${product.price}</p>
+                            <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 bg-gradient-to-t from-black/70 to-transparent">
+                                {/* Brand Name - Hidden by default, shown on hover */}
+                                <div className="absolute bottom-1 left-0 md:bottom-4 md:left-2 p-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
+                                    <p className="text-neutral-300 text-xs md:text-sm font-normal">
+                                        {product.brand || 'Chase North'}
+                                    </p>
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <div className="flex justify-between items-start">
+                                        <h3 className="text-white font-bold text-xs md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300">
+                                            <span className="max-[550px]:hidden">
+                                                {product.name}
+                                            </span>
+                                            <span className="hidden max-[550px]:inline">
+                                                {product.name.length > 12 ? `${product.name.substring(0, 12)}...` : product.name}
+                                            </span>
+                                        </h3>
+                                        <p className="text-white font-bold text-sm md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300">
+                                            ${product.price}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Color Indicators */}
+                            {product.colors?.length > 0 && (
+                                <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-10 flex space-x-1.5 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
+                                    {product.colors.map((color, i) => (
+                                        <div
+                                            key={i}
+                                            className="w-4 h-4 md:w-6 md:h-6 rounded-full border border-neutral-400 shadow-sm"
+                                            style={{ backgroundColor: color, filter: 'saturate(0.7)' }}
+                                            title={color}
+                                        />
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

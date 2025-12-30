@@ -26,7 +26,7 @@ const SkeletonOne = ({ onClick }) => {
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
 
             {/* Content */}
-            <div className="absolute bottom-10 left-9 z-10 space-y-4">
+            <div className="absolute bottom-10 left-12 z-10 space-y-4">
                 <p className="uppercase font-medium text-white text-6xl transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
                     Women
                 </p>
@@ -144,7 +144,7 @@ const SkeletonFour = ({ onClick }) => {
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
 
             {/* Content - Right Aligned */}
-            <div className="absolute top-10 right-9 z-10 space-y-4 text-right">
+            <div className="absolute top-10 right-12 z-10 space-y-4 text-right">
                 <p className="uppercase font-medium text-white text-6xl transform translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
                     Men
                 </p>
