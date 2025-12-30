@@ -89,6 +89,7 @@ Clicking “Shop” returns the admin to the storefront.
 
 Collection pages support sorting and filtering by category, gender, material, brand, color, size, and price. 
 Midway through collections, a Tinder-style swipe interaction allows users to instantly add items to their wishlist.
+The New Badge is only visable on products when they are less than 14 days uploaded.
 
 The wishlist updates in real time, including item count and content changes.
 
