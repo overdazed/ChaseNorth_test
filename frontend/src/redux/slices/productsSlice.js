@@ -105,7 +105,7 @@ const productsSlice = createSlice({
         similarProducts: [],
         loading: false,
         error: null,
-        wishlistCount: 0,
+        wishlistCount: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('wishlist') || '[]').length : 0,
         // this will track the active filters for fetching products
         filters: {
             category: "",
