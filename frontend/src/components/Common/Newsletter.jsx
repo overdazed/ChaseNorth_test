@@ -39,7 +39,7 @@ const Newsletter = () => {
         // <footer className="border-t-[0.5px] border-neutral-200 dark:border-neutral-800 py-12 bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
         <footer className="border-t-[0.1px] border-neutral-200 dark:border-neutral-900 py-12 bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
             <div className="md:col-span-4 flex justify-center">
-                <div className="max-w-md mx-8 sm:mx-0">
+                <div className="max-w-md mx-8 sm:mx-0 select-none">
                     <h3 className="text-lg text-neutral-800 dark:text-white mb-4">
                         Get your compass and set a clear direction
                     </h3>

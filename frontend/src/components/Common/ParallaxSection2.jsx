@@ -44,12 +44,12 @@ const ParallaxSection2 = () => {
         </motion.div>
       </div>
 
-      <h3 className="absolute top-12 left-6 text-white uppercase z-10 text-sm md:text-base lg:text-lg">
+      <h3 className="absolute top-12 left-6 text-white uppercase z-10 text-sm md:text-base lg:text-lg select-none">
         Endless Horizons
       </h3>
 
       {/* Text stays in its current position */}
-      <p className="absolute text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-3xl z-10 text-left top-[84%] sm:top-[89%] md:top-[87%] lg:top-[86%] xl:top-[85%] left-6 right-6 transform -translate-y-1/2 w-auto">
+      <p className="absolute text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-3xl z-10 text-left top-[84%] sm:top-[89%] md:top-[87%] lg:top-[86%] xl:top-[85%] left-6 right-6 transform -translate-y-1/2 w-auto select-none">
         Discover the perfect blend of adventure and style with our curated collection
       </p>
 

@@ -176,7 +176,7 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
               isDarkMode ? "bg-neutral-950" : "bg-neutral-50"
           } pt-[10rem] px-4`}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto select-none">
           <h1
               className={`text-3xl md:text-4xl font-bold text-center mb-12 ${
                   isDarkMode ? "text-neutral-50" : "text-neutral-950"

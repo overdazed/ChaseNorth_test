@@ -12,9 +12,9 @@ const Featured = () => {
           className="w-full h-full object-cover"
         />
       </div>
-      <div className="flex-1 text-left lg:h-[800px] flex flex-col justify-center lg:mr-12 lg:order-1">
+      <div className="flex-1 text-left lg:h-[800px] flex flex-col justify-center lg:mr-12 lg:order-1 select-none">
         <h3 className="uppercase mb-4">Features That Refuse to Sit Still</h3>
-        <p className="text-2xl lg:text-4xl mb-8">
+        <p className="text-2xl lg:text-4xl mb-8 select-none">
           Not just bullet points—living, breathing highlights. Each feature adapts to movement, context, and mood,
           making your product feel alive from the very first glance.
         </p>

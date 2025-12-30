@@ -27,7 +27,7 @@ const NewFooter = () => {
               <div className="border-b border-neutral-700 pb-2">
                 <button
                     onClick={() => toggleSection('customerService')}
-                    className="flex justify-between items-center w-full text-left py-2"
+                    className="flex justify-between items-center w-full text-left py-2 select-none"
                 >
                   <h3 className="uppercase text-neutral-400 text-sm">Customer Service</h3>
                   <span className="text-neutral-400 text-lg">

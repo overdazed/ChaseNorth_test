@@ -900,7 +900,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                 {/* You May Like Section - Only show if showRecommendations is true */}
                 {selectedProduct && showRecommendations && (
                     <div className="mt-16 px-4 md:px-8">
-                        <h2 className={`text-2xl text-center font-medium mb-16 ${themeClasses.text}`}>
+                        <h2 className={`text-2xl text-center font-medium mb-16 select-none ${themeClasses.text}`}>
                             You May Also Like
                         </h2>
                         <ProductGrid
@@ -1039,7 +1039,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
                 {/* Reviews Section */}
                 <div id="reviews" className="mt-20 px-4 md:px-8 max-w-4xl mx-auto">
-                    <h2 className={`text-2xl font-medium mb-8 text-center ${themeClasses.text}`}>
+                    <h2 className={`text-2xl font-medium mb-8 text-center select-none ${themeClasses.text}`}>
                         Customer Reviews
                     </h2>
 

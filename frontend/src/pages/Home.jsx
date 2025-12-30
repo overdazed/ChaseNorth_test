@@ -128,7 +128,7 @@ const Home = () => {
             {/* Best Sellers Section */}
             <div className={isNightMode ? 'bg-neutral-950' : 'bg-neutral-50'}>
                 <div className="container mx-auto">
-                    <h2 className={`text-3xl text-center font-bold mb-4 pt-40 ${
+                    <h2 className={`text-3xl text-center font-bold mb-4 pt-40 select-none ${
                         isNightMode ? 'text-neutral-50' : 'text-neutral-950'
                     }`}>
                         Best Seller
