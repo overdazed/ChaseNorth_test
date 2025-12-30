@@ -33,4 +33,27 @@ In backend run node seeder.js to seed all the products and reset.
 So the Website begins with a custom loading screen. You are greeted with a video hero and a Action Button that leads to
 /collection/all page.
 
-Scrolling further, a scolling text comes and reveals "ChaseNorth" and it's 
+Scrolling further, a scolling text comes and reveals "ChaseNorth" and it's zoomed into dark or light point, depending on
+the light or dark mode.
+
+Then comes a Bento grid Layout which leads to the according collections when you click it.
+
+Followed by a snipped of a Blog Post, Discover Weekly is following.
+There when you hover you see a sneak peak, it's with intention that it's covered first, because it should sence a 
+surprise effect. 
+
+After that section a Explore New Arrivals section, it shows the last 10 items uploaded in the last 14 days.
+
+A parralax effect is leading to best seller section.
+
+In the Best Seller Section I can see the rating of the Best seller and can click and Add to Cart. 
+I can also Like the Item.
+Under the main picture I see the 8 last previously viewed items and can scroll back and forth.
+In Product Details I can see the Product Information from the Database.
+
+I also can Write a review. I can select rating which later get's updated with the bars.
+I can upload images and instantly also remove them. The imaged get's uploaded to a "reviews" bucket in supabase.
+After I wrote a review, I can Edit it. Upload or delete images and reset rating. 
+I can also delete the Review and If I want to like another review an other user made, it is also possible.
+
+I
