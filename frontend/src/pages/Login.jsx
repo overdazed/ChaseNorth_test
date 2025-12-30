@@ -42,31 +42,24 @@ const Login = () => {
             const processAfterLogin = () => {
                 // Check for pending wishlist items
                 const pendingWishlist = JSON.parse(localStorage.getItem('pendingWishlist') || '[]');
-                
+
                 if (pendingWishlist.length > 0) {
-                    // Get user-specific wishlist
-                    const wishlistKey = `wishlist_${user._id}`;
-                    const currentWishlist = JSON.parse(localStorage.getItem(wishlistKey) || '[]');
-                    
+                    // Get current wishlist
+                    const currentWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
                     // Merge and deduplicate
                     const updatedWishlist = [...new Set([...currentWishlist, ...pendingWishlist])];
-                    
-                    // Save back to user's wishlist
-                    localStorage.setItem(wishlistKey, JSON.stringify(updatedWishlist));
-                    
+                    // Save back to localStorage
+                    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
                     // Clear pending wishlist
                     localStorage.removeItem('pendingWishlist');
-                    
-                    // Update Redux store with new wishlist count
-                    dispatch(updateWishlistCount(updatedWishlist.length));
                 }
 
                 // Get the return URL from location state or default to home
                 const from = location.state?.from || '/';
-                
+
                 // Check if we need to go to checkout or the stored location
                 const redirectTo = isCheckoutRedirect ? "/checkout" : from;
-                
+
                 // Short delay to allow state updates to complete
                 setTimeout(() => {
                     setIsLoggingIn(false);

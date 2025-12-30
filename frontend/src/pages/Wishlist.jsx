@@ -277,17 +277,15 @@ const Wishlist = () => {
   useEffect(() => {
     const fetchWishlistProducts = async () => {
       try {
-        // Get user from Redux store
-        const savedUser = localStorage.getItem('userInfo');
-        const user = savedUser ? JSON.parse(savedUser) : null;
-        
-        // Use user-specific key for wishlist storage
-        const wishlistKey = user ? `wishlist_${user._id}` : 'wishlist_guest';
-        const saved = localStorage.getItem(wishlistKey);
+        // Get the current user from Redux state
+        const { user } = useSelector((state) => state.auth);
+        const userId = user?._id || 'guest';
+
+        // Load wishlist for the current user
+        const saved = localStorage.getItem(`wishlist_${userId}`);
         const items = saved ? JSON.parse(saved) : [];
-        
         setWishlist(items);
-        
+
         // Update Redux store with initial wishlist count
         dispatch(updateWishlistCount(items.length));
 
@@ -296,19 +294,18 @@ const Wishlist = () => {
           return;
         }
 
-        // Fetch product details for each item in wishlist
+        // Rest of the code remains the same...
         const productPromises = items.map(async (id) => {
           try {
             const product = await dispatch(fetchProductDetails(id)).unwrap();
             return product;
           } catch (error) {
             console.error(`Error fetching product ${id}:`, error);
-            return null; // Return null for failed fetches
+            return null;
           }
         });
 
         const productsData = await Promise.all(productPromises);
-        // Filter out null values (failed fetches)
         const validProducts = productsData.filter(product => product !== null);
         setProducts(validProducts);
       } catch (error) {
@@ -324,20 +321,16 @@ const Wishlist = () => {
   }, [dispatch]);
 
   const removeFromWishlist = (productId) => {
-    // Get user from Redux store or local storage
-    const savedUser = localStorage.getItem('userInfo');
-    const user = savedUser ? JSON.parse(savedUser) : null;
-    
-    // Use user-specific key for wishlist storage
-    const wishlistKey = user ? `wishlist_${user._id}` : 'wishlist_guest';
-    
+    const { user } = useSelector((state) => state.auth);
+    const userId = user?._id || 'guest';
+
     // Update local state
     const updatedWishlist = wishlist.filter(id => id !== productId);
     setWishlist(updatedWishlist);
     setProducts(prevProducts => prevProducts.filter(product => product._id !== productId));
 
     // Update localStorage with user-specific key
-    localStorage.setItem(wishlistKey, JSON.stringify(updatedWishlist));
+    localStorage.setItem(`wishlist_${userId}`, JSON.stringify(updatedWishlist));
 
     // Update Redux store with new wishlist count
     dispatch(updateWishlistCount(updatedWishlist.length));

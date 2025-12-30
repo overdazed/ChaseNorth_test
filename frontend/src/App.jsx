@@ -106,7 +106,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import BugReport from "./pages/BugReport";
 
-import {Provider, useDispatch} from "react-redux";
+import {Provider, useDispatch, useSelector} from "react-redux";
 import store from "./redux/store";
 import ProtectedRoute from "./components/Common/ProtectedRoute.jsx";
 import BugReportConfirmation from "@/pages/BugReportConfirmation.jsx";
@@ -114,8 +114,19 @@ import {updateWishlistCount} from "@/redux/slices/productsSlice.js";
 
 const WishlistInitializer = () => {
     const dispatch = useDispatch();
+    const { user } = useSelector((state) => state.auth);
+    const userId = user?._id || 'guest';
 
     useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem(`wishlist_${userId}`);
+            const items = saved ? JSON.parse(saved) : [];
+            // const userId = user?._id || 'guest';
+            console.log(`Loading wishlist for user ${userId}:`, items);
+
+            // Update the wishlist count in Redux
+            dispatch(updateWishlistCount(items.length));
+        }
 
         // console.log('Clearing wishlist from localStorage');
         // localStorage.removeItem('wishlist');
@@ -149,7 +160,7 @@ const WishlistInitializer = () => {
         return () => {
             console.log('WishlistInitializer unmounting');
         };
-    }, [dispatch]);
+    }, [dispatch, user?._id]);
 
     return null;
 };
