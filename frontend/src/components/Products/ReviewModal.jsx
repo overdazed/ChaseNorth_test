@@ -695,7 +695,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
 
                                         <div className="space-y-1 text-center">
                                             <svg
-                                                className="mx-auto h-8 w-8 text-neutral-500"
+                                                className="mx-auto h-8 w-8 text-neutral-400 dark:text-neutral-500"
                                                 stroke="currentColor"
                                                 fill="none"
                                                 viewBox="0 0 48 48"
@@ -713,7 +713,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                                     htmlFor="file-upload"
                                                     className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none"
                                                 >
-                                                    <span className="text-red-800" >Upload files</span>
+                                                    <span className="text-red-800 dark:text-red-400" >Upload files</span>
                                                     <input
                                                         id="file-upload"
                                                         name="file-upload"
