@@ -214,7 +214,7 @@ const VelocityText = ({ isNightMode = false }) => {
       ref={targetRef}
       className="h-[500vh] bg-neutral-50 text-neutral-950 relative"
     >
-      <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
+        <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden select-none">
         <div className="relative w-full h-full flex items-center justify-center">
           {/* Horizontal scrolling text */}
           <motion.div

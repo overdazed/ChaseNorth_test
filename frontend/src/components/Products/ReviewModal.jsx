@@ -6,7 +6,36 @@ import CustomSelect from '../Common/CustomSelect';
 import { supabase } from '../../services/superbaseClient';
 import { Link } from 'react-router-dom';
 
+// Add global styles for SVG focus states
+const svgFocusStyles = `
+  svg:focus {
+    outline: none;
+  }
+  
+  button:focus svg,
+  [role="button"]:focus svg {
+    outline: none;
+    box-shadow: none;
+  }
+  
+  button:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 2px solid rgba(99, 102, 241, 0.5);
+    outline-offset: 2px;
+  }
+`;
+
 const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, user, sizes = [] }) => {
+  // Add the styles to the document head when component mounts
+  useEffect(() => {
+    const styleElement = document.createElement('style');
+    styleElement.textContent = svgFocusStyles;
+    document.head.appendChild(styleElement);
+    
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
     // State hooks at the top level
     const [isUploading, setIsUploading] = useState(false);
     const [rating, setRating] = useState(0);
@@ -358,7 +387,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-start justify-center bg-black/65 p-4 select-none overflow-y-auto"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-4 select-none overflow-y-auto"
             onMouseDown={handleModalClick}
             style={{ cursor: 'default' }}
         >
@@ -459,7 +488,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                             {/* Report */}
                             <p className="mt-4 text-xs text-neutral-500 dark:text-neutral-400">
                                 Problems with the product or delivery?{' '}
-                                <Link to="/report" className="text-primary-600 font-semibold text-neutral-200 hover:underline dark:text-primary-500">
+                                <Link to="/report" className="text-accent dark:text-neutral-200 font-semibold hover:underline">
                                     Send a report
                                 </Link>
                             </p>
@@ -713,7 +742,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                                     htmlFor="file-upload"
                                                     className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none"
                                                 >
-                                                    <span className="text-red-800 dark:text-red-400" >Upload files</span>
+                                                    <span className="text-red-800 dark:text-red-500" >Upload files</span>
                                                     <input
                                                         id="file-upload"
                                                         name="file-upload"
@@ -842,7 +871,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                 />
                                 <label htmlFor="review-checkbox" className="ms-2 text-sm font-medium text-neutral-500 dark:text-neutral-400">
                                     By publishing this review you agree with the{' '}
-                                    <Link to="/terms-and-conditions" className="text-primary-600 font-semibold text-neutral-200 hover:underline dark:text-primary-500">
+                                    <Link to="/terms-and-conditions" className="text-accent dark:text-neutral-200 font-semibold hover:underline">
                                         terms and conditions
                                     </Link>
                                 </label>
