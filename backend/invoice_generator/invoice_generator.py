@@ -11,19 +11,56 @@ import traceback
 import sys
 
 
+# Add this class variable at the top of the InvoiceGenerator class
 class InvoiceGenerator:
+    _invoice_counter = 0
+    _last_date = None
+
     def __init__(self, output_dir='invoices'):
         self.env = Environment(loader=FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')))
         self.output_dir = output_dir
+        self.counter_file = os.path.join(os.path.dirname(__file__), '.invoice_counter')
         os.makedirs(self.output_dir, exist_ok=True)
+        self._load_counter()
+
+    def _load_counter(self):
+        try:
+            if os.path.exists(self.counter_file):
+                with open(self.counter_file, 'r') as f:
+                    data = json.load(f)
+                    self._invoice_counter = data.get('counter', 0)
+                    self._last_date = data.get('last_date', '')
+            else:
+                self._invoice_counter = 0
+                self._last_date = None
+        except:
+            self._invoice_counter = 0
+            self._last_date = None
+
+    def _save_counter(self):
+        with open(self.counter_file, 'w') as f:
+            json.dump({
+                'counter': self._invoice_counter,
+                'last_date': self._last_date
+            }, f)
 
     def generate_invoice_number(self):
         current_date = datetime.now()
         date_str = current_date.strftime('%Y%m%d')
 
         # Reset counter if it's a new day
-        invoice_number = f"INV-{current_date}-{str(uuid.uuid4())[:8].upper()}"
-        return invoice_number
+        if self._last_date != date_str:
+            self._last_date = date_str
+            self._invoice_counter = 0
+
+        # Increment counter and format with leading zeros
+        self._invoice_counter += 1
+        counter_str = f"{self._invoice_counter:04d}"  # 4-digit number with leading zeros
+
+        # Save the updated counter
+        self._save_counter()
+
+        return f"INV-{date_str}-{counter_str}"
 
     def format_date(self, value, format='%B %d, %Y'):
         if isinstance(value, str):
