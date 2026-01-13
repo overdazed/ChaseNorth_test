@@ -106,6 +106,12 @@ class InvoiceGenerator:
                 if 'orderItems' not in order and 'items' in order:
                     order['orderItems'] = order['items']
 
+                # Add this right after the order data processing and before the context preparation
+                sys.stderr.write(f"=== Invoice Number Debug ===\n")
+                sys.stderr.write(f"Order data contains invoiceNumber: {'invoiceNumber' in order}\n")
+                sys.stderr.write(f"invoiceNumber value: {order.get('invoiceNumber', 'Not found')}\n")
+                sys.stderr.write("===========================\n")
+
                 # Prepare context for template
                 context = {
                     'order': {

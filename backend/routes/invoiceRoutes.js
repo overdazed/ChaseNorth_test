@@ -88,7 +88,8 @@ router.post('/generate', protect, async (req, res) => {
         const { pdfBuffer, invoiceNumber } = await invoiceService.generateInvoice(
             orderData,  // Don't include invoiceNumber here, let Python generate it
             companyData,
-            customerData
+            customerData,
+            order.invoiceNumber
         );
 
         // Always update the order with the new invoice number
