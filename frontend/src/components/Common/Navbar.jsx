@@ -218,18 +218,11 @@ const Navbar = ({ transparent = false }) => {
         <>
             {/* Full width background with fade effect - Sticky on mobile */}
             {/*<div className={`w-full ${transparent ? 'bg-transparent' : 'bg-white dark:bg-neutral-900'} transition-colors duration-300 fixed top-0 left-0 right-0 z-50`}>*/}
-            <div className={`w-full transition-all duration-300 fixed top-0 ${
+            <div className={`w-full transition-all duration-300 fixed top-0 md:fixed ${
                 isScrolled ? 'md:top-0' : 'md:top-7'
             } z-40 ${
-                transparent ? 'bg-transparent' : 'bg-white dark:bg-neutral-900 shadow-sm rounded-b-2xl overflow-hidden'
-            }`} style={{
-                left: '50%',
-                transform: 'translateX(-50%)',
-                maxWidth: 'calc(100% - 2rem)', // Adjust based on your padding
-                '@media (min-width: 768px)': {
-                    maxWidth: 'calc(100% - 4rem)' // Adjust for larger screens
-                }
-            }}>
+                transparent ? 'bg-transparent' : 'bg-white dark:bg-neutral-900 shadow-sm'
+            }`}>
                 {/* Fade effect overlay */}
                 {transparent && (
                     <div className="absolute inset-0 bg-gradient-to-b from-neutral-50/70 to-neutral-50/70 backdrop-blur-sm"></div>
