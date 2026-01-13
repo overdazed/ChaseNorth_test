@@ -3,6 +3,7 @@ const router = express.Router();
 const { protect } = require('../middleware/authMiddleware');
 const Order = require('../models/Order');
 const invoiceService = require('../utils/invoiceService');
+const { supabase } = require('../services/supabaseClient');
 
 // @desc    Generate invoice for an order
 // @route   POST /api/invoices/generate
@@ -146,6 +147,56 @@ router.get('/order/:id', protect, async (req, res) => {
         console.error('Get invoice error:', error);
         res.status(500).json({
             message: 'Error getting invoice',
+            error: error.message
+        });
+    }
+});
+
+// @desc    Download invoice by order ID
+// @route   GET /api/invoices/download/:id
+// @access  Private
+router.get('/download/:id', protect, async (req, res) => {
+    try {
+        const order = await Order.findById(req.params.id);
+
+        if (!order || !order.invoiceNumber) {
+            return res.status(404).json({ message: 'Invoice not found' });
+        }
+
+        // Verify the order belongs to the user or user is admin
+        if (order.user.toString() !== req.user._id.toString() && !req.user.isAdmin) {
+            return res.status(401).json({ message: 'Not authorized to access this invoice' });
+        }
+
+        // Get the date from the order to construct the file path
+        const date = new Date(order.paidAt || order.createdAt);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const fileName = `invoice_${order.invoiceNumber}.pdf`;
+        const filePath = `invoices/${year}/${month}/${fileName}`;
+
+        // Get the file from Supabase
+        const { data, error } = await supabase.storage
+            .from('invoices')
+            .download(filePath);
+
+        if (error) {
+            console.error('Error downloading invoice from Supabase:', error);
+            return res.status(404).json({ message: 'Invoice file not found in storage' });
+        }
+
+        // Set headers for file download
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename=invoice-${order.invoiceNumber}.pdf`);
+
+        // Convert the file to a buffer and send it
+        const buffer = await data.arrayBuffer();
+        res.send(Buffer.from(buffer));
+
+    } catch (error) {
+        console.error('Download invoice error:', error);
+        res.status(500).json({
+            message: 'Error downloading invoice',
             error: error.message
         });
     }

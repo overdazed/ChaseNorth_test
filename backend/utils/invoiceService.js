@@ -24,7 +24,7 @@ class InvoiceService {
             const data = {
                 order_data: {
                     ...orderData,
-                    ...(orderData.invoiceNumber ? { invoiceNumber: orderData.invoiceNumber } : {}) // Use provided invoiceNumber or fall back to orderData.invoiceNumber
+                    ...(orderData.invoiceNumber && { invoiceNumber: orderData.invoiceNumber }) // Use provided invoiceNumber or fall back to orderData.invoiceNumber
                 },
                 company_data: companyData
             };
