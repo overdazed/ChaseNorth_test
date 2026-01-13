@@ -828,7 +828,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                                 className={`flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-neutral-300 bg-neutral-50 hover:bg-neutral-100 dark:border-neutral-600 dark:bg-neutral-700 dark:hover:border-neutral-500 dark:hover:bg-neutral-600 ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
                                             >
                                                 <svg
-                                                    className="h-8 w-8 text-neutral-500 dark:text-neutral-400"
+                                                    className="h-8 w-8 text-neutral-400 dark:text-neutral-500"
                                                     aria-hidden="true"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     fill="none"
