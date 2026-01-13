@@ -18,6 +18,26 @@ const Checkout = () => {
     const { user } = useSelector((state) => state.auth);
     const guestId = localStorage.getItem('guestId');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
+    // Sync with global theme
+    useEffect(() => {
+        const checkDarkMode = () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            setIsDarkMode(isDark);
+        };
+
+        // Initial check
+        checkDarkMode();
+
+        // Listen for theme changes
+        const handleThemeChange = () => checkDarkMode();
+        window.addEventListener('themeChange', handleThemeChange);
+
+        return () => {
+            window.removeEventListener('themeChange', handleThemeChange);
+        };
+    }, []);
     const [checkoutId, setCheckoutId] = useState(null);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [formErrors, setFormErrors] = useState({});
@@ -480,11 +500,11 @@ const Checkout = () => {
     }
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6 tracking-tighter">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6 tracking-tighter dark:bg-neutral-900 min-h-screen">
             {/* Left Section */}
-            <div className="bg-white rounded-lg p-6">
+            <div className="bg-white dark:bg-neutral-800 rounded-lg p-6 shadow dark:shadow-neutral-700">
                 <div className="mb-6">
-                    <h2 className="text-2xl uppercase">Checkout</h2>
+                    <h2 className="text-2xl uppercase dark:text-white">Checkout</h2>
                     {/*{isFormSubmitted && (*/}
                     {/*    <p className="text-sm text-yellow-600 mt-1">*/}
                     {/*        ⚠️ Please review your information before proceeding to payment*/}
@@ -494,31 +514,28 @@ const Checkout = () => {
                 {/* call a function "handleCreateCheckout" */}
                 <form ref={formRef} onSubmit={handleCreateCheckout} >
                     {isFormSubmitted && Object.keys(formErrors).length > 0 && (
-                        <div className="mb-4 p-3 bg-red-50 border-l-4 border-red-500">
-                            <p className="text-red-700">Please fix the following errors:</p>
+                        <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 dark:border-red-700">
+                            <p className="text-red-700 dark:text-red-300">Please fix the following errors:</p>
                             <ul className="list-disc list-inside mt-1">
                                 {Object.values(formErrors).map((error, index) => (
-                                    <li key={index} className="text-red-600 text-sm">{error}</li>
+                                    <li key={index} className="text-red-600 dark:text-red-400 text-sm">{error}</li>
                                 ))}
                             </ul>
                         </div>
                     )}
-                    <h3 className="text-lg mb-4">Contact Details</h3>
-                    <div className="mb-4"><label className="block text-neutral-700">Email</label>
+                    <h3 className="text-lg mb-4 dark:text-neutral-200">Contact Details</h3>
+                    <div className="mb-4"><label className="block text-neutral-700 dark:text-neutral-300">Email</label>
                         <input
                             type="email"
-                            // name="email"
-                            // value="user@example.com"
-                            // if value is present, value will be user.email
                             value={user ? user.email : ""}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
                             disabled
                         />
                     </div>
-                    <h3 className="text-lg mb-4">Delivery</h3>
+                    <h3 className="text-lg mb-4 dark:text-neutral-200">Delivery</h3>
                     <div className="mb-4 grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-neutral-700">First Name</label>
+                            <label className="block text-neutral-700 dark:text-neutral-300">First Name</label>
                             <input
                                 type="text"
                                 name="firstName"
@@ -535,9 +552,9 @@ const Checkout = () => {
                                         }));
                                     }
                                 }}
-                                className={`w-full p-2 border rounded ${
+                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
                                     formErrors.firstName ? 'border-red-500' : ''
-                                } ${isFormSubmitted ? 'bg-neutral-100' : ''}`}
+                                } ${isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''}`}
                                 required
                                 pattern="[A-Za-z\s]+" // allows letters and spaces only
                                 title="Please enter a valid name"
@@ -548,7 +565,7 @@ const Checkout = () => {
                             )}
                         </div>
                         <div>
-                            <label className="block text-neutral-700">Last Name</label>
+                            <label className="block text-neutral-700 dark:text-neutral-300">Last Name</label>
                             <input
                                 type="text"
                                 name="lastName"
@@ -565,21 +582,21 @@ const Checkout = () => {
                                         }));
                                     }
                                 }}
-                                className={`w-full p-2 border rounded ${
+                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
                                     formErrors.lastName ? 'border-red-500' : ''
-                                } ${isFormSubmitted ? 'bg-neutral-100' : ''}`}
+                                } ${isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''}`}
                                 required
                                 pattern="[A-Za-z\s]+" // allows letters and spaces only
                                 title="Please enter a valid last name"
                                 disabled={isFormSubmitted}
                             />
                             {formErrors.lastName && (
-                                <p className="text-red-500 text-xs mt-1">{formErrors.lastName}</p>
+                                <p className="text-red-500 text-xs mt-1 dark:text-red-400">{formErrors.lastName}</p>
                             )}
                         </div>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-neutral-700">Address</label>
+                        <label className="block text-neutral-700 dark:text-neutral-300">Address</label>
                         <input
                             type="text"
                             name="address"
@@ -591,7 +608,9 @@ const Checkout = () => {
                                     address: capitalizeFirstLetter(e.target.value)
                                 })
                             }
-                            className={`w-full p-2 border rounded ${isFormSubmitted ? 'bg-neutral-100' : ''}`}
+                            className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                                isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''
+                            }`}
                             required
                             pattern="^[A-Za-zßüöäÜÖÄ.\s]+\s\d+.*$" // requires at least one digit anywhere in the string
                             title="Address must include a street name followed by a space and number"
@@ -600,7 +619,7 @@ const Checkout = () => {
                     </div>
                     <div className="mb-4 grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-neutral-700">City</label>
+                            <label className="block text-neutral-700 dark:text-neutral-300">City</label>
                             <input
                                 type="text"
                                 name="city"
@@ -612,7 +631,9 @@ const Checkout = () => {
                                         city: capitalizeFirstLetter(e.target.value)
                                     })
                                 }
-                                className={`w-full p-2 border rounded ${isFormSubmitted ? 'bg-neutral-100' : ''}`}
+                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                                    isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''
+                                }`}
                                 required
                                 pattern="^[A-Za-z\s]+$" // only allows letters
                                 title="City name must contain only letters"
@@ -620,7 +641,7 @@ const Checkout = () => {
                             />
                         </div>
                         <div>
-                            <label className="block text-neutral-700">Postal Code</label>
+                            <label className="block text-neutral-700 dark:text-neutral-300">Postal Code</label>
                             <input
                                 type="text"
                                 name="postalCode"
@@ -632,7 +653,9 @@ const Checkout = () => {
                                         postalCode: e.target.value.trim()
                                     })
                                 }
-                                className={`w-full p-2 border rounded ${isFormSubmitted ? 'bg-neutral-100' : ''}`}
+                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                                    isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''
+                                }`}
                                 required
                                 pattern="^[0-9A-Z]{3,7}$"
                                 maxLength="7"
@@ -643,7 +666,7 @@ const Checkout = () => {
                         </div>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-neutral-700">Country</label>
+                        <label className="block text-neutral-700 dark:text-neutral-300">Country</label>
                         <div className="relative">
                             <select
                                 name="country"
@@ -658,17 +681,17 @@ const Checkout = () => {
                                 }}
                                 onMouseDown={() => !isFormSubmitted && setIsDropdownOpen(!isDropdownOpen)}
                                 onBlur={() => setIsDropdownOpen(false)}
-                                className={`w-full p-2 pr-8 border rounded appearance-none ${
-                                    isFormSubmitted ? 'bg-neutral-100' : 'bg-white'
+                                className={`w-full p-2 pr-8 border rounded appearance-none dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                                    isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : 'bg-white dark:bg-neutral-700'
                                 }`}
                                 required
                                 disabled={isFormSubmitted}
                             >
                                 {/*<option value="" placeholder="Select a country..." className="text-neutral-400"></option>*/}
                                 {/*<option value="" disabled hidden>Select a country...</option>*/}
-                                <option value="" disabled hidden></option>
+                                <option value="" disabled hidden className="dark:bg-neutral-700"></option>
                                 {countries.map((country) => (
-                                    <option key={country.code} value={country.name}>
+                                    <option key={country.code} value={country.name} className="dark:bg-neutral-700">
                                         {country.name}
                                     </option>
                                 ))}
@@ -686,27 +709,27 @@ const Checkout = () => {
                         </div>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-neutral-700">Phone</label>
+                        <label className="block text-neutral-700 dark:text-neutral-300">Phone</label>
                         <input
                             type="text"
                             name="phone"
                             value={shippingAddress.phone}
                             onChange={handlePhoneChange}
-                            className={`w-full p-2 border rounded ${
-                                formErrors.phone ? 'border-red-500' : ''
-                            } ${isFormSubmitted ? 'bg-neutral-100' : ''}`}
+                            className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                                formErrors.phone ? 'border-red-500 dark:border-red-700' : ''
+                            } ${isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''}`}
                             required
                             pattern="^\+?[0-9\s\-()]*$"
                             title="Enter a valid phone number"
                             disabled={isFormSubmitted}
                         />
                         {formErrors.phone && (
-                            <p className="text-red-500 text-xs mt-1">{formErrors.phone}</p>
+                            <p className="text-red-500 text-xs mt-1 dark:text-red-400">{formErrors.phone}</p>
                         )}
                     </div>
                     {/* if the checkout id is not present, show the continue to payment button*/}
                     <div className="text-center mb-4">
-                        <p className="text-sm text-yellow-600 inline-block bg-yellow-50 px-4 py-2 rounded-md">
+                        <p className="text-sm text-yellow-600 dark:text-yellow-400 inline-block bg-yellow-50 dark:bg-yellow-900/30 px-4 py-2 rounded-md">
                             ⚠️ Please review your information before proceeding to payment
                         </p>
                     </div>
@@ -746,13 +769,13 @@ const Checkout = () => {
             </div>
 
             {/* Right Section: Summary of our Order */}
-            <div className="bg-neutral-50 p-6 rounded-lg ">
-                <h3 className="text-lg mb-4">Order Summary</h3>
-                <div className="border-t py-4 ">
+            <div className="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg shadow dark:shadow-neutral-700">
+                <h3 className="text-lg mb-4 dark:text-white">Order Summary</h3>
+                <div className="border-t border-neutral-200 dark:border-neutral-700 py-4">
                     {cart.products.map((product, index) => (
                         <div
                             key={index}
-                            className="flex items-start justify-between py-2 border-b"
+                            className="flex items-start justify-between py-2 border-b border-neutral-200 dark:border-neutral-700"
                         >
                             <div className="flex items-start">
                                 <img
@@ -761,13 +784,13 @@ const Checkout = () => {
                                     className="w-20 h-24 object-cover mr-4"
                                 />
                                 <div>
-                                    <h3 className="text-md">{product.name}</h3>
-                                    <p className="text-sm text-neutral-500">Size: {product.size}</p>
-                                    <p className="text-sm text-neutral-500">Color: {product.color}</p>
+                                    <h3 className="text-md dark:text-neutral-200">{product.name}</h3>
+                                    <p className="text-sm text-neutral-500 dark:text-neutral-400">Size: {product.size}</p>
+                                    <p className="text-sm text-neutral-500 dark:text-neutral-400">Color: {product.color}</p>
                                     <div className="mt-2">
-                                        <div className={`flex items-center border-[0.5px] border-neutral-300 w-32 rounded-md overflow-hidden`}>
+                                        <div className={`flex items-center border-[0.5px] border-neutral-300 dark:border-neutral-600 w-32 rounded-md overflow-hidden`}>
                                             <button
-                                                className={`w-10 h-10 flex items-center justify-center border-r border-neutral-300 hover:bg-neutral-200`}
+                                                className={`w-10 h-10 flex items-center justify-center border-r border-neutral-300 hover:bg-neutral-200 dark:border-neutral-600 dark:hover:bg-neutral-700`}
                                                 onClick={() =>
                                                     handleUpdateQuantity(
                                                         product.productId,
@@ -778,13 +801,13 @@ const Checkout = () => {
                                                     )
                                                 }
                                             >
-                                                <span className="text-black">-</span>
+                                                <span className="text-black dark:text-white">-</span>
                                             </button>
-                                            <div className={`flex-1 text-center text-black `}>
+                                            <div className="flex-1 text-center text-black dark:text-white">
                                                 {product.quantity}
                                             </div>
                                             <button
-                                                className={`w-10 h-10 flex items-center justify-center border-l border-neutral-300 hover:bg-neutral-200`}
+                                                className={`w-10 h-10 flex items-center justify-center border-l border-neutral-300 dark:border-neutral-600 hover:bg-neutral-200 dark:hover:bg-neutral-700`}
                                                 onClick={() =>
                                                     handleUpdateQuantity(
                                                         product.productId,
@@ -795,7 +818,7 @@ const Checkout = () => {
                                                     )
                                                 }
                                             >
-                                                <span className="text-black">+</span>
+                                                <span className="text-black dark:text-white">+</span>
                                             </button>
                                         </div>
                                     </div>
@@ -803,7 +826,7 @@ const Checkout = () => {
                             </div>
                             {/* Price and remove button container */}
                             <div className="flex flex-col items-end justify-between">
-                                <p className="text-xl">${product.price?.toLocaleString()}</p>
+                                <p className="text-xl dark:text-neutral-200">${product.price?.toLocaleString()}</p>
                                 {/* Delete icon */}
                                 <button
                                     onClick={() =>
@@ -819,7 +842,7 @@ const Checkout = () => {
                                     <div className="relative p-1 w-8 h-8 flex items-center justify-center">
                                         {/*<div className="absolute top-0.2 w-8 h-8 rounded-full dark:bg-neutral-100"></div>*/}
                                         <svg viewBox="0 0 15 17.5" height="22" width="22" xmlns="http://www.w3.org/2000/svg" className="relative hover:fill-red-600">
-                                            <path d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z" transform="translate(-2.5 -1.25)" />
+                                            <path class="dark:fill-white" d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z" transform="translate(-2.5 -1.25)" />
                                         </svg>
                                     </div>
                                 </button>
@@ -833,14 +856,14 @@ const Checkout = () => {
                         <input
                             type="text"
                             placeholder="Don't forget your discount code!"
-                            className="flex-1 p-2 border rounded-l focus:outline-none focus:ring-1 focus:ring-black"
+                            className="flex-1 p-2 border rounded-l dark:bg-neutral-700 dark:border-neutral-600 dark:text-white focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
                             value={discountCode}
                             onChange={handleDiscountCodeChange}
                             onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
                             disabled={isFormSubmitted}
                         />
                         <button
-                            className="bg-black text-white px-4 py-2 rounded-r hover:bg-neutral-800 transition-colors"
+                            className="bg-black dark:bg-white dark:text-black text-white px-4 py-2 rounded-r hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors"
                             onClick={handleApplyDiscount}
                             disabled={isFormSubmitted || !discountCode.trim() || isDiscountBeingApplied}
                         >
@@ -848,10 +871,10 @@ const Checkout = () => {
                         </button>
                     </div>
                     {discountError && (
-                        <p className="text-red-500 text-sm mt-1">{discountError}</p>
+                        <p className="text-red-500 text-sm mt-1 dark:text-red-400">{discountError}</p>
                     )}
                     {discountApplied && (
-                        <p className="text-green-600 text-sm mt-1">
+                        <p className="text-green-600 dark:text-green-400 text-sm mt-1">
                             {discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4
                                 ? 'Discount applied: free shipping'
                                 : `Discount applied: ${discountPercentage}% off`}
@@ -859,12 +882,12 @@ const Checkout = () => {
                     )}
                 </div>
                 {/* Total Price */}
-                <div className="flex justify-between items-center text-lg mb-2">
-                    <p>Subtotal</p>
+                <div className="flex justify-between items-center text-lg mb-2 dark:text-neutral-200">
+                    <p className="dark:text-neutral-200">Subtotal</p>
                     <p>
                         {discountApplied && discountCode.trim().toUpperCase() !== import.meta.env.VITE_DISCOUNT_CODE4 ? (
                             <span>
-                                <span className="line-through text-neutral-400 mr-2">
+                                <span className="line-through text-neutral-400 mr-2 dark:text-neutral-500">
                                     ${cart.totalPrice?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                 </span>
                                 <span>${discountedPrice?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
@@ -884,14 +907,14 @@ const Checkout = () => {
                 {/*    </p>*/}
                 {/*</div>*/}
                 {discountApplied && (
-                    <div className="flex justify-between items-center text-lg mt-2">
+                    <div className="flex justify-between items-center text-lg mt-2 dark:text-neutral-200">
                         <p>Discount ({discountPercentage}% off)</p>
                         <p className="text-green-600">
                             -${discountAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </p>
                     </div>
                 )}
-                <div className="flex justify-between items-center text-lg mt-2">
+                <div className="flex justify-between items-center text-lg mt-2 dark:text-neutral-200">
                     <p>Shipping</p>
                     <p className={discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 'text-green-600 font-medium' : ''}>
                         {discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4
@@ -899,7 +922,7 @@ const Checkout = () => {
                             : (shippingCost > 0 ? `$${shippingCost.toFixed(2)}` : 'calculated at checkout')}
                     </p>
                 </div>
-                <div className="flex justify-between items-center text-xl font-semibold mt-4 border-t pt-4">
+                <div className="flex justify-between items-center text-xl font-semibold mt-4 border-t border-neutral-200 dark:border-neutral-700 pt-4 dark:text-white">
                     <p>Total</p>
                     <p>
                         {`$${(
@@ -920,7 +943,7 @@ const Checkout = () => {
                                     handleCreateCheckout(e);
                                 }
                             }}
-                            className={`w-full bg-black text-white py-3 rounded-full ${
+                            className={`w-full bg-black dark:bg-white dark:text-black text-white py-3 rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors ${
                                 isFormSubmitted ? 'opacity-75' : ''
                             }`}
                         >
