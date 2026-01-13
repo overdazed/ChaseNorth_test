@@ -18,7 +18,12 @@ class InvoiceGenerator:
         os.makedirs(self.output_dir, exist_ok=True)
 
     def generate_invoice_number(self):
-        return f"INV-{datetime.now().strftime('%Y%m%d')}-{str(uuid.uuid4())[:8].upper()}"
+        current_date = datetime.now()
+        date_str = current_date.strftime('%Y%m%d')
+
+        # Reset counter if it's a new day
+        invoice_number = f"INV-{current_date}-{str(uuid.uuid4())[:8].upper()}"
+        return invoice_number
 
     def format_date(self, value, format='%B %d, %Y'):
         if isinstance(value, str):
