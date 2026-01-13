@@ -17,6 +17,10 @@ class InvoiceService {
 
     async generateInvoice(orderData, companyData) {
         const tempFile = path.join(os.tmpdir(), `invoice_${uuidv4()}.json`);
+        console.log('Starting invoice generation with data:', { 
+            orderData: { ...orderData, orderItems: orderData.orderItems?.length || 0 + ' items' },
+            companyData: companyData ? 'Company data exists' : 'No company data'
+        });
 
         try {
             // Prepare the data to send to Python script
@@ -34,10 +38,17 @@ class InvoiceService {
             // Execute the Python script with the temp file path
             const command = `"${this.pythonPath}" "${this.scriptPath}" "${tempFile}"`;
 
+            console.log('Executing Python command:', command);
             const { stdout, stderr } = await execAsync(command, {
                 maxBuffer: 1024 * 1024 * 10, // 10MB buffer for larger PDFs
-                encoding: 'utf8'
+                encoding: 'utf8',
+                env: { ...process.env, PYTHONPATH: path.join(__dirname, '../invoice_generator') }
             });
+            
+            console.log('Python script stdout:', stdout.substring(0, 500) + (stdout.length > 500 ? '...' : ''));
+            if (stderr) {
+                console.error('Python script stderr:', stderr);
+            }
 
             if (stderr) {
                 console.error('Python script stderr:', stderr);

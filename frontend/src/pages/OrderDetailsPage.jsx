@@ -389,7 +389,7 @@ const OrderDetailsPage = () => {
                                     <span>Shipping</span>
                                     <span>
                                     {orderDetails.discount?.isFreeShipping ? (
-                                        <span className="text-green-600">$0.00</span>
+                                        <span className="text-green-600">Free!</span>
                                     ) : orderDetails.shippingCost > 0 ? (
                                         `$${orderDetails.shippingCost.toFixed(2)}`
                                     ) : orderDetails.shippingAddress?.country ? (

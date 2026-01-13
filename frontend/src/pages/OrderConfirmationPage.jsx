@@ -182,7 +182,7 @@ const OrderConfirmationPage = () => {
                                             <span>Shipping</span>
                                             <span>
                                                 {checkout.discount?.isFreeShipping ? (
-                                                    <span className="text-green-600">$0.00</span>
+                                                    <span className="text-green-600">Free!</span>
                                                 ) : checkout.shippingCost > 0 ? (
                                                     `$${checkout.shippingCost.toFixed(2)}`
                                                 ) : checkout.shippingAddress?.country ? (
