@@ -126,31 +126,29 @@ class InvoiceGenerator:
                 except:
                     pass
 
-                # Prepare the result dictionary
+                # Return result as a dictionary
                 result = {
                     'pdf_content': base64.b64encode(pdf_content).decode('utf-8'),
                     'invoice_number': context['invoice_number'],
                     'invoice_date': context['invoice_date'],
                     'total': context['total']
                 }
-                
-                # Log success (to stderr to avoid interfering with stdout)
-                sys.stderr.write('Successfully generated invoice\n')
-                
-                # Return the result as a JSON string
+
                 return json.dumps(result)
 
             except Exception as e:
-                # Log the full error to stderr
-                error_msg = f"Error generating invoice: {str(e)}\n{traceback.format_exc()}"
-                sys.stderr.write(error_msg)
-                
-                # Return error information as JSON
                 return json.dumps({
                     'error': str(e),
                     'type': type(e).__name__,
                     'traceback': traceback.format_exc()
                 })
+
+                # Make sure the final output is the only thing printed to stdout
+                print(json.dumps({
+                    'pdf_content': base64.b64encode(pdf_content).decode('utf-8'),
+                    'invoice_number': context['invoice_number'],
+                    'invoice_date': context['invoice_date'],
+                    'total': context['total']
                 }))
 #     def generate_invoice(self, order, company_data):
 #         try:
