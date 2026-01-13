@@ -75,7 +75,10 @@ class InvoiceGenerator:
 
                 # Prepare context for template
                 context = {
-                    'order': order,
+                    'order': {
+                            **order,  # Spread all order fields
+                            'total': order.get('totalPrice', 0)  # Add total field that the template expects
+                        },
                     'company_name': company_data.get('name', ''),
                     'company_contact_name': company_data.get('contact_name', ''),
                     'company_vat': company_data.get('vat', ''),

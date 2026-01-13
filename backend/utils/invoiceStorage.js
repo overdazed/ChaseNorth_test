@@ -69,7 +69,7 @@ function getPublicUrl(filePath) {
   return publicUrl;
 }
 
-async function generateAndSaveInvoice(order, companyData, customerData) {
+async function generateAndSaveInvoice(order, companyData, customerData, supabaseClient) {
   try {
     const { pdfBuffer, invoiceNumber } = await invoiceService.generateInvoice(
       order,
@@ -77,13 +77,12 @@ async function generateAndSaveInvoice(order, companyData, customerData) {
       customerData
     );
 
-    // const savedPath = await saveInvoice(pdfBuffer, order.orderId);
-
-    const publicUrl = await uploadToSupabase(pdfBuffer, order.orderId);
+    // Upload to Supabase and get the public URL
+    const publicUrl = await uploadToSupabase(pdfBuffer, order._id || order.orderId);
 
     return {
       invoiceNumber,
-      invoicePath: savedPath
+      invoicePath: publicUrl
     };
   } catch (error) {
     console.error('Error in generateAndSaveInvoice:', error);

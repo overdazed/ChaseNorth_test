@@ -1,4 +1,3 @@
-// import express from "express";
 const express = require('express');
 const Checkout = require('../models/Checkout');
 const Cart = require('../models/Cart');
@@ -6,6 +5,13 @@ const Product = require('../models/Product');
 const Order = require('../models/Order');
 const { protect } = require('../middleware/authMiddleware');
 const { generateAndSaveInvoice } = require('../utils/invoiceStorage');
+const { createClient } = require('@supabase/supabase-js');
+
+// Initialize Supabase
+const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY
+);
 
 const router = express.Router();
 
@@ -171,6 +177,49 @@ router.post('/:id/finalize', protect, async (req, res) => {
                     email_address: req.user.email
                 }
             });
+
+            // Generate and save invoice
+            try {
+                // Prepare company data
+                const companyData = {
+                    name: process.env.COMPANY_NAME || 'Adventure Store',
+                    contact_name: process.env.COMPANY_CONTACT_NAME || 'Customer Service',
+                    vat: process.env.COMPANY_VAT || '',
+                    address: process.env.COMPANY_ADDRESS || '123 Adventure St',
+                    city: process.env.COMPANY_CITY || 'Adventure City',
+                    zip: process.env.COMPANY_ZIP || '12345',
+                    country: process.env.COMPANY_COUNTRY || 'Adventureland',
+                    email: process.env.COMPANY_EMAIL || 'billing@adventurestore.com',
+                    phone: process.env.COMPANY_PHONE || '+1 (555) 123-4567',
+                    website: process.env.COMPANY_WEBSITE || 'www.adventurestore.com',
+                    tax_rate: parseFloat(process.env.TAX_RATE) || 0
+                };
+
+                // Generate and save the invoice
+                const { invoiceNumber, invoicePath } = await generateAndSaveInvoice(
+                    finalOrder,
+                    companyData,
+                    {
+                        name: `${shippingAddress.firstName} ${shippingAddress.lastName}`,
+                        email: req.user.email,
+                        address: shippingAddress.address,
+                        city: shippingAddress.city,
+                        postalCode: shippingAddress.postalCode,
+                        country: shippingAddress.country
+                    },
+                    supabase
+                );
+
+                // Update the order with invoice information
+                finalOrder.invoiceNumber = invoiceNumber;
+                finalOrder.invoicePath = invoicePath;
+                await finalOrder.save();
+
+                console.log(`Invoice generated and saved: ${invoiceNumber}`);
+            } catch (invoiceError) {
+                console.error('Error generating/saving invoice:', invoiceError);
+                // Don't fail the order if invoice generation fails
+            }
 
             // Rest of the code remains the same...
             // [Previous invoice generation and other code...]
