@@ -85,23 +85,24 @@ router.post('/generate', protect, async (req, res) => {
 
         // Generate the invoice
         const { pdfBuffer, invoiceNumber } = await invoiceService.generateInvoice(
-            {
-                ...orderData,
-                invoiceNumber: order.invoiceNumber // Include existing invoice number
-            },
+            orderData,  // Don't include invoiceNumber here, let Python generate it
             companyData,
             customerData
         );
 
+        // Always update the order with the new invoice number
+        order.invoiceNumber = invoiceNumber;
+        await order.save();
+
         // Update order with invoice number if not already set
-        if (!order.invoiceNumber) {
-            order.invoiceNumber = invoiceNumber;
-            await order.save();
-        }
+        // if (!order.invoiceNumber) {
+        //     order.invoiceNumber = invoiceNumber;
+        //     await order.save();
+        // }
 
         // Set headers for file download
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename=invoice-${order.invoiceNumber || invoiceNumber}.pdf`);
+        res.setHeader('Content-Disposition', `attachment; filename=invoice-${invoiceNumber}.pdf`);
 
         // Send the PDF file
         res.send(pdfBuffer);

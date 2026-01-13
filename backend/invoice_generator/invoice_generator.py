@@ -47,10 +47,8 @@ class InvoiceGenerator:
     def generate_invoice_number(self):
         # Get current date in YYYYMMDD format
         date_str = datetime.now().strftime('%Y%m%d')
-
         # Generate a unique ID (last 4 characters of UUID)
         unique_id = str(uuid.uuid4())[-4:].upper()
-
         # Format: INV-YYYYMMDD-XXXX
         return f"INV-{date_str}-{unique_id}"
 
@@ -123,7 +121,7 @@ class InvoiceGenerator:
                     'company_email': company_data.get('email', ''),
                     'company_phone': company_data.get('phone', ''),
                     'company_website': company_data.get('website', ''),
-                    'invoice_number': order.get('invoiceNumber') or self.generate_invoice_number(),
+                    'invoice_number': self.generate_invoice_number(),
                     'invoice_date': datetime.now().strftime('%B %d, %Y'),
                     'due_date': (datetime.now() + relativedelta(days=30)).strftime('%B %d, %Y'),
                     'total': order.get('totalPrice', 0)

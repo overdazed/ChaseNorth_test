@@ -69,26 +69,48 @@ function getPublicUrl(filePath) {
   return publicUrl;
 }
 
-async function generateAndSaveInvoice(order, companyData, customerData, supabaseClient) {
-  try {
-    // Check if the order already has an invoice number
-    const existingInvoiceNumber = order.invoiceNumber;
+// async function generateAndSaveInvoice(order, companyData, customerData, supabaseClient) {
+//   try {
+//     // Check if the order already has an invoice number
+//     const existingInvoiceNumber = order.invoiceNumber;
+//
+//     const { pdfBuffer, invoiceNumber } = await invoiceService.generateInvoice(
+//         order,
+//         companyData,
+//         customerData,
+//         existingInvoiceNumber // Pass the existing invoice number
+//     );
+//
+//     // If there was no existing invoice number, use the one generated
+//     const finalInvoiceNumber = existingInvoiceNumber || invoiceNumber;
+//
+//     // Upload to Supabase with the correct invoice number
+//     const publicUrl = await uploadToSupabase(pdfBuffer, finalInvoiceNumber);
+//
+//     return {
+//       invoiceNumber: finalInvoiceNumber,
+//       invoicePath: publicUrl
+//     };
+//   } catch (error) {
+//     console.error('Error in generateAndSaveInvoice:', error);
+//     throw error;
+//   }
+// }
 
+async function generateAndSaveInvoice(order, companyData, customerData) {
+  try {
+    // Generate the invoice - the invoice number will be handled by the Python script
     const { pdfBuffer, invoiceNumber } = await invoiceService.generateInvoice(
         order,
         companyData,
-        customerData,
-        existingInvoiceNumber // Pass the existing invoice number
+        customerData
     );
 
-    // If there was no existing invoice number, use the one generated
-    const finalInvoiceNumber = existingInvoiceNumber || invoiceNumber;
-
-    // Upload to Supabase with the correct invoice number
-    const publicUrl = await uploadToSupabase(pdfBuffer, finalInvoiceNumber);
+    // Upload to Supabase with the generated invoice number
+    const publicUrl = await uploadToSupabase(pdfBuffer, invoiceNumber);
 
     return {
-      invoiceNumber: finalInvoiceNumber,
+      invoiceNumber: invoiceNumber,
       invoicePath: publicUrl
     };
   } catch (error) {
