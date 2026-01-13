@@ -500,9 +500,9 @@ const Checkout = () => {
     }
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6 tracking-tighter dark:bg-neutral-900 min-h-screen">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6 tracking-tighter dark:bg-neutral-950 min-h-screen">
             {/* Left Section */}
-            <div className="bg-white dark:bg-neutral-800 rounded-lg p-6 shadow dark:shadow-neutral-700">
+            <div className="bg-white dark:bg-neutral-900 rounded-lg p-6 shadow dark:shadow-neutral-700">
                 <div className="mb-6">
                     <h2 className="text-2xl uppercase dark:text-white">Checkout</h2>
                     {/*{isFormSubmitted && (*/}
@@ -528,7 +528,7 @@ const Checkout = () => {
                         <input
                             type="email"
                             value={user ? user.email : ""}
-                            className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+                            className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white"
                             disabled
                         />
                     </div>
@@ -552,7 +552,7 @@ const Checkout = () => {
                                         }));
                                     }
                                 }}
-                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white ${
                                     formErrors.firstName ? 'border-red-500' : ''
                                 } ${isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''}`}
                                 required
@@ -582,7 +582,7 @@ const Checkout = () => {
                                         }));
                                     }
                                 }}
-                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white ${
                                     formErrors.lastName ? 'border-red-500' : ''
                                 } ${isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''}`}
                                 required
@@ -608,7 +608,7 @@ const Checkout = () => {
                                     address: capitalizeFirstLetter(e.target.value)
                                 })
                             }
-                            className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                            className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white ${
                                 isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''
                             }`}
                             required
@@ -631,7 +631,7 @@ const Checkout = () => {
                                         city: capitalizeFirstLetter(e.target.value)
                                     })
                                 }
-                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white ${
                                     isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''
                                 }`}
                                 required
@@ -653,7 +653,7 @@ const Checkout = () => {
                                         postalCode: e.target.value.trim()
                                     })
                                 }
-                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white ${
                                     isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''
                                 }`}
                                 required
@@ -681,7 +681,7 @@ const Checkout = () => {
                                 }}
                                 onMouseDown={() => !isFormSubmitted && setIsDropdownOpen(!isDropdownOpen)}
                                 onBlur={() => setIsDropdownOpen(false)}
-                                className={`w-full p-2 pr-8 border rounded appearance-none dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                                className={`w-full p-2 pr-8 border rounded appearance-none dark:bg-neutral-700 dark:border-neutral-700 dark:text-white ${
                                     isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : 'bg-white dark:bg-neutral-700'
                                 }`}
                                 required
@@ -715,7 +715,7 @@ const Checkout = () => {
                             name="phone"
                             value={shippingAddress.phone}
                             onChange={handlePhoneChange}
-                            className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 dark:text-white ${
+                            className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white ${
                                 formErrors.phone ? 'border-red-500 dark:border-red-700' : ''
                             } ${isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''}`}
                             required
@@ -769,7 +769,7 @@ const Checkout = () => {
             </div>
 
             {/* Right Section: Summary of our Order */}
-            <div className="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg shadow dark:shadow-neutral-700">
+            <div className="bg-neutral-50 dark:bg-neutral-900 p-6 rounded-lg shadow dark:shadow-neutral-700">
                 <h3 className="text-lg mb-4 dark:text-white">Order Summary</h3>
                 <div className="border-t border-neutral-200 dark:border-neutral-700 py-4">
                     {cart.products.map((product, index) => (
@@ -788,9 +788,9 @@ const Checkout = () => {
                                     <p className="text-sm text-neutral-500 dark:text-neutral-400">Size: {product.size}</p>
                                     <p className="text-sm text-neutral-500 dark:text-neutral-400">Color: {product.color}</p>
                                     <div className="mt-2">
-                                        <div className={`flex items-center border-[0.5px] border-neutral-300 dark:border-neutral-600 w-32 rounded-md overflow-hidden`}>
+                                        <div className={`flex items-center border-[0.5px] border-neutral-300 dark:border-neutral-700 w-32 rounded-md overflow-hidden`}>
                                             <button
-                                                className={`w-10 h-10 flex items-center justify-center border-r border-neutral-300 hover:bg-neutral-200 dark:border-neutral-600 dark:hover:bg-neutral-700`}
+                                                className={`w-10 h-10 flex items-center justify-center border-r border-neutral-300 hover:bg-neutral-200 dark:border-neutral-700 dark:hover:bg-neutral-700`}
                                                 onClick={() =>
                                                     handleUpdateQuantity(
                                                         product.productId,
@@ -807,7 +807,7 @@ const Checkout = () => {
                                                 {product.quantity}
                                             </div>
                                             <button
-                                                className={`w-10 h-10 flex items-center justify-center border-l border-neutral-300 dark:border-neutral-600 hover:bg-neutral-200 dark:hover:bg-neutral-700`}
+                                                className={`w-10 h-10 flex items-center justify-center border-l border-neutral-300 dark:border-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-700`}
                                                 onClick={() =>
                                                     handleUpdateQuantity(
                                                         product.productId,
@@ -856,14 +856,14 @@ const Checkout = () => {
                         <input
                             type="text"
                             placeholder="Don't forget your discount code!"
-                            className="flex-1 p-2 border rounded-l dark:bg-neutral-700 dark:border-neutral-600 dark:text-white focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
+                            className="flex-1 p-2 border rounded-l dark:bg-neutral-700 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
                             value={discountCode}
                             onChange={handleDiscountCodeChange}
                             onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
                             disabled={isFormSubmitted}
                         />
                         <button
-                            className="bg-black dark:bg-white dark:text-black text-white px-4 py-2 rounded-r hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors"
+                            className="bg-black text-white px-4 py-2 rounded-r hover:bg-neutral-800 hover:outline hover:outline-1 hover:outline-white hover:outline-offset transition-colors"
                             onClick={handleApplyDiscount}
                             disabled={isFormSubmitted || !discountCode.trim() || isDiscountBeingApplied}
                         >
@@ -943,7 +943,7 @@ const Checkout = () => {
                                     handleCreateCheckout(e);
                                 }
                             }}
-                            className={`w-full bg-black dark:bg-white dark:text-black text-white py-3 rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors ${
+                            className={`w-full bg-black text-white py-3 rounded-full hover:bg-neutral-800 transition-colors ${
                                 isFormSubmitted ? 'opacity-75' : ''
                             }`}
                         >
