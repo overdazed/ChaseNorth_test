@@ -24,7 +24,7 @@ class InvoiceService {
             const data = {
                 order_data: {
                     ...orderData,
-                    invoiceNumber: invoiceNumber || orderData.invoiceNumber // Use provided invoiceNumber or fall back to orderData.invoiceNumber
+                    ...(orderData.invoiceNumber ? { invoiceNumber: orderData.invoiceNumber } : {}) // Use provided invoiceNumber or fall back to orderData.invoiceNumber
                 },
                 company_data: companyData
             };
@@ -68,7 +68,7 @@ class InvoiceService {
 
             return {
                 pdfBuffer: Buffer.from(result.pdf_content, 'base64'),
-                invoiceNumber: result.invoice_number || invoiceNumber || orderData.invoiceNumber,
+                invoiceNumber: result.invoice_number,
                 invoiceDate: result.invoice_date,
                 total: result.total
             };

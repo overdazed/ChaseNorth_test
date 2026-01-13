@@ -45,22 +45,14 @@ class InvoiceGenerator:
             }, f)
 
     def generate_invoice_number(self):
-        current_date = datetime.now()
-        date_str = current_date.strftime('%Y%m%d')
+        # Get current date in YYYYMMDD format
+        date_str = datetime.now().strftime('%Y%m%d')
 
-        # Reset counter if it's a new day
-        if self._last_date != date_str:
-            self._last_date = date_str
-            self._invoice_counter = 0
+        # Generate a unique ID (last 4 characters of UUID)
+        unique_id = str(uuid.uuid4())[-4:].upper()
 
-        # Increment counter and format with leading zeros
-        self._invoice_counter += 1
-        counter_str = f"{self._invoice_counter:04d}"  # 4-digit number with leading zeros
-
-        # Save the updated counter
-        self._save_counter()
-
-        return f"INV-{date_str}-{counter_str}"
+        # Format: INV-YYYYMMDD-XXXX
+        return f"INV-{date_str}-{unique_id}"
 
     def format_date(self, value, format='%B %d, %Y'):
         if isinstance(value, str):
