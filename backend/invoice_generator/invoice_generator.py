@@ -89,7 +89,7 @@ class InvoiceGenerator:
                     'company_email': company_data.get('email', ''),
                     'company_phone': company_data.get('phone', ''),
                     'company_website': company_data.get('website', ''),
-                    'invoice_number': self.generate_invoice_number(),
+                    'invoice_number': order.get('invoiceNumber') or self.generate_invoice_number(),
                     'invoice_date': datetime.now().strftime('%B %d, %Y'),
                     'due_date': (datetime.now() + relativedelta(days=30)).strftime('%B %d, %Y'),
                     'total': order.get('totalPrice', 0)

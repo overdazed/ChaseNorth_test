@@ -85,7 +85,10 @@ router.post('/generate', protect, async (req, res) => {
 
         // Generate the invoice
         const { pdfBuffer, invoiceNumber } = await invoiceService.generateInvoice(
-            orderData,
+            {
+                ...orderData,
+                invoiceNumber: order.invoiceNumber // Include existing invoice number
+            },
             companyData,
             customerData
         );
@@ -98,7 +101,7 @@ router.post('/generate', protect, async (req, res) => {
 
         // Set headers for file download
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename=invoice-${invoiceNumber}.pdf`);
+        res.setHeader('Content-Disposition', `attachment; filename=invoice-${order.invoiceNumber || invoiceNumber}.pdf`);
 
         // Send the PDF file
         res.send(pdfBuffer);

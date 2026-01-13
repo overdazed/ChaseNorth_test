@@ -71,17 +71,24 @@ function getPublicUrl(filePath) {
 
 async function generateAndSaveInvoice(order, companyData, customerData, supabaseClient) {
   try {
+    // Check if the order already has an invoice number
+    const existingInvoiceNumber = order.invoiceNumber;
+
     const { pdfBuffer, invoiceNumber } = await invoiceService.generateInvoice(
-      order,
-      companyData,
-      customerData
+        order,
+        companyData,
+        customerData,
+        existingInvoiceNumber // Pass the existing invoice number
     );
 
-    // Upload to Supabase and get the public URL
-    const publicUrl = await uploadToSupabase(pdfBuffer, invoiceNumber);
+    // If there was no existing invoice number, use the one generated
+    const finalInvoiceNumber = existingInvoiceNumber || invoiceNumber;
+
+    // Upload to Supabase with the correct invoice number
+    const publicUrl = await uploadToSupabase(pdfBuffer, finalInvoiceNumber);
 
     return {
-      invoiceNumber,
+      invoiceNumber: finalInvoiceNumber,
       invoicePath: publicUrl
     };
   } catch (error) {
