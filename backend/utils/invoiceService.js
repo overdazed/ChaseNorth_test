@@ -15,20 +15,22 @@ class InvoiceService {
         this.scriptPath = path.join(__dirname, '../invoice_generator/invoice_generator.py');
     }
 
-    async generateInvoice(orderData, companyData) {
+    // In invoiceService.js, update the generateInvoice method
+    async generateInvoice(orderData, companyData, customerData, invoiceNumber = null) {
         const tempFile = path.join(os.tmpdir(), `invoice_${uuidv4()}.json`);
 
         try {
             // Prepare the data to send to Python script
             const data = {
-                order_data: orderData,
+                order_data: {
+                    ...orderData,
+                    invoiceNumber: invoiceNumber || orderData.invoiceNumber // Use provided invoiceNumber or fall back to orderData.invoiceNumber
+                },
                 company_data: companyData
             };
 
-            // Add this debug log
+            // Rest of the method remains the same
             console.log('Sending order data to invoice generator:', JSON.stringify(data, null, 2));
-
-            // Write data to a temporary file
             await writeFileAsync(tempFile, JSON.stringify(data), 'utf8');
 
             // Execute the Python script with the temp file path
@@ -39,6 +41,7 @@ class InvoiceService {
                 encoding: 'utf8'
             });
 
+            // Rest of the method remains the same
             if (stderr) {
                 console.error('Python script stderr:', stderr);
                 if (!stdout) {
@@ -46,37 +49,29 @@ class InvoiceService {
                 }
             }
 
+            // Parse the response
+            let result;
             try {
-                // Try to parse the response
-                let result;
-                try {
-                    result = JSON.parse(stdout.trim());
-                } catch (parseError) {
-                    console.error('Failed to parse Python output:', stdout);
-                    throw new Error('Invalid JSON response from Python script');
-                }
-
-                // Check for error in response
-                if (result.error) {
-                    throw new Error(`Python error: ${result.error} (${result.type || 'Unknown'})`);
-                }
-
-                // Ensure we have the required fields
-                if (!result.pdf_content) {
-                    throw new Error('No PDF content received from generator');
-                }
-
-                return {
-                    pdfBuffer: Buffer.from(result.pdf_content, 'base64'),
-                    invoiceNumber: result.invoice_number,
-                    invoiceDate: result.invoice_date,
-                    total: result.total
-                };
-            } catch (error) {
-                console.error('Failed to process Python script output:', error);
-                console.error('Raw output:', stdout);
-                throw new Error('Failed to process invoice: ' + error.message);
+                result = JSON.parse(stdout.trim());
+            } catch (parseError) {
+                console.error('Failed to parse Python output:', stdout);
+                throw new Error('Invalid JSON response from Python script');
             }
+
+            if (result.error) {
+                throw new Error(`Python error: ${result.error} (${result.type || 'Unknown'})`);
+            }
+
+            if (!result.pdf_content) {
+                throw new Error('No PDF content received from generator');
+            }
+
+            return {
+                pdfBuffer: Buffer.from(result.pdf_content, 'base64'),
+                invoiceNumber: result.invoice_number || invoiceNumber || orderData.invoiceNumber,
+                invoiceDate: result.invoice_date,
+                total: result.total
+            };
         } catch (error) {
             console.error('Error in generateInvoice:', error);
             throw new Error(`Failed to generate invoice: ${error.message}`);
