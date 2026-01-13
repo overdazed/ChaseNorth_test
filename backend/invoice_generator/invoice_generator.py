@@ -44,14 +44,26 @@ class InvoiceGenerator:
                 'last_date': self._last_date
             }, f)
 
-    def generate_invoice_number(self):
+    def generate_invoice_number(self, existing_number=None):
+        # Debug logging
+        sys.stderr.write(f"=== Invoice Number Debug ===\n")
+        sys.stderr.write(f"Existing number received: {existing_number}\n")
+        sys.stderr.write(f"Type of existing_number: {type(existing_number)}\n")
+
+        # If an existing number is provided and it's in the correct format, use it
+        if existing_number and isinstance(existing_number, str) and existing_number.startswith('INV-'):
+            sys.stderr.write("Using existing invoice number\n")
+            return existing_number
+
         # Get current date in YYYYMMDD format
         date_str = datetime.now().strftime('%Y%m%d')
         # Generate a unique ID (last 4 characters of UUID)
         unique_id = str(uuid.uuid4())[-4:].upper()
-        # Format: INV-YYYYMMDD-XXXX
+        new_number = f"INV-{date_str}-{unique_id}"
 
-        return f"INV-{date_str}-{unique_id}"
+        sys.stderr.write(f"Generated new invoice number: {new_number}\n")
+        sys.stderr.write("===========================\n")
+        return new_number
 
     def format_date(self, value, format='%B %d, %Y'):
         if isinstance(value, str):
@@ -128,7 +140,8 @@ class InvoiceGenerator:
                     'company_email': company_data.get('email', ''),
                     'company_phone': company_data.get('phone', ''),
                     'company_website': company_data.get('website', ''),
-                    'invoice_number': order.get('invoiceNumber') or self.generate_invoice_number(),
+#                     'invoice_number': order.get('invoiceNumber') or self.generate_invoice_number(),
+                    'invoice_number': self.generate_invoice_number(order.get('invoiceNumber')),
                     'invoice_date': datetime.now().strftime('%B %d, %Y'),
                     'due_date': (datetime.now() + relativedelta(days=30)).strftime('%B %d, %Y'),
                     'total': order.get('totalPrice', 0)
