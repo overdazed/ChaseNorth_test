@@ -389,7 +389,7 @@ const OrderDetailsPage = () => {
                                     <span>Shipping</span>
                                     <span>
                                     {orderDetails.discount?.isFreeShipping ? (
-                                        <span className="text-green-600">Free</span>
+                                        <span className="text-green-600">$0.00</span>
                                     ) : orderDetails.shippingCost > 0 ? (
                                         `$${orderDetails.shippingCost.toFixed(2)}`
                                     ) : orderDetails.shippingAddress?.country ? (
@@ -414,12 +414,14 @@ const OrderDetailsPage = () => {
                                         const subtotal = orderDetails.subtotal ||
                                             orderDetails.orderItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0;
 
-                                        // Get shipping cost
+                                        // Get shipping cost - set to 0 if free shipping is applied
                                         let shippingCost = 0;
-                                        if (orderDetails.shippingCost > 0) {
-                                            shippingCost = orderDetails.shippingCost;
-                                        } else if (orderDetails.shippingAddress?.country) {
-                                            shippingCost = getShippingCost(orderDetails.shippingAddress.country);
+                                        if (!orderDetails.discount?.isFreeShipping) {
+                                            if (orderDetails.shippingCost > 0) {
+                                                shippingCost = orderDetails.shippingCost;
+                                            } else if (orderDetails.shippingAddress?.country) {
+                                                shippingCost = getShippingCost(orderDetails.shippingAddress.country);
+                                            }
                                         }
 
                                         // Apply discount if any

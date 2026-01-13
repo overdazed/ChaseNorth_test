@@ -182,7 +182,7 @@ const OrderConfirmationPage = () => {
                                             <span>Shipping</span>
                                             <span>
                                                 {checkout.discount?.isFreeShipping ? (
-                                                    <span className="text-green-600">Free</span>
+                                                    <span className="text-green-600">$0.00</span>
                                                 ) : checkout.shippingCost > 0 ? (
                                                     `$${checkout.shippingCost.toFixed(2)}`
                                                 ) : checkout.shippingAddress?.country ? (
@@ -207,12 +207,14 @@ const OrderConfirmationPage = () => {
                                                     const subtotal = checkout.subtotal ||
                                                         checkout.checkoutItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0;
 
-                                                    // Get shipping cost
+                                                    // Get shipping cost - set to 0 if free shipping is applied
                                                     let shippingCost = 0;
-                                                    if (checkout.shippingCost > 0) {
-                                                        shippingCost = checkout.shippingCost;
-                                                    } else if (checkout.shippingAddress?.country) {
-                                                        shippingCost = getShippingCost(checkout.shippingAddress.country);
+                                                    if (!checkout.discount?.isFreeShipping) {
+                                                        if (checkout.shippingCost > 0) {
+                                                            shippingCost = checkout.shippingCost;
+                                                        } else if (checkout.shippingAddress?.country) {
+                                                            shippingCost = getShippingCost(checkout.shippingAddress.country);
+                                                        }
                                                     }
 
                                                     // Apply discount if any
