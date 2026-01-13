@@ -31,11 +31,11 @@ const { supabase } = require('../services/supabaseClient');
 //   }
 // }
 
-async function uploadToSupabase(pdfBuffer, orderId) {
+async function uploadToSupabase(pdfBuffer, invoiceNumber) {
   const date = new Date();
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
-  const fileName = `invoice_${orderId}.pdf`;
+  const fileName = `invoice_${invoiceNumber}.pdf`;
   const filePath = `invoices/${year}/${month}/${fileName}`;
 
   try {
@@ -78,7 +78,7 @@ async function generateAndSaveInvoice(order, companyData, customerData, supabase
     );
 
     // Upload to Supabase and get the public URL
-    const publicUrl = await uploadToSupabase(pdfBuffer, order._id || order.orderId);
+    const publicUrl = await uploadToSupabase(pdfBuffer, invoiceNumber);
 
     return {
       invoiceNumber,
