@@ -57,8 +57,12 @@ class InvoiceGenerator:
 
         # Get current date in YYYYMMDD format
         date_str = datetime.now().strftime('%Y%m%d')
+        sys.stderr.write(f"Generated date string: {date_str}\n")
+
         # Generate a unique ID (4 random uppercase alphanumeric characters)
-        unique_id = ''.join(random.choices('ABCDEFGHJKLMNPQRSTUVWXYZ23456789', k=4))
+        import random
+        import string
+        unique_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
         new_number = f"INV-{date_str}-{unique_id}"
 
         sys.stderr.write(f"Generated new invoice number: {new_number}\n")
