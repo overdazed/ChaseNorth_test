@@ -551,6 +551,38 @@ const Navbar = ({ transparent = false }) => {
                             </Link>
                         )}
 
+                        {/* Return Policy Link */}
+                        <Link
+                            to="/return-policy"
+                            className={`flex items-center p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${
+                                window.location.pathname === '/return-policy'
+                                    ? 'text-black dark:text-neutral-50'
+                                    : 'text-neutral-700 hover:text-black dark:text-neutral-400 dark:hover:text-neutral-50'
+                            }`}
+                            onClick={toggleNavDrawer}
+                        >
+                            <div className="relative w-6 flex-shrink-0">
+                                <svg
+                                    className="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                            </div>
+                            <span className={`text-sm font-normal ml-6 ${
+                                window.location.pathname === '/return-policy' ? 'border-b border-black dark:border-white' : ''
+                            }`}>
+                                Return Policy
+                            </span>
+                        </Link>
+
                         {/* Account */}
                         <Link
                             to="/profile"

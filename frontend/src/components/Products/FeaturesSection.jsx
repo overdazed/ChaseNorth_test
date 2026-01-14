@@ -45,7 +45,7 @@ const FeaturesSection = () => {
                     <HiArrowPathRoundedSquare className="text-xl" />
                 </div>
                 <h4 className="tracking-tighter mb-2 uppercase dark:text-white">
-                    45 days return
+                    30 days return
                 </h4>
                 <p className="dark:text-neutral-300 text-neutral-600 text-sm tracking-tighter">
                     Money back guarantee
