@@ -127,7 +127,7 @@ const OrderDetailsPage = () => {
     const textClass = isDarkMode ? 'text-neutral-100' : 'text-neutral-900'
     const linkClass = isDarkMode ? 'text-red-700 hover:text-accent text-sm sm:text-md' : 'text-accent hover:text-red-700 text-sm sm:text-md'
     const innerBgClass = isDarkMode ? 'bg-neutral-800 p-4 rounded-lg' : 'bg-neutral-100 p-4 rounded-lg'
-    const borderClass = isDarkMode ? 'border-neutral-700' : 'border-neutral-200'
+    const borderClass = isDarkMode ? 'border-neutral-700' : 'border-neutral-50'
 
     return (
         <div className={`min-h-screen ${bgClass} transition-colors duration-300`}>
@@ -334,10 +334,10 @@ const OrderDetailsPage = () => {
 
                         {/* Product List */}
                         <h4 className="text-md font-semibold mb-4">Products</h4>
-                        <div className="relative sm:rounded-lg overflow-hidden mb-6">
+                        <div className="relative shadow-md sm:rounded-lg overflow-hidden mb-6">
                             <table className={`min-w-full text-left ${textClass}`}>
                                 <thead className={`uppercase text-left text-xs ${innerBgClass} ${textClass}`}>
-                                <tr className="rounded-lg">
+                                <tr>
                                     <th className="py-2 px-4 sm:py-3">Name</th>
                                     <th className="py-2 px-4 sm:py-3">Price</th>
                                     <th className="py-2 px-4 sm:py-3 text-center">Quantity</th>

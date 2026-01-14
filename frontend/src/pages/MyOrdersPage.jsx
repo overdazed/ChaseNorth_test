@@ -85,14 +85,14 @@ const MyOrdersPage = () => {
     const textClass = isDarkMode ? 'text-neutral-50' : 'text-neutral-950'
     const linkClass = isDarkMode ? 'text-red-700 hover:text-accent' : 'text-accent hover:text-red-700'
     const innerBgClass = isDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'
-    const borderClass = isDarkMode ? 'border-neutral-700' : 'border-neutral-50'
+    const borderClass = isDarkMode ? 'border-neutral-700' : 'border-neutral-200'
 
     return (
         <div className={`dark:bg-neutral-900 bg-neutral-50 p-4 sm:p-6 rounded-lg ${bgClass} ${textClass}`}>
             <h2 className={`text-xl sm:text-2xl font-bold mb-6 ${textClass}`}>
                 My Orders
             </h2>
-            <div className="relative shadow-md sm:rounded-lg overflow-hidden">
+            <div className="relative sm:rounded-lg overflow-hidden">
                 <table className={`min-w-full text-left ${textClass} block lg:table`}>
                     <thead className={`text-xs uppercase ${textClass} ${innerBgClass} lg:table-header-group hidden lg:block`}>
                         <tr>
