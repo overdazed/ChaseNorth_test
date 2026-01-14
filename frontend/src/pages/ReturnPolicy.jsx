@@ -14,6 +14,21 @@ const ReturnPolicy = () => {
                 Our return policy guidelines and procedures.
               </p>
             </div>
+            {/* Desktop "Still have questions?" - Hidden on mobile */}
+            <div className="hidden md:block mt-12 shadow-md bg-neutral-100 dark:bg-neutral-800 p-6 rounded-lg">
+              <h2 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">Still have questions?</h2>
+              <p className="text-neutral-600 dark:text-neutral-300 mb-4">
+                If you have any further questions about our return policy, our customer support team is here to help.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button
+                    onClick={() => (window.location.href = "mailto:support@chasenorth.com")}
+                    className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-900 transition-colors duration-200"
+                >
+                  Contact Us
+                </button>
+              </div>
+            </div>
           </div>
           <div className="md:col-span-3">
             <div className="bg-neutral-100 dark:bg-neutral-800 p-6 rounded-lg shadow-md">
@@ -32,6 +47,22 @@ const ReturnPolicy = () => {
                 To initiate a return, please contact us at <a href="mailto:support@chasenorth.com" className="text-blue-600 dark:text-blue-400">support@chasenorth.com</a>.
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* Mobile "Still have questions?" - Only shows on mobile */}
+        <div className="md:hidden mt-8 shadow-md bg-neutral-100 dark:bg-neutral-800 p-6 rounded-lg">
+          <h2 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">Still have questions?</h2>
+          <p className="text-neutral-600 dark:text-neutral-300 mb-4">
+            If you have any further questions about our return policy, our customer support team is here to help.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button
+                onClick={() => (window.location.href = "mailto:support@chasenorth.com")}
+                className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-900 transition-colors duration-200"
+            >
+              Contact Us
+            </button>
           </div>
         </div>
       </div>
