@@ -24,13 +24,15 @@ class InvoiceService {
             const data = {
                 order_data: {
                     ...orderData,
-                    ...(invoiceNumber ? { invoiceNumber } : (orderData.invoiceNumber && { invoiceNumber: orderData.invoiceNumber })) // Use provided invoiceNumber or fall back to orderData.invoiceNumber
+                    // Use the provided invoiceNumber if it exists, otherwise use the one from orderData
+                    invoiceNumber: invoiceNumber || orderData.invoiceNumber || null
                 },
                 company_data: companyData
             };
 
-            // Rest of the method remains the same
-            console.log('Sending order data to invoice generator:', JSON.stringify(data, null, 2));
+            // Debug log the invoice number being sent
+            console.log('Invoice number being sent to Python script:', data.order_data.invoiceNumber);
+
             await writeFileAsync(tempFile, JSON.stringify(data), 'utf8');
 
             // Execute the Python script with the temp file path
@@ -41,7 +43,6 @@ class InvoiceService {
                 encoding: 'utf8'
             });
 
-            // Rest of the method remains the same
             if (stderr) {
                 console.error('Python script stderr:', stderr);
                 if (!stdout) {
@@ -66,9 +67,15 @@ class InvoiceService {
                 throw new Error('No PDF content received from generator');
             }
 
+            // Ensure we have an invoice number in the response
+            const finalInvoiceNumber = result.invoice_number ||
+                invoiceNumber ||
+                orderData.invoiceNumber ||
+                `INV-${Date.now()}`;
+
             return {
                 pdfBuffer: Buffer.from(result.pdf_content, 'base64'),
-                invoiceNumber: result.invoice_number,
+                invoiceNumber: finalInvoiceNumber,
                 invoiceDate: result.invoice_date,
                 total: result.total
             };
