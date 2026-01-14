@@ -291,6 +291,9 @@ const OrderDetailsPage = () => {
                                             onClick={() => navigate('/report', {
                                                 state: {
                                                     orderId: orderDetails._id,
+                                                    orderDate: orderDetails.createdAt,
+                                                    deliveryDate: orderDetails.deliveryDate,
+                                                    status: orderDetails.status,
                                                     shippingAddress: orderDetails.shippingAddress
                                                 }
                                             })}

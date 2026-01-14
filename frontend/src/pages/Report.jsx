@@ -85,9 +85,34 @@ const Report = () => {
   const orderDetails = {
     orderNumber: location.state?.orderId || 'N/A',
     deliveryDate: location.state?.deliveryDate || new Date().toISOString().split('T')[0],
+    orderDate: location.state?.orderDate || new Date().toISOString().split('T')[0],
+    status: location.state?.status || '',
     sellerName: location.state?.sellerName || 'Adventure Store',
     shippingAddress: location.state?.shippingAddress || null
   };
+
+  // Calculate estimated delivery date if order is not delivered
+  const getEstimatedDeliveryDate = () => {
+    if (orderDetails.status !== 'Delivered') {
+      const orderDate = new Date(orderDetails.orderDate);
+      const estimatedDate = new Date(orderDate);
+      estimatedDate.setDate(orderDate.getDate() + 10);
+      return estimatedDate.toISOString().split('T')[0];
+    }
+    return orderDetails.deliveryDate;
+  };
+
+  const displayDate = getEstimatedDeliveryDate();
+  const dateLabel = orderDetails.status !== 'Delivered' ? 'Estimated Delivery Date' : 'Delivery Date';
+
+  // Debug logs to verify the status and dates
+  useEffect(() => {
+    console.log('Order Status:', orderDetails.status);
+    console.log('Order Date:', orderDetails.orderDate);
+    console.log('Delivery Date:', orderDetails.deliveryDate);
+    console.log('Display Date:', displayDate);
+    console.log('Date Label:', dateLabel);
+  }, [orderDetails.status, orderDetails.orderDate, orderDetails.deliveryDate, displayDate, dateLabel]);
 
   // Debug log to check what's in location.state
   useEffect(() => {
@@ -225,9 +250,9 @@ const Report = () => {
             </div>
             */}
             <div>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">Delivery Date</p>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">{dateLabel}</p>
               <p className="font-medium text-neutral-900 dark:text-neutral-50">
-                {new Date(orderDetails.deliveryDate).toLocaleDateString()}
+                {new Date(displayDate).toLocaleDateString()}
               </p>
             </div>
             <div>
