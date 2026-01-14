@@ -6,15 +6,18 @@ import { FiPhoneCall } from "react-icons/fi"
 
 import { useState } from 'react';
 import axios from 'axios';
+import NewsletterLoader from './NewsletterLoader';
 
 const Newsletter = () => {
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState({ type: '', message: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showLoader, setShowLoader] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
+        setShowLoader(true);
         setStatus({ type: '', message: '' });
 
         try {
@@ -32,6 +35,7 @@ const Newsletter = () => {
             });
         } finally {
             setIsSubmitting(false);
+            setShowLoader(false);
         }
     };
 
@@ -70,7 +74,11 @@ const Newsletter = () => {
                             hover:bg-neutral-800 dark:hover:bg-neutral-900 mb-4 transition-colors duration-200
                             ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                         >
-                            {isSubmitting ? 'Subscribing...' : 'Subscribe'}
+                            {isSubmitting ? (
+                                <div className="flex justify-center items-center h-full relative">
+                                    <NewsletterLoader />
+                                </div>
+                            ) : 'Subscribe'}
                         </button>
 
                         {status.message && (
