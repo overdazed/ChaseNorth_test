@@ -339,15 +339,15 @@ const OrderDetailsPage = () => {
                                 <thead className={`uppercase text-left text-xs ${innerBgClass} ${textClass}`}>
                                 <tr>
                                     <th className="py-2 px-4 sm:py-3">Name</th>
-                                    <th className="py-2 px-4 sm:py-3">Unit Price</th>
-                                    <th className="py-2 px-4 sm:py-3">Quantity</th>
+                                    <th className="py-2 px-4 sm:py-3">Price</th>
+                                    <th className="py-2 px-4 sm:py-3 text-center">Quantity</th>
                                     <th className="py-2 px-4 sm:py-3">Total</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {orderDetails.orderItems.map((item) => (
                                    <tr key={item.productId} className={`border-b cursor-pointer ${borderClass}`}>
-                                       <td className="py-2 flex items-center">
+                                       <td className="py-4 flex items-center">
                                            <Link to={`/product/${item.productId}`} className="block sm:hidden">
                                                <img
                                                    src={item.image}
@@ -367,7 +367,7 @@ const OrderDetailsPage = () => {
                                            </Link>
                                        </td>
                                        <td className="py-2 px-4">${item.price}</td>
-                                       <td className="py-2 px-4">{item.quantity}</td>
+                                       <td className="py-2 px-4 text-center">{item.quantity}</td>
                                        <td className="py-2 px-4">${item.price * item.quantity}</td>
                                    </tr>
                                ))}
