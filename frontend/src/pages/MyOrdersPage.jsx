@@ -114,6 +114,7 @@ const MyOrdersPage = () => {
                             className={`border-b cursor-pointer ${borderClass} block lg:table-row`}>
                                 {/* Order Image */}
                                 <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell">
+                                    <div className="lg:hidden font-semibold text-sm mb-1 uppercase">Image</div>
                                     <img
                                         src={order.orderItems[0].image}
                                         alt={order.orderItems[0].name}
@@ -121,15 +122,28 @@ const MyOrdersPage = () => {
                                 </td>
                                 {/* Order ID */}
                                 <td
-                                    className={`py-2 px-2 sm:py-4 sm:px-4 ${linkClass} whitespace-nowrap block lg:table-cell`}
+                                    className={`py-2 px-2 sm:py-4 sm:px-4 ${linkClass} whitespace-nowrap block lg:table-cell lg:text-left`}
                                 >
-                                    #{order._id}
+                                    <div className="lg:hidden flex justify-between items-center">
+                                        <span className="font-semibold text-sm uppercase text-left">Order ID</span>
+                                        <span className="text-right">#{order._id}</span>
+                                    </div>
+                                    <div className="hidden lg:block">#{order._id}</div>
                                 </td>
-                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell">
-
-                                    {new Date(order.createdAt).toLocaleDateString()}
-                                    {" "}
-                                    {new Date(order.createdAt).toLocaleTimeString()}
+                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell lg:text-left">
+                                    <div className="lg:hidden flex justify-between items-center">
+                                        <span className="font-semibold text-sm uppercase text-left">Created</span>
+                                        <span className="text-right">
+                                            {new Date(order.createdAt).toLocaleDateString()}
+                                            {" "}
+                                            {new Date(order.createdAt).toLocaleTimeString()}
+                                        </span>
+                                    </div>
+                                    <div className="hidden lg:block">
+                                        {new Date(order.createdAt).toLocaleDateString()}
+                                        {" "}
+                                        {new Date(order.createdAt).toLocaleTimeString()}
+                                    </div>
                                 </td>
                                 {/* check if order shipping address is present */}
                                 {/*<td className="py-2 px-2 sm:py-4 sm:px-4">*/}
@@ -137,18 +151,36 @@ const MyOrdersPage = () => {
                                 {/*    {order.shippingAddress ? `${order.shippingAddress.city}, */}
                                 {/*    ${order.shippingAddress.country}` : "N/A"}*/}
                                 {/*</td>*/}
-                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell">
-                                    {order.orderItems.length}
+                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell lg:text-left">
+                                    <div className="lg:hidden flex justify-between items-center">
+                                        <span className="font-semibold text-sm uppercase text-left">Items</span>
+                                        <span className="text-right">{order.orderItems.length}</span>
+                                    </div>
+                                    <div className="hidden lg:block">{order.orderItems.length}</div>
                                 </td>
-                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell">
-                                    ${Number(order.totalPrice).toFixed(2)}
+                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell lg:text-left">
+                                    <div className="lg:hidden flex justify-between items-center">
+                                        <span className="font-semibold text-sm uppercase text-left">Price</span>
+                                        <span className="text-right">${Number(order.totalPrice).toFixed(2)}</span>
+                                    </div>
+                                    <div className="hidden lg:block">${Number(order.totalPrice).toFixed(2)}</div>
                                 </td>
-                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell">
-                                    <span className={`${order.isPaid ? "bg-green-100 text-green-700"
-                                        : "bg-red-100 text-red-700"} px-2 py-1 rounded-full text-xs sm:text-sm font-medium`}
-                                    >
-                                        {order.isPaid ? "Paid" : "Pending"}
-                                    </span>
+                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell lg:text-left">
+                                    <div className="lg:hidden font-semibold text-sm mb-1 uppercase text-left">Status</div>
+                                    <div className="lg:hidden text-right">
+                                        <span className={`${order.isPaid ? "bg-green-100 text-green-700"
+                                            : "bg-red-100 text-red-700"} px-2 py-1 rounded-full text-xs sm:text-sm font-medium`}
+                                        >
+                                            {order.isPaid ? "Paid" : "Pending"}
+                                        </span>
+                                    </div>
+                                    <div className="hidden lg:block">
+                                        <span className={`${order.isPaid ? "bg-green-100 text-green-700"
+                                            : "bg-red-100 text-red-700"} px-2 py-1 rounded-full text-xs sm:text-sm font-medium`}
+                                        >
+                                            {order.isPaid ? "Paid" : "Pending"}
+                                        </span>
+                                    </div>
                                 </td>
                             </tr>
                         ))
