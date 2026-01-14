@@ -126,8 +126,8 @@ const NewFooter = () => {
                 <Link to="/payments" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Payments
                 </Link>
-                <Link to="/gift-cards" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
-                  Gift cards
+                <Link to="/gift-card" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
+                  Gift card
                 </Link>
               </div>
 
@@ -137,8 +137,8 @@ const NewFooter = () => {
                 <Link to="/projects" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Projects
                 </Link>
-                <Link to="/about" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
-                  About Us
+                <Link to="/mission" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
+                  Our Mission
                 </Link>
                 <Link to="/contact" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Contact Us
@@ -148,8 +148,14 @@ const NewFooter = () => {
               {/* Chase North Section */}
               <div className="flex flex-col gap-1 sm:gap-2">
                 <h3 className="mb-1 sm:mb-2 uppercase text-neutral-400 text-xs sm:text-sm">ChaseNorth</h3>
+                <Link to="/about" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
+                  About Us
+                </Link>
                 <Link to="/mission" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Our Mission
+                </Link>
+                <Link to="/contact" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
+                  Contact Us
                 </Link>
                 <Link to="/sustainability" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Sustainability
@@ -159,9 +165,6 @@ const NewFooter = () => {
                 </Link>
                 <Link to="/impressum" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Impressum
-                </Link>
-                <Link to="/impressum" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
-                  Need a website?
                 </Link>
               </div>
 
