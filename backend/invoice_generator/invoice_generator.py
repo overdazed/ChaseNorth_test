@@ -10,39 +10,86 @@ from dateutil.relativedelta import relativedelta
 import traceback
 import sys
 import random
+import pymongo
+from pymongo import MongoClient
 
 # Add this class variable at the top of the InvoiceGenerator class
 class InvoiceGenerator:
     _invoice_counter = 0
     _last_date = None
 
-    def __init__(self, output_dir='invoices'):
+    def __init__(self, output_dir='invoices', mongo_uri=None):
         self.env = Environment(loader=FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')))
         self.output_dir = output_dir
-        self.counter_file = os.path.join(os.path.dirname(__file__), '.invoice_counter')
         os.makedirs(self.output_dir, exist_ok=True)
+        
+        # Initialize MongoDB connection if URI is provided
+        self.mongo_client = None
+        self.mongo_db = None
+        if mongo_uri:
+            try:
+                self.mongo_client = MongoClient(mongo_uri)
+                self.mongo_db = self.mongo_client.get_database()
+                sys.stderr.write("Connected to MongoDB for counter storage\n")
+            except Exception as e:
+                sys.stderr.write(f"Failed to connect to MongoDB: {str(e)}\n")
+                sys.stderr.write("Falling back to file-based counter storage\n")
+        
+        # If MongoDB is not available, use file-based storage
+        if self.mongo_db is None:
+            self.counter_file = os.path.join(os.path.dirname(__file__), '.invoice_counter')
+        
         self._load_counter()
 
     def _load_counter(self):
         try:
-            if os.path.exists(self.counter_file):
-                with open(self.counter_file, 'r') as f:
-                    data = json.load(f)
-                    self._invoice_counter = data.get('counter', 0)
-                    self._last_date = data.get('last_date', '')
+            if self.mongo_db is not None:
+                # Try to get counter from MongoDB
+                counters = self.mongo_db['counters']
+                counter_doc = counters.find_one({'_id': 'invoice_counter'})
+                if counter_doc:
+                    self._invoice_counter = counter_doc.get('seq', 0)
+                    self._last_date = counter_doc.get('last_date', '')
+                else:
+                    self._invoice_counter = 0
+                    self._last_date = None
             else:
-                self._invoice_counter = 0
-                self._last_date = None
-        except:
+                # Fallback to file-based storage
+                if os.path.exists(self.counter_file):
+                    with open(self.counter_file, 'r') as f:
+                        data = json.load(f)
+                        self._invoice_counter = data.get('counter', 0)
+                        self._last_date = data.get('last_date', '')
+                else:
+                    self._invoice_counter = 0
+                    self._last_date = None
+        except Exception as e:
+            sys.stderr.write(f"Error loading counter: {str(e)}\n")
             self._invoice_counter = 0
             self._last_date = None
 
     def _save_counter(self):
-        with open(self.counter_file, 'w') as f:
-            json.dump({
-                'counter': self._invoice_counter,
-                'last_date': self._last_date
-            }, f)
+        try:
+            if self.mongo_db is not None:
+                # Save counter to MongoDB
+                counters = self.mongo_db['counters']
+                counters.update_one(
+                    {'_id': 'invoice_counter'},
+                    {'$set': {
+                        'seq': self._invoice_counter,
+                        'last_date': self._last_date
+                    }},
+                    upsert=True
+                )
+            else:
+                # Fallback to file-based storage
+                with open(self.counter_file, 'w') as f:
+                    json.dump({
+                        'counter': self._invoice_counter,
+                        'last_date': self._last_date
+                    }, f)
+        except Exception as e:
+            sys.stderr.write(f"Error saving counter: {str(e)}\n")
 
     def generate_invoice_number(self, existing_number=None):
         # Debug logging
@@ -50,10 +97,10 @@ class InvoiceGenerator:
         sys.stderr.write(f"Existing number received: {existing_number}\n")
         sys.stderr.write(f"Type of existing_number: {type(existing_number)}\n")
 
-        # Check if the existing number matches the correct format: INV-YYYYMMDD-XXXX
+        # Check if the existing number matches the correct format: INV-YYYYMMDD-XXXXX
         import re
         if existing_number and isinstance(existing_number, str):
-            if re.match(r'^INV-\d{8}-\d{4}$', existing_number):
+            if re.match(r'^INV-\d{8}-\d{5}$', existing_number):
                 sys.stderr.write("Using existing valid invoice number\n")
                 return existing_number
             else:
@@ -70,9 +117,9 @@ class InvoiceGenerator:
             self._last_date = date_str
             sys.stderr.write(f"Date changed, resetting counter to: {self._invoice_counter}\n")
         
-        # Increment counter and format as 4-digit number
+        # Increment counter and format as 5-digit number
         self._invoice_counter += 1
-        unique_id = f"{self._invoice_counter:04d}"
+        unique_id = f"{self._invoice_counter:05d}"
         new_number = f"INV-{date_str}-{unique_id}"
 
         # Save the updated counter
