@@ -97,6 +97,9 @@ import TermsAndConditions from "./pages/TermsAndConditions.jsx";
 import Impressum from "./pages/Impressum.jsx";
 import Sustainability from "./pages/Sustainability.jsx";
 import Mission from "./pages/Mission.jsx";
+import About from "./pages/About.jsx";
+import Contact from "./pages/Contact.jsx";
+import Projects from "./pages/Projects.jsx";
 import AdminLayout from "./components/Admin/AdminLayout.jsx";
 import AdminHomePage from "./pages/AdminHomePage.jsx";
 import UserManagement from "./components/Admin/UserManagement.jsx";
@@ -223,6 +226,9 @@ const App = () => {
                         <Route path="impressum" element={<Impressum />} />
                         <Route path="sustainability" element={<Sustainability />} />
                         <Route path="mission" element={<Mission />} />
+                        <Route path="about" element={<About />} />
+                        <Route path="contact" element={<Contact />} />
+                        <Route path="projects" element={<Projects />} />
                         <Route path="report" element={<Report />} />
                         <Route path="report/confirmation" element={<ReportConfirmation />} />
                         <Route path="forgot-password" element={<ForgotPassword />} />
