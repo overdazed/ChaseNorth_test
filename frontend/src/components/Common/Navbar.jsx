@@ -583,11 +583,11 @@ const Navbar = ({ transparent = false }) => {
                             </span>
                         </Link>
 
-                        {/* AGB Link */}
+                        {/* Terms and Conditions Link */}
                         <Link
-                            to="/agb"
+                            to="/terms-and-conditions"
                             className={`flex items-center p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors ${
-                                window.location.pathname === '/agb'
+                                window.location.pathname === '/terms-and-conditions'
                                     ? 'text-black dark:text-neutral-50'
                                     : 'text-neutral-700 hover:text-black dark:text-neutral-400 dark:hover:text-neutral-50'
                             }`}
@@ -609,9 +609,9 @@ const Navbar = ({ transparent = false }) => {
                                 </svg>
                             </div>
                             <span className={`text-sm font-normal ml-6 ${
-                                window.location.pathname === '/agb' ? 'border-b border-black dark:border-white' : ''
+                                window.location.pathname === '/terms-and-conditions' ? 'border-b border-black dark:border-white' : ''
                             }`}>
-                                AGB
+                                Terms and Conditions
                             </span>
                         </Link>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AGB = () => {
+const TermsAndConditions = () => {
   return (
     <div className="min-h-600px bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
       <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -8,10 +8,10 @@ const AGB = () => {
           <div className="md:col-span-2">
             <div className="max-w-xs">
               <h1 className="text-3xl font-bold md:text-4xl md:leading-tight dark:text-white">
-                Allgemeine Geschäftsbedingungen (AGB)
+                Terms and Conditions
               </h1>
               <p className="mt-1 hidden md:block text-neutral-600 dark:text-neutral-400">
-                Unsere Geschäftsbedingungen und rechtlichen Hinweise.
+                Our terms and conditions and legal notices.
               </p>
             </div>
             {/* Desktop "Still have questions?" - Hidden on mobile */}
@@ -33,63 +33,63 @@ const AGB = () => {
           <div className="md:col-span-3">
             <div className="bg-neutral-100 dark:bg-neutral-800 p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">
-                1. Geltungsbereich
+                1. Scope of Application
               </h2>
               <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge, die Sie mit uns über die Nutzung unserer Website und den Kauf von Produkten schließen.
+                These Terms and Conditions apply to all contracts that you conclude with us regarding the use of our website and the purchase of products.
               </p>
 
               <h2 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">
-                2. Vertragsschluss
+                2. Contract Conclusion
               </h2>
               <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                Der Kaufvertrag kommt zustande, wenn Sie Ihre Bestellung abschließen und wir diese bestätigen. Die Bestätigung erfolgt per E-Mail.
+                The purchase contract is concluded when you complete your order and we confirm it. The confirmation is sent via email.
               </p>
 
               <h2 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">
-                3. Preise und Zahlungsbedingungen
+                3. Prices and Payment Terms
               </h2>
               <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                Alle Preise sind in Euro angegeben und enthalten die gesetzliche Mehrwertsteuer. Die Zahlung kann per Kreditkarte, PayPal oder anderen angebotenen Zahlungsmethoden erfolgen.
+                All prices are stated in euros and include the statutory value-added tax. Payment can be made by credit card, PayPal, or other offered payment methods.
               </p>
 
               <h2 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">
-                4. Lieferung und Versand
+                4. Delivery and Shipping
               </h2>
               <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                Die Lieferung erfolgt innerhalb der angegebenen Lieferzeiten. Versandkosten werden separat ausgewiesen und sind abhängig vom Bestellwert und Lieferland.
+                Delivery takes place within the specified delivery times. Shipping costs are shown separately and depend on the order value and delivery country.
               </p>
 
               <h2 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">
-                5. Rücktrittsrecht
+                5. Right of Withdrawal
               </h2>
               <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                Sie haben das Recht, innerhalb von 14 Tagen ohne Angabe von Gründen vom Vertrag zurückzutreten. Die Rücktrittsfrist beginnt mit dem Erhalt der Ware.
+                You have the right to withdraw from the contract within 14 days without giving any reason. The withdrawal period begins upon receipt of the goods.
               </p>
 
               <h2 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">
-                6. Gewährleistung
+                6. Warranty
               </h2>
               <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                Für unsere Produkte gelten die gesetzlichen Gewährleistungsbestimmungen. Mängel sind uns unverzüglich nach Entdeckung anzuzeigen.
+                The statutory warranty provisions apply to our products. Defects must be reported to us immediately upon discovery.
               </p>
 
               <h2 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">
-                7. Datenschutz
+                7. Data Protection
               </h2>
               <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                Ihre persönlichen Daten werden gemäß unserer Datenschutzerklärung verarbeitet. Diese finden Sie auf unserer Website.
+                Your personal data will be processed in accordance with our privacy policy. This can be found on our website.
               </p>
 
               <h2 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">
-                8. Schlussbestimmungen
+                8. Final Provisions
               </h2>
               <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                Sollten einzelne Bestimmungen dieser AGB unwirksam sein, bleibt die Gültigkeit der übrigen Bestimmungen unberührt.
+                If individual provisions of these Terms and Conditions are invalid, the validity of the remaining provisions remains unaffected.
               </p>
 
               <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                Bei Fragen zu unseren AGB können Sie uns jederzeit unter <a href="mailto:support@chasenorth.com" className="text-blue-600 dark:text-blue-400">support@chasenorth.com</a> kontaktieren.
+                If you have any questions about our Terms and Conditions, you can contact us at any time at <a href="mailto:support@chasenorth.com" className="text-blue-600 dark:text-blue-400">support@chasenorth.com</a>.
               </p>
             </div>
           </div>
@@ -115,4 +115,4 @@ const AGB = () => {
   );
 };
 
-export default AGB;
+export default TermsAndConditions;

@@ -83,7 +83,7 @@ const NewFooter = () => {
                       <Link to="/mission" className="block text-neutral-50 hover:text-neutral-400 text-sm">Our Mission</Link>
                       <Link to="/contact" className="block text-neutral-50 hover:text-neutral-400 text-sm">Contact Us</Link>
                       <Link to="/sustainability" className="block text-neutral-50 hover:text-neutral-400 text-sm">Sustainability</Link>
-                      <Link to="/agb" className="block text-neutral-50 hover:text-neutral-400 text-sm">AGB</Link>
+                      <Link to="/terms-and-conditions" className="block text-neutral-50 hover:text-neutral-400 text-sm">Terms and Conditions</Link>
                       <Link to="/impressum" className="block text-neutral-50 hover:text-neutral-400 text-sm">Impressum</Link>
                     </div>
                 )}
@@ -160,8 +160,8 @@ const NewFooter = () => {
                 <Link to="/sustainability" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Sustainability
                 </Link>
-                <Link to="/agb" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
-                  AGB
+                <Link to="/terms-and-conditions" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
+                  Terms and Conditions
                 </Link>
                 <Link to="/impressum" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Impressum
