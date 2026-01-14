@@ -139,8 +139,9 @@ const Checkout = () => {
         // const cost = getShippingCost(country);
         // setShippingCost(cost);
 
-        // Calculate shipping cost based on country
-        const cost = getShippingCost(shippingAddress.country.trim());
+        // Calculate shipping cost based on country and subtotal
+        const subtotal = cart.products.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const cost = getShippingCost(shippingAddress.country.trim(), subtotal);
         // Update the state for any UI updates
         setShippingCost(cost);
 
@@ -426,7 +427,8 @@ const Checkout = () => {
             setDiscountPercentage(0);
             // Calculate shipping cost based on country
             if (shippingAddress.country) {
-                const cost = getShippingCost(shippingAddress.country);
+                const subtotal = cart.products.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const cost = getShippingCost(shippingAddress.country, subtotal);
                 // Only update shipping cost if discount doesn't provide free shipping
                 if (!discountApplied || discountCode.trim().toUpperCase() !== import.meta.env.VITE_DISCOUNT_CODE4) {
                     setShippingCost(cost);
