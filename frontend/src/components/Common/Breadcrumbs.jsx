@@ -144,6 +144,7 @@ const Breadcrumbs = () => {
               const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
               const isLast = index === pathnames.length - 1;
               const isProductId = pathnames[0] === 'product' && index === 1;
+              // const isOrderId = pathnames[0] === 'order' && index === 1;
 
               // For product pages, use the product name if available
               let displayName;
@@ -171,6 +172,7 @@ const Breadcrumbs = () => {
                     ) : (
                         <Link
                             to={routeTo}
+                            //to={isOrderId ? '/profile' : routeTo}
                             className={`${
                                 isDarkMode
                                     ? 'text-neutral-400 hover:text-neutral-200'
