@@ -76,9 +76,9 @@ const SearchBar = ({ className = '' }) => {
                     <button
                         type="button"
                         onClick={handleSearchToggle}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-600 hover:text-neutral-800 md:right-4"
+                        className="absolute right-0 top-1/2 transform -translate-y-1/2 text-neutral-600 hover:text-neutral-800 md:right-4"
                     >
-                        <HiMiniXMark className="h-8 w-8 md:h-6 md:w-6" />
+                        <HiMiniXMark className="h-8 w-8" />
                     </button>
                 </form>
             ) : (
