@@ -4,6 +4,7 @@ import { TbBrandMeta } from "react-icons/tb";
 import { IoLogoInstagram } from "react-icons/io";
 import { RiTwitterXLine } from "react-icons/ri";
 import { TbMail } from "react-icons/tb"
+import Loader from './Loader';
 
 const NewFooter = () => {
   const [expandedSection, setExpandedSection] = useState(null);
@@ -166,6 +167,12 @@ const NewFooter = () => {
                 <Link to="/impressum" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Impressum
                 </Link>
+                <div className="flex items-center gap-2">
+                  <Loader />
+                  <Link to="/need-a-website" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
+                    Need a website?
+                  </Link>
+                </div>
               </div>
 
               {/* Social Icons */}

@@ -4,46 +4,64 @@ import styled from 'styled-components';
 const Loader = () => {
   return (
     <StyledWrapper>
-      <div className="code-loader">
-        <span>{'{'}</span><span>{'}'}</span>
+      <div className="ld-ripple">
+        <div />
+        <div />
       </div>
     </StyledWrapper>
   );
 }
 
 const StyledWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-
-  .code-loader {
-    color: #fff;
-    font-family: Consolas, Menlo, Monaco, monospace;
-    font-weight: bold;
-    font-size: 100px;
-    opacity: 0.8;
+  .ld-ripple {
+    position: relative;
+    width: 20px;
+    height: 20px;
   }
 
-  .code-loader span {
-    display: inline-block;
-    animation: pulse_414 0.4s alternate infinite ease-in-out;
+  .ld-ripple div {
+    position: absolute;
+    border: 1px solid #fff;
+    opacity: 1;
+    border-radius: 50%;
+    animation: ld-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
   }
 
-  .code-loader span:nth-child(odd) {
-    animation-delay: 0.4s;
+  .ld-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
   }
 
-  @keyframes pulse_414 {
-    to {
-      transform: scale(0.8);
-      opacity: 0.1;
+  @keyframes ld-ripple {
+    0% {
+      top: 9px;
+      left: 9px;
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+
+    4.9% {
+      top: 9px;
+      left: 9px;
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+
+    5% {
+      top: 9px;
+      left: 9px;
+      width: 0;
+      height: 0;
+      opacity: 1;
+    }
+
+    100% {
+      top: 0px;
+      left: 0px;
+      width: 18px;
+      height: 18px;
+      opacity: 0;
     }
   }`;
 
