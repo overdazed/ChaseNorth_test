@@ -132,7 +132,7 @@ const OrderDetailsPage = () => {
     return (
         <div className={`min-h-screen ${bgClass} transition-colors duration-300`}>
             <div className="max-w-7xl mx-auto p-4 sm:p-6">
-                <h2 className={`text-2xl md:text-3xl font-bold mb-6 ${textClass}`}>Order Details</h2>
+                <h2 className={`text-xl md:text-2xl font-bold mb-6 ${textClass}`}>Order Details</h2>
                 {/* check if the order details are present, if so, display them */}
                 {!orderDetails ? (
                     <p>No Order Details Found</p>
@@ -141,10 +141,10 @@ const OrderDetailsPage = () => {
                         {/* Order Info */}
                         <div className="flex flex-col sm:flex-row justify-between mb-8">
                             <div className="">
-                                <h3 className="text-md md:text-xl font-semibold">
+                                <h3 className="text-md md:text-lg font-semibold">
                                     Order ID: #{orderDetails._id}
                                 </h3>
-                                <p className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-md">
+                                <p className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm">
                                     Order date: {new Date(orderDetails.createdAt).toLocaleDateString()}
                                 </p>
                             </div>
@@ -333,7 +333,7 @@ const OrderDetailsPage = () => {
                         </div>
 
                         {/* Product List */}
-                        <h4 className="text-lg font-semibold mb-4">Products</h4>
+                        <h4 className="text-md font-semibold mb-4">Products</h4>
                         <div className="relative shadow-md sm:rounded-lg overflow-hidden mb-6">
                             <table className={`min-w-full text-left ${textClass}`}>
                                 <thead className={`uppercase text-left text-xs ${innerBgClass} ${textClass}`}>
@@ -346,24 +346,31 @@ const OrderDetailsPage = () => {
                                 </thead>
                                 <tbody>
                                 {orderDetails.orderItems.map((item) => (
-                                    <tr key={item.productId} className={`border-b cursor-pointer ${borderClass}`}>
-                                        <td className="py-2 px-4 flex items-center">
-                                            <img
-                                                src={item.image}
-                                                alt={item.name}
-                                                className="w-12 h-12 object-cover rounded-lg mr-4"
-                                            />
-                                            <Link to={`/product/${item.productId}`}
-                                                  className={linkClass}
-                                            >
-                                                {item.name}
-                                            </Link>
-                                        </td>
-                                        <td className="py-2 px-4">${item.price}</td>
-                                        <td className="py-2 px-4">{item.quantity}</td>
-                                        <td className="py-2 px-4">${item.price * item.quantity}</td>
-                                    </tr>
-                                ))}
+                                   <tr key={item.productId} className={`border-b cursor-pointer ${borderClass}`}>
+                                       <td className="py-2 flex items-center">
+                                           <Link to={`/product/${item.productId}`} className="block sm:hidden">
+                                               <img
+                                                   src={item.image}
+                                                   alt={item.name}
+                                                   className="w-24 h-24 object-cover rounded-lg mr-4"
+                                               />
+                                           </Link>
+                                           <img
+                                               src={item.image}
+                                               alt={item.name}
+                                               className="hidden sm:block w-24 h-24 object-cover rounded-lg mr-4"
+                                           />
+                                           <Link to={`/product/${item.productId}`}
+                                                 className={`hidden sm:block ${linkClass}`}
+                                           >
+                                               {item.name}
+                                           </Link>
+                                       </td>
+                                       <td className="py-2 px-4">${item.price}</td>
+                                       <td className="py-2 px-4">{item.quantity}</td>
+                                       <td className="py-2 px-4">${item.price * item.quantity}</td>
+                                   </tr>
+                               ))}
                                 </tbody>
                             </table>
                         </div>
