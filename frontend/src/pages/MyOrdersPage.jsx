@@ -111,9 +111,9 @@ const MyOrdersPage = () => {
                             <tr
                             key={order._id}
                             onClick={() => handleRowClick(order._id)}
-                            className={`border-b cursor-pointer ${borderClass}`}>
+                            className={`border-b cursor-pointer ${borderClass} block lg:table-row`}>
                                 {/* Order Image */}
-                                <td className="py-2 px-2 sm:py-4 sm:px-4">
+                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell">
                                     <img
                                         src={order.orderItems[0].image}
                                         alt={order.orderItems[0].name}
@@ -121,11 +121,11 @@ const MyOrdersPage = () => {
                                 </td>
                                 {/* Order ID */}
                                 <td
-                                    className={`py-2 px-2 sm:py-4 sm:px-4 ${linkClass} whitespace-nowrap`}
+                                    className={`py-2 px-2 sm:py-4 sm:px-4 ${linkClass} whitespace-nowrap block lg:table-cell`}
                                 >
                                     #{order._id}
                                 </td>
-                                <td className="py-2 px-2 sm:py-4 sm:px-4">
+                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell">
 
                                     {new Date(order.createdAt).toLocaleDateString()}
                                     {" "}
@@ -137,14 +137,14 @@ const MyOrdersPage = () => {
                                 {/*    {order.shippingAddress ? `${order.shippingAddress.city}, */}
                                 {/*    ${order.shippingAddress.country}` : "N/A"}*/}
                                 {/*</td>*/}
-                                <td className="py-2 px-2 sm:py-4 sm:px-4">
+                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell">
                                     {order.orderItems.length}
                                 </td>
-                                <td className="py-2 px-2 sm:py-4 sm:px-4">
+                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell">
                                     ${Number(order.totalPrice).toFixed(2)}
                                 </td>
-                                <td className="py-2 px-2 sm:py-4 sm:px-4">
-                                    <span className={`${order.isPaid ? "bg-green-100 text-green-700" 
+                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell">
+                                    <span className={`${order.isPaid ? "bg-green-100 text-green-700"
                                         : "bg-red-100 text-red-700"} px-2 py-1 rounded-full text-xs sm:text-sm font-medium`}
                                     >
                                         {order.isPaid ? "Paid" : "Pending"}
