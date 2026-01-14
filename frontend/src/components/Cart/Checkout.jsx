@@ -917,8 +917,8 @@ const Checkout = () => {
                 )}
                 <div className="flex justify-between items-center text-lg mt-2 dark:text-neutral-200">
                     <p>Shipping</p>
-                    <p className={discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 'text-green-600 font-medium' : ''}>
-                        {discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4
+                    <p className={((discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4) || (!discountApplied && cart.totalPrice >= 100)) ? 'text-green-600 font-medium' : ''}>
+                        {(discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4) || (!discountApplied && cart.totalPrice >= 100)
                             ? 'Free!'
                             : (shippingCost > 0 ? `$${shippingCost.toFixed(2)}` : 'calculated at checkout')}
                     </p>
