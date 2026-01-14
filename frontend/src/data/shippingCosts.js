@@ -8,14 +8,8 @@ export const shippingCosts = countries.reduce((acc, country) => {
 }, {});
 
 // Function to get shipping cost for a country
-export const getShippingCost = (countryName, subtotal = 0) => {
+export const getShippingCost = (countryName) => {
     if (!countryName) return 0;
-    
-    // Free shipping for orders over $100
-    if (subtotal >= 100) {
-        return 0;
-    }
-    
     return shippingCosts[countryName] || 10.49; // Default to 10.49 if country not found
 };
 
