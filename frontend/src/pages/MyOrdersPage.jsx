@@ -93,7 +93,7 @@ const MyOrdersPage = () => {
             <div className="flex-grow container mx-auto p-4 md:p-6">
                 <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
                     {/* Right Section: Orders Table */}
-                    <div className={`w-full ${bgClass} ${borderClass} rounded-lg `}>
+                    <div className={`w-full ${bgClass} ${borderClass} rounded-lg`}>
                         <h2 className={`text-xl sm:text-2xl font-bold mb-6 ${textClass}`}>
                             My Orders
                         </h2>
@@ -125,7 +125,7 @@ const MyOrdersPage = () => {
                                                             key={index}
                                                             src={item.image}
                                                             alt={item.name}
-                                                            className="md:w-[calc(25%-0.5rem)] w-[calc(50%-0.5rem)] h-auto object-cover rounded-lg"
+                                                            className="w-24 h-24 md:w-[calc(20%-0.5rem)] w-[calc(50%-0.5rem)] h-auto object-cover rounded-lg"
                                                         />
                                                     ))}
                                                 </div>

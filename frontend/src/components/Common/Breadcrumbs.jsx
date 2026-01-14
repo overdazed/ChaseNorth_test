@@ -171,7 +171,7 @@ const Breadcrumbs = () => {
                   </span>
                     ) : (
                         <Link
-                            to={isOrderId ? '/my-orders' : routeTo}
+                            to={isOrderId ? '/profile' : routeTo}
                             className={`${
                                 isDarkMode
                                     ? 'text-neutral-400 hover:text-neutral-200'
