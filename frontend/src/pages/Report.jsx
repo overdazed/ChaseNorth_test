@@ -86,10 +86,7 @@ const Report = () => {
     orderNumber: location.state?.orderId || 'N/A',
     deliveryDate: location.state?.deliveryDate || new Date().toISOString().split('T')[0],
     sellerName: location.state?.sellerName || 'Adventure Store',
-    shippingAddress: location.state?.shippingAddress || null,
-    isDelivered: location.state?.isDelivered || false,
-    deliveredAt: location.state?.deliveredAt || null,
-    createdAt: location.state?.createdAt || new Date().toISOString().split('T')[0]
+    shippingAddress: location.state?.shippingAddress || null
   };
 
   // Debug log to check what's in location.state
@@ -228,13 +225,9 @@ const Report = () => {
             </div>
             */}
             <div>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                {orderDetails.isDelivered ? 'Delivery Date' : 'Estimated Delivery'}
-              </p>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">Delivery Date</p>
               <p className="font-medium text-neutral-900 dark:text-neutral-50">
-                {orderDetails.isDelivered
-                  ? new Date(orderDetails.deliveredAt).toLocaleDateString()
-                  : new Date(new Date(orderDetails.createdAt).setDate(new Date(orderDetails.createdAt).getDate() + 10)).toLocaleDateString()}
+                {new Date(orderDetails.deliveryDate).toLocaleDateString()}
               </p>
             </div>
             <div>

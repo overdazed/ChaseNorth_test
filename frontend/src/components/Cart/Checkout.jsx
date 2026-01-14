@@ -135,20 +135,15 @@ const Checkout = () => {
         // If all validations pass, proceed with form submission
         setIsFormSubmitted(true);
 
-        // // Calculate shipping cost based on country
-        // const cost = getShippingCost(country);
-        // setShippingCost(cost);
-
         // Calculate shipping cost based on country
         const cost = getShippingCost(shippingAddress.country.trim());
-        // Update the state for any UI updates
-        setShippingCost(cost);
-
-        // Check if subtotal is $100 or more and no discount is applied
+        
+        // Apply free shipping if subtotal is $100 or more and no discount is applied
         const subtotal = cart.products.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        if (subtotal >= 100 && !discountApplied) {
-            setShippingCost(0);
-        }
+        const finalShippingCost = (!discountApplied && subtotal >= 100) ? 0 : cost;
+        
+        // Update the state for any UI updates
+        setShippingCost(finalShippingCost);
 
         // Prepare the complete shipping address with all fields
         const completeShippingAddress = {
@@ -256,9 +251,9 @@ const Checkout = () => {
             //     : shippingCost;
 
             // Use the calculated cost directly in the checkout creation
-            const finalShippingCost = (discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4) || (subtotal >= 100 && !discountApplied)
+            const finalShippingCost = (discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4)
                 ? 0
-                : cost;  // Use the just calculated cost instead of the state
+                : ((!discountApplied && subtotal >= 100) ? 0 : cost);  // Apply free shipping if subtotal >= $100 and no discount
 
             const totalPrice = discountedSubtotal + finalShippingCost;
 
@@ -272,7 +267,7 @@ const Checkout = () => {
                         code: discountApplied ? discountCode : '',
                         amount: discountApplied ? discountAmount : 0,
                         percentage: discountApplied ? discountPercentage : 0,
-                        isFreeShipping: discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 || (subtotal >= 100 && !discountApplied)
+                        isFreeShipping: discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4
                     },
                     shippingCost: finalShippingCost,
                     totalPrice: totalPrice
@@ -922,8 +917,8 @@ const Checkout = () => {
                 )}
                 <div className="flex justify-between items-center text-lg mt-2 dark:text-neutral-200">
                     <p>Shipping</p>
-                    <p className={(discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4) || (subtotal >= 100 && !discountApplied) ? 'text-green-600 font-medium' : ''}>
-                        {(discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4) || (subtotal >= 100 && !discountApplied)
+                    <p className={discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 'text-green-600 font-medium' : ''}>
+                        {discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4
                             ? 'Free!'
                             : (shippingCost > 0 ? `$${shippingCost.toFixed(2)}` : 'calculated at checkout')}
                     </p>
