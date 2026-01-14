@@ -291,7 +291,10 @@ const OrderDetailsPage = () => {
                                             onClick={() => navigate('/report', {
                                                 state: {
                                                     orderId: orderDetails._id,
-                                                    shippingAddress: orderDetails.shippingAddress
+                                                    shippingAddress: orderDetails.shippingAddress,
+                                                    isDelivered: orderDetails.isDelivered,
+                                                    deliveredAt: orderDetails.deliveredAt,
+                                                    createdAt: orderDetails.createdAt
                                                 }
                                             })}
                                             className="flex items-center gap-2 bg-red-100 text-red-700 hover:bg-red-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"
