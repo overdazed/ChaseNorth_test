@@ -114,7 +114,6 @@ const MyOrdersPage = () => {
                             className={`border-b cursor-pointer ${borderClass} block lg:table-row`}>
                                 {/* Order Image */}
                                 <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell">
-                                    <div className="lg:hidden font-semibold text-sm mb-1 uppercase">Image</div>
                                     <img
                                         src={order.orderItems[0].image}
                                         alt={order.orderItems[0].name}
@@ -125,7 +124,7 @@ const MyOrdersPage = () => {
                                     className={`py-2 px-2 sm:py-4 sm:px-4 ${linkClass} whitespace-nowrap block lg:table-cell lg:text-left`}
                                 >
                                     <div className="lg:hidden flex justify-between items-center">
-                                        <span className="font-semibold text-sm uppercase text-left">Order ID</span>
+                                        <span className={`font-semibold text-sm uppercase text-left ${textClass}`}>Order ID</span>
                                         <span className="text-right">#{order._id}</span>
                                     </div>
                                     <div className="hidden lg:block">#{order._id}</div>
@@ -166,12 +165,14 @@ const MyOrdersPage = () => {
                                     <div className="hidden lg:block">${Number(order.totalPrice).toFixed(2)}</div>
                                 </td>
                                 <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell lg:text-left">
-                                    <div className="lg:hidden font-semibold text-sm mb-1 uppercase text-left">Status</div>
-                                    <div className="lg:hidden text-right">
-                                        <span className={`${order.isPaid ? "bg-green-100 text-green-700"
-                                            : "bg-red-100 text-red-700"} px-2 py-1 rounded-full text-xs sm:text-sm font-medium`}
-                                        >
-                                            {order.isPaid ? "Paid" : "Pending"}
+                                    <div className="lg:hidden flex justify-between items-center">
+                                        <span className="font-semibold text-sm uppercase text-left">Status</span>
+                                        <span className="text-right">
+                                            <span className={`${order.isPaid ? "bg-green-100 text-green-700"
+                                                : "bg-red-100 text-red-700"} px-2 py-1 rounded-full text-xs sm:text-sm font-medium`}
+                                            >
+                                                {order.isPaid ? "Paid" : "Pending"}
+                                            </span>
                                         </span>
                                     </div>
                                     <div className="hidden lg:block">
