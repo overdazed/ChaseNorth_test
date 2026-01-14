@@ -146,6 +146,11 @@ const Breadcrumbs = () => {
               const isProductId = pathnames[0] === 'product' && index === 1;
               const isOrderId = pathnames[0] === 'order' && index === 1;
 
+              // Skip the 'order' breadcrumb if it's not the last item
+              if (pathnames[0] === 'order' && index === 0) {
+                return null;
+              }
+
               // For product pages, use the product name if available
               let displayName;
               if (isProductId) {
@@ -159,29 +164,29 @@ const Breadcrumbs = () => {
               }
 
               return (
-                  <li key={`${name}-${index}`} className="flex items-center">
-                    <ChevronRight className={`h-4 w-4 mx-1 ${
-                        isDarkMode ? 'text-neutral-600' : 'text-neutral-400'
-                    }`} />
-                    {isLast ? (
-                        <span className={`font-medium ${
-                            isDarkMode ? 'text-neutral-200' : 'text-neutral-700'
-                        }`}>
-                    {displayName}
-                  </span>
-                    ) : (
-                        <Link
-                            to={isOrderId ? '/profile' : routeTo}
-                            className={`${
-                                isDarkMode
-                                    ? 'text-neutral-400 hover:text-neutral-200'
-                                    : 'text-neutral-500 hover:text-neutral-700'
-                            } transition-colors`}
-                        >
-                          {displayName}
-                        </Link>
-                    )}
-                  </li>
+                <li key={`${name}-${index}`} className="flex items-center">
+                  <ChevronRight className={`h-4 w-4 mx-1 ${
+                      isDarkMode ? 'text-neutral-600' : 'text-neutral-400'
+                  }`} />
+                  {isLast ? (
+                    <span className={`font-medium ${
+                        isDarkMode ? 'text-neutral-200' : 'text-neutral-700'
+                    }`}>
+                      {displayName}
+                    </span>
+                  ) : (
+                    <Link
+                      to={isOrderId ? '/my-orders' : routeTo}
+                      className={`${
+                          isDarkMode
+                              ? 'text-neutral-400 hover:text-neutral-200'
+                              : 'text-neutral-500 hover:text-neutral-700'
+                      } transition-colors`}
+                    >
+                      {displayName}
+                    </Link>
+                  )}
+                </li>
               );
             })}
           </ol>
