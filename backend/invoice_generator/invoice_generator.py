@@ -53,7 +53,7 @@ class InvoiceGenerator:
         # Check if the existing number matches the correct format: INV-YYYYMMDD-XXXX
         import re
         if existing_number and isinstance(existing_number, str):
-            if re.match(r'^INV-\d{8}-[A-Z0-9]{4}$', existing_number):
+            if re.match(r'^INV-\d{8}-\d{4}$', existing_number):
                 sys.stderr.write("Using existing valid invoice number\n")
                 return existing_number
             else:
@@ -64,11 +64,19 @@ class InvoiceGenerator:
         date_str = datetime.now().strftime('%Y%m%d')
         sys.stderr.write(f"Generated date string: {date_str}\n")
 
-        # Generate a unique ID (4 random uppercase alphanumeric characters)
-        import random
-        import string
-        unique_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
+        # Check if date has changed, reset counter if needed
+        if self._last_date != date_str:
+            self._invoice_counter = 0
+            self._last_date = date_str
+            sys.stderr.write(f"Date changed, resetting counter to: {self._invoice_counter}\n")
+        
+        # Increment counter and format as 4-digit number
+        self._invoice_counter += 1
+        unique_id = f"{self._invoice_counter:04d}"
         new_number = f"INV-{date_str}-{unique_id}"
+
+        # Save the updated counter
+        self._save_counter()
 
         sys.stderr.write(f"Generated new invoice number: {new_number}\n")
         sys.stderr.write("===========================\n")
