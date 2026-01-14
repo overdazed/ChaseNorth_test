@@ -86,6 +86,13 @@ const NewFooter = () => {
                       <Link to="/sustainability" className="block text-neutral-50 hover:text-neutral-400 text-sm">Sustainability</Link>
                       <Link to="/terms-and-conditions" className="block text-neutral-50 hover:text-neutral-400 text-sm">Terms and Conditions</Link>
                       <Link to="/impressum" className="block text-neutral-50 hover:text-neutral-400 text-sm">Impressum</Link>
+                      {/* Need a website? Link - Added for mobile view */}
+                      <div className="flex items-center justify-left">
+                        <Loader />
+                        <Link to="/need-a-website" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
+                          Need a website?
+                        </Link>
+                      </div>
                     </div>
                 )}
               </div>
@@ -104,14 +111,6 @@ const NewFooter = () => {
                 <a href="mailto:shop@chasenorth.com" className="text-neutral-400 hover:text-neutral-50">
                   <TbMail className="h-5 w-5" />
                 </a>
-              </div>
-              
-              {/* Need a website? Link - Added for mobile view */}
-              <div className="flex items-center gap-2 justify-center pt-4">
-                <Loader />
-                <Link to="/need-a-website" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
-                  Need a website?
-                </Link>
               </div>
             </div>
 
