@@ -69,7 +69,7 @@ const Profile = () => {
                         </button>
                     </div>
                     {/* Right Section: Orders Table */}
-                    <div className={`w-full md:w-2/3 lg:w-3/4 ${bgClass} ${borderClass} rounded-lg shadow-md border-r border-l`}>
+                    <div className={`w-full md:w-2/3 lg:w-3/4 ${bgClass} ${borderClass} rounded-lg shadow-md border-r border-l overflow-hidden`}>
                         {/* Orders will be a component */}
                         <MyOrdersPage/>
                     </div>

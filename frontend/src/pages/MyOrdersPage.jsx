@@ -125,7 +125,7 @@ const MyOrdersPage = () => {
                                                             key={index}
                                                             src={item.image}
                                                             alt={item.name}
-                                                            className="lg:w-8 lg:h-8 lg:rounded-none md:w-[calc(20%-0.5rem)] w-[calc(50%-0.5rem)] h-auto object-cover rounded-lg"
+                                                            className="lg:w-8 lg:h-8 lg:rounded-sm md:w-[calc(20%-0.5rem)] w-[calc(50%-0.5rem)] h-auto object-cover rounded-lg"
                                                         />
                                                     ))}
                                                 </div>
