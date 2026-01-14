@@ -39,6 +39,34 @@ const Newsletter = () => {
         }
     };
 
+    // Simulate a longer loading time
+    const handleSubmitWithDelay = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setShowLoader(true);
+        setStatus({ type: '', message: '' });
+
+        try {
+            // Simulate a delay
+            await new Promise(resolve => setTimeout(resolve, 1250));
+            const response = await axios.post('http://localhost:9000/api/newsletter/subscribe', { email });
+            setStatus({
+                type: 'success',
+                message: response.data.message || 'Thank you for subscribing! Check your email for a discount code.'
+            });
+            setEmail('');
+        } catch (error) {
+            const message = error.response?.data?.message || 'Failed to subscribe. Please try again.';
+            setStatus({
+                type: 'error',
+                message
+            });
+        } finally {
+            setIsSubmitting(false);
+            setShowLoader(false);
+        }
+    };
+
     return (
         // <footer className="border-t-[0.5px] border-neutral-200 dark:border-neutral-800 py-12 bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
         <footer className="border-t-[0.1px] border-neutral-200 dark:border-neutral-900 py-12 bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200">
@@ -54,7 +82,7 @@ const Newsletter = () => {
                         And a small thank you when you arrive.
                     </p>
 
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    <form onSubmit={handleSubmitWithDelay} className="flex flex-col gap-4">
                         <input
                             type="text"
                             value={email}
@@ -75,7 +103,7 @@ const Newsletter = () => {
                             ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                         >
                             {isSubmitting ? (
-                                <div className="flex justify-center items-center h-full relative">
+                                <div className="py-2.5 flex justify-start items-center h-full relative pl-4">
                                     <NewsletterLoader />
                                 </div>
                             ) : 'Subscribe'}
