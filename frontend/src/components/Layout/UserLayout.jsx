@@ -3,7 +3,7 @@ import NewFooter from "../Common/NewFooter.jsx";
 import ParallaxSection from "../Common/ParallaxSection";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Loader from "../Common/Loader";
+import ReportLoader from "../ui/ReportLoader.jsx";
 import Newsletter from "../Common/Newsletter.jsx";
 //import Featured from '../Common/Featured.jsx';
 import FeaturesSection from "@/components/Products/FeaturesSection.jsx";
@@ -99,7 +99,7 @@ const UserLayout = () => {
             <NewFooter />
             {isLoading && (
                 <div className="fixed inset-0 bg-neutral-900 z-50">
-                    <Loader />
+                    <ReportLoader />
                 </div>
             )}
 
