@@ -93,8 +93,8 @@ const MyOrdersPage = () => {
                 My Orders
             </h2>
             <div className="relative shadow-md sm:rounded-lg overflow-hidden">
-                <table className={`min-w-full text-left ${textClass}`}>
-                    <thead className={`text-xs uppercase ${textClass} ${innerBgClass}`}>
+                <table className={`min-w-full text-left ${textClass} block lg:table`}>
+                    <thead className={`text-xs uppercase ${textClass} ${innerBgClass} lg:table-header-group hidden lg:block`}>
                         <tr>
                             <th className="py-2 px-4 sm:py-3">Image</th>
                             <th className="py-2 px-4 sm:py-3">Order ID</th>
@@ -105,7 +105,7 @@ const MyOrdersPage = () => {
                             <th className="py-2 px-4 sm:py-3">Status</th>
                         </tr>
                     </thead>
-                    <tbody className="">
+                    <tbody className="block lg:table-row-group">
                     {orders.length > 0 ? (
                         orders.map((order) => (
                             <tr
