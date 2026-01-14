@@ -111,9 +111,9 @@ const MyOrdersPage = () => {
                             <tr
                             key={order._id}
                             onClick={() => handleRowClick(order._id)}
-                            className={`border-b cursor-pointer ${borderClass} block lg:table-row`}>
+                            className={`border-b cursor-pointer ${borderClass} block lg:table-row md:pb-4 sm:pb-8`}>
                                 {/* Order Image */}
-                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell">
+                                <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell sm:pt-8">
                                     <div className="flex flex-wrap gap-2 sm:gap-4">
                                         {order.orderItems.map((item, index) => (
                                             <img
