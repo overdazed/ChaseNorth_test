@@ -50,11 +50,16 @@ class InvoiceGenerator:
         sys.stderr.write(f"Existing number received: {existing_number}\n")
         sys.stderr.write(f"Type of existing_number: {type(existing_number)}\n")
 
-        # If an existing number is provided and it's in the correct format, use it
-        if existing_number and isinstance(existing_number, str) and existing_number.startswith('INV-'):
-            sys.stderr.write("Using existing invoice number\n")
-            return existing_number
+        # Check if the existing number matches the correct format: INV-YYYYMMDD-XXXX
+        import re
+        if existing_number and isinstance(existing_number, str):
+            if re.match(r'^INV-\d{8}-[A-Z0-9]{4}$', existing_number):
+                sys.stderr.write("Using existing valid invoice number\n")
+                return existing_number
+            else:
+                sys.stderr.write(f"Existing invoice number has invalid format: {existing_number}\n")
 
+        # If we get here, either no existing number or it's invalid, so generate a new one
         # Get current date in YYYYMMDD format
         date_str = datetime.now().strftime('%Y%m%d')
         sys.stderr.write(f"Generated date string: {date_str}\n")
