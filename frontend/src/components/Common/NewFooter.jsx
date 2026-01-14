@@ -126,8 +126,8 @@ const NewFooter = () => {
                 <Link to="/payments" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Payments
                 </Link>
-                <Link to="/gift-card" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
-                  Gift card
+                <Link to="/gift-cards" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
+                  Gift cards
                 </Link>
               </div>
 

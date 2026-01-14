@@ -101,6 +101,9 @@ import About from "./pages/About.jsx";
 import Contact from "./pages/Contact.jsx";
 import Projects from "./pages/Projects.jsx";
 import SizeChart from "./pages/SizeChart.jsx";
+import Delivery from "./pages/Delivery.jsx";
+import Payments from "./pages/Payments.jsx";
+import GiftCards from "./pages/GiftCards.jsx";
 import AdminLayout from "./components/Admin/AdminLayout.jsx";
 import AdminHomePage from "./pages/AdminHomePage.jsx";
 import UserManagement from "./components/Admin/UserManagement.jsx";
@@ -231,6 +234,9 @@ const App = () => {
                         <Route path="contact" element={<Contact />} />
                         <Route path="projects" element={<Projects />} />
                         <Route path="size-chart" element={<SizeChart />} />
+                        <Route path="delivery" element={<Delivery />} />
+                        <Route path="payments" element={<Payments />} />
+                        <Route path="gift-cards" element={<GiftCards />} />
                         <Route path="report" element={<Report />} />
                         <Route path="report/confirmation" element={<ReportConfirmation />} />
                         <Route path="forgot-password" element={<ForgotPassword />} />
