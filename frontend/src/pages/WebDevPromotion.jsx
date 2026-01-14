@@ -1,4 +1,5 @@
 import React from 'react';
+import Loader from "@/components/Common/Loader.jsx";
 // import AvailableForNewProjectButton from '../components/Common/AvailableForNewProjectButton';
 
 const WebDevPromotion = () => {
@@ -25,8 +26,7 @@ const WebDevPromotion = () => {
                 <button
                     onClick={() => (window.location.href = "mailto:contact@svet.codes")}
                     className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-900 transition-colors duration-200"
-                >
-                  Contact Us
+                > <span><Loader />Contact Us</span>
                 </button>
                 {/*<AvailableForNewProjectButton />*/}
               </div>
