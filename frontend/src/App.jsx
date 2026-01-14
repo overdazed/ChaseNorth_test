@@ -93,6 +93,7 @@ import MyOrdersPage from "./pages/MyOrdersPage.jsx";
 import FAQPage from "./pages/FAQPage.jsx";
 import Wishlist from "./pages/Wishlist.jsx";
 import ReturnPolicy from "./pages/ReturnPolicy.jsx";
+import AGB from "./pages/AGB.jsx";
 import AdminLayout from "./components/Admin/AdminLayout.jsx";
 import AdminHomePage from "./pages/AdminHomePage.jsx";
 import UserManagement from "./components/Admin/UserManagement.jsx";
@@ -215,6 +216,7 @@ const App = () => {
                         <Route path="wishlist" element={<Wishlist />} />
                         <Route path="faq" element={<FAQPage />} />
                         <Route path="return-policy" element={<ReturnPolicy />} />
+                        <Route path="agb" element={<AGB />} />
                         <Route path="report" element={<Report />} />
                         <Route path="report/confirmation" element={<ReportConfirmation />} />
                         <Route path="forgot-password" element={<ForgotPassword />} />
