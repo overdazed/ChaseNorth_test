@@ -237,6 +237,7 @@ const App = () => {
                         <Route path="delivery" element={<Delivery />} />
                         <Route path="payments" element={<Payments />} />
                         <Route path="gift-cards" element={<GiftCards />} />
+                        <Route path="need-a-website" element={<WebDevPromotion />} />
                         <Route path="report" element={<Report />} />
                         <Route path="report/confirmation" element={<ReportConfirmation />} />
                         <Route path="forgot-password" element={<ForgotPassword />} />
