@@ -99,18 +99,29 @@ function getPublicUrl(filePath) {
 
 async function generateAndSaveInvoice(order, companyData, customerData) {
   try {
-    // Generate the invoice - the invoice number will be handled by the Python script
+    // Check if the order already has an invoice number
+    const existingInvoiceNumber = order.invoiceNumber;
+    
+    // Generate the invoice with the existing invoice number if it exists
     const { pdfBuffer, invoiceNumber } = await invoiceService.generateInvoice(
         order,
         companyData,
-        customerData
+        customerData,
+        existingInvoiceNumber // Pass the existing invoice number to the service
     );
 
-    // Upload to Supabase with the generated invoice number
-    const publicUrl = await uploadToSupabase(pdfBuffer, invoiceNumber);
+    // Use the invoice number from the response, or fall back to the existing one
+    const finalInvoiceNumber = invoiceNumber || existingInvoiceNumber;
+    
+    if (!finalInvoiceNumber) {
+      throw new Error('Failed to generate invoice number');
+    }
+
+    // Upload to Supabase with the final invoice number
+    const publicUrl = await uploadToSupabase(pdfBuffer, finalInvoiceNumber);
 
     return {
-      invoiceNumber: invoiceNumber,
+      invoiceNumber: finalInvoiceNumber,
       invoicePath: publicUrl
     };
   } catch (error) {
