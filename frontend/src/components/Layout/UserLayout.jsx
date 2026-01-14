@@ -3,7 +3,7 @@ import NewFooter from "../Common/NewFooter.jsx";
 import ParallaxSection from "../Common/ParallaxSection";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import ReportLoader from "../ui/ReportLoader.jsx";
+import ReportLoader from "../Common/ReportLoader.jsx";
 import Newsletter from "../Common/Newsletter.jsx";
 //import Featured from '../Common/Featured.jsx';
 import FeaturesSection from "@/components/Products/FeaturesSection.jsx";

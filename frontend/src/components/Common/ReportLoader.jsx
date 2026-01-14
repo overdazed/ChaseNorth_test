@@ -12,6 +12,12 @@ const Loader = () => {
 }
 
 const StyledWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+
   .code-loader {
     color: #fff;
     font-family: Consolas, Menlo, Monaco, monospace;

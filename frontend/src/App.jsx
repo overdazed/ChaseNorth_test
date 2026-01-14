@@ -104,6 +104,7 @@ import SizeChart from "./pages/SizeChart.jsx";
 import Delivery from "./pages/Delivery.jsx";
 import Payments from "./pages/Payments.jsx";
 import GiftCards from "./pages/GiftCards.jsx";
+import GiftCard from "./pages/GiftCard.jsx";
 import WebDevPromotion from "./pages/WebDevPromotion.jsx";
 import AdminLayout from "./components/Admin/AdminLayout.jsx";
 import AdminHomePage from "./pages/AdminHomePage.jsx";
@@ -238,6 +239,7 @@ const App = () => {
                         <Route path="delivery" element={<Delivery />} />
                         <Route path="payments" element={<Payments />} />
                         <Route path="gift-cards" element={<GiftCards />} />
+                        <Route path="gift-card" element={<GiftCard />} />
                         <Route path="need-a-website" element={<WebDevPromotion />} />
                         <Route path="report" element={<Report />} />
                         <Route path="report/confirmation" element={<ReportConfirmation />} />
