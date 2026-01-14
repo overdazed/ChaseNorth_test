@@ -25,8 +25,10 @@ const WebDevPromotion = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                     onClick={() => (window.location.href = "mailto:contact@svet.codes")}
-                    className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-900 transition-colors duration-200"
-                > <span><Loader />Contact Us</span>
+                    className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-900 transition-colors duration-200 flex items-center justify-center"
+                >
+                  <Loader />
+                  <span className="ml-2">Available for a new project</span>
                 </button>
                 {/*<AvailableForNewProjectButton />*/}
               </div>
@@ -63,9 +65,10 @@ const WebDevPromotion = () => {
           <div className="flex flex-col sm:flex-row gap-4">
             <button
                 onClick={() => (window.location.href = "mailto:contact@svet.codes")}
-                className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-900 transition-colors duration-200"
+                className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-900 transition-colors duration-200 flex items-center justify-center"
             >
-              Contact Us
+              <Loader />
+              <span className="ml-2">Available for a new project</span>
             </button>
           </div>
         </div>
