@@ -9,7 +9,7 @@ from xhtml2pdf import pisa
 from dateutil.relativedelta import relativedelta
 import traceback
 import sys
-
+import random
 
 # Add this class variable at the top of the InvoiceGenerator class
 class InvoiceGenerator:
@@ -57,9 +57,8 @@ class InvoiceGenerator:
 
         # Get current date in YYYYMMDD format
         date_str = datetime.now().strftime('%Y%m%d')
-        sys.stderr.write(f"Generated date string: {date_str}\n")  # Debug output for date string
-        # Generate a unique ID (last 4 characters of UUID)
-        unique_id = str(uuid.uuid4())[-4:].upper()
+        # Generate a unique ID (4 random uppercase alphanumeric characters)
+        unique_id = ''.join(random.choices('ABCDEFGHJKLMNPQRSTUVWXYZ23456789', k=4))
         new_number = f"INV-{date_str}-{unique_id}"
 
         sys.stderr.write(f"Generated new invoice number: {new_number}\n")
@@ -77,135 +76,118 @@ class InvoiceGenerator:
         return value.strftime(format)
 
     def generate_invoice(self, order, company_data):
-            try:
-                # Add format_date filter to the environment
-                self.env.filters['format_date'] = self.format_date
+        try:
+            # Add format_date filter to the environment
+            self.env.filters['format_date'] = self.format_date
 
-                # Replace all print statements with sys.stderr.write()
-                sys.stderr.write("=== Received data from Node.js ===\n")
-                sys.stderr.write(f"Order data: {json.dumps(order, indent=2)}\n")
-                sys.stderr.write(f"Company data: {json.dumps(company_data, indent=2)}\n")
-                sys.stderr.write("================================\n")
+            # Debug logging
+            sys.stderr.write("=== Invoice Generation Started ===\n")
+            sys.stderr.write(f"Order data: {json.dumps(order, indent=2)}\n")
 
-                # Ensure order is a dictionary
-                if not isinstance(order, dict):
-                    order = order.to_dict() if hasattr(order, 'to_dict') else dict(order)
+            # Get existing invoice number if it exists
+            existing_invoice_number = order.get('invoiceNumber')
+            sys.stderr.write(f"Existing invoice number from order: {existing_invoice_number}\n")
 
-                # Ensure shipping address exists
-                if 'shippingAddress' not in order:
-                    order['shippingAddress'] = {}
+            # Generate invoice number (this will use existing one if valid)
+            invoice_number = self.generate_invoice_number(existing_invoice_number)
+            sys.stderr.write(f"Generated invoice number: {invoice_number}\n")
 
-#                 order['shippingAddress'] = {
-#                     'firstName': order.get('shippingAddress', {}).get('firstName', '') or order.get('shippingAddress_firstName', ''),
-#                     # 'firstName': order.get('shippingAddress', {}).get('firstName', '')
-#                     'lastName': order.get('shippingAddress_lastName', ''),
-#                     'address': order.get('shippingAddress_address', ''),
-#                     'city': order.get('shippingAddress_city', ''),
-#                     'postalCode': order.get('shippingAddress_postalCode', ''),
-#                     'country': order.get('shippingAddress_country', '')
-#                 }
+            # Ensure order is a dictionary
+            if not isinstance(order, dict):
+                order = order.to_dict() if hasattr(order, 'to_dict') else dict(order)
 
-                # Ensure all address fields exist with empty string as default
-                order['shippingAddress'].update({
-                    'firstName': order['shippingAddress'].get('firstName', '') or '',
-                    'lastName': order['shippingAddress'].get('lastName', '') or '',
-                    'address': order['shippingAddress'].get('address', '') or '',
-                    'city': order['shippingAddress'].get('city', '') or '',
-                    'postalCode': order['shippingAddress'].get('postalCode', '') or order['shippingAddress'].get('postal_code', ''),
-                    'country': order['shippingAddress'].get('country', '') or ''
-                })
+            # Ensure shipping address exists
+            if 'shippingAddress' not in order:
+                order['shippingAddress'] = {}
 
-                # Ensure orderItems exists
-                if 'orderItems' not in order and 'items' in order:
-                    order['orderItems'] = order['items']
+            # Update shipping address with default values if needed
+            order['shippingAddress'].update({
+                'firstName': order['shippingAddress'].get('firstName', '') or '',
+                'lastName': order['shippingAddress'].get('lastName', '') or '',
+                'address': order['shippingAddress'].get('address', '') or '',
+                'city': order['shippingAddress'].get('city', '') or '',
+                'postalCode': order['shippingAddress'].get('postalCode', '') or order['shippingAddress'].get('postal_code', ''),
+                'country': order['shippingAddress'].get('country', '') or ''
+            })
 
-                # Add this right after the order data processing and before the context preparation
-                sys.stderr.write(f"=== Invoice Number Debug ===\n")
-                sys.stderr.write(f"Order data contains invoiceNumber: {'invoiceNumber' in order}\n")
-                sys.stderr.write(f"invoiceNumber value: {order.get('invoiceNumber', 'Not found')}\n")
-                sys.stderr.write("===========================\n")
+            # Ensure orderItems exists
+            if 'orderItems' not in order and 'items' in order:
+                order['orderItems'] = order['items']
 
-                # Prepare context for template
-                context = {
-                    'order': {
-                            **order,  # Spread all order fields
-                            'total': order.get('totalPrice', 0)  # Add total field that the template expects
-                        },
-                    'company_name': company_data.get('name', ''),
-                    'company_contact_name': company_data.get('contact_name', ''),
-                    'company_vat': company_data.get('vat', ''),
-                    'company_address': company_data.get('address', ''),
-                    'company_city': company_data.get('city', ''),
-                    'company_zip': company_data.get('zip', ''),
-                    'company_country': company_data.get('country', ''),
-                    'company_email': company_data.get('email', ''),
-                    'company_phone': company_data.get('phone', ''),
-                    'company_website': company_data.get('website', ''),
-#                     'invoice_number': order.get('invoiceNumber') or self.generate_invoice_number(),
-                    'invoice_number': self.generate_invoice_number(order.get('invoiceNumber')),
-                    'invoice_date': datetime.now().strftime('%B %d, %Y'),
-                    'due_date': (datetime.now() + relativedelta(days=30)).strftime('%B %d, %Y'),
+            # Prepare context for template
+            context = {
+                'order': {
+                    **order,
                     'total': order.get('totalPrice', 0)
-                }
+                },
+                'company_name': company_data.get('name', ''),
+                'company_contact_name': company_data.get('contact_name', ''),
+                'company_vat': company_data.get('vat', ''),
+                'company_address': company_data.get('address', ''),
+                'company_city': company_data.get('city', ''),
+                'company_zip': company_data.get('zip', ''),
+                'company_country': company_data.get('country', ''),
+                'company_email': company_data.get('email', ''),
+                'company_phone': company_data.get('phone', ''),
+                'company_website': company_data.get('website', ''),
+                'invoice_number': invoice_number,
+                'invoice_date': datetime.now().strftime('%B %d, %Y'),
+                'due_date': (datetime.now() + relativedelta(days=30)).strftime('%B %d, %Y'),
+                'total': order.get('totalPrice', 0)
+            }
 
-                # And later in the code:
-                sys.stderr.write("=== Processed shipping address ===\n")
-                sys.stderr.write(f"{json.dumps(order.get('shippingAddress', {}), indent=2)}\n")
-                sys.stderr.write("================================\n")
+            # Debug logging
+            sys.stderr.write("=== Context for template ===\n")
+            sys.stderr.write(f"Invoice number in context: {context['invoice_number']}\n")
+            sys.stderr.write("============================\n")
 
-                # Rest of the method remains the same...
-                template = self.env.get_template('invoice_template.html')
-                html_content = template.render(**context)
+            # Generate PDF
+            template = self.env.get_template('invoice_template.html')
+            html_content = template.render(**context)
 
-                # Generate PDF
-                pdf_filename = f"invoice_{context['invoice_number']}.pdf".replace(" ", "_")
-                pdf_path = os.path.join(self.output_dir, pdf_filename)
+            # Generate PDF filename
+            pdf_filename = f"invoice_{invoice_number}.pdf".replace(" ", "_")
+            pdf_path = os.path.join(self.output_dir, pdf_filename)
 
-                # Create PDF from HTML
-                with open(pdf_path, 'wb') as output_file:
-                    pisa_status = pisa.CreatePDF(
-                        html_content,
-                        dest=output_file,
-                        encoding='UTF-8'
-                    )
+            # Create PDF from HTML
+            with open(pdf_path, 'wb') as output_file:
+                pisa_status = pisa.CreatePDF(
+                    html_content,
+                    dest=output_file,
+                    encoding='UTF-8'
+                )
 
-                if pisa_status.err:
-                    raise Exception(f'Error generating PDF: {pisa_status.err}')
+            if pisa_status.err:
+                raise Exception(f'Error generating PDF: {pisa_status.err}')
 
-                # Read the generated PDF and encode as base64
-                with open(pdf_path, 'rb') as pdf_file:
-                    pdf_content = pdf_file.read()
+            # Read the generated PDF and encode as base64
+            with open(pdf_path, 'rb') as pdf_file:
+                pdf_content = pdf_file.read()
 
-                # Clean up the PDF file
-                try:
-                    os.remove(pdf_path)
-                except:
-                    pass
+            # Clean up the PDF file
+            try:
+                os.remove(pdf_path)
+            except:
+                pass
 
-                # Return result as a dictionary
-                result = {
-                    'pdf_content': base64.b64encode(pdf_content).decode('utf-8'),
-                    'invoice_number': context['invoice_number'],
-                    'invoice_date': context['invoice_date'],
-                    'total': context['total']
-                }
+            # Return result as a dictionary
+            result = {
+                'pdf_content': base64.b64encode(pdf_content).decode('utf-8'),
+                'invoice_number': invoice_number,
+                'invoice_date': context['invoice_date'],
+                'total': context['total']
+            }
 
-                return json.dumps(result)
+            return json.dumps(result)
 
-            except Exception as e:
-                return json.dumps({
-                    'error': str(e),
-                    'type': type(e).__name__,
-                    'traceback': traceback.format_exc()
-                })
-
-                # Make sure the final output is the only thing printed to stdout
-                print(json.dumps({
-                    'pdf_content': base64.b64encode(pdf_content).decode('utf-8'),
-                    'invoice_number': context['invoice_number'],
-                    'invoice_date': context['invoice_date'],
-                    'total': context['total']
-                }))
+        except Exception as e:
+            error_msg = {
+                'error': str(e),
+                'type': type(e).__name__,
+                'traceback': traceback.format_exc()
+            }
+            sys.stderr.write(f"Error in generate_invoice: {json.dumps(error_msg, indent=2)}\n")
+            return json.dumps(error_msg)
 #     def generate_invoice(self, order, company_data):
 #         try:
 #             # Add format_date filter to the environment

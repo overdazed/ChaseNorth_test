@@ -67,11 +67,35 @@ class InvoiceService {
                 throw new Error('No PDF content received from generator');
             }
 
-            // Ensure we have an invoice number in the response
-            const finalInvoiceNumber = result.invoice_number ||
-                invoiceNumber ||
-                orderData.invoiceNumber ||
-                `INV-${Date.now()}`;
+            // Handle invoice number with the new logic
+            const finalInvoiceNumber = (() => {
+                // First, try to get the invoice number from the Python script
+                if (result.invoice_number && result.invoice_number.startsWith('INV-')) {
+                    console.log('Using invoice number from Python script:', result.invoice_number);
+                    return result.invoice_number;
+                }
+
+                // If not available, try the provided invoice number
+                if (invoiceNumber && invoiceNumber.startsWith('INV-')) {
+                    console.log('Using provided invoice number:', invoiceNumber);
+                    return invoiceNumber;
+                }
+
+                // Then try the order's invoice number
+                if (orderData.invoiceNumber && orderData.invoiceNumber.startsWith('INV-')) {
+                    console.log('Using order invoice number:', orderData.invoiceNumber);
+                    return orderData.invoiceNumber;
+                }
+
+                // As a last resort, generate a new one
+                const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+                const randomStr = Math.random().toString(36).substr(2, 4).toUpperCase();
+                const newNumber = `INV-${dateStr}-${randomStr}`;
+                console.log('Generated new invoice number:', newNumber);
+                return newNumber;
+            })();
+
+            console.log('Final invoice number:', finalInvoiceNumber);
 
             return {
                 pdfBuffer: Buffer.from(result.pdf_content, 'base64'),
