@@ -88,7 +88,7 @@ const Newsletter = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter your email"
-                            className="p-3 w-full text-sm pl-5 border border-neutral-200 dark:border-neutral-800 rounded-full
+                            className="p-3 w-full text-sm pl-5 border border-neutral-200 dark:border-neutral-900 rounded-full
                             focus:outline-none focus:ring-0.5 focus:ring-neutral-500 transition-all
                             bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400"
                             required
