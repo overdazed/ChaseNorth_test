@@ -1,5 +1,5 @@
 import React from 'react';
-import AvailableForNewProjectButton from '../components/Common/AvailableForNewProjectButton';
+// import AvailableForNewProjectButton from '../components/Common/AvailableForNewProjectButton';
 
 const WebDevPromotion = () => {
   return (
@@ -22,7 +22,13 @@ const WebDevPromotion = () => {
                 If you have any questions or would like to discuss your project, feel free to reach out to us.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <AvailableForNewProjectButton />
+                <button
+                    onClick={() => (window.location.href = "mailto:contact@svet.codes")}
+                    className="w-full bg-black text-white px-6 py-3 text-sm rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-900 transition-colors duration-200"
+                >
+                  Contact Us
+                </button>
+                {/*<AvailableForNewProjectButton />*/}
               </div>
             </div>
           </div>

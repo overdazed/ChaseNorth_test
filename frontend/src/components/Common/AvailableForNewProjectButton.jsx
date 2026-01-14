@@ -20,6 +20,7 @@ const StyledWrapper = styled.div`
     --animation: 2s ease-in-out infinite;
     display: flex;
     align-items: center;
+    justify-content: center;
     column-gap: 2px;
     color: #178d00;
     background-color: #e1f9dc;
