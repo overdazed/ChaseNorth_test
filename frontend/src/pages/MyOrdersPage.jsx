@@ -114,10 +114,16 @@ const MyOrdersPage = () => {
                             className={`border-b cursor-pointer ${borderClass} block lg:table-row`}>
                                 {/* Order Image */}
                                 <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell">
-                                    <img
-                                        src={order.orderItems[0].image}
-                                        alt={order.orderItems[0].name}
-                                        className="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-lg"/>
+                                    <div className="flex flex-wrap gap-2 sm:flex-nowrap sm:gap-4">
+                                        {order.orderItems.map((item, index) => (
+                                            <img
+                                                key={index}
+                                                src={item.image}
+                                                alt={item.name}
+                                                className="w-18 h-18 sm:w-20 sm:h-20 object-cover rounded-lg"
+                                            />
+                                        ))}
+                                    </div>
                                 </td>
                                 {/* Order ID */}
                                 <td
