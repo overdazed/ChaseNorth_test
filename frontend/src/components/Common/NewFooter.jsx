@@ -117,7 +117,7 @@ const NewFooter = () => {
                 <Link to="/return-policy" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Return policy
                 </Link>
-                <Link to="/size" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
+                <Link to="/size-chart" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Size chart
                 </Link>
                 <Link to="/delivery" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
