@@ -46,7 +46,7 @@ class InvoiceGenerator:
 
     def generate_invoice_number(self, existing_number=None):
         # Debug logging
-        sys.stderr.write(f"=== Invoice Number Debug ===\n")
+        sys.stderr.write("=== Invoice Number Debug ===\n")
         sys.stderr.write(f"Existing number received: {existing_number}\n")
         sys.stderr.write(f"Type of existing_number: {type(existing_number)}\n")
 
@@ -57,6 +57,7 @@ class InvoiceGenerator:
 
         # Get current date in YYYYMMDD format
         date_str = datetime.now().strftime('%Y%m%d')
+        sys.stderr.write(f"Generated date string: {date_str}\n")  # Debug output for date string
         # Generate a unique ID (last 4 characters of UUID)
         unique_id = str(uuid.uuid4())[-4:].upper()
         new_number = f"INV-{date_str}-{unique_id}"
