@@ -57,7 +57,7 @@ const SearchBar = ({ className = '' }) => {
                     onSubmit={handleSearch}
                     className="relative flex items-center justify-center w-full"
                 >
-                    <div className="relative w-1/2">
+                    <div className="relative w-9/12 md:w-1/2">
                         <input
                             type="text"
                             placeholder="Search"
@@ -76,9 +76,9 @@ const SearchBar = ({ className = '' }) => {
                     <button
                         type="button"
                         onClick={handleSearchToggle}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral-600 hover:text-neutral-800"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-600 hover:text-neutral-800 md:right-4"
                     >
-                        <HiMiniXMark className="h-6 w-6" />
+                        <HiMiniXMark className="h-8 w-8 md:h-6 md:w-6" />
                     </button>
                 </form>
             ) : (
