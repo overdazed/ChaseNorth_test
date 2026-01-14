@@ -361,7 +361,7 @@ const OrderDetailsPage = () => {
                                                className="hidden sm:block w-24 h-24 object-cover rounded-lg mr-4"
                                            />
                                            <Link to={`/product/${item.productId}`}
-                                                 className={`hidden sm:block ${linkClass} text-lg pl-4`}
+                                                 className={`hidden sm:block ${linkClass} font-semibold pl-4`}
                                            >
                                                {item.name}
                                            </Link>
