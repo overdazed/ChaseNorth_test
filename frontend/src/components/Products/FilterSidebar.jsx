@@ -412,16 +412,12 @@ const FilterSidebar = ({
                     newSizes = [...currentSizes, value];
                 }
 
-                // Create new params object to replace entirely
-                const params = new URLSearchParams();
-                // Copy all existing params except sizes
-                for (const [key, val] of searchParams.entries()) {
-                    if (key !== 'sizes') {
-                        params.set(key, val);
-                    }
-                }
+                // Create new params object based on current searchParams
+                const params = new URLSearchParams(searchParams);
                 if (newSizes.length > 0) {
                     params.set('sizes', [...new Set(newSizes)].join(','));
+                } else {
+                    params.delete('sizes');
                 }
                 setSearchParams(params, { replace: true });
 
@@ -653,23 +649,22 @@ const FilterSidebar = ({
                                     type="button"
                                     onClick={(e) => {
                                         e.preventDefault();
+                                        const currentSizesFromUrl = searchParams.get('sizes')
+                                            ? searchParams.get('sizes').split(',')
+                                            : [];
                                         const newSizes = isSelected
-                                            ? filters.size?.filter(s => s !== size) || []
-                                            : [...(filters.size || []), size];
-
+                                            ? currentSizesFromUrl.filter(s => s !== size)
+                                            : [...currentSizesFromUrl, size];
+                     
                                         // Update URL
-                                        const params = new URLSearchParams();
-                                        // Copy all existing params except sizes
-                                        for (const [key, val] of searchParams.entries()) {
-                                            if (key !== 'sizes') {
-                                                params.set(key, val);
-                                            }
-                                        }
+                                        const params = new URLSearchParams(searchParams);
                                         if (newSizes.length > 0) {
                                             params.set('sizes', [...new Set(newSizes)].join(','));
+                                        } else {
+                                            params.delete('sizes');
                                         }
                                         setSearchParams(params, { replace: true });
-
+                     
                                         // Update parent component
                                         if (onFilterChange) {
                                             onFilterChange({
