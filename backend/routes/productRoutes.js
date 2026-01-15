@@ -191,7 +191,8 @@ router.get('/', async (req, res) => {
             category,
             material,
             brand,
-            limit
+            limit,
+            sizes
         } = req.query;
 
         // initialize a query object
@@ -224,6 +225,14 @@ router.get('/', async (req, res) => {
             console.log('Size parameter received:', size);
             console.log('Size array:', sizeArray);
             query.sizes = {$in: sizeArray};
+        }
+
+        if (sizes)  {
+            // we are using $in operator, because we can have multiple materials selected in the filter
+            const sizesArray = sizes.split(",");
+            console.log('Sizes parameter received:', sizes);
+            console.log('Sizes array:', sizesArray);
+            query.sizes = {$in: sizesArray};
         }
 
 
