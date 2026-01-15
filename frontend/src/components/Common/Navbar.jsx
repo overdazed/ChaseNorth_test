@@ -349,7 +349,7 @@ const Navbar = ({ transparent = false }) => {
                                             window.location.href = '/admin';
                                         }
                                     }}
-                                    className="bg-black px-3 py-1 rounded-full text-sm text-neutral-50 hover:bg-neutral-800 transition-colors"
+                                    className="bg-black px-3 py-1 rounded-full text-sm text-neutral-50 hover:bg-neutral-800 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition-colors"
                                 >
                                     Admin
                                 </Link>
@@ -380,7 +380,7 @@ const Navbar = ({ transparent = false }) => {
                             </div>
 
                             <button onClick={toggleCartDrawer} className="relative">
-                                <HiOutlineShoppingBag className="h-6 w-6 text-neutral-700 hover:text-black"/>
+                                <HiOutlineShoppingBag className="h-6 w-6 text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"/>
                                 {cartItemCount > 0 && (
                                     <span className="absolute -top-1 -right-1 bg-accent text-neutral-50 text-xs rounded-full h-4 w-4 flex items-center justify-center">
                                         {cartItemCount}
@@ -444,15 +444,15 @@ const Navbar = ({ transparent = false }) => {
                     <nav className="space-y-12">
                         <NavLink
                             to="/collections/all?gender=Men"
-                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-normal"
+                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-white group uppercase font-normal"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?gender=Men';
                                 return (
-                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
+                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-white' : 'dark:text-neutral-400'}`}>
                                         Men
-                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
@@ -460,15 +460,15 @@ const Navbar = ({ transparent = false }) => {
 
                         <NavLink
                             to="/collections/all?gender=Women"
-                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-normal"
+                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-white group uppercase font-normal"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?gender=Women';
                                 return (
-                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
+                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-white' : 'dark:text-neutral-400'}`}>
                                         Women
-                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
@@ -476,15 +476,15 @@ const Navbar = ({ transparent = false }) => {
 
                         <NavLink
                             to="/collections/all?category=Top+Wear"
-                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-normal"
+                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-white group uppercase font-normal"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?category=Top+Wear';
                                 return (
-                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
+                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-white' : 'dark:text-neutral-400'}`}>
                                         Top Wear
-                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
@@ -492,15 +492,15 @@ const Navbar = ({ transparent = false }) => {
 
                         <NavLink
                             to="/collections/all?category=Bottom+Wear"
-                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-neutral-50 group uppercase font-normal"
+                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-white group uppercase font-normal"
                             onClick={toggleNavDrawer}
                         >
                             {() => {
                                 const isActive = window.location.search === '?category=Bottom+Wear';
                                 return (
-                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-neutral-50' : 'dark:text-neutral-400'}`}>
+                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-white' : 'dark:text-neutral-400'}`}>
                                         Bottom Wear
-                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-neutral-50 transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
