@@ -6,6 +6,7 @@ import BellButton from "../ui/BellButton";
 import RedoButton from "../ui/RedoButton";
 import { useDispatch, useSelector } from 'react-redux';
 import { updateWishlistCount } from '../../redux/slices/productsSlice';
+import { getColorHex } from '../../utils/colorUtils';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -595,8 +596,8 @@ function SwipeCards() {
                           {card.colors.map((color, i) => (
                             <div
                               key={i}
-                              className="w-6 h-6 rounded-full border border-neutral-400 shadow-md"
-                              style={{ backgroundColor: color }}
+                              className="w-6 h-6 rounded-full border border-neutral-600 shadow-md"
+                              style={{ backgroundColor: getColorHex(color) }}
                             />
                           ))}
                         </div>

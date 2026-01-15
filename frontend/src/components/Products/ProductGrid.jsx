@@ -97,7 +97,7 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                                     {product.colors.map((color, i) => (
                                         <div
                                             key={i}
-                                            className="w-4 h-4 md:w-6 md:h-6 rounded-full border border-neutral-400 shadow-sm"
+                                            className="w-4 h-4 md:w-6 md:h-6 rounded-full border border-blue shadow-sm"
                                             style={{ 
                                                 backgroundColor: getColorHex(color), 
                                                 filter: 'saturate(0.7)',
