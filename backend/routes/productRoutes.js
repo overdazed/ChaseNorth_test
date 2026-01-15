@@ -220,7 +220,10 @@ router.get('/', async (req, res) => {
 
         if (size)  {
             // we are using $in operator, because we can have multiple materials selected in the filter
-            query.sizes = {$in: size.split(",")};
+            const sizeArray = size.split(",");
+            console.log('Size parameter received:', size);
+            console.log('Size array:', sizeArray);
+            query.sizes = {$in: sizeArray};
         }
 
 
