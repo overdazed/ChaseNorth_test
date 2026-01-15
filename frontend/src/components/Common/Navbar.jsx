@@ -349,7 +349,7 @@ const Navbar = ({ transparent = false }) => {
                                             window.location.href = '/admin';
                                         }
                                     }}
-                                    className="bg-black px-3 py-1 rounded-full text-sm text-neutral-50 hover:bg-neutral-800 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition-colors"
+                                    className="bg-black px-3 py-1 rounded-full text-sm text-neutral-50 hover:bg-neutral-800 transition-colors"
                                 >
                                     Admin
                                 </Link>
