@@ -383,35 +383,29 @@ const CollectionPage = () => {
                                 products={products}
                                 onFilterApply={toggleSidebar}
                                 isDay={isDay}
-                                filters={filters}
                                 onFilterChange={(e) => {
                                     // Skip brand changes as they're handled internally
                                     if (e.target.name === 'brand') return;
-    
-                                    const { name, value, checked, type } = e.target;
-    
-                                    if (name === 'size') {
-                                        // Get current sizes from URL to ensure we're working with the latest state
-                                        const currentSizesFromUrl = searchParams.get('sizes')
-                                            ? searchParams.get('sizes').split(',')
-                                            : [];
-                                         
-                                        let newSizes = [...currentSizesFromUrl];
-                                        if (newSizes.includes(value)) {
-                                            newSizes = newSizes.filter(size => size !== value);
-                                        } else {
-                                            newSizes = [...newSizes, value];
-                                        }
-                                        dispatch(setFilters({ ...filters, size: newSizes }));
-                                    } else if (type === 'checkbox') {
-                                        // Handle other checkbox filters
+
+                                    const { name, value, type, checked } = e.target;
+
+                                    // Handle different input types
+                                    if (type === 'checkbox') {
                                         const currentValues = filters[name] || [];
-                                        const newValues = checked
-                                            ? [...currentValues, value]
-                                            : currentValues.filter(v => v !== value);  // Fixed: changed 'current' to 'currentValues'
+                                        let newValues;
+
+                                        if (checked) {
+                                            newValues = [...currentValues, value];
+                                        } else {
+                                            newValues = currentValues.filter(v => v !== value);
+                                        }
+
                                         dispatch(setFilters({ ...filters, [name]: newValues }));
+                                    } else if (type === 'radio') {
+                                        // For radio buttons, just set the value
+                                        dispatch(setFilters({ ...filters, [name]: value }));
                                     } else {
-                                        // Handle other input types (radio, etc.)
+                                        // For other input types (text, number, etc.)
                                         dispatch(setFilters({ ...filters, [name]: value }));
                                     }
                                 }}
