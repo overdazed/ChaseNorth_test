@@ -192,7 +192,8 @@ router.get('/', async (req, res) => {
             material,
             brand,
             limit,
-            sizes
+            sizes,
+            colors
         } = req.query;
 
         // initialize a query object
@@ -242,6 +243,14 @@ router.get('/', async (req, res) => {
             console.log('Color parameter received:', color);
             console.log('Color array:', colorArray);
             query.colors = {$in: colorArray};
+        }
+
+        if (colors)  {
+            // we are using $in operator, because we can have multiple materials selected in the filter
+            const colorsArray = colors.split(',');
+            console.log('Colors parameter received:', colors);
+            console.log('Colors array:', colorsArray);
+            query.colors = {$in: colorsArray};
         }
 
         if (gender)  {

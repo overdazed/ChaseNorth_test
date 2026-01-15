@@ -16,7 +16,8 @@ export const fetchProductsByFilters = createAsyncThunk("products/fetchByFilters"
     material,
     brand,
     limit,
-    sizes
+    sizes,
+    colors
 }) => {
     const query = new URLSearchParams()
     if (collection) query.append("collection", collection);
@@ -32,6 +33,7 @@ export const fetchProductsByFilters = createAsyncThunk("products/fetchByFilters"
     if (brand) query.append("brand", brand);
     if (limit) query.append("limit", limit);
     if (sizes) query.append("sizes", sizes);
+    if (colors) query.append("colors", colors);
 
     // make the request to the backend
     const response = await axios.get(

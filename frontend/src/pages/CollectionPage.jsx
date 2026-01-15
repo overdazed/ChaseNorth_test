@@ -197,7 +197,8 @@ const CollectionPage = () => {
             sortBy: queryParams.sortBy || 'bestSelling',
             limit: queryParams.limit, // Add default limit
             ...(queryParams.gender && { gender: queryParams.gender }),
-            ...(queryParams.sizes && { sizes: queryParams.sizes })
+            ...(queryParams.sizes && { sizes: queryParams.sizes }),
+            ...(queryParams.colors && { colors: queryParams.colors })
         };
 
         // Add the debug log here
