@@ -447,25 +447,6 @@ const FilterSidebar = ({
 
         setPriceRange(newPriceRange);
 
-        // Update URL parameters immediately
-        const params = new URLSearchParams(location.search);
-
-        if (name === 'min') {
-            if (value !== '') {
-                params.set('minPrice', numericValue);
-            } else {
-                params.delete('minPrice');
-            }
-        } else if (name === 'max') {
-            if (value !== '') {
-                params.set('maxPrice', numericValue);
-            } else {
-                params.delete('maxPrice');
-            }
-        }
-
-        setSearchParams(params);
-
         // Call the parent's onFilterChange if provided
         if (onFilterChange) {
             onFilterChange({
@@ -487,7 +468,7 @@ const FilterSidebar = ({
 
     return (
         <div className={`-mt-28 h-screen w-full p-4 shadow-sm overflow-y-auto dark:bg-neutral-900 ${themeClasses.container}`}>
-            <h3 className={`mt-40 text-lg font-semibold mb-4 pb-2 ${themeClasses.header}`}>
+            <h3 className={`mt-40 text-xl font-semibold mb-4 pb-2 ${themeClasses.header}`}>
                 Filters
             </h3>
 
@@ -591,7 +572,10 @@ const FilterSidebar = ({
                         {colors.map(color => {
                             // Get the hex code from the color map, or use the color as-is if it's already a hex code
                             const colorValue = colorMap[color.toLowerCase()] || color;
-                            const isSelected = filters.colors?.includes(color) || false;
+                            const currentColorsFromUrl = searchParams.get('colors')
+                                ? searchParams.get('colors').split(',')
+                                : [];
+                            const isSelected = currentColorsFromUrl.includes(color);
                             return (
                                 <div key={color} className="flex flex-col items-center">
                                     <button
@@ -601,9 +585,19 @@ const FilterSidebar = ({
                                         onClick={(e) => {
                                             e.preventDefault();
                                             const newColors = isSelected
-                                                ? filters.colors?.filter(c => c !== color) || []
-                                                : [...(filters.colors || []), color];
-
+                                                ? currentColorsFromUrl.filter(c => c !== color)
+                                                : [...currentColorsFromUrl, color];
+        
+                                            // Update URL
+                                            const params = new URLSearchParams(searchParams);
+                                            if (newColors.length > 0) {
+                                                params.set('colors', [...new Set(newColors)].join(','));
+                                            } else {
+                                                params.delete('colors');
+                                            }
+                                            setSearchParams(params, { replace: true });
+        
+                                            // Update parent component
                                             if (onFilterChange) {
                                                 onFilterChange({
                                                     target: {
@@ -642,20 +636,20 @@ const FilterSidebar = ({
                 {sizes.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
                         {sizes.map(size => {
-                            const isSelected = filters.size?.includes(size) || false;
+                            const currentSizesFromUrl = searchParams.get('sizes')
+                                ? searchParams.get('sizes').split(',')
+                                : [];
+                            const isSelected = currentSizesFromUrl.includes(size);
                             return (
                                 <button
                                     key={size}
                                     type="button"
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        const currentSizesFromUrl = searchParams.get('sizes')
-                                            ? searchParams.get('sizes').split(',')
-                                            : [];
                                         const newSizes = isSelected
                                             ? currentSizesFromUrl.filter(s => s !== size)
                                             : [...currentSizesFromUrl, size];
-
+        
                                         // Update URL
                                         const params = new URLSearchParams(searchParams);
                                         if (newSizes.length > 0) {
@@ -664,7 +658,7 @@ const FilterSidebar = ({
                                             params.delete('sizes');
                                         }
                                         setSearchParams(params, { replace: true });
-
+        
                                         // Update parent component
                                         if (onFilterChange) {
                                             onFilterChange({
