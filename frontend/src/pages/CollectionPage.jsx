@@ -398,13 +398,6 @@ const CollectionPage = () => {
                                             newSizes = [...newSizes, value];
                                         }
                                         dispatch(setFilters({ ...filters, size: newSizes }));
-                                        // Update URL to prevent duplication
-                                        const params = new URLSearchParams(location.search);
-                                        params.delete('sizes'); // Clear existing sizes parameter
-                                        if (newSizes.length > 0) {
-                                            params.set('sizes', newSizes.join(','));
-                                        }
-                                        setSearchParams(params, { replace: true });
                                     } else if (type === 'checkbox') {
                                         // Handle other checkbox filters
                                         const currentValues = filters[name] || [];

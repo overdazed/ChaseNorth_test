@@ -635,15 +635,16 @@ const FilterSidebar = ({
                                         const newSizes = isSelected
                                             ? filters.size?.filter(s => s !== size) || []
                                             : [...(filters.size || []), size];
-        
+
                                         // Update URL
                                         const params = new URLSearchParams(location.search);
-                                        params.delete('sizes'); // Clear existing sizes parameter
                                         if (newSizes.length > 0) {
                                             params.set('sizes', newSizes.join(','));
+                                        } else {
+                                            params.delete('sizes');
                                         }
-                                        setSearchParams(params, { replace: true });
-        
+                                        setSearchParams(params);
+
                                         // Update parent component
                                         if (onFilterChange) {
                                             onFilterChange({
