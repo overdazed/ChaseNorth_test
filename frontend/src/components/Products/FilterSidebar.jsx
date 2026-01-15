@@ -252,233 +252,233 @@ const FilterSidebar = ({
 
     // Get unique colors, sizes, and materials from the current products
     const colors = React.useMemo(() => {
-            if (!products || products.length === 0) return [];
+        if (!products || products.length === 0) return [];
 
-            // Extract all colors from products
-            const allColors = products.flatMap(product =>
-                product.colors ? product.colors : []
-            );
+        // Extract all colors from products
+        const allColors = products.flatMap(product =>
+            product.colors ? product.colors : []
+        );
 
-            // Remove duplicates and return
-            return [...new Set(allColors)];
-        }, [products]);
+        // Remove duplicates and return
+        return [...new Set(allColors)];
+    }, [products]);
 
-        // Get unique sizes from the current products
-        const sizes = React.useMemo(() => {
-            if (!products || products.length === 0) return [];
+    // Get unique sizes from the current products
+    const sizes = React.useMemo(() => {
+        if (!products || products.length === 0) return [];
 
-            // Extract all sizes from products
-            const allSizes = products.flatMap(product =>
-                product.sizes ? product.sizes : []
-            );
+        // Extract all sizes from products
+        const allSizes = products.flatMap(product =>
+            product.sizes ? product.sizes : []
+        );
 
-            // Remove duplicates, sort, and return
-            return [...new Set(allSizes)].sort((a, b) => {
-                const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
-                return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
+        // Remove duplicates, sort, and return
+        return [...new Set(allSizes)].sort((a, b) => {
+            const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+            return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
+        });
+    }, [products]);
+
+    // Get unique materials from the current products
+    const availableMaterials = React.useMemo(() => {
+        if (!products || products.length === 0) return [];
+
+        // Extract all materials from products
+        const allMaterials = products.flatMap(product =>
+            product.material ? [product.material] : []
+        );
+
+        // Remove duplicates and sort alphabetically
+        return [...new Set(allMaterials)].sort();
+    }, [products]);
+
+    // State for filters
+    // const [filters, setFilters] = useState({
+    //     category: "",
+    //     gender: "",
+    //     color: "",
+    //     size: [],
+    //     material: [],
+    //     brand: []
+    // });
+
+    const handleBrandChange = (brand) => {
+        const newSelectedBrands = selectedBrands.includes(brand)
+            ? selectedBrands.filter(b => b !== brand)
+            : [...selectedBrands, brand];
+
+        // Update URL
+        const params = new URLSearchParams(location.search);
+        if (newSelectedBrands.length > 0) {
+            params.set('brand', newSelectedBrands.join(','));
+        } else {
+            params.delete('brand');
+        }
+
+        // Update state and URL
+        setSelectedBrands(newSelectedBrands);
+        setSearchParams(params, { replace: true });
+
+        // Notify parent component
+        if (onFilterChange) {
+            onFilterChange({
+                target: {
+                    name: 'brand',
+                    value: newSelectedBrands
+                }
             });
-        }, [products]);
+        }
+    };
 
-        // Get unique materials from the current products
-        const availableMaterials = React.useMemo(() => {
-            if (!products || products.length === 0) return [];
+    // Check if a brand is currently selected
+    // const isBrandSelected = (brand) => {
+    //     return selectedBrands.includes(brand);
+    // };
 
-            // Extract all materials from products
-            const allMaterials = products.flatMap(product =>
-                product.material ? [product.material] : []
-            );
+    const handleFilterChange = (e) => {
+        const { name, value, checked, type } = e.target;
+        const params = new URLSearchParams(location.search);
 
-            // Remove duplicates and sort alphabetically
-            return [...new Set(allMaterials)].sort();
-        }, [products]);
+        // Call the parent's onFilterChange if provided
+        if (onFilterChange) {
+            onFilterChange(e);
+        }
 
-        // State for filters
-        // const [filters, setFilters] = useState({
-        //     category: "",
-        //     gender: "",
-        //     color: "",
-        //     size: [],
-        //     material: [],
-        //     brand: []
-        // });
-
-        const handleBrandChange = (brand) => {
-            const newSelectedBrands = selectedBrands.includes(brand)
-                ? selectedBrands.filter(b => b !== brand)
-                : [...selectedBrands, brand];
-
-            // Update URL
-            const params = new URLSearchParams(location.search);
-            if (newSelectedBrands.length > 0) {
-                params.set('brand', newSelectedBrands.join(','));
+        // Handle gender filter specifically
+        // Handle URL updates for specific filter types
+        if (name === 'gender') {
+            if (value === 'All') {
+                params.delete('gender');
+            } else if (value) {
+                params.set('gender', value);
             } else {
-                params.delete('brand');
+                params.delete('gender');
+            }
+            setSearchParams(params);
+        } else if (name === 'color') {
+            if (filters.color === value) {
+                params.delete('color');
+            } else {
+                params.set('color', value);
+            }
+            setSearchParams(params);
+        } else if (name === 'category') {
+            if (filters.category === value) {
+                params.delete('category');
+            } else {
+                params.set('category', value);
+            }
+            setSearchParams(params);
+        } else if (name === 'material') {
+            // Get current materials from URL or initialize empty array
+            const currentMaterials = searchParams.get('material')
+                ? searchParams.get('material').split(',')
+                : [];
+
+            let newMaterials;
+            if (currentMaterials.includes(value)) {
+                newMaterials = currentMaterials.filter(m => m !== value);
+            } else {
+                newMaterials = [...currentMaterials, value];
             }
 
-            // Update state and URL
-            setSelectedBrands(newSelectedBrands);
-            setSearchParams(params, { replace: true });
-
-            // Notify parent component
-            if (onFilterChange) {
-                onFilterChange({
-                    target: {
-                        name: 'brand',
-                        value: newSelectedBrands
-                    }
-                });
+            // Update URL parameters
+            if (newMaterials.length > 0) {
+                params.set('material', newMaterials.join(','));
+            } else {
+                params.delete('material');
             }
-        };
-
-        // Check if a brand is currently selected
-        // const isBrandSelected = (brand) => {
-        //     return selectedBrands.includes(brand);
-        // };
-
-        const handleFilterChange = (e) => {
-            const { name, value, checked, type } = e.target;
-            const params = new URLSearchParams(location.search);
-
-            // Call the parent's onFilterChange if provided
-            if (onFilterChange) {
-                onFilterChange(e);
-            }
-
-            // Handle gender filter specifically
-            // Handle URL updates for specific filter types
-            if (name === 'gender') {
-                if (value === 'All') {
-                    params.delete('gender');
-                } else if (value) {
-                    params.set('gender', value);
-                } else {
-                    params.delete('gender');
-                }
-                setSearchParams(params);
-            } else if (name === 'color') {
-                if (filters.color === value) {
-                    params.delete('color');
-                } else {
-                    params.set('color', value);
-                }
-                setSearchParams(params);
-            } else if (name === 'category') {
-                if (filters.category === value) {
-                    params.delete('category');
-                } else {
-                    params.set('category', value);
-                }
-                setSearchParams(params);
-            } else if (name === 'material') {
-                // Get current materials from URL or initialize empty array
-                const currentMaterials = searchParams.get('material')
-                    ? searchParams.get('material').split(',')
-                    : [];
-
-                let newMaterials;
-                if (currentMaterials.includes(value)) {
-                    newMaterials = currentMaterials.filter(m => m !== value);
-                } else {
-                    newMaterials = [...currentMaterials, value];
-                }
-
-                // Update URL parameters
-                if (newMaterials.length > 0) {
-                    params.set('material', newMaterials.join(','));
-                } else {
-                    params.delete('material');
-                }
-                setSearchParams(params);
-
-                // Update parent component's state
-                if (onFilterChange) {
-                    onFilterChange({
-                        target: {
-                            name: 'material',
-                            value: newMaterials
-                        }
-                    });
-                }
-            } else if (name === 'size') {
-                // Get current sizes from URL or initialize empty array
-                const currentSizes = searchParams.get('sizes')
-                    ? searchParams.get('sizes').split(',')
-                    : [];
-
-                let newSizes;
-                if (currentSizes.includes(value)) {
-                    newSizes = currentSizes.filter(size => size !== value);
-                } else {
-                    newSizes = [...currentSizes, value];
-                }
-
-                // Create new params object based on current searchParams
-                const params = new URLSearchParams(searchParams);
-                if (newSizes.length > 0) {
-                    params.set('sizes', [...new Set(newSizes)].join(','));
-                } else {
-                    params.delete('sizes');
-                }
-                setSearchParams(params, { replace: true });
-
-                // Update the filters prop to reflect the change
-                if (onFilterChange) {
-                    onFilterChange({
-                        target: {
-                            name: 'size',
-                            value: newSizes
-                        }
-                    });
-                }
-            }
-
-            // Close the sidebar on mobile when a filter is applied
-            // if (onFilterApply && window.innerWidth < 1024) {
-            //     onFilterApply();
-            // }
-        };
-
-        const handlePriceChange = (e) => {
-            const { name, value } = e.target;
-            const numericValue = value === '' ? '' : parseFloat(value) || 0;
-            const newPriceRange = {
-                ...priceRange,
-                [name]: numericValue };
-
-            setPriceRange(newPriceRange);
-
-            // Update URL parameters immediately
-            const params = new URLSearchParams(location.search);
-
-            if (name === 'min') {
-                if (value !== '') {
-                    params.set('minPrice', numericValue);
-                } else {
-                    params.delete('minPrice');
-                }
-            } else if (name === 'max') {
-                if (value !== '') {
-                    params.set('maxPrice', numericValue);
-                } else {
-                    params.delete('maxPrice');
-                }
-            }
-
             setSearchParams(params);
 
-            // Call the parent's onFilterChange if provided
+            // Update parent component's state
             if (onFilterChange) {
                 onFilterChange({
                     target: {
-                        name: 'priceRange',
-                        value: newPriceRange
+                        name: 'material',
+                        value: newMaterials
                     }
                 });
             }
-        };
+        } else if (name === 'size') {
+            // Get current sizes from URL or initialize empty array
+            const currentSizes = searchParams.get('sizes')
+                ? searchParams.get('sizes').split(',')
+                : [];
+
+            let newSizes;
+            if (currentSizes.includes(value)) {
+                newSizes = currentSizes.filter(size => size !== value);
+            } else {
+                newSizes = [...currentSizes, value];
+            }
+
+            // Create new params object based on current searchParams
+            const params = new URLSearchParams(searchParams);
+            if (newSizes.length > 0) {
+                params.set('sizes', [...new Set(newSizes)].join(','));
+            } else {
+                params.delete('sizes');
+            }
+            setSearchParams(params, { replace: true });
+
+            // Update the filters prop to reflect the change
+            if (onFilterChange) {
+                onFilterChange({
+                    target: {
+                        name: 'size',
+                        value: newSizes
+                    }
+                });
+            }
+        }
+
+        // Close the sidebar on mobile when a filter is applied
+        // if (onFilterApply && window.innerWidth < 1024) {
+        //     onFilterApply();
+        // }
+    };
+
+    const handlePriceChange = (e) => {
+        const { name, value } = e.target;
+        const numericValue = value === '' ? '' : parseFloat(value) || 0;
+        const newPriceRange = {
+            ...priceRange,
+            [name]: numericValue };
+
+        setPriceRange(newPriceRange);
+
+        // Update URL parameters immediately
+        const params = new URLSearchParams(location.search);
+
+        if (name === 'min') {
+            if (value !== '') {
+                params.set('minPrice', numericValue);
+            } else {
+                params.delete('minPrice');
+            }
+        } else if (name === 'max') {
+            if (value !== '') {
+                params.set('maxPrice', numericValue);
+            } else {
+                params.delete('maxPrice');
+            }
+        }
+
+        setSearchParams(params);
+
+        // Call the parent's onFilterChange if provided
+        if (onFilterChange) {
+            onFilterChange({
+                target: {
+                    name: 'priceRange',
+                    value: newPriceRange
+                }
+            });
+        }
+    };
 
 
-        useEffect(() => {
+    useEffect(() => {
         const params = new URLSearchParams(location.search);
         const brandsParam = params.get('brand');
         const brandsFromUrl = brandsParam ? brandsParam.split(',').filter(Boolean) : [];
@@ -655,7 +655,7 @@ const FilterSidebar = ({
                                         const newSizes = isSelected
                                             ? currentSizesFromUrl.filter(s => s !== size)
                                             : [...currentSizesFromUrl, size];
-                     
+
                                         // Update URL
                                         const params = new URLSearchParams(searchParams);
                                         if (newSizes.length > 0) {
@@ -664,7 +664,7 @@ const FilterSidebar = ({
                                             params.delete('sizes');
                                         }
                                         setSearchParams(params, { replace: true });
-                     
+
                                         // Update parent component
                                         if (onFilterChange) {
                                             onFilterChange({
@@ -759,4 +759,4 @@ const FilterSidebar = ({
     );
 };
 
-    export default FilterSidebar;
+export default FilterSidebar;
