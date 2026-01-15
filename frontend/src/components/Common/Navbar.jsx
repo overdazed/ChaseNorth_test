@@ -366,7 +366,7 @@ const Navbar = ({ transparent = false }) => {
                             <div className="relative group cursor-pointer" style={{ padding: '0 0.3rem' }}>
                                 <div onClick={handleWishlistClick} className="relative">
                                     <HeartIcon
-                                        className="w-5 h-5 text-neutral-700 group-hover:text-black dark:text-neutral-300 dark:group-hover:text-white"
+                                        className="w-5 h-5 text-neutral-700 group-hover:text-black dark:text-neutral-300 hover:dark:text-white"
                                         color="currentColor"
                                         hoverColor="#000000"
                                         noAnimation={true}
