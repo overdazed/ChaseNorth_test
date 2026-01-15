@@ -415,13 +415,13 @@ const FilterSidebar = ({
                 // Create new params object to replace entirely
                 const params = new URLSearchParams();
                 // Copy all existing params except sizes
-                for (const [key, value] of searchParams.entries()) {
+                for (const [key, val] of searchParams.entries()) {
                     if (key !== 'sizes') {
-                        params.set(key, value);
+                        params.set(key, val);
                     }
                 }
                 if (newSizes.length > 0) {
-                    params.set('sizes', newSizes.join(','));
+                    params.set('sizes', [...new Set(newSizes)].join(','));
                 }
                 setSearchParams(params, { replace: true });
             }
@@ -650,13 +650,13 @@ const FilterSidebar = ({
                                         // Update URL
                                         const params = new URLSearchParams();
                                         // Copy all existing params except sizes
-                                        for (const [key, value] of searchParams.entries()) {
+                                        for (const [key, val] of searchParams.entries()) {
                                             if (key !== 'sizes') {
-                                                params.set(key, value);
+                                                params.set(key, val);
                                             }
                                         }
                                         if (newSizes.length > 0) {
-                                            params.set('sizes', newSizes.join(','));
+                                            params.set('sizes', [...new Set(newSizes)].join(','));
                                         }
                                         setSearchParams(params, { replace: true });
 

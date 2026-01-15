@@ -391,7 +391,12 @@ const CollectionPage = () => {
                                     const { name, value, checked, type } = e.target;
 
                                     if (name === 'size') {
-                                        let newSizes = [...(filters.size || [])];
+                                        // Get current sizes from URL to ensure we're working with the latest state
+                                        const currentSizesFromUrl = searchParams.get('sizes')
+                                            ? searchParams.get('sizes').split(',')
+                                            : [];
+                                        
+                                        let newSizes = [...currentSizesFromUrl];
                                         if (newSizes.includes(value)) {
                                             newSizes = newSizes.filter(size => size !== value);
                                         } else {
