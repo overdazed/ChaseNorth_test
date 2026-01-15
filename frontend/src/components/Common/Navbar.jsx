@@ -325,7 +325,7 @@ const Navbar = ({ transparent = false }) => {
                     <div className="flex items-center space-x-4 lg:space-x-2 pl-4" style={{ minWidth: 'auto', justifyContent: 'flex-end' }}>
                         {/* Search Bar - Always visible on mobile */}
                         <div className="overflow-auto">
-                            <SearchBar className="h-6 w-6 text-neutral-700 hover:text-black"/>
+                            <SearchBar className="h-6 w-6 text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"/>
                         </div>
 
                         {/* Hamburger Menu Icon for mobile */}
@@ -366,7 +366,7 @@ const Navbar = ({ transparent = false }) => {
                             <div className="relative group cursor-pointer" style={{ padding: '0 0.3rem' }}>
                                 <div onClick={handleWishlistClick} className="relative">
                                     <HeartIcon
-                                        className="w-5 h-5 text-neutral-700 group-hover:text-black"
+                                        className="w-5 h-5 text-neutral-700 group-hover:text-black dark:text-neutral-300 dark:group-hover:text-white"
                                         color="currentColor"
                                         hoverColor="#000000"
                                         noAnimation={true}
