@@ -97,11 +97,11 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                                     {product.colors.map((color, i) => (
                                         <div
                                             key={i}
-                                            className="w-4 h-4 md:w-6 md:h-6 rounded-full border border-blue shadow-sm"
-                                            style={{ 
-                                                backgroundColor: getColorHex(color), 
+                                            className="w-4 h-4 md:w-6 md:h-6 rounded-full border border-neutral-600 shadow-sm"
+                                            style={{
+                                                backgroundColor: getColorHex(color),
                                                 filter: 'saturate(0.7)',
-                                                border: getColorHex(color) === '#FFFFFF' || getColorHex(color) === '#FFF' ? '1px solid #E5E7EB' : 'none'
+                                                border: getColorHex(color) === '#FFFFFF' || getColorHex(color) === '#FFF' ? '1px solid #525252' : 'none'
                                             }}
                                             title={color}
                                             aria-label={color}
