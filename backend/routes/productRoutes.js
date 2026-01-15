@@ -226,7 +226,10 @@ router.get('/', async (req, res) => {
 
         if (color)  {
             // we are using $in operator, because we can have multiple materials selected in the filter
-            query.colors = {$in: [color]};
+            const colorArray = color.split(',');
+            console.log('Color parameter received:', color);
+            console.log('Color array:', colorArray);
+            query.colors = {$in: colorArray};
         }
 
         if (gender)  {
