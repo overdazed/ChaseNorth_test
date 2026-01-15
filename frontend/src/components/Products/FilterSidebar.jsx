@@ -191,6 +191,7 @@ const FilterSidebar = ({
         'khaki': '#F0E68C',
         'lavender': '#E6E6FA',
         'lemon': '#FFF44F',
+        'light blue': '#ADD8E6',
         'lilac': '#C8A2C8',
         'lime': '#00FF00',
         'lime green': '#32CD32',
@@ -672,7 +673,7 @@ const FilterSidebar = ({
                                     className={`flex items-center justify-center w-10 h-10 text-sm rounded-full transition-all ${
                                         isSelected
                                             ? 'bg-black text-neutral-50'
-                                            : `${isDay ? 'bg-neutral-50 text-neutral-700 hover:bg-neutral-100' : 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700'} border ${isDay ? 'border-neutral-300' : 'border-neutral-600'}`
+                                            : `${isDay ? 'bg-neutral-50 text-neutral-700 hover:bg-neutral-100' : 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700'} border ${isDay ? 'border-neutral-300' : 'border-neutral-800'}`
                                     }`}
                                 >
                                     {size}

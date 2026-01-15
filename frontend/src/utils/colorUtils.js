@@ -68,6 +68,7 @@ export const colorMap = {
     'khaki': '#F0E68C',
     'lavender': '#E6E6FA',
     'lemon': '#FFF44F',
+    'light blue': '#ADD8E6',
     'lilac': '#C8A2C8',
     'lime': '#00FF00',
     'lime green': '#32CD32',
