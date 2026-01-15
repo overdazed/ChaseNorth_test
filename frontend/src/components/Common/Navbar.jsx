@@ -225,7 +225,7 @@ const Navbar = ({ transparent = false }) => {
             }`}>
                 {/* Fade effect overlay */}
                 {transparent && (
-                    <div className="absolute inset-0 bg-gradient-to-b from-neutral-50/70 to-neutral-50/70 backdrop-blur-sm"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-neutral-50/70 to-neutral-50/70 backdrop-blur-sm dark:from-neutral-900/70 dark:to-neutral-900/70"></div>
                 )}
                 <nav className="container mx-auto flex items-center justify-between py-3 px-4 relative z-10">
                     {/*<nav className="w-full px-20 md:px-36 lg:px-40 flex items-center justify-between py-4 relative z-10">*/}
@@ -261,14 +261,14 @@ const Navbar = ({ transparent = false }) => {
                         <div className="flex space-x-4 lg:space-x-8 px-4">
                             <NavLink
                                 to="/collections/all?gender=Men"
-                                className="relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1"
+                                className="relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1 dark:text-neutral-300 dark:hover:text-white"
                             >
                                 {() => {
                                     const isActive = window.location.search === '?gender=Men';
                                     return (
-                                        <span className={`relative ${isActive ? 'text-black' : ''}`}>
+                                        <span className={`relative ${isActive ? 'text-black dark:text-white' : ''}`}>
                                         Men
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
                                     </span>
                                     );
                                 }}
@@ -276,14 +276,14 @@ const Navbar = ({ transparent = false }) => {
 
                             <NavLink
                                 to="/collections/all?gender=Women"
-                                className="relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1"
+                                className="relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1 dark:text-neutral-300 dark:hover:text-white"
                             >
                                 {() => {
                                     const isActive = window.location.search === '?gender=Women';
                                     return (
-                                        <span className={`relative ${isActive ? 'text-black' : ''}`}>
+                                        <span className={`relative ${isActive ? 'text-black dark:text-white' : ''}`}>
                                         Women
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
                                     </span>
                                     );
                                 }}
@@ -291,14 +291,14 @@ const Navbar = ({ transparent = false }) => {
 
                             <NavLink
                                 to="/collections/all?category=Top+Wear"
-                                className="relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1"
+                                className="relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1 dark:text-neutral-300 dark:hover:text-white"
                             >
                                 {() => {
                                     const isActive = window.location.search === '?category=Top+Wear';
                                     return (
-                                        <span className={`relative ${isActive ? 'text-black' : ''}`}>
+                                        <span className={`relative ${isActive ? 'text-black dark:text-white' : ''}`}>
                                         Top Wear
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
                                     </span>
                                     );
                                 }}
@@ -306,14 +306,14 @@ const Navbar = ({ transparent = false }) => {
 
                             <NavLink
                                 to="/collections/all?category=Bottom+Wear"
-                                className="relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1"
+                                className="relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1 dark:text-neutral-300 dark:hover:text-white"
                             >
                                 {() => {
                                     const isActive = window.location.search === '?category=Bottom+Wear';
                                     return (
-                                        <span className={`relative ${isActive ? 'text-black' : ''}`}>
+                                        <span className={`relative ${isActive ? 'text-black dark:text-white' : ''}`}>
                                         Bottom Wear
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
                                     </span>
                                     );
                                 }}
@@ -357,9 +357,9 @@ const Navbar = ({ transparent = false }) => {
 
                             <Link to="/profile" className="">
                                 {user ? (
-                                    <AiOutlineUser className="h-6 w-6 text-neutral-700 hover:text-black"/>
+                                    <AiOutlineUser className="h-6 w-6 text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"/>
                                 ) : (
-                                    <HiArrowLeftEndOnRectangle className="h-6 w-6 text-neutral-700 hover:text-black"/>
+                                    <HiArrowLeftEndOnRectangle className="h-6 w-6 text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"/>
                                 )}
                             </Link>
 
