@@ -400,19 +400,30 @@ const FilterSidebar = ({
                     });
                 }
             } else if (name === 'size') {
-                let newSizes = [...(filters.size || [])];
-                if (newSizes.includes(value)) {
-                    newSizes = newSizes.filter(size => size !== value);
+                // Get current sizes from URL or initialize empty array
+                const currentSizes = searchParams.get('sizes')
+                    ? searchParams.get('sizes').split(',')
+                    : [];
+
+                let newSizes;
+                if (currentSizes.includes(value)) {
+                    newSizes = currentSizes.filter(size => size !== value);
                 } else {
-                    newSizes = [...newSizes, value];
+                    newSizes = [...currentSizes, value];
                 }
 
-                if (newSizes.length > 0) {
-                    params.set('size', newSizes.join(','));
-                } else {
-                    params.delete('size');
+                // Create new params object to replace entirely
+                const params = new URLSearchParams();
+                // Copy all existing params except sizes
+                for (const [key, value] of searchParams.entries()) {
+                    if (key !== 'sizes') {
+                        params.set(key, value);
+                    }
                 }
-                setSearchParams(params);
+                if (newSizes.length > 0) {
+                    params.set('sizes', newSizes.join(','));
+                }
+                setSearchParams(params, { replace: true });
             }
 
             // Close the sidebar on mobile when a filter is applied
@@ -637,13 +648,17 @@ const FilterSidebar = ({
                                             : [...(filters.size || []), size];
 
                                         // Update URL
-                                        const params = new URLSearchParams(location.search);
+                                        const params = new URLSearchParams();
+                                        // Copy all existing params except sizes
+                                        for (const [key, value] of searchParams.entries()) {
+                                            if (key !== 'sizes') {
+                                                params.set(key, value);
+                                            }
+                                        }
                                         if (newSizes.length > 0) {
                                             params.set('sizes', newSizes.join(','));
-                                        } else {
-                                            params.delete('sizes');
                                         }
-                                        setSearchParams(params);
+                                        setSearchParams(params, { replace: true });
 
                                         // Update parent component
                                         if (onFilterChange) {
