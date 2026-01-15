@@ -424,6 +424,16 @@ const FilterSidebar = ({
                     params.set('sizes', [...new Set(newSizes)].join(','));
                 }
                 setSearchParams(params, { replace: true });
+
+                // Update the filters prop to reflect the change
+                if (onFilterChange) {
+                    onFilterChange({
+                        target: {
+                            name: 'size',
+                            value: newSizes
+                        }
+                    });
+                }
             }
 
             // Close the sidebar on mobile when a filter is applied
