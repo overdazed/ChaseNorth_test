@@ -387,15 +387,15 @@ const CollectionPage = () => {
                                 onFilterChange={(e) => {
                                     // Skip brand changes as they're handled internally
                                     if (e.target.name === 'brand') return;
-
+    
                                     const { name, value, checked, type } = e.target;
-
+    
                                     if (name === 'size') {
                                         // Get current sizes from URL to ensure we're working with the latest state
                                         const currentSizesFromUrl = searchParams.get('sizes')
                                             ? searchParams.get('sizes').split(',')
                                             : [];
-                                        
+                                         
                                         let newSizes = [...currentSizesFromUrl];
                                         if (newSizes.includes(value)) {
                                             newSizes = newSizes.filter(size => size !== value);
@@ -415,6 +415,7 @@ const CollectionPage = () => {
                                         dispatch(setFilters({ ...filters, [name]: value }));
                                     }
                                 }}
+                                filters={filters}
                             />
                         </div>
                     </div>

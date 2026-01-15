@@ -109,7 +109,7 @@ const productsSlice = createSlice({
         // this will track the active filters for fetching products
         filters: {
             category: "",
-            size: "",
+            size: [],
             color: "",
             gender: "",
             brand: "",
