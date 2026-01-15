@@ -50,7 +50,7 @@ const WebDevPromotion = () => {
                 <li>Maintenance and Support</li>
               </ul>
               <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                To learn more about our services or to discuss your project, please visit us at <a href="https://www.svet.codes" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400">svet.codes</a>.
+                To learn more about our services or to discuss your project, please visit us at <a href="https://www.svet.developer.li" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400">svet.developer.li</a>.
               </p>
             </div>
           </div>
