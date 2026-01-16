@@ -89,6 +89,10 @@ router.put('/:id', protect, admin, async (req, res) => {
         // Update status if provided
         if (status) {
             report.status = status;
+            // If status is changed to Archived, set the archivedAt timestamp
+            if (status === 'Archived' && !report.archivedAt) {
+                report.archivedAt = new Date();
+            }
         }
 
         // Add new note if provided

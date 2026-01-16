@@ -29,6 +29,10 @@ const reportSchema = new mongoose.Schema({
         enum: ['Submitted', 'In Review', 'Needs Info', 'Rejected', 'Resolved', 'Archived'],
         default: 'Submitted'
     },
+    archivedAt: {
+        type: Date,
+        default: null
+    },
     adminNotes: [{
         content: String,
         adminName: String,
