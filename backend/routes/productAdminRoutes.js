@@ -43,7 +43,6 @@ router.post(
     '/',
     protect,
     admin,
-    upload.single('image'),
     async (req, res) => {
         try {
             const {
@@ -58,7 +57,8 @@ router.post(
                 colors,
                 user,
                 isFeatured,
-                isPublished
+                isPublished,
+                images
             } = req.body;
             
             // Ensure sizes and colors are arrays or convert from comma-separated strings
@@ -75,7 +75,7 @@ router.post(
                 collections,
                 sizes: sizesArray,
                 colors: colorsArray,
-                images: req.file ? [{ url: `/uploads/${req.file.filename}`, altText: "" }] : [],
+                images: images || [],
                 user,
                 isFeatured: isFeatured === 'true',
                 isPublished: isPublished === 'true'
