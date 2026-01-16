@@ -2,27 +2,78 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createProduct } from "../../redux/slices/adminProductSlice";
+import { FiUpload } from "react-icons/fi";
 
 const AddProductForm = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         name: "",
         description: "",
         price: 0,
+        countInStock: 0,
         sku: "",
-        stock: 0,
-        image: null,
+        category: "",
+        brand: "",
+        sizes: [],
+        colors: [],
+        collections: "",
+        material: "",
+        gender: "",
+        images: [],
     });
+
+    const [sizesInput, setSizesInput] = useState("");
+    const [colorsInput, setColorsInput] = useState("");
+    const [uploading, setUploading] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+
+    const inputClasses = "w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50";
 
     const handleChange = (e) => {
-        const { name, value, files } = e.target;
-        if (name === "image") {
-            setFormData(prev => ({ ...prev, [name]: files[0] }));
-        } else {
-            setFormData(prev => ({ ...prev, [name]: value }));
+        const { name, value } = e.target;
+        setFormData(prevData => ({
+            ...prevData,
+            [name]: value
+        }));
+    };
+
+    const handleImageUpload = async (e) => {
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append("image", file);
+
+        try {
+            setUploading(true);
+            const { data } = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/api/upload`,
+                formData,
+                {
+                    headers: { "Content-Type": "multipart/form-data" },
+                }
+            );
+
+            setFormData(prevData => ({
+                ...prevData,
+                images: [...prevData.images, { url: data.imageUrl, altText: "" }],
+            }));
+            setUploading(false);
+        } catch (error) {
+            console.error(error);
+            setUploading(false);
+        }
+    };
+
+    const handleCommaInput = (e, setter) => {
+        if (e.key === "Enter" || e.key === ",") {
+            e.preventDefault();
+
+            const value = e.target.value;
+            if (!value.endsWith(", ")) {
+                setter(prev => prev.trim().replace(/,+$/, "") + ", ");
+            }
         }
     };
 
@@ -31,13 +82,22 @@ const AddProductForm = () => {
         setIsLoading(true);
         setError(null);
 
-        try {
-            const formDataToSend = new FormData();
-            Object.keys(formData).forEach(key => {
-                formDataToSend.append(key, formData[key]);
-            });
+        const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
-            await dispatch(createProduct(formDataToSend)).unwrap();
+        const productDataToSend = {
+            ...formData,
+            sizes: sizesInput
+                .split(",")
+                .map(s => s.trim().toUpperCase())
+                .filter(Boolean),
+            colors: colorsInput
+                .split(",")
+                .map(c => capitalize(c.trim()))
+                .filter(Boolean)
+        };
+
+        try {
+            await dispatch(createProduct(productDataToSend)).unwrap();
             navigate("/admin/products");
         } catch (err) {
             setError(err.message || "Failed to create product");
@@ -47,108 +107,234 @@ const AddProductForm = () => {
     };
 
     return (
-        <div className="max-w-2xl mx-auto p-6">
-            <h2 className="text-2xl font-bold mb-6">Add New Product</h2>
+        <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md">
+            <h2 className="text-3xl font-bold mb-6">Add New Product</h2>
             {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">{error}</div>}
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Product Name</label>
+
+            <form onSubmit={handleSubmit}>
+                {/* Name */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Product Name</label>
                     <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
+                        className={inputClasses}
                         required
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                     />
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Description</label>
+                {/* Description */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Description</label>
                     <textarea
                         name="description"
                         value={formData.description}
                         onChange={handleChange}
+                        className={inputClasses}
+                        rows={4}
                         required
-                        rows={3}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                     />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Price ($)</label>
-                        <input
-                            type="number"
-                            name="price"
-                            value={formData.price}
-                            onChange={handleChange}
-                            min="0"
-                            step="0.01"
-                            required
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Stock</label>
-                        <input
-                            type="number"
-                            name="stock"
-                            value={formData.stock}
-                            onChange={handleChange}
-                            min="0"
-                            required
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                        />
-                    </div>
+                {/* Price Input */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Price</label>
+                    <input
+                        type="number"
+                        name="price"
+                        value={formData.price}
+                        onChange={handleChange}
+                        className={inputClasses}
+                        required
+                    />
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">SKU</label>
+                {/* Count In Stock */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Count In Stock</label>
+                    <input
+                        type="number"
+                        name="countInStock"
+                        value={formData.countInStock}
+                        onChange={handleChange}
+                        className={inputClasses}
+                        required
+                    />
+                </div>
+
+                {/* SKU */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">SKU</label>
                     <input
                         type="text"
                         name="sku"
                         value={formData.sku}
                         onChange={handleChange}
+                        className={inputClasses}
                         required
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                     />
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Product Image</label>
+                {/* Category */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Category</label>
                     <input
-                        type="file"
-                        name="image"
-                        accept="image/*"
+                        type="text"
+                        name="category"
+                        value={formData.category}
                         onChange={handleChange}
-                        required
-                        className="mt-1 block w-full text-sm text-gray-500
-                        file:mr-4 file:py-2 file:px-4
-                        file:rounded-md file:border-0
-                        file:text-sm file:font-semibold
-                        file:bg-indigo-50 file:text-indigo-700
-                        hover:file:bg-indigo-100"
+                        className={inputClasses}
                     />
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-4">
-                    <button
-                        type="button"
-                        onClick={() => navigate(-1)}
-                        className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {isLoading ? 'Adding...' : 'Add Product'}
-                    </button>
+                {/* Brand */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Brand</label>
+                    <input
+                        type="text"
+                        name="brand"
+                        value={formData.brand}
+                        onChange={handleChange}
+                        className={inputClasses}
+                    />
                 </div>
+
+                {/* Sizes */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Sizes (comma-separated)</label>
+                    <input
+                        type="text"
+                        name="sizes"
+                        value={sizesInput}
+                        onChange={(e) => {
+                            const input = e.target.value;
+                            const uppercased = input
+                                .split(",")
+                                .map((s) => s.trim().toUpperCase())
+                                .join(", ");
+                            setSizesInput(uppercased);
+                        }}
+                        onKeyDown={(e) => handleCommaInput(e, setSizesInput)}
+                        className={inputClasses}
+                    />
+                </div>
+
+                {/* Colors */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Colors (comma-separated)</label>
+                    <input
+                        type="text"
+                        name="colors"
+                        value={colorsInput}
+                        onChange={(e) => {
+                            const input = e.target.value;
+                            const capitalized = input
+                                .split(",")
+                                .map((c) => {
+                                    const trimmed = c.trimStart();
+                                    return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+                                })
+                                .join(", ");
+                            setColorsInput(capitalized);
+                        }}
+                        onKeyDown={(e) => handleCommaInput(e, setColorsInput)}
+                        className={inputClasses}
+                    />
+                </div>
+
+                {/* Collections */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Collections</label>
+                    <input
+                        type="text"
+                        name="collections"
+                        value={formData.collections}
+                        onChange={handleChange}
+                        className={inputClasses}
+                    />
+                </div>
+
+                {/* Material */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Material</label>
+                    <input
+                        type="text"
+                        name="material"
+                        value={formData.material}
+                        onChange={handleChange}
+                        className={inputClasses}
+                    />
+                </div>
+
+                {/* Gender */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Gender</label>
+                    <input
+                        type="text"
+                        name="gender"
+                        value={formData.gender}
+                        onChange={handleChange}
+                        className={inputClasses}
+                    />
+                </div>
+
+                {/* Image Upload */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Product Images</label>
+                    <div className="mb-4">
+                        <label className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-full cursor-pointer hover:bg-blue-700 transition-colors">
+                            <FiUpload className="w-4 h-4" />
+                            <span>Upload Image</span>
+                            <input
+                                type="file"
+                                onChange={handleImageUpload}
+                                className="hidden"
+                                accept="image/*"
+                                required
+                            />
+                        </label>
+                        {uploading && <span className="ml-4 text-blue-600">Uploading image...</span>}
+                    </div>
+                    <div className="flex flex-wrap gap-4 mt-4">
+                        {formData.images.map((image, index) => (
+                            <div key={index} className="relative group">
+                                <div className="relative">
+                                    <img
+                                        src={image.url}
+                                        alt={image.altText || `Product Image ${index + 1}`}
+                                        className="w-24 h-24 object-cover rounded-md shadow-md"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            const updatedImages = [...formData.images];
+                                            updatedImages.splice(index, 1);
+                                            setFormData(prev => ({
+                                                ...prev,
+                                                images: updatedImages
+                                            }));
+                                        }}
+                                        className="absolute -top-2 -right-2 w-6 h-6 flex items-center justify-center bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                                        aria-label="Remove image"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full py-2 bg-green-700 text-white rounded-full hover:bg-green-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    {isLoading ? 'Adding Product...' : 'Add Product'}
+                </button>
+
             </form>
         </div>
     );
