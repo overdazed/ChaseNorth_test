@@ -21,7 +21,7 @@ const AddProductForm = () => {
         brand: "",
         collections: "",
         material: "",
-        gender: "Unisex",
+        gender: "",
         sizes: [],
         colors: [],
         images: []
