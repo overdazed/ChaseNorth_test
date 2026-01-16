@@ -110,6 +110,7 @@ import AdminHomePage from "./pages/AdminHomePage.jsx";
 import UserManagement from "./components/Admin/UserManagement.jsx";
 import ProductManagement from "./components/Admin/ProductManagement.jsx";
 import EditProductPage from "./components/Admin/EditProductPage.jsx";
+import AddProductForm from "./components/Admin/AddProductForm.jsx";
 import OrderManagement from "./components/Admin/OrderManagement.jsx";
 import ReportManagement from "./components/Admin/ReportManagement.jsx";
 import Report from "./pages/Report";
@@ -258,6 +259,7 @@ const App = () => {
                         <Route index element={<AdminHomePage />} />
                         <Route path="users" element={<UserManagement />} />
                         <Route path="products" element={<ProductManagement />} />
+                        <Route path="products/new" element={<AddProductForm />} />
                         <Route path="products/:id/edit" element={<EditProductPage />} />
                         <Route path="orders" element={<OrderManagement />} />
                         <Route path="reports" element={<ReportManagement />} />
