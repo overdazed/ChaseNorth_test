@@ -1,17 +1,20 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createProduct } from "../../redux/slices/adminProductSlice";
 import { FiUpload } from "react-icons/fi";
+import axios from "axios";
 
 const AddProductForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { user } = useSelector((state) => state.auth);
 
     const [formData, setFormData] = useState({
         name: "",
         description: "",
         price: 0,
+        discountPrice: 0,
         countInStock: 0,
         sku: "",
         category: "",
@@ -20,12 +23,26 @@ const AddProductForm = () => {
         colors: [],
         collections: "",
         material: "",
-        gender: "",
+        gender: "Unisex",
         images: [],
+        isFeatured: false,
+        isPublished: false,
+        tags: [],
+        metaTitle: "",
+        metaDescription: "",
+        metaKeywords: "",
+        dimensions: {
+            length: 0,
+            width: 0,
+            height: 0
+        },
+        weight: 0,
+        shippingClass: ""
     });
 
     const [sizesInput, setSizesInput] = useState("");
     const [colorsInput, setColorsInput] = useState("");
+    const [tagsInput, setTagsInput] = useState("");
     const [uploading, setUploading] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -33,11 +50,28 @@ const AddProductForm = () => {
     const inputClasses = "w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50";
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
+        const { name, value, type, checked } = e.target;
+        
+        if (type === "checkbox") {
+            setFormData(prevData => ({
+                ...prevData,
+                [name]: checked
+            }));
+        } else if (name.startsWith("dimensions.")) {
+            const dimension = name.split(".")[1];
+            setFormData(prevData => ({
+                ...prevData,
+                dimensions: {
+                    ...prevData.dimensions,
+                    [dimension]: value === "" ? 0 : Number(value)
+                }
+            }));
+        } else {
+            setFormData(prevData => ({
+                ...prevData,
+                [name]: value
+            }));
+        }
     };
 
     const handleImageUpload = async (e) => {
@@ -93,7 +127,16 @@ const AddProductForm = () => {
             colors: colorsInput
                 .split(",")
                 .map(c => capitalize(c.trim()))
-                .filter(Boolean)
+                .filter(Boolean),
+            tags: tagsInput
+                .split(",")
+                .map(t => t.trim())
+                .filter(Boolean),
+            user: user._id,
+            price: Number(formData.price),
+            discountPrice: formData.discountPrice === "" ? 0 : Number(formData.discountPrice),
+            countInStock: Number(formData.countInStock),
+            weight: formData.weight === "" ? 0 : Number(formData.weight)
         };
 
         try {
@@ -112,177 +155,212 @@ const AddProductForm = () => {
             {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">{error}</div>}
 
             <form onSubmit={handleSubmit}>
-                {/* Name */}
-                <div className="mb-6">
-                    <label className="block font-semibold mb-2">Product Name</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className={inputClasses}
-                        required
-                    />
+                {/* Basic Information */}
+                <div className="mb-8">
+                    <h3 className="text-xl font-semibold mb-4 border-b pb-2">Basic Information</h3>
+                    
+                    {/* Name */}
+                    <div className="mb-6">
+                        <label className="block font-semibold mb-2">Product Name *</label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            className={inputClasses}
+                            required
+                        />
+                    </div>
+
+                    {/* Description */}
+                    <div className="mb-6">
+                        <label className="block font-semibold mb-2">Description *</label>
+                        <textarea
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                            className={inputClasses}
+                            rows={4}
+                            required
+                        />
+                    </div>
+
+                    {/* Price & Discount */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label className="block font-semibold mb-2">Price *</label>
+                            <input
+                                type="number"
+                                name="price"
+                                value={formData.price}
+                                onChange={handleChange}
+                                className={inputClasses}
+                                required
+                                min="0"
+                                step="0.01"
+                            />
+                        </div>
+                        <div>
+                            <label className="block font-semibold mb-2">Discount Price</label>
+                            <input
+                                type="number"
+                                name="discountPrice"
+                                value={formData.discountPrice}
+                                onChange={handleChange}
+                                className={inputClasses}
+                                min="0"
+                                step="0.01"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Stock & SKU */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label className="block font-semibold mb-2">Count In Stock *</label>
+                            <input
+                                type="number"
+                                name="countInStock"
+                                value={formData.countInStock}
+                                onChange={handleChange}
+                                className={inputClasses}
+                                required
+                                min="0"
+                            />
+                        </div>
+                        <div>
+                            <label className="block font-semibold mb-2">SKU *</label>
+                            <input
+                                type="text"
+                                name="sku"
+                                value={formData.sku}
+                                onChange={handleChange}
+                                className={inputClasses}
+                                required
+                            />
+                        </div>
+                    </div>
                 </div>
 
-                {/* Description */}
-                <div className="mb-6">
-                    <label className="block font-semibold mb-2">Description</label>
-                    <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        className={inputClasses}
-                        rows={4}
-                        required
-                    />
+                {/* Categorization */}
+                <div className="mb-8">
+                    <h3 className="text-xl font-semibold mb-4 border-b pb-2">Categorization</h3>
+                    
+                    {/* Category & Brand */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label className="block font-semibold mb-2">Category *</label>
+                            <input
+                                type="text"
+                                name="category"
+                                value={formData.category}
+                                onChange={handleChange}
+                                className={inputClasses}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block font-semibold mb-2">Brand</label>
+                            <input
+                                type="text"
+                                name="brand"
+                                value={formData.brand}
+                                onChange={handleChange}
+                                className={inputClasses}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Sizes */}
+                    <div className="mb-6">
+                        <label className="block font-semibold mb-2">Sizes (comma-separated) *</label>
+                        <input
+                            type="text"
+                            name="sizes"
+                            value={sizesInput}
+                            onChange={(e) => {
+                                const input = e.target.value;
+                                const uppercased = input
+                                    .split(",")
+                                    .map((s) => s.trim().toUpperCase())
+                                    .join(", ");
+                                setSizesInput(uppercased);
+                            }}
+                            onKeyDown={(e) => handleCommaInput(e, setSizesInput)}
+                            className={inputClasses}
+                            required
+                        />
+                    </div>
+
+                    {/* Colors */}
+                    <div className="mb-6">
+                        <label className="block font-semibold mb-2">Colors (comma-separated) *</label>
+                        <input
+                            type="text"
+                            name="colors"
+                            value={colorsInput}
+                            onChange={(e) => {
+                                const input = e.target.value;
+                                const capitalized = input
+                                    .split(",")
+                                    .map((c) => {
+                                        const trimmed = c.trimStart();
+                                        return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+                                    })
+                                    .join(", ");
+                                setColorsInput(capitalized);
+                            }}
+                            onKeyDown={(e) => handleCommaInput(e, setColorsInput)}
+                            className={inputClasses}
+                            required
+                        />
+                    </div>
+
+                    {/* Collections & Material */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label className="block font-semibold mb-2">Collections *</label>
+                            <input
+                                type="text"
+                                name="collections"
+                                value={formData.collections}
+                                onChange={handleChange}
+                                className={inputClasses}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block font-semibold mb-2">Material</label>
+                            <input
+                                type="text"
+                                name="material"
+                                value={formData.material}
+                                onChange={handleChange}
+                                className={inputClasses}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Gender */}
+                    <div className="mb-6">
+                        <label className="block font-semibold mb-2">Gender *</label>
+                        <select
+                            name="gender"
+                            value={formData.gender}
+                            onChange={handleChange}
+                            className={inputClasses}
+                            required
+                        >
+                            <option value="Men">Men</option>
+                            <option value="Women">Women</option>
+                            <option value="Unisex">Unisex</option>
+                        </select>
+                    </div>
                 </div>
 
-                {/* Price Input */}
-                <div className="mb-6">
-                    <label className="block font-semibold mb-2">Price</label>
-                    <input
-                        type="number"
-                        name="price"
-                        value={formData.price}
-                        onChange={handleChange}
-                        className={inputClasses}
-                        required
-                    />
-                </div>
-
-                {/* Count In Stock */}
-                <div className="mb-6">
-                    <label className="block font-semibold mb-2">Count In Stock</label>
-                    <input
-                        type="number"
-                        name="countInStock"
-                        value={formData.countInStock}
-                        onChange={handleChange}
-                        className={inputClasses}
-                        required
-                    />
-                </div>
-
-                {/* SKU */}
-                <div className="mb-6">
-                    <label className="block font-semibold mb-2">SKU</label>
-                    <input
-                        type="text"
-                        name="sku"
-                        value={formData.sku}
-                        onChange={handleChange}
-                        className={inputClasses}
-                        required
-                    />
-                </div>
-
-                {/* Category */}
-                <div className="mb-6">
-                    <label className="block font-semibold mb-2">Category</label>
-                    <input
-                        type="text"
-                        name="category"
-                        value={formData.category}
-                        onChange={handleChange}
-                        className={inputClasses}
-                    />
-                </div>
-
-                {/* Brand */}
-                <div className="mb-6">
-                    <label className="block font-semibold mb-2">Brand</label>
-                    <input
-                        type="text"
-                        name="brand"
-                        value={formData.brand}
-                        onChange={handleChange}
-                        className={inputClasses}
-                    />
-                </div>
-
-                {/* Sizes */}
-                <div className="mb-6">
-                    <label className="block font-semibold mb-2">Sizes (comma-separated)</label>
-                    <input
-                        type="text"
-                        name="sizes"
-                        value={sizesInput}
-                        onChange={(e) => {
-                            const input = e.target.value;
-                            const uppercased = input
-                                .split(",")
-                                .map((s) => s.trim().toUpperCase())
-                                .join(", ");
-                            setSizesInput(uppercased);
-                        }}
-                        onKeyDown={(e) => handleCommaInput(e, setSizesInput)}
-                        className={inputClasses}
-                    />
-                </div>
-
-                {/* Colors */}
-                <div className="mb-6">
-                    <label className="block font-semibold mb-2">Colors (comma-separated)</label>
-                    <input
-                        type="text"
-                        name="colors"
-                        value={colorsInput}
-                        onChange={(e) => {
-                            const input = e.target.value;
-                            const capitalized = input
-                                .split(",")
-                                .map((c) => {
-                                    const trimmed = c.trimStart();
-                                    return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
-                                })
-                                .join(", ");
-                            setColorsInput(capitalized);
-                        }}
-                        onKeyDown={(e) => handleCommaInput(e, setColorsInput)}
-                        className={inputClasses}
-                    />
-                </div>
-
-                {/* Collections */}
-                <div className="mb-6">
-                    <label className="block font-semibold mb-2">Collections</label>
-                    <input
-                        type="text"
-                        name="collections"
-                        value={formData.collections}
-                        onChange={handleChange}
-                        className={inputClasses}
-                    />
-                </div>
-
-                {/* Material */}
-                <div className="mb-6">
-                    <label className="block font-semibold mb-2">Material</label>
-                    <input
-                        type="text"
-                        name="material"
-                        value={formData.material}
-                        onChange={handleChange}
-                        className={inputClasses}
-                    />
-                </div>
-
-                {/* Gender */}
-                <div className="mb-6">
-                    <label className="block font-semibold mb-2">Gender</label>
-                    <input
-                        type="text"
-                        name="gender"
-                        value={formData.gender}
-                        onChange={handleChange}
-                        className={inputClasses}
-                    />
-                </div>
-
-                {/* Image Upload */}
-                <div className="mb-6">
-                    <label className="block font-semibold mb-2">Product Images</label>
+                {/* Images */}
+                <div className="mb-8">
+                    <h3 className="text-xl font-semibold mb-4 border-b pb-2">Product Images *</h3>
                     <div className="mb-4">
                         <label className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-full cursor-pointer hover:bg-blue-700 transition-colors">
                             <FiUpload className="w-4 h-4" />
@@ -327,10 +405,159 @@ const AddProductForm = () => {
                     </div>
                 </div>
 
+                {/* Additional Information */}
+                <div className="mb-8">
+                    <h3 className="text-xl font-semibold mb-4 border-b pb-2">Additional Information</h3>
+                    
+                    {/* Tags */}
+                    <div className="mb-6">
+                        <label className="block font-semibold mb-2">Tags (comma-separated)</label>
+                        <input
+                            type="text"
+                            name="tags"
+                            value={tagsInput}
+                            onChange={(e) => setTagsInput(e.target.value)}
+                            onKeyDown={(e) => handleCommaInput(e, setTagsInput)}
+                            className={inputClasses}
+                        />
+                    </div>
+
+                    {/* Dimensions */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div>
+                            <label className="block font-semibold mb-2">Length (cm)</label>
+                            <input
+                                type="number"
+                                name="dimensions.length"
+                                value={formData.dimensions.length}
+                                onChange={handleChange}
+                                className={inputClasses}
+                                min="0"
+                                step="0.1"
+                            />
+                        </div>
+                        <div>
+                            <label className="block font-semibold mb-2">Width (cm)</label>
+                            <input
+                                type="number"
+                                name="dimensions.width"
+                                value={formData.dimensions.width}
+                                onChange={handleChange}
+                                className={inputClasses}
+                                min="0"
+                                step="0.1"
+                            />
+                        </div>
+                        <div>
+                            <label className="block font-semibold mb-2">Height (cm)</label>
+                            <input
+                                type="number"
+                                name="dimensions.height"
+                                value={formData.dimensions.height}
+                                onChange={handleChange}
+                                className={inputClasses}
+                                min="0"
+                                step="0.1"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Weight & Shipping */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label className="block font-semibold mb-2">Weight (kg)</label>
+                            <input
+                                type="number"
+                                name="weight"
+                                value={formData.weight}
+                                onChange={handleChange}
+                                className={inputClasses}
+                                min="0"
+                                step="0.01"
+                            />
+                        </div>
+                        <div>
+                            <label className="block font-semibold mb-2">Shipping Class</label>
+                            <input
+                                type="text"
+                                name="shippingClass"
+                                value={formData.shippingClass}
+                                onChange={handleChange}
+                                className={inputClasses}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* SEO & Publishing */}
+                <div className="mb-8">
+                    <h3 className="text-xl font-semibold mb-4 border-b pb-2">SEO & Publishing</h3>
+                    
+                    {/* Meta Tags */}
+                    <div className="mb-6">
+                        <label className="block font-semibold mb-2">Meta Title</label>
+                        <input
+                            type="text"
+                            name="metaTitle"
+                            value={formData.metaTitle}
+                            onChange={handleChange}
+                            className={inputClasses}
+                        />
+                    </div>
+
+                    <div className="mb-6">
+                        <label className="block font-semibold mb-2">Meta Description</label>
+                        <textarea
+                            name="metaDescription"
+                            value={formData.metaDescription}
+                            onChange={handleChange}
+                            className={inputClasses}
+                            rows={3}
+                        />
+                    </div>
+
+                    <div className="mb-6">
+                        <label className="block font-semibold mb-2">Meta Keywords</label>
+                        <input
+                            type="text"
+                            name="metaKeywords"
+                            value={formData.metaKeywords}
+                            onChange={handleChange}
+                            className={inputClasses}
+                        />
+                    </div>
+
+                    {/* Featured & Published */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="isFeatured"
+                                checked={formData.isFeatured}
+                                onChange={handleChange}
+                                className="mr-2 w-4 h-4"
+                                id="isFeatured"
+                            />
+                            <label htmlFor="isFeatured" className="font-semibold">Featured Product</label>
+                        </div>
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="isPublished"
+                                checked={formData.isPublished}
+                                onChange={handleChange}
+                                className="mr-2 w-4 h-4"
+                                id="isPublished"
+                            />
+                            <label htmlFor="isPublished" className="font-semibold">Publish Immediately</label>
+                        </div>
+                    </div>
+                </div>
+
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-2 bg-green-700 text-white rounded-full hover:bg-green-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-3 px-6 bg-green-700 text-white rounded-full hover:bg-green-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-lg font-semibold"
                 >
                     {isLoading ? 'Adding Product...' : 'Add Product'}
                 </button>
