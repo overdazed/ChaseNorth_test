@@ -503,7 +503,7 @@ const Checkout = () => {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6 tracking-tighter bg-neutral-50 dark:bg-neutral-950 min-h-screen">
             {/* Left Section */}
-            <div className="bg-neutral-50 dark:bg-neutral-900 rounded-lg p-6 shadow dark:shadow-neutral-700">
+            <div className="bg-white dark:bg-neutral-900 rounded-lg p-6 shadow dark:shadow-neutral-700">
                 <div className="mb-6">
                     <h2 className="text-2xl uppercase dark:text-white">Checkout</h2>
                     {/*{isFormSubmitted && (*/}
