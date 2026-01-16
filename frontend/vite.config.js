@@ -49,6 +49,7 @@ export default defineConfig(({ command, mode }) => {
       host: true,
       port: 5173,
       strictPort: true,
+      allowedHosts: ['chasenorth.com', 'localhost', '127.0.0.1'], // <-- add here
       proxy: {
         // This will proxy all API requests to your backend
         '/api': {
