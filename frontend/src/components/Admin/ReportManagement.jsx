@@ -387,7 +387,7 @@ const ReportManagement = () => {
                             </div>
 
                             <div className="mb-6">
-                                <h3 className="text-lg font-medium mb-2 text-neutral-900 dark:text-neutral-50">What went wrong? Include dates or photos if relevant.</h3>
+                                <h3 className="text-lg font-medium mb-2 text-neutral-900 dark:text-neutral-50">What went wrong?</h3>
                                 <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg neutral-50space-pre-line mb-4 text-neutral-900 dark:text-neutral-50">
                                     {selectedReport.details || 'No details provided'}
                                 </div>

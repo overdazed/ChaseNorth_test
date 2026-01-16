@@ -96,7 +96,7 @@ const Report = () => {
     if (orderDetails.status !== 'Delivered') {
       const orderDate = new Date(orderDetails.orderDate);
       const estimatedDate = new Date(orderDate);
-      estimatedDate.setDate(orderDate.getDate() + 10);
+      estimatedDate.setDate(orderDate.getDate() + 5);
       return estimatedDate.toISOString().split('T')[0];
     }
     return orderDetails.deliveryDate;

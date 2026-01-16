@@ -124,7 +124,7 @@ const ReportConfirmation = () => {
         <div className="mt-6 text-center text-sm text-neutral-500 dark:text-neutral-400">
           <p>
             Need immediate assistance?{' '}
-            <a href="mailto:support@chasenorth.com" className="font-bold text-primary-600 hover:text-primary-500 dark:text-accent dark:hover:text-primary-300">
+            <a href="mailto:support@chasenorth.com" className="font-bold text-accent hover:text-primary-500 dark:text-primary-600 dark:hover:text-primary-300">
               Contact our support team
             </a>
           </p>

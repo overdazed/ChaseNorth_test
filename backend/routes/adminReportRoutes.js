@@ -17,6 +17,9 @@ router.get('/', protect, admin, async (req, res) => {
             query.status = status;
         }
         
+        // Exclude archived reports from the main list
+        query.status = { $ne: 'Archived' };
+        
         const count = await Report.countDocuments(query);
         const reports = await Report.find(query)
             .sort({ createdAt: -1 })
