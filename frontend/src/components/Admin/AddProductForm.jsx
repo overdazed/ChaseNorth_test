@@ -43,7 +43,7 @@ const AddProductForm = () => {
         const file = e.target.files[0];
         const formData = new FormData();
         formData.append("image", file);
-
+        
         try {
             setUploading(true);
             const { data } = await axios.post(
@@ -53,11 +53,12 @@ const AddProductForm = () => {
                     headers: { "Content-Type": "multipart/form-data" },
                 }
             );
-
+            
             setFormData(prevData => ({
                 ...prevData,
                 images: [...prevData.images, { url: data.imageUrl, altText: "" }],
             }));
+            
             setUploading(false);
         } catch (error) {
             console.error(error);
