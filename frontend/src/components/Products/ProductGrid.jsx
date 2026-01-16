@@ -93,7 +93,7 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
 
                             {/* Color Indicators */}
                             {product.colors?.length > 0 && (
-                                <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-10 flex space-x-1.5 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
+                                <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-10 flex space-x-1.5 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200 hidden md:flex">
                                     {product.colors.map((color, i) => (
                                         <div
                                             key={i}
@@ -136,18 +136,18 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
 
                                 <div className="flex flex-col">
                                     <div className="flex justify-between items-start">
-                                        <h3 className="text-white font-bold text-xs md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300">
+                                        <h3 className="text-white font-bold text-xs md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300 truncate">
                                             <>
                                                 <span className="max-[550px]:hidden">
                                                     {product.name}
                                                 </span>
-                                                <span className="hidden max-[550px]:inline">
+                                                <span className="hidden max-[550px]:inline truncate">
                                                     {product.name.length > 12 ? `${product.name.substring(0, 12)}...` : product.name}
                                                 </span>
                                             </>
                                         </h3>
-                                        <p className="text-white font-bold text-sm md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300">
-                                            ${product.price}
+                                        <p className="text-white font-bold text-xs sm:text-sm md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300">
+                                            {product.price} €
                                         </p>
                                     </div>
                                 </div>
