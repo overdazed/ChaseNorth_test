@@ -69,7 +69,18 @@ router.post(
             const colorsArray = Array.isArray(colors) ? colors : (colors ? colors.split(',').map(c => c.trim()) : []);
             
             // Generate SKU automatically
-            const generateSKU = (productName) => {
+            const generateSKU = async (productName) => {
+                const Counter = require('../models/Counter');
+                
+                // Find and update the counter
+                const counter = await Counter.findByIdAndUpdate(
+                    { _id: 'skuCounter' },
+                    { $inc: { seq: 1 } },
+                    { new: true, upsert: true }
+                );
+                
+                const seq = counter.seq;
+                
                 const words = productName.split(' ');
                 const firstWord = words[0] || '';
                 const secondWord = words[1] || '';
@@ -80,11 +91,11 @@ router.post(
                 // Extract 3 random characters from the second word
                 const secondPart = secondWord.length >= 3 ? secondWord.substring(0, 3).toUpperCase() : secondWord.toUpperCase();
                 
-                // Generate the SKU
-                return `${firstPart}-${secondPart}-001`;
+                // Generate the SKU with the counter
+                return `${firstPart}-${secondPart}-${seq.toString().padStart(3, '0')}`;
             };
 
-            const sku = generateSKU(name);
+            const sku = await generateSKU(name);
 
             const product = new Product({
                 name,
