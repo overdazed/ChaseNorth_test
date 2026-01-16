@@ -503,7 +503,7 @@ const Checkout = () => {
     return (
         <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 mx-auto py-10 px-6 tracking-tighter dark:bg-neutral-950 min-h-viewport">
             {/* Left Section */}
-            <div className="lg:ml-[50px] xl:ml-[100px] 2xl:ml-[170px] lg:mr-[50px] xl:mr-[100px] 2xl:mr-[170px] bg-white dark:bg-neutral-900 rounded-lg p-6 shadow dark:shadow-neutral-700">
+            <div className="lg:ml-[50px] xl:ml-[100px] 2xl:ml-[250px] lg:mr-[25px] xl:mr-[50px] 2xl:mr-[50px] bg-white dark:bg-neutral-900 rounded-lg p-6 shadow dark:shadow-neutral-700">
                 <div className="mb-6">
                     <h2 className="text-2xl uppercase dark:text-white">Checkout</h2>
                     {/*{isFormSubmitted && (*/}
@@ -770,7 +770,7 @@ const Checkout = () => {
             </div>
 
             {/* Right Section: Summary of our Order */}
-            <div className="lg:ml-[50px] xl:ml-[100px] 2xl:ml-[170px] lg:mr-[50px] xl:mr-[100px] 2xl:mr-[170px] bg-neutral-50 dark:bg-neutral-900 p-6 rounded-lg shadow dark:shadow-neutral-700">
+            <div className="lg:ml-[25px] xl:ml-[50px] 2xl:ml-[50px] lg:mr-[50px] xl:mr-[100px] 2xl:mr-[250px] bg-neutral-50 dark:bg-neutral-900 p-6 rounded-lg shadow dark:shadow-neutral-700">
                 <h3 className="text-lg mb-4 dark:text-white">Order Summary</h3>
                 <div className="border-t border-neutral-200 dark:border-neutral-700 py-4">
                     {cart.products.map((product, index) => (

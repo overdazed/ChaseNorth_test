@@ -188,18 +188,6 @@ const AddProductForm = () => {
                     </div>
                 </div>
 
-                {/* SKU */}
-                <div className="mb-6">
-                    <label className="block font-semibold mb-2">SKU *</label>
-                    <input
-                        type="text"
-                        name="sku"
-                        value={formData.sku}
-                        onChange={handleChange}
-                        className={inputClasses}
-                        required
-                    />
-                </div>
 
                 {/* Category, Brand & Collections */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
