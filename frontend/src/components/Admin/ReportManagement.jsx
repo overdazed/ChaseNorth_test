@@ -296,20 +296,21 @@ const ReportManagement = () => {
                            />
                         </div>
                     </div>
+
                     <div className="bg-neutral-50 dark:bg-neutral-800 rounded-lg shadow overflow-hidden">
                         <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-700">
                             <thead className="bg-neutral-50 dark:bg-neutral-300">
                             <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
+                                <th scope="col" className="px-4 py-3 text-left text-xs text-neutral-500 dark:text-neutral-800 uppercase">
                                     Report ID
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
+                                <th scope="col" className="px-4 py-3 text-left text-xs text-neutral-500 dark:text-neutral-800 uppercase">
                                     Customer
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
+                                <th scope="col" className="px-4 py-3 text-left text-xs text-neutral-500 dark:text-neutral-800 uppercase">
                                     Status
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
+                                <th scope="col" className="px-4 py-3 text-left text-xs text-neutral-500 dark:text-neutral-800 uppercase">
                                     Date
                                 </th>
                             </tr>

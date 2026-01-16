@@ -827,7 +827,7 @@ const Checkout = () => {
                             </div>
                             {/* Price and remove button container */}
                             <div className="flex flex-col items-end justify-between">
-                                <p className="text-xl dark:text-neutral-200">${product.price?.toLocaleString()}</p>
+                                <p className="text-xl dark:text-neutral-200">{product.price?.toLocaleString()} €</p>
                                 {/* Delete icon */}
                                 <button
                                     onClick={() =>

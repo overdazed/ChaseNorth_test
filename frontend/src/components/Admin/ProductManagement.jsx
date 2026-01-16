@@ -71,7 +71,7 @@ const ProductManagement = () => {
                                         {product.name}
                                     </Link>
                                 </td>
-                                <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">${product.price}</td>
+                                <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{product.price} €</td>
                                 <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{product.sku}</td>
                                 <td className="p-4">
                                     <div className="flex justify-center">
