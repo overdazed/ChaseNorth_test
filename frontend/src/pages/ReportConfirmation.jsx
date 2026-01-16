@@ -58,7 +58,7 @@ const ReportConfirmation = () => {
                     </svg>
                   </span>
                   <span className="ml-2">
-                    We'll review your report within 24 hours
+                    We'll review your report within 24-48 hours
                   </span>
                 </li>
                 <li className="flex items-start">

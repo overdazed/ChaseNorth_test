@@ -88,11 +88,17 @@ const ReportManagement = () => {
     }, [id]);
 
     // Filter reports based on search term
-    const filteredReports = reports.filter(report => 
-        report._id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (report.user?.name?.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (report.user?.email?.toLowerCase().includes(searchTerm.toLowerCase()))
-    );
+    const filteredReports = reports.filter(report => {
+        const searchLower = searchTerm.toLowerCase();
+        return (
+            (report.referenceNumber && report.referenceNumber.toLowerCase().includes(searchLower)) ||
+            (report._id && report._id.toLowerCase().includes(searchLower)) ||
+            (report.customerName && report.customerName.toLowerCase().includes(searchLower)) ||
+            (report.email && report.email.toLowerCase().includes(searchLower)) ||
+            (report.problemType && report.problemType.toLowerCase().includes(searchLower)) ||
+            (report.status && report.status.toLowerCase().includes(searchLower))
+        );
+    });
 
     const handleReportClick = (report) => {
         setSelectedReport(report);
@@ -357,7 +363,7 @@ const ReportManagement = () => {
                         <div className="p-6">
                             <div className="flex justify-between items-start mb-6">
                                 <div>
-                                    <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-50">Report for Order ID: {selectedReport.orderId?._id || 'N/A'}</h2>
+                                    <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-50">Reference Number: {selectedReport.referenceNumber || 'N/A'}</h2>
                                     <div className="mt-1">
                                         {getStatusBadge(selectedReport.status)}
                                     </div>
