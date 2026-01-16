@@ -283,7 +283,7 @@ const ReportManagement = () => {
                 <div>
                     <div className="flex justify-between items-center mb-6">
                         <h1 className="text-2xl font-bold">Reports</h1>
-                        <div className="relative">
+                        <div className="relative hidden md:block">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <FaSearch className="text-neutral-400" />
                             </div>
@@ -297,20 +297,20 @@ const ReportManagement = () => {
                         </div>
                     </div>
 
-                    <div className="bg-neutral-50 dark:bg-neutral-800 rounded-lg shadow overflow-hidden">
+                    <div className="bg-neutral-50 dark:bg-neutral-800 rounded-lg shadow overflow-x-auto">
                         <table className="min-w-full divide-y divide-neutral-200 dark:divide-neutral-700">
                             <thead className="bg-neutral-50 dark:bg-neutral-700">
                             <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
+                                <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
                                     Report ID
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
+                                <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
                                     Customer
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
+                                <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
                                     Status
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
+                                <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-neutral-500 dark:text-neutral-300 uppercase tracking-wider">
                                     Date
                                 </th>
                             </tr>
@@ -323,24 +323,24 @@ const ReportManagement = () => {
                                         className="hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer transition-colors"
                                         onClick={() => handleReportClick(report)}
                                     >
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                                        <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-neutral-900 dark:text-neutral-100">
                                             {report.referenceNumber || `#${report._id.substring(0, 8)}`}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
+                                        <td className="px-4 py-3 whitespace-nowrap">
                                             <div className="text-sm text-neutral-900 dark:text-neutral-100">{report.customerName || 'N/A'}</div>
                                             <div className="text-sm text-neutral-500 dark:text-neutral-400">{report.email || ''}</div>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
+                                        <td className="px-4 py-3 whitespace-nowrap">
                                             {getStatusBadge(report.status)}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                                        <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
                                             {new Date(report.createdAt).toLocaleDateString()}
                                         </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="4" className="px-6 py-4 text-center text-sm text-neutral-500 dark:text-neutral-400">
+                                    <td colSpan="4" className="px-4 py-3 text-center text-sm text-neutral-500 dark:text-neutral-400">
                                         No reports found
                                     </td>
                                 </tr>
