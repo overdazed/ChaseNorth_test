@@ -106,13 +106,13 @@ const ReportConfirmation = () => {
               <div className="flex justify-center gap-6">
                 <Link
                   to="/my-orders"
-                  className="flex-1 h-12 flex items-center justify-center rounded-full text-sm font-slim transition-colors duration-200 bg-black text-neutral-50 hover:bg-neutral-800"
+                  className="flex-1 h-12 flex items-center justify-center rounded-full text-sm font-slim transition-colors duration-200 bg-black text-neutral-50 hover:bg-neutral-700"
                 >
                   View my orders
                 </Link>
                 <Link
                   to="/"
-                  className="flex-1 h-12 flex items-center justify-center rounded-full text-sm font-slim transition-colors duration-200 hover:bg-black text-neutral-50 bg-neutral-800"
+                  className="flex-1 h-12 flex items-center justify-center rounded-full text-sm font-slim transition-colors duration-200 hover:bg-neutral-700 text-neutral-50 bg-black"
                 >
                   Back to home
                 </Link>
@@ -124,7 +124,7 @@ const ReportConfirmation = () => {
         <div className="mt-6 text-center text-sm text-neutral-500 dark:text-neutral-400">
           <p>
             Need immediate assistance?{' '}
-            <a href="mailto:support@chasenorth.com" className="font-bold text-accent hover:text-primary-500 dark:text-primary-600 dark:hover:text-primary-300">
+            <a href="mailto:support@chasenorth.com" className="font-bold text-accent hover:text-red-600 dark:text-red-700 dark:hover:text-red-600">
               Contact our support team
             </a>
           </p>

@@ -75,7 +75,7 @@ const OrderConfirmationPage = () => {
     const calculateEstimatedDelivery = (createdAt) => {
         const orderDate = new Date(createdAt);
         // add 10 days to the order date
-        orderDate.setDate(orderDate.getDate() + 10);
+        orderDate.setDate(orderDate.getDate() + 5);
         return orderDate.toLocaleDateString();
     }
 
