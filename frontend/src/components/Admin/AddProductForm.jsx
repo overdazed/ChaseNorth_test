@@ -14,10 +14,14 @@ const AddProductForm = () => {
         name: "",
         description: "",
         price: 0,
+        discountPrice: 0,
         countInStock: 0,
         sku: "",
         category: "",
+        brand: "",
         collections: "",
+        material: "",
+        gender: "Unisex",
         sizes: [],
         colors: [],
         images: []
@@ -143,8 +147,8 @@ const AddProductForm = () => {
                     />
                 </div>
 
-                {/* Price & Stock */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                {/* Price, Discount Price & Stock */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div>
                         <label className="block font-semibold mb-2">Price *</label>
                         <input
@@ -154,6 +158,18 @@ const AddProductForm = () => {
                             onChange={handleChange}
                             className={inputClasses}
                             required
+                            min="0"
+                            step="0.01"
+                        />
+                    </div>
+                    <div>
+                        <label className="block font-semibold mb-2">Discount Price</label>
+                        <input
+                            type="number"
+                            name="discountPrice"
+                            value={formData.discountPrice}
+                            onChange={handleChange}
+                            className={inputClasses}
                             min="0"
                             step="0.01"
                         />
@@ -185,8 +201,8 @@ const AddProductForm = () => {
                     />
                 </div>
 
-                {/* Category & Collections */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                {/* Category, Brand & Collections */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div>
                         <label className="block font-semibold mb-2">Category *</label>
                         <input
@@ -199,6 +215,16 @@ const AddProductForm = () => {
                         />
                     </div>
                     <div>
+                        <label className="block font-semibold mb-2">Brand</label>
+                        <input
+                            type="text"
+                            name="brand"
+                            value={formData.brand}
+                            onChange={handleChange}
+                            className={inputClasses}
+                        />
+                    </div>
+                    <div>
                         <label className="block font-semibold mb-2">Collections *</label>
                         <input
                             type="text"
@@ -208,6 +234,33 @@ const AddProductForm = () => {
                             className={inputClasses}
                             required
                         />
+                    </div>
+                </div>
+
+                {/* Material & Gender */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label className="block font-semibold mb-2">Material</label>
+                        <input
+                            type="text"
+                            name="material"
+                            value={formData.material}
+                            onChange={handleChange}
+                            className={inputClasses}
+                        />
+                    </div>
+                    <div>
+                        <label className="block font-semibold mb-2">Gender</label>
+                        <select
+                            name="gender"
+                            value={formData.gender}
+                            onChange={handleChange}
+                            className={inputClasses}
+                        >
+                            <option value="Men">Men</option>
+                            <option value="Women">Women</option>
+                            <option value="Unisex">Unisex</option>
+                        </select>
                     </div>
                 </div>
 
