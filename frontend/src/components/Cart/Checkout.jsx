@@ -527,10 +527,10 @@ const Checkout = () => {
                     <h3 className="text-lg mb-4 dark:text-neutral-200">Contact Details</h3>
                     <div className="mb-4"><label className="block text-neutral-700 dark:text-neutral-300">Email</label>
                         <input
-                            type="email"
-                            value={user ? user.email : ""}
-                            className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white"
-                            disabled
+                           type="email"
+                           value={user ? user.email : ""}
+                           className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-transparent"
+                           disabled
                         />
                     </div>
                     <h3 className="text-lg mb-4 dark:text-neutral-200">Delivery</h3>

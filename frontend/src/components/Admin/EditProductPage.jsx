@@ -60,7 +60,7 @@ const EditProductPage = () => {
     const [sizesInput, setSizesInput] = useState("");
     const [colorsInput, setColorsInput] = useState("");
 
-    const inputClasses = "w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50";
+    const inputClasses = "w-full p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-50 focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-transparent";
 
     const handleChange = (e) => {
         const { name, value } = e.target;
