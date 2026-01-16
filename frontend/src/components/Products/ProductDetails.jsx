@@ -470,7 +470,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
     return (
         <div className={`min-h-screen py-20 px-4 transition-colors duration-300 ${themeClasses.background} ${themeClasses.text}`}>
-            <div className="max-w-6xl mx-auto">
+            <div className="max-w-6xl ml-[14px]">
                 {selectedProduct ? (
                     <div className={`relative ${themeClasses.background} ${themeClasses.text}`}>
                         <div className="p-4">
