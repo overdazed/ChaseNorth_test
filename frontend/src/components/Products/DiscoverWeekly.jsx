@@ -98,6 +98,7 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextUpdate, setNextUpdate] = useState("");
+  const [newArrivalsProduct, setNewArrivalsProduct] = useState(null);
 
   const formatDate = (date) =>
       new Date(date).toLocaleString("en-US", {
@@ -108,21 +109,31 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
         minute: "2-digit",
       });
 
-  // Fetch weekly product data
+  // Fetch weekly product and new arrivals data
   useEffect(() => {
-    const fetchWeeklyProduct = async () => {
+    const fetchData = async () => {
       try {
-        // First try the API endpoint
-        const response = await fetch(`${API_BASE}/api/products/weekly`);
-        if (!response.ok) {
-          throw new Error(`API returned ${response.status}`);
+        // Fetch weekly product
+        const weeklyResponse = await fetch(`${API_BASE}/api/products/weekly`);
+        if (!weeklyResponse.ok) {
+          throw new Error(`API returned ${weeklyResponse.status}`);
         }
-        const data = await response.json();
-        setWeeklyProduct(data.product);
-        setNextUpdate(data.nextUpdate);
+        const weeklyData = await weeklyResponse.json();
+        setWeeklyProduct(weeklyData.product);
+        setNextUpdate(weeklyData.nextUpdate);
+
+        // Fetch new arrivals product
+        const newArrivalsResponse = await fetch(`${API_BASE}/api/products/new-arrivals`);
+        if (!newArrivalsResponse.ok) {
+          throw new Error(`API returned ${newArrivalsResponse.status}`);
+        }
+        const newArrivalsData = await newArrivalsResponse.json();
+        if (newArrivalsData.length > 0) {
+          setNewArrivalsProduct(newArrivalsData[0]);
+        }
       } catch (err) {
-        console.error('Error fetching weekly product:', err);
-        // Fallback to a local featured product
+        console.error('Error fetching data:', err);
+        // Fallback to a local featured product for weekly
         const response = await fetch(`${API_BASE}/api/products?isFeatured=true&limit=1`);
         if (response.ok) {
           const products = await response.json();
@@ -142,7 +153,7 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
       }
     };
 
-    fetchWeeklyProduct();
+    fetchData();
   }, []);
 
   if (loading) {
@@ -249,20 +260,80 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
             )}
 
             <div className="w-full h-full">
-              <Card
-                  title="New Arrivals"
-                  icon={<AceternityIcon isDarkMode={isDarkMode} />}
-                  isDarkMode={isDarkMode}
-              >
-                <CanvasRevealEffect
-                    animationSpeed={3}
-                    containerClassName={isDarkMode ? "bg-red-700" : "bg-red-600"}
-                    colors={isDarkMode ? [[220, 38, 38]] : [[239, 68, 68]]}
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white text-xl font-bold">Coming Soon</span>
-                </div>
-              </Card>
+              {newArrivalsProduct ? (
+                <Link
+                    to={`/product/${newArrivalsProduct._id || newArrivalsProduct.id}`}
+                    onClick={(e) => {
+                      const scrollY =
+                          window.scrollY || document.documentElement.scrollTop;
+                      sessionStorage.setItem(
+                          `scrollPos:${window.location.pathname}`,
+                          scrollY
+                      );
+                    }}
+                    className="block w-full h-full"
+                >
+                  <Card
+                      title="New Arrivals"
+                      icon={<AceternityIcon isDarkMode={isDarkMode} />}
+                      isDarkMode={isDarkMode}
+                  >
+                    <div className="absolute inset-0">
+                      <img
+                          src={
+                              newArrivalsProduct.images?.[0]?.url ||
+                              "https://via.placeholder.com/400x600?text=No+Image"
+                          }
+                          alt={newArrivalsProduct.name}
+                          className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/10" />
+                    </div>
+                    {newArrivalsProduct.colors && newArrivalsProduct.colors.length > 0 && (
+                        <div className="absolute bottom-4 right-4 flex space-x-2">
+                          {newArrivalsProduct.colors.map((color, i) => (
+                              <div
+                                  key={i}
+                                  className="w-6 h-6 rounded-full border-2 border-white shadow-md"
+                                  style={{ backgroundColor: color }}
+                              />
+                          ))}
+                        </div>
+                    )}
+                    <div className="absolute bottom-0 left-0 right-0 pt-24 pb-6 px-6 bg-gradient-to-t from-black/95 via-black/60 via-50% to-transparent">
+                      <div className="flex justify-between items-start">
+                        <h3 className="text-xl font-semibold text-white">
+                          {newArrivalsProduct.name}
+                        </h3>
+                        <span className="text-lg font-bold text-white">
+                      {newArrivalsProduct.price?.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </span>
+                      </div>
+                      {newArrivalsProduct.brand && (
+                          <p className="text-neutral-200 mt-1">{newArrivalsProduct.brand}</p>
+                      )}
+                    </div>
+                  </Card>
+                </Link>
+              ) : (
+                <Card
+                    title="New Arrivals"
+                    icon={<AceternityIcon isDarkMode={isDarkMode} />}
+                    isDarkMode={isDarkMode}
+                >
+                  <CanvasRevealEffect
+                      animationSpeed={3}
+                      containerClassName={isDarkMode ? "bg-red-700" : "bg-red-600"}
+                      colors={isDarkMode ? [[220, 38, 38]] : [[239, 68, 68]]}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-white text-xl font-bold">Coming Soon</span>
+                  </div>
+                </Card>
+              )}
             </div>
 
             <div className="w-full h-full">
