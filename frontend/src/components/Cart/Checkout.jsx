@@ -529,7 +529,7 @@ const Checkout = () => {
                         <input
                            type="email"
                            value={user ? user.email : ""}
-                           className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-transparent"
+                           className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white"
                            disabled
                         />
                     </div>
