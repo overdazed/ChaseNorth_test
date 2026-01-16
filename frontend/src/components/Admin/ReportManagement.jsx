@@ -361,16 +361,18 @@ const ReportManagement = () => {
 
                     <div className="bg-neutral-50 dark:bg-neutral-800 rounded-lg shadow overflow-hidden transition-colors duration-200">
                         <div className="p-6">
-                            <div className="flex justify-between items-start mb-6">
-                                <div>
-                                    <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-50">Reference Number: {selectedReport.referenceNumber || 'N/A'}</h2>
-                                    <div className="mt-1">
-                                        {getStatusBadge(selectedReport.status)}
-                                    </div>
+                            <div className="flex justify-between items-start mb-2">
+                                <div className="flex items-center">
+                                    <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-50">{selectedReport.referenceNumber || 'N/A'}</h2>
+                                    <span className="ml-4">{getStatusBadge(selectedReport.status)}</span>
                                 </div>
                                 <div className="text-sm text-neutral-500 dark:text-neutral-400">
                                     Submitted on {new Date(selectedReport.createdAt).toLocaleString()}
                                 </div>
+                            </div>
+
+                            <div className="mb-6">
+                                <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-50">Order ID: {selectedReport.orderId?._id || 'N/A'}</h2>
                             </div>
 
                             <div className="mb-6">
