@@ -46,22 +46,50 @@ router.post(
     upload.single('image'),
     async (req, res) => {
         try {
-            const { name, description, price, sku, stock } = req.body;
+            const {
+                name,
+                description,
+                price,
+                countInStock,
+                sku,
+                category,
+                collections,
+                sizes,
+                colors,
+                user,
+                isFeatured,
+                isPublished
+            } = req.body;
+            
+            // Ensure sizes and colors are arrays or convert from comma-separated strings
+            const sizesArray = Array.isArray(sizes) ? sizes : (sizes ? sizes.split(',').map(s => s.trim()) : []);
+            const colorsArray = Array.isArray(colors) ? colors : (colors ? colors.split(',').map(c => c.trim()) : []);
             
             const product = new Product({
                 name,
                 description,
-                price,
+                price: Number(price),
+                countInStock: Number(countInStock),
                 sku,
-                stock,
-                image: req.file ? `/uploads/${req.file.filename}` : null,
+                category,
+                collections,
+                sizes: sizesArray,
+                colors: colorsArray,
+                images: req.file ? [{ url: `/uploads/${req.file.filename}`, altText: "" }] : [],
+                user,
+                isFeatured: isFeatured === 'true',
+                isPublished: isPublished === 'true'
             });
 
             const createdProduct = await product.save();
             res.status(201).json(createdProduct);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Server Error' });
+            res.status(400).json({
+                message: 'Product validation failed',
+                error: error.message,
+                details: error.errors
+            });
         }
     }
 );
