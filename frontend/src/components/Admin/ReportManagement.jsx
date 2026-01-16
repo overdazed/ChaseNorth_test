@@ -288,12 +288,12 @@ const ReportManagement = () => {
                                 <FaSearch className="text-neutral-300" />
                             </div>
                             <input
-                                type="text"
-                                className="bg-neutral-50 dark:bg-neutral-800 text-neutral-900 text-sm rounded-lg block w-80 pl-10 p-2.5"
-                                placeholder="Search reports..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
+                               type="text"
+                               className="bg-neutral-50 dark:bg-neutral-800 text-neutral-900 text-sm rounded-lg block w-80 pl-10 p-2.5 focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-transparent"
+                               placeholder="Search reports..."
+                               value={searchTerm}
+                               onChange={(e) => setSearchTerm(e.target.value)}
+                           />
                         </div>
                     </div>
 

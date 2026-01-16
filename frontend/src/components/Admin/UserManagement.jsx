@@ -63,7 +63,7 @@ const UserManagement = () => {
         theme === 'dark'
             ? 'bg-neutral-800 text-neutral-50'
             : 'bg-neutral-100'
-    } focus:ring-2 focus:ring-accent focus:border-accent`;
+    } focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-transparent`;
 
     const cardClasses ="p-6 rounded-lg mb-6";
 
