@@ -770,13 +770,59 @@ const Checkout = () => {
             </div>
 
             {/* Right Section: Summary of our Order */}
-            <div className="bg-neutral-50 dark:bg-neutral-900 p-6 rounded-lg shadow dark:shadow-neutral-700">
-                <h3 className="text-lg mb-4 dark:text-white">Order Summary</h3>
-                <div className="border-t border-neutral-200 dark:border-neutral-700 py-4">
-                    {cart.products.map((product, index) => (
-                        <div
-                            key={index}
-                            className="flex items-start justify-between py-2 border-b border-neutral-200 dark:border-neutral-700"
+            <div className="min-h-screen bg-white dark:bg-neutral-950">
+                <div className="container mx-auto px-4 py-8 bg-white dark:bg-neutral-950">
+                    <h1 className="text-2xl font-bold mb-6 dark:text-white">Checkout</h1>
+                    <h3 className="text-lg mb-4 dark:text-white">Order Summary</h3>
+                    <div className="border-t border-neutral-200 dark:border-neutral-700 py-4">
+                        {cart.products.map((product, index) => (
+                            <div
+                                key={index}
+                                className="flex items-start justify-between py-2 border-b border-neutral-200 dark:border-neutral-700"
+                            >
+                                <div className="flex items-start">
+                                    <img
+                                        src={product.image}
+                                        alt={product.name}
+                                        className="w-20 h-24 object-cover mr-4"
+                                    />
+                                    <div>
+                                        <h3 className="text-md dark:text-neutral-200">{product.name}</h3>
+                                        <p className="text-sm text-neutral-500 dark:text-neutral-400">Size: {product.size}</p>
+                                        <p className="text-sm text-neutral-500 dark:text-neutral-400">Color: {product.color}</p>
+                                        <div className="mt-2">
+                                            <div className={`flex items-center border-[0.5px] border-neutral-300 dark:border-neutral-700 w-32 rounded-md overflow-hidden`}>
+                                                <button
+                                                    className={`w-10 h-10 flex items-center justify-center border-r border-neutral-300 hover:bg-neutral-200 dark:border-neutral-700 dark:hover:bg-neutral-700`}
+                                                    onClick={() =>
+                                                        handleUpdateQuantity(
+                                                            product.productId,
+                                                            -1,
+                                                            product.quantity,
+                                                            product.size,
+                                                            product.color
+                                                        )
+                                                    }
+                                                >
+                                                    <span className="text-black dark:text-white">-</span>
+                                                </button>
+                                                <div className="flex-1 text-center text-black dark:text-white">
+                                                    {product.quantity}
+                                                </div>
+                                                <button
+                                                    className={`w-10 h-10 flex items-center justify-center border-l border-neutral-300 dark:border-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-700`}
+                                                    onClick={() =>
+                                                        handleUpdateQuantity(
+                                                            product.productId,
+                                                            1,
+                                                            product.quantity,
+                                                            product.size,
+                                                            product.color
+                                                        )
+                                                    }
+                                                >
+                                                    <span className="text-black dark:text-white">+</span>
+                                                </button>
                         >
                             <div className="flex items-start">
                                 <img
