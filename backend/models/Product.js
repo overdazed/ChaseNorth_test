@@ -154,9 +154,7 @@ const productSchema = new mongoose.Schema({
         width: Number,
         height: Number
     },
-    weight: Number,
-    __v: { type: Number, select: false },
-    createdAt: { type: Date, default: Date.now }
+    weight: Number
 },
     { timestamps: true }
 );

@@ -51,7 +51,6 @@ router.post(
                 price,
                 discountPrice,
                 countInStock,
-                sku,
                 category,
                 brand,
                 collections,
@@ -69,6 +68,24 @@ router.post(
             const sizesArray = Array.isArray(sizes) ? sizes : (sizes ? sizes.split(',').map(s => s.trim()) : []);
             const colorsArray = Array.isArray(colors) ? colors : (colors ? colors.split(',').map(c => c.trim()) : []);
             
+            // Generate SKU automatically
+            const generateSKU = (productName) => {
+                const words = productName.split(' ');
+                const firstWord = words[0] || '';
+                const secondWord = words[1] || '';
+                
+                // Extract 4 random characters from the first word
+                const firstPart = firstWord.length >= 4 ? firstWord.substring(0, 4).toUpperCase() : firstWord.toUpperCase();
+                
+                // Extract 3 random characters from the second word
+                const secondPart = secondWord.length >= 3 ? secondWord.substring(0, 3).toUpperCase() : secondWord.toUpperCase();
+                
+                // Generate the SKU
+                return `${firstPart}-${secondPart}-001`;
+            };
+
+            const sku = generateSKU(name);
+
             const product = new Product({
                 name,
                 description,
