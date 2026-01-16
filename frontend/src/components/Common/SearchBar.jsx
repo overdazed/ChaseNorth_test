@@ -47,7 +47,7 @@ const SearchBar = ({ className = '' }) => {
         <div
             className={`w-full ${
                 isOpen
-                    ? "fixed top-0 left-0 z-50 bg-white h-28 flex items-center justify-center px-4"
+                    ? "fixed top-0 left-0 z-50 bg-white h-24 dark:bg-neutral-900 flex items-center justify-center px-4"
                     : "w-auto flex items-center justify-center"
             }`}
         >

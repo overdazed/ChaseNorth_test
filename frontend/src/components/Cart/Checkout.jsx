@@ -20,28 +20,24 @@ const Checkout = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
 
+    // Sync with global theme
     useEffect(() => {
-        // Check for saved theme preference on initial load
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            setIsDarkMode(true);
-        }
-
-        // Listen for theme changes from DarkModeToggle
-        const handleThemeChange = (e) => {
-            setIsDarkMode(e.detail.isDarkMode);
+        const checkDarkMode = () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            setIsDarkMode(isDark);
         };
 
+        // Initial check
+        checkDarkMode();
+
+        // Listen for theme changes
+        const handleThemeChange = () => checkDarkMode();
         window.addEventListener('themeChange', handleThemeChange);
+
         return () => {
             window.removeEventListener('themeChange', handleThemeChange);
         };
     }, []);
-
-    // Set background and text classes based on theme
-    const bgClass = isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50';
-    const textClass = isDarkMode ? 'text-white' : 'text-black';
-    const borderClass = isDarkMode ? 'border-neutral-700' : 'border-neutral-250';
     const [checkoutId, setCheckoutId] = useState(null);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [formErrors, setFormErrors] = useState({});
@@ -505,13 +501,11 @@ const Checkout = () => {
     }
 
     return (
-        <div className={`min-h-screen flex flex-col ${bgClass} ${textClass} transition-colors duration-500`}>
-            <div className="flex-grow container mx-auto p-4 md:p-6">
-                <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
-                    {/* Left Section*/}
-                    <div className={`w-full md:w-1/3 lg:1/4 shadow-md border-r border-l rounded-lg p-6 ${bgClass} ${borderClass}`}>
+        <div className="w-screen grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6 tracking-tighter dark:bg-neutral-950 min-h-viewport">
+            {/* Left Section */}
+            <div className="bg-white dark:bg-neutral-900 rounded-lg p-6 shadow dark:shadow-neutral-700">
                 <div className="mb-6">
-                    <h2 className={`text-2xl uppercase ${textClass}`}>Checkout</h2>
+                    <h2 className="text-2xl uppercase dark:text-white">Checkout</h2>
                     {/*{isFormSubmitted && (*/}
                     {/*    <p className="text-sm text-yellow-600 mt-1">*/}
                     {/*        ⚠️ Please review your information before proceeding to payment*/}
@@ -530,7 +524,7 @@ const Checkout = () => {
                             </ul>
                         </div>
                     )}
-                    <h3 className={`text-lg mb-4 ${textClass}`}>Contact Details</h3>
+                    <h3 className="text-lg mb-4 dark:text-neutral-200">Contact Details</h3>
                     <div className="mb-4"><label className="block text-neutral-700 dark:text-neutral-300">Email</label>
                         <input
                             type="email"
@@ -539,7 +533,7 @@ const Checkout = () => {
                             disabled
                         />
                     </div>
-                    <h3 className={`text-lg mb-4 ${textClass}`}>Delivery</h3>
+                    <h3 className="text-lg mb-4 dark:text-neutral-200">Delivery</h3>
                     <div className="mb-4 grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-neutral-700 dark:text-neutral-300">First Name</label>
@@ -776,8 +770,8 @@ const Checkout = () => {
             </div>
 
             {/* Right Section: Summary of our Order */}
-            <div className={`w-full md:w-2/3 lg:w-3/4 ${bgClass} ${borderClass} rounded-lg shadow-md border-r border-l overflow-hidden`}>
-                <h3 className={`text-lg mb-4 ${textClass}`}>Order Summary</h3>
+            <div className="bg-neutral-50 dark:bg-neutral-900 p-6 rounded-lg shadow dark:shadow-neutral-700">
+                <h3 className="text-lg mb-4 dark:text-white">Order Summary</h3>
                 <div className="border-t border-neutral-200 dark:border-neutral-700 py-4">
                     {cart.products.map((product, index) => (
                         <div
