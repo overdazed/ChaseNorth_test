@@ -365,6 +365,9 @@ const ReportManagement = () => {
                                 <div className="flex items-center">
                                     <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-50">{selectedReport.referenceNumber || 'N/A'}</h2>
                                     <span className="ml-4">{getStatusBadge(selectedReport.status)}</span>
+                                    {/*<div className="mt-1">*/}
+                                    {/*    {getStatusBadge(selectedReport.status)}*/}
+                                    {/*</div>*/}
                                 </div>
                                 <div className="text-sm text-neutral-500 dark:text-neutral-400">
                                     Submitted on {new Date(selectedReport.createdAt).toLocaleString()}
