@@ -4,6 +4,20 @@ const express = require("express");
 const Product = require("../models/Product");
 // import the protect middleware
 const { protect, admin } = require("../middleware/authMiddleware");
+const multer = require('multer');
+const path = require('path');
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    }
+});
+
+const upload = multer({ storage: storage });
 
 // initialize router
 const router = express.Router();
@@ -23,6 +37,34 @@ router.get("/", protect, admin, async (req, res) => {
         res.status(500).json({message: "Server Error"});
     }
 });
+
+// Add this route before module.exports
+router.post(
+    '/',
+    protect,
+    admin,
+    upload.single('image'),
+    async (req, res) => {
+        try {
+            const { name, description, price, sku, stock } = req.body;
+            
+            const product = new Product({
+                name,
+                description,
+                price,
+                sku,
+                stock,
+                image: req.file ? `/uploads/${req.file.filename}` : null,
+            });
+
+            const createdProduct = await product.save();
+            res.status(201).json(createdProduct);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Server Error' });
+        }
+    }
+);
 
 // export the router
 module.exports = router;

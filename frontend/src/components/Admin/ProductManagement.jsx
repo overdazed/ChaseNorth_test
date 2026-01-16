@@ -4,6 +4,7 @@ import {useEffect} from "react";
 import {deleteProduct, fetchAdminProducts} from "../../redux/slices/adminProductSlice.js";
 import { useNavigate} from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 import { BiTrash } from "react-icons/bi";
 
 const ProductManagement = () => {
@@ -39,7 +40,15 @@ const ProductManagement = () => {
 
     return (
         <div className="max-w-7xl mx-auto p-6">
-            <h2 className="text-2xl font-bold mb-6">Product Management</h2>
+            <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold">Product Management</h2>
+                <button
+                    onClick={() => navigate('/admin/products/new')}
+                    className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"
+                >
+                    <FiPlus /> Add Product
+                </button>
+            </div>
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="min-w-full text-left">
                     <thead className="bg-neutral-300 text-xs text-neutral-800 uppercase">

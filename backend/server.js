@@ -11,6 +11,7 @@ const app = express();
 // Body parsing middleware - must come first
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static('public/uploads'));
 
 const allowedOrigins = ['http://localhost:5173', 'http://localhost:9000','http://localhost:4173', 'https://chasenorth.com', 'https://www.chasenorth.com'];
 

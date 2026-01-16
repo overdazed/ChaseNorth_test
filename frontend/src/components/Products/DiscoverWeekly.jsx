@@ -95,7 +95,6 @@ const Icon = ({ className, isDarkMode, ...rest }) => {
 // ================== DiscoverWeeklyContent ==================
 const DiscoverWeeklyContent = ({ isDarkMode }) => {
   const [weeklyProduct, setWeeklyProduct] = useState(null);
-  const [newArrival, setNewArrival] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nextUpdate, setNextUpdate] = useState("");
@@ -144,23 +143,6 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
     };
 
     fetchWeeklyProduct();
-
-    // Fetch most recent women's item for New Arrivals
-    const fetchNewArrival = async () => {
-      try {
-        const response = await fetch(`${API_BASE}/api/products?category=women&sort=-createdAt&limit=1`);
-        if (response.ok) {
-          const data = await response.json();
-          if (data.products && data.products.length > 0) {
-            setNewArrival(data.products[0]);
-          }
-        }
-      } catch (err) {
-        console.error('Error fetching new arrival:', err);
-      }
-    };
-
-    fetchNewArrival();
   }, []);
 
   if (loading) {
@@ -267,76 +249,20 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
             )}
 
             <div className="w-full h-full">
-              <Link
-                  to={newArrival ? `/product/${newArrival._id || newArrival.id}` : '#'}
-                  onClick={(e) => {
-                    if (!newArrival) e.preventDefault();
-                    const scrollY = window.scrollY || document.documentElement.scrollTop;
-                    sessionStorage.setItem(
-                        `scrollPos:${window.location.pathname}`,
-                        scrollY
-                    );
-                  }}
-                  className="block w-full h-full"
+              <Card
+                  title="New Arrivals"
+                  icon={<AceternityIcon isDarkMode={isDarkMode} />}
+                  isDarkMode={isDarkMode}
               >
-                <Card
-                    title={newArrival ? "New Arrivals" : "Loading..."}
-                    icon={<AceternityIcon isDarkMode={isDarkMode} />}
-                    isDarkMode={isDarkMode}
-                >
-                  {newArrival ? (
-                      <>
-                        <div className="absolute inset-0">
-                          <img
-                              src={newArrival.images?.[0]?.url ||
-                                  "https://via.placeholder.com/400x600?text=No+Image"}
-                              alt={newArrival.name}
-                              className="w-full h-full object-cover"
-                          />
-                          <div className="absolute inset-0 bg-black/10" />
-                        </div>
-                        {newArrival.colors && newArrival.colors.length > 0 && (
-                            <div className="absolute bottom-4 right-4 flex space-x-2">
-                              {newArrival.colors.map((color, i) => (
-                                  <div
-                                      key={i}
-                                      className="w-6 h-6 rounded-full border-2 border-white shadow-md"
-                                      style={{ backgroundColor: color }}
-                                  />
-                              ))}
-                            </div>
-                        )}
-                        <div className="absolute bottom-0 left-0 right-0 pt-24 pb-6 px-6 bg-gradient-to-t from-black/95 via-black/60 via-50% to-transparent">
-                          <div className="flex justify-between items-start">
-                            <h3 className="text-xl font-semibold text-white line-clamp-1">
-                              {newArrival.name}
-                            </h3>
-                            <span className="text-lg font-bold text-white whitespace-nowrap ml-2">
-                              {newArrival.price?.toLocaleString("en-US", {
-                                style: "currency",
-                                currency: "USD",
-                              })}
-                            </span>
-                          </div>
-                          {newArrival.brand && (
-                              <p className="text-neutral-200 mt-1">{newArrival.brand}</p>
-                          )}
-                        </div>
-                      </>
-                  ) : (
-                      <>
-                        <CanvasRevealEffect
-                            animationSpeed={3}
-                            containerClassName={isDarkMode ? "bg-red-700" : "bg-red-600"}
-                            colors={isDarkMode ? [[220, 38, 38]] : [[239, 68, 68]]}
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-white text-xl font-bold">Loading...</span>
-                        </div>
-                      </>
-                  )}
-                </Card>
-              </Link>
+                <CanvasRevealEffect
+                    animationSpeed={3}
+                    containerClassName={isDarkMode ? "bg-red-700" : "bg-red-600"}
+                    colors={isDarkMode ? [[220, 38, 38]] : [[239, 68, 68]]}
+                />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-white text-xl font-bold">Coming Soon</span>
+                </div>
+              </Card>
             </div>
 
             <div className="w-full h-full">
