@@ -71,28 +71,26 @@ router.post(
             // Generate SKU automatically
             const generateSKU = async (productName) => {
                 const Counter = require('../models/Counter');
-                
+                  
                 // Find and update the counter
                 const counter = await Counter.findByIdAndUpdate(
                     { _id: 'skuCounter' },
                     { $inc: { seq: 1 } },
                     { new: true, upsert: true }
                 );
-                
+                  
                 const seq = counter.seq;
-                
+                  
                 const words = productName.split(' ');
                 const firstWord = words[0] || '';
                 const secondWord = words[1] || '';
-                
+                  
                 // Extract 4 random characters from the first word
                 const firstPart = firstWord.length >= 4 ? firstWord.substring(0, 4).toUpperCase() : firstWord.toUpperCase();
-                
-                // Extract 3 random characters from the second word
-                const secondPart = secondWord.length >= 3 ? secondWord.substring(0, 3).toUpperCase() : secondWord.toUpperCase();
-                
-                // Generate the SKU with the counter
-                return `${firstPart}-${secondPart}-${seq.toString().padStart(3, '0')}`;
+                  
+                // Generate the SKU with the counter, removing the second part if the product name is a single word
+                const sku = words.length === 1 ? `${firstPart}-${seq.toString().padStart(3, '0')}` : `${firstPart}-${secondWord.substring(0, 3).toUpperCase()}-${seq.toString().padStart(3, '0')}`;
+                return sku;
             };
 
             const sku = await generateSKU(name);

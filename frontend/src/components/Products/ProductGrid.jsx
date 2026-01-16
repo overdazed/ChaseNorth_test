@@ -146,7 +146,7 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                                                 </span>
                                             </>
                                         </h3>
-                                        <p className="text-white font-bold text-xs sm:text-sm md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300">
+                                        <p className="text-white font-bold text-xs sm:text-sm md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300 whitespace-nowrap">
                                             {product.price} €
                                         </p>
                                     </div>
