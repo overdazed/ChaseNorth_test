@@ -495,20 +495,20 @@ const Checkout = () => {
     }
 
     if (loading) return <p>Loading cart ...</p>;
-    if (error) return <p>Error: {error}</p>;
-    if (!cart || !cart.products || cart.products.length === 0) {
-        return <p>Your cart is empty</p>
-    }
 
-    return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6 tracking-tighter bg-neutral-50 dark:bg-neutral-950 min-h-screen">
-            {/* Left Section */}
-            <div className="bg-white dark:bg-neutral-900 rounded-lg p-6 shadow dark:shadow-neutral-700">
-                <div className="mb-6">
-                    <h2 className="text-2xl uppercase dark:text-white">Checkout</h2>
-                    {/*{isFormSubmitted && (*/}
-                    {/*    <p className="text-sm text-yellow-600 mt-1">*/}
-                    {/*        ⚠️ Please review your information before proceeding to payment*/}
+return (
+    <div className={`min-h-screen flex flex-col ${bgClass} ${textClass} transition-colors duration-500`}>
+        <div className="flex-grow container mx-auto p-4 md:p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6 tracking-tighter">
+                {/* Left Section */}
+                <div className={`rounded-lg p-6 shadow-md ${isDarkMode ? 'bg-neutral-900' : 'bg-white'} ${borderClass}`}>
+                    <div className="mb-6">
+                        <h2 className="text-2xl uppercase dark:text-white">Checkout</h2>
+                        {/*{isFormSubmitted && (*/}
+                        {/*    <p className="text-sm text-yellow-600 mt-1">*/}
+                        {/*        ⚠️ Please review your information before proceeding to payment*/}
+                        {/*    </p>*/}
+                        {/*)}*/}
                     {/*    </p>*/}
                     {/*)}*/}
                 </div>
@@ -770,7 +770,7 @@ const Checkout = () => {
             </div>
 
             {/* Right Section: Summary of our Order */}
-            <div className="bg-neutral-50 dark:bg-neutral-900 p-6 rounded-lg shadow dark:shadow-neutral-700">
+            <div className={`p-6 rounded-lg shadow-md ${isDarkMode ? 'bg-neutral-900' : 'bg-white'} ${borderClass}`}>
                 <h3 className="text-lg mb-4 dark:text-white">Order Summary</h3>
                 <div className="border-t border-neutral-200 dark:border-neutral-700 py-4">
                     {cart.products.map((product, index) => (
@@ -976,6 +976,6 @@ const Checkout = () => {
         </div>
     )
 }
-export default Checkout
 
-// Add the route in App.jsx
+exebase_lsp.SourceCodeLocation in 1-1127
+export default Checkout;
