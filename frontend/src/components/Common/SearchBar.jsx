@@ -47,7 +47,7 @@ const SearchBar = ({ className = '' }) => {
         <div
             className={`w-full ${
                 isOpen
-                    ? "fixed top-0 left-0 z-50 bg-white h-24 dark:bg-neutral-900 flex items-center justify-center px-4"
+                    ? "fixed top-0 left-0 z-50 bg-neutral-50 h-24 dark:bg-neutral-950 flex items-center justify-center px-4"
                     : "w-auto flex items-center justify-center"
             }`}
         >
@@ -63,12 +63,12 @@ const SearchBar = ({ className = '' }) => {
                             placeholder="Search"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="bg-neutral-100 px-4 py-2 pl-2 pr-12 rounded-lg focus:outline-none w-full placeholder:text-neutral-700"
+                            className="shadow-sm bg-white dark:text-neutral-50 dark:bg-neutral-800 px-4 py-2 pl-2 pr-12 rounded-lg focus:outline-none w-full  dark:placeholder:text-neutral-400 placeholder:text-neutral-700"
                             autoFocus
                         />
                         <button
                             type="submit"
-                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-600 hover:text-neutral-800"
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-white"
                         >
                             <HiMagnifyingGlass className="h-6 w-6" />
                         </button>
@@ -76,9 +76,9 @@ const SearchBar = ({ className = '' }) => {
                     <button
                         type="button"
                         onClick={handleSearchToggle}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-600 hover:text-neutral-800 md:right-4"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-white md:right-4"
                     >
-                        <HiMiniXMark className="h-6 w-6" />
+                        <HiMiniXMark className="h-7 w-7" />
                     </button>
                 </form>
             ) : (

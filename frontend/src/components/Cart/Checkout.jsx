@@ -501,7 +501,7 @@ const Checkout = () => {
     }
 
     return (
-        <div className="w-screen grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6 tracking-tighter dark:bg-neutral-950 min-h-viewport">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 mx-auto py-10 px-6 tracking-tighter dark:bg-neutral-950 min-h-viewport">
             {/* Left Section */}
             <div className="bg-white dark:bg-neutral-900 rounded-lg p-6 shadow dark:shadow-neutral-700">
                 <div className="mb-6">
