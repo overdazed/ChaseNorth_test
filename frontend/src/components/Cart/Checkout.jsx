@@ -500,8 +500,12 @@ const Checkout = () => {
         return <p>Your cart is empty</p>
     }
 
+    // Set background class based on theme
+    const bgClass = isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'
+
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6 tracking-tighter dark:bg-neutral-950 min-h-screen">
+        <div className={`min-h-screen ${bgClass} transition-colors duration-500`}>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6 tracking-tighter min-h-screen">
             {/* Left Section */}
             <div className="bg-white dark:bg-neutral-900 rounded-lg p-6 shadow dark:shadow-neutral-700">
                 <div className="mb-6">
@@ -594,7 +598,6 @@ const Checkout = () => {
                             {formErrors.lastName && (
                                 <p className="text-red-500 text-xs mt-1 dark:text-red-400">{formErrors.lastName}</p>
                             )}
-                        </div>
                     </div>
                     <div className="mb-4">
                         <label className="block text-neutral-700 dark:text-neutral-300">Address</label>
@@ -766,11 +769,10 @@ const Checkout = () => {
                             </div>
                         )}
                     </div>
-                </form>
-            </div>
+                </div>
 
-            {/* Right Section: Summary of our Order */}
-            <div className="bg-neutral-50 dark:bg-neutral-900 p-6 rounded-lg shadow dark:shadow-neutral-700">
+                {/* Right Section: Summary of our Order */}
+                <div className="bg-neutral-50 dark:bg-neutral-900 p-6 rounded-lg shadow dark:shadow-neutral-700">
                 <h3 className="text-lg mb-4 dark:text-white">Order Summary</h3>
                 <div className="border-t border-neutral-200 dark:border-neutral-700 py-4">
                     {cart.products.map((product, index) => (
@@ -971,6 +973,7 @@ const Checkout = () => {
                             />
                         </div>
                     )}
+                </form>
                 </div>
             </div>
         </div>
