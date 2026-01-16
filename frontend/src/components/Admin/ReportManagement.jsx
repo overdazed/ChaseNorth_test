@@ -285,11 +285,11 @@ const ReportManagement = () => {
                         <h1 className="text-2xl font-bold">Reports</h1>
                         <div className="relative hidden md:block">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <FaSearch className="text-neutral-400" />
+                                <FaSearch className="text-neutral-300" />
                             </div>
                             <input
                                 type="text"
-                                className="bg-neutral-50 text-neutral-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5"
+                                className="bg-neutral-50 dark:bg-neutral-800 text-neutral-900 text-sm rounded-lg block w-80 pl-10 p-2.5"
                                 placeholder="Search reports..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
