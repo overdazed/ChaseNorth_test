@@ -93,11 +93,11 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
 
                             {/* Color Indicators */}
                             {product.colors?.length > 0 && (
-                                <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-10 flex space-x-1.5 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200 hidden md:flex">
+                                <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-10 flex space-x-0.5 sm:space-x-1.5 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200 md:flex">
                                     {product.colors.map((color, i) => (
                                         <div
                                             key={i}
-                                            className="w-4 h-4 md:w-6 md:h-6 rounded-full border border-neutral-600 shadow-sm"
+                                            className="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 rounded-full border border-neutral-600 shadow-sm"
                                             style={{
                                                 backgroundColor: getColorHex(color),
                                                 filter: 'saturate(0.7)',
@@ -129,7 +129,7 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                             <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 bg-gradient-to-t from-black/70 to-transparent">
                                 {/* Brand Name - Hidden by default, shown on hover */}
                                 <div className="absolute bottom-1 left-0 md:bottom-4 md:left-2 p-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
-                                    <p className="text-neutral-300 text-xs md:text-sm font-normal max-[550px]:hidden">
+                                    <p className="text-neutral-300 text-[10px] sm:text-xs md:text-lg font-normal">
                                         {product.brand || 'Chase North'}
                                     </p>
                                 </div>
@@ -141,8 +141,8 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                                                 <span className="max-[550px]:hidden">
                                                     {product.name}
                                                 </span>
-                                                <span className="hidden max-[550px]:inline truncate -translate-">
-                                                    {product.name.length > 12 ? `${product.name.substring(0, 12)}...` : product.name}
+                                                <span className="hidden max-[550px]:inline truncate">
+                                                    {product.name.length > 16 ? `${product.name.substring(0, 16)}...` : product.name}
                                                 </span>
                                             </>
                                         </h3>

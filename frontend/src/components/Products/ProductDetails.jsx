@@ -706,7 +706,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                         onClick={() => setSelectedColor(color)}
                                                         className={`w-10 h-10 rounded-full border-2 transition-all ${
                                                             selectedColor === color
-                                                                ? 'ring-2 ring-offset-1 ring-accent scale-110' 
+                                                                ? 'ring-1 ring-offset-1 ring-accent scale-110' 
                                                                 : 'border-transparent hover:border-neutral-300 dark:hover:border-neutral-500'
                                                         }`}
                                                         style={{
