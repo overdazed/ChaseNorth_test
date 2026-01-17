@@ -248,6 +248,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
     const [reviews, setReviews] = useState([]);
     const [reviewsLoading, setReviewsLoading] = useState(true);
     const [refreshReviews, setRefreshReviews] = useState(0); // Add a refresh trigger
+    const [selectedStarFilter, setSelectedStarFilter] = useState(null);
 
     // Fetch reviews when product changes or when refresh is triggered
     const fetchReviews = useCallback(async () => {
@@ -1084,6 +1085,36 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                         </button>
                     </div>
 
+                    {/* Star Filter Section */}
+                    <div className="mt-6 flex flex-wrap gap-2">
+                        {[5, 4, 3, 2, 1].map((star) => {
+                            const count = reviews.filter(review => Math.round(review.rating) === star).length;
+                            return (
+                                <button
+                                    key={star}
+                                    onClick={() => setSelectedStarFilter(star)}
+                                    className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${
+                                        selectedStarFilter === star
+                                            ? 'bg-blue-500 text-white border-blue-500'
+                                            : 'bg-white text-neutral-700 border-neutral-300 hover:bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-600 dark:hover:bg-neutral-700'
+                                    }`}
+                                >
+                                    {star} Star{star > 1 ? 's' : ''} ({count})
+                                </button>
+                            );
+                        })}
+                        <button
+                            onClick={() => setSelectedStarFilter(null)}
+                            className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${
+                                selectedStarFilter === null
+                                    ? 'bg-blue-500 text-white border-blue-500'
+                                    : 'bg-white text-neutral-700 border-neutral-300 hover:bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-600 dark:hover:bg-neutral-700'
+                            }`}
+                        >
+                            All Reviews
+                        </button>
+                    </div>
+
                     {/* Rating Distribution */}
                     <div className="mt-6">
                         {/*<h3 className="text-lg font-medium mb-4">Rating Breakdown</h3>*/}
@@ -1108,9 +1139,12 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
                                         return (
                                             <div key={`star-${stars}`} className="flex items-center">
-                                                <a href={`#reviews`} className="w-12 text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                <button
+                                                    onClick={() => setSelectedStarFilter(stars)}
+                                                    className={`w-12 text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline text-left`}
+                                                >
                                                     {stars} star{stars > 1 ? 's' : ''}
-                                                </a>
+                                                </button>
                                                 <div className="flex-1 h-3 mx-4 bg-neutral-200 rounded-full dark:bg-neutral-700">
                                                     <div
                                                         className="h-3 bg-yellow-300 rounded-full transition-all duration-500"
