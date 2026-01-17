@@ -1238,7 +1238,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                 <button
                                     type="button"
                                     onClick={() => setShowStarDropdown(!showStarDropdown)}
-                                    className="inline-flex justify-center w-full rounded-full shadow-sm px-4 py-2 bg-white text-sm font-medium text-neutral-700 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-600 dark:hover:bg-neutral-700"
+                                    className="inline-flex justify-center w-full rounded-full shadow-sm px-4 py-2 bg-white text-sm font-medium text-neutral-700 hover:bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-600 dark:hover:bg-neutral-700"
                                     id="options-menu"
                                     aria-haspopup="true"
                                     aria-expanded="true"
@@ -1251,7 +1251,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                             </div>
 
                             {showStarDropdown && (
-                                <div className="origin-top-right absolute left-0 mt-2 w-40 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10 dark:bg-neutral-800 dark:ring-neutral-600">
+                                <div className="origin-top-right absolute left-0 mt-2 w-40 rounded-lg shadow-lg bg-white z-10 dark:bg-neutral-800">
                                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                         {[5, 4, 3, 2, 1].map((star) => {
                                             const count = reviews.filter(review => Math.round(review.rating) === star).length;
