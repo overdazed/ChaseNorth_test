@@ -181,92 +181,103 @@ const WishlistInitializer = () => {
 const App = () => {
     return (
         <Provider store={store}>
+
             {/* open Login.jsx file > import { loginUser } from '../redux/slices/authSlice' */}
             {/*// enables the client side routing*/}
-            <BrowserRouter>
-                <WishlistInitializer />
-                {/*    make sure it gets imported from the react-router-dom */}
 
-                {/*Client side routing. What is this? Why do we need it?*/}
-                {/*React apps are basically single page applications.*/}
-                {/*When building complex applications, it is obvious that they will contain multiple pages. */}
-                {/*Eg. Homepage, Product page, Card page, etc.. Every page will have its own unique URL. Eg. www.xxxx.com/home*/}
-                {/*When we talk about client side routing, each route is handled in the browser, */}
-                {/* rather than the server, making the application faster. */}
-                {/* That is why we use the react router library “react-router-dom” to create an impression of a multipage application.*/}
+            <PayPalScriptProvider
+                options={{
+                    "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
+                    currency: "EUR",
+                    intent: "capture",
+                }}
+            >
 
-                {/* include Sonner library here */}
-                <Toaster position="top-right"/>
-                <ScrollRestoration />
+                <BrowserRouter>
+                    <WishlistInitializer />
+                    {/*    make sure it gets imported from the react-router-dom */}
 
-                <Routes>
+                    {/*Client side routing. What is this? Why do we need it?*/}
+                    {/*React apps are basically single page applications.*/}
+                    {/*When building complex applications, it is obvious that they will contain multiple pages. */}
+                    {/*Eg. Homepage, Product page, Card page, etc.. Every page will have its own unique URL. Eg. www.xxxx.com/home*/}
+                    {/*When we talk about client side routing, each route is handled in the browser, */}
+                    {/* rather than the server, making the application faster. */}
+                    {/* That is why we use the react router library “react-router-dom” to create an impression of a multipage application.*/}
 
-                    {/*Add the routes component from the react router dom, which helps us manage multiple routes in our application:*/}
-                    {/*inside this you can add the individual routes using the route component*/}
-                    {/*our e-commerce website will have separate Layouts for Users and Admins*/}
+                    {/* include Sonner library here */}
+                    <Toaster position="top-right"/>
+                    <ScrollRestoration />
 
-                    <Route path="/" element={<UserLayout/>}>
-                        {/* User Layout */}
-                        {/* UserLayout will contain common UI elements that we want to share across different pages.*/}
-                        {/* Will serve as the Parent route, within which we will declare other routes like */}
+                    <Routes>
 
-                        <Route index element={<Home/>}/> {/* We will need to include the child component within the UserLayout component. -> Outlet component */}
-                        {/* Outlet component will replace the child component depending on the route access.*/}
-                        {/*Home*/}
-                        {/*Products*/}
-                        {/*Card*/}
+                        {/*Add the routes component from the react router dom, which helps us manage multiple routes in our application:*/}
+                        {/*inside this you can add the individual routes using the route component*/}
+                        {/*our e-commerce website will have separate Layouts for Users and Admins*/}
 
-                        <Route path="login" element={<Login/>} />
-                        <Route path="register" element={<Register/>} />
-                        <Route path="profile" element={<Profile />} />
-                        <Route path="collections/:collection" element={<CollectionPage />} />
-                        <Route path="product/:id" element={<ProductDetails />} />
-                        <Route path="checkout" element={<Checkout />} />
-                        <Route path="order-confirmation" element={<OrderConfirmationPage />} />
-                        <Route path="order/:id" element={<OrderDetailsPage />} />
-                        <Route path="my-orders" element={<MyOrdersPage />} />
-                        <Route path="wishlist" element={<Wishlist />} />
-                        <Route path="faq" element={<FAQPage />} />
-                        <Route path="return-policy" element={<ReturnPolicy />} />
-                        <Route path="terms-and-conditions" element={<TermsAndConditions />} />
-                        <Route path="impressum" element={<Impressum />} />
-                        <Route path="sustainability" element={<Sustainability />} />
-                        <Route path="mission" element={<Mission />} />
-                        <Route path="about" element={<About />} />
-                        <Route path="contact" element={<Contact />} />
-                        <Route path="projects" element={<Projects />} />
-                        <Route path="size-chart" element={<SizeChart />} />
-                        <Route path="delivery" element={<Delivery />} />
-                        <Route path="payments" element={<Payments />} />
-                        <Route path="gift-card" element={<GiftCard />} />
-                        <Route path="need-a-website" element={<WebDevPromotion />} />
-                        <Route path="report" element={<Report />} />
-                        <Route path="report/confirmation" element={<ReportConfirmation />} />
-                        <Route path="forgot-password" element={<ForgotPassword />} />
-                        <Route path="reset-password/:token" element={<ResetPassword />} />
-                        <Route path="bug-report" element={<BugReport />} />
-                        <Route path="bug-report/confirmation" element={<BugReportConfirmation />} />
-                    </Route>
-                    <Route
-                        path="/admin"
-                        element={
-                            <ProtectedRoute role="admin">
-                                <AdminLayout />
-                            </ProtectedRoute>
-                        }
-                    >
-                        {/* Admin Layout */}
-                        <Route index element={<AdminHomePage />} />
-                        <Route path="users" element={<UserManagement />} />
-                        <Route path="products" element={<ProductManagement />} />
-                        <Route path="products/new" element={<AddProductForm />} />
-                        <Route path="products/:id/edit" element={<EditProductPage />} />
-                        <Route path="orders" element={<OrderManagement />} />
-                        <Route path="reports" element={<ReportManagement />} />
-                        <Route path="reports/:id" element={<ReportManagement />} />
-                    </Route>
-                </Routes>
-            </BrowserRouter>
+                        <Route path="/" element={<UserLayout/>}>
+                            {/* User Layout */}
+                            {/* UserLayout will contain common UI elements that we want to share across different pages.*/}
+                            {/* Will serve as the Parent route, within which we will declare other routes like */}
+
+                            <Route index element={<Home/>}/> {/* We will need to include the child component within the UserLayout component. -> Outlet component */}
+                            {/* Outlet component will replace the child component depending on the route access.*/}
+                            {/*Home*/}
+                            {/*Products*/}
+                            {/*Card*/}
+
+                            <Route path="login" element={<Login/>} />
+                            <Route path="register" element={<Register/>} />
+                            <Route path="profile" element={<Profile />} />
+                            <Route path="collections/:collection" element={<CollectionPage />} />
+                            <Route path="product/:id" element={<ProductDetails />} />
+                            <Route path="checkout" element={<Checkout />} />
+                            <Route path="order-confirmation" element={<OrderConfirmationPage />} />
+                            <Route path="order/:id" element={<OrderDetailsPage />} />
+                            <Route path="my-orders" element={<MyOrdersPage />} />
+                            <Route path="wishlist" element={<Wishlist />} />
+                            <Route path="faq" element={<FAQPage />} />
+                            <Route path="return-policy" element={<ReturnPolicy />} />
+                            <Route path="terms-and-conditions" element={<TermsAndConditions />} />
+                            <Route path="impressum" element={<Impressum />} />
+                            <Route path="sustainability" element={<Sustainability />} />
+                            <Route path="mission" element={<Mission />} />
+                            <Route path="about" element={<About />} />
+                            <Route path="contact" element={<Contact />} />
+                            <Route path="projects" element={<Projects />} />
+                            <Route path="size-chart" element={<SizeChart />} />
+                            <Route path="delivery" element={<Delivery />} />
+                            <Route path="payments" element={<Payments />} />
+                            <Route path="gift-card" element={<GiftCard />} />
+                            <Route path="need-a-website" element={<WebDevPromotion />} />
+                            <Route path="report" element={<Report />} />
+                            <Route path="report/confirmation" element={<ReportConfirmation />} />
+                            <Route path="forgot-password" element={<ForgotPassword />} />
+                            <Route path="reset-password/:token" element={<ResetPassword />} />
+                            <Route path="bug-report" element={<BugReport />} />
+                            <Route path="bug-report/confirmation" element={<BugReportConfirmation />} />
+                        </Route>
+                        <Route
+                            path="/admin"
+                            element={
+                                <ProtectedRoute role="admin">
+                                    <AdminLayout />
+                                </ProtectedRoute>
+                            }
+                        >
+                            {/* Admin Layout */}
+                            <Route index element={<AdminHomePage />} />
+                            <Route path="users" element={<UserManagement />} />
+                            <Route path="products" element={<ProductManagement />} />
+                            <Route path="products/new" element={<AddProductForm />} />
+                            <Route path="products/:id/edit" element={<EditProductPage />} />
+                            <Route path="orders" element={<OrderManagement />} />
+                            <Route path="reports" element={<ReportManagement />} />
+                            <Route path="reports/:id" element={<ReportManagement />} />
+                        </Route>
+                    </Routes>
+                </BrowserRouter>
+            </PayPalScriptProvider>
         </Provider>
     )
 }
