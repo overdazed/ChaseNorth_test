@@ -119,7 +119,7 @@ const OrderConfirmationPage = () => {
                                         </p>
                                     </div>
                                     <div className="ml-4 text-right">
-                                        <p className="text-md font-medium text-neutral-900 dark:text-neutral-50">${item.price}</p>
+                                        <p className="text-md font-medium text-neutral-900 dark:text-neutral-50">{item.price} €</p>
                                         <p className="text-neutral-500 dark:text-neutral-300 text-sm">Qty: {item.quantity}</p>
                                     </div>
                                 </div>
@@ -166,15 +166,15 @@ const OrderConfirmationPage = () => {
                                         <div className="flex justify-between text-sm text-neutral-600 dark:text-neutral-300">
                                             <span>Subtotal</span>
                                             <span>
-                                                ${checkout.subtotal?.toFixed(2) || 
-                                                  checkout.checkoutItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2) || '0.00'}
+                                                {checkout.subtotal?.toFixed(2) ||
+                                                  checkout.checkoutItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2) || '0.00'} €
                                             </span>
                                         </div>
 
                                         {checkout.discount?.amount > 0 && (
                                             <div className="flex justify-between text-sm text-neutral-600 dark:text-neutral-300">
                                                 <span>Discount {checkout.discount.percentage > 0 ? `(${checkout.discount.percentage}% off)` : ''}</span>
-                                                <span className="text-green-600">-${checkout.discount.amount.toFixed(2)}</span>
+                                                <span className="text-green-600">-{checkout.discount.amount.toFixed(2)} €</span>
                                             </div>
                                         )}
 
@@ -184,12 +184,12 @@ const OrderConfirmationPage = () => {
                                                 {checkout.discount?.isFreeShipping ? (
                                                     <span className="text-green-600">Free!</span>
                                                 ) : checkout.shippingCost > 0 ? (
-                                                    `$${checkout.shippingCost.toFixed(2)}`
+                                                    `${checkout.shippingCost.toFixed(2)} €`
                                                 ) : checkout.shippingAddress?.country ? (
                                                     (() => {
                                                         const countryName = checkout.shippingAddress.country;
                                                         const shippingCost = getShippingCost(countryName);
-                                                        return `$${shippingCost.toFixed(2)}`;
+                                                        return `${shippingCost.toFixed(2)} €`;
                                                     })()
                                                 ) : (
                                                     'Not available'
@@ -224,7 +224,7 @@ const OrderConfirmationPage = () => {
                                                     const total = (subtotal - discountAmount) + shippingCost;
 
                                                     // Return formatted total
-                                                    return `$${total.toFixed(2)}`;
+                                                    return `${total.toFixed(2)} €`;
                                                 })()}
                                             </span>
                                         </div>
