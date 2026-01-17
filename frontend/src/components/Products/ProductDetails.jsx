@@ -722,7 +722,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                                 : '0 0 8px rgba(255,255,255,0.75)';
                                                         }}
                                                         onMouseLeave={(e) => {
-                                                            e.currentTarget.style.transform = selectedColor === color ? 'scale(1.1)' : 'scale(1)';
+                                                            e.currentTarget.style.transform = selectedColor === color ? 'scale(1.0)' : 'scale(1.25)';
                                                             e.currentTarget.style.boxShadow = selectedColor === color ? '0 0 0 2px rgba(99, 102, 241, 0.5)' : 'none';
                                                         }}
                                                         aria-label={`Select color ${color}`}
@@ -1112,7 +1112,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                             <div key={`star-${stars}`} className="flex items-center">
                                                 <button
                                                     onClick={() => setSelectedStarFilter(stars)}
-                                                    className={`w-12 text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline text-left`}
+                                                    className={`w-12 text-sm font-medium text-blue-500 dark:text-blue-500 hover:underline text-left`}
                                                 >
                                                     {stars} star{stars > 1 ? 's' : ''}
                                                 </button>
