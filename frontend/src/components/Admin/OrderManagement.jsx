@@ -83,7 +83,7 @@ const OrderManagement = () => {
                                         #{order._id}
                                     </td>
                                     <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{order.user?.name}</td>
-                                    <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{order.totalPrice.toFixed(2)} €</td>
+                                    <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">${order.totalPrice.toFixed(2)}</td>
                                     <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">
                                         <select
                                             value={order.status}

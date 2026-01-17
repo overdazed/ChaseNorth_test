@@ -52,7 +52,7 @@ const AdminHomePage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div className="p-4 shadow-md rounded-lg">
                         <h2 className="text-xl font-semibold">Revenue</h2>
-                        <p className="text-2xl">{totalSales.toFixed(2)} €</p>
+                        <p className="text-2xl">${totalSales.toFixed(2)}</p>
                     </div>
                     <div className="p-4 shadow-md rounded-lg">
                         <h2 className="text-xl font-semibold">Total Orders</h2>
@@ -87,7 +87,7 @@ const AdminHomePage = () => {
                                     <tr key={order._id} className="group border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-200 hover:dark:bg-accent cursor-pointer">
                                         <td className="p-4 font-medium text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">#{order._id}</td>
                                         <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{order.user?.name || "Unknown User"}</td>
-                                        <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{order.totalPrice.toFixed(2)} €</td>
+                                        <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">${order.totalPrice.toFixed(2)}</td>
                                         <td className="p-4 text-neutral-900 hover:dark:text-neutral-200 whitespace-nowrap dark:text-neutral-300">{order.status}</td>
                                     </tr>
                                 ))

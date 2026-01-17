@@ -529,7 +529,7 @@ const Checkout = () => {
                         <input
                            type="email"
                            value={user ? user.email : ""}
-                           className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-transparent"
+                           className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white"
                            disabled
                         />
                     </div>
@@ -553,7 +553,7 @@ const Checkout = () => {
                                         }));
                                     }
                                 }}
-                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-transparent ${
+                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white ${
                                     formErrors.firstName ? 'border-red-500' : ''
                                 } ${isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''}`}
                                 required
@@ -583,7 +583,7 @@ const Checkout = () => {
                                         }));
                                     }
                                 }}
-                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-transparent ${
+                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white ${
                                     formErrors.lastName ? 'border-red-500' : ''
                                 } ${isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''}`}
                                 required
@@ -609,7 +609,7 @@ const Checkout = () => {
                                     address: capitalizeFirstLetter(e.target.value)
                                 })
                             }
-                            className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-transparent ${
+                            className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white ${
                                 isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''
                             }`}
                             required
@@ -632,7 +632,7 @@ const Checkout = () => {
                                         city: capitalizeFirstLetter(e.target.value)
                                     })
                                 }
-                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-transparent ${
+                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white ${
                                     isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''
                                 }`}
                                 required
@@ -654,7 +654,7 @@ const Checkout = () => {
                                         postalCode: e.target.value.trim()
                                     })
                                 }
-                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-transparent ${
+                                className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white ${
                                     isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''
                                 }`}
                                 required
@@ -682,7 +682,7 @@ const Checkout = () => {
                                 }}
                                 onMouseDown={() => !isFormSubmitted && setIsDropdownOpen(!isDropdownOpen)}
                                 onBlur={() => setIsDropdownOpen(false)}
-                                className={`w-full p-2 pr-8 border rounded appearance-none dark:bg-neutral-700 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-transparent ${
+                                className={`w-full p-2 pr-8 border rounded appearance-none dark:bg-neutral-700 dark:border-neutral-700 dark:text-white ${
                                     isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : 'bg-white dark:bg-neutral-700'
                                 }`}
                                 required
@@ -716,7 +716,7 @@ const Checkout = () => {
                             name="phone"
                             value={shippingAddress.phone}
                             onChange={handlePhoneChange}
-                            className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-transparent ${
+                            className={`w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-700 dark:text-white ${
                                 formErrors.phone ? 'border-red-500 dark:border-red-700' : ''
                             } ${isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''}`}
                             required
@@ -827,7 +827,7 @@ const Checkout = () => {
                             </div>
                             {/* Price and remove button container */}
                             <div className="flex flex-col items-end justify-between">
-                                <p className="text-xl dark:text-neutral-200">{product.price?.toLocaleString()} €</p>
+                                <p className="text-xl dark:text-neutral-200">${product.price?.toLocaleString()}</p>
                                 {/* Delete icon */}
                                 <button
                                     onClick={() =>
@@ -857,14 +857,14 @@ const Checkout = () => {
                         <input
                             type="text"
                             placeholder="Don't forget your discount code!"
-                            className="flex-1 p-2 border rounded-l dark:bg-neutral-700 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-neutral-500 focus:border-transparent"
+                            className="flex-1 p-2 border rounded-l dark:bg-neutral-700 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
                             value={discountCode}
                             onChange={handleDiscountCodeChange}
                             onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
                             disabled={isFormSubmitted}
                         />
                         <button
-                            className="bg-black text-white px-4 py-2 rounded-r hover:bg-neutral-800 hover:outline hover:outline-1 hover:outline-none hover:outline-offset transition-colors"
+                            className="bg-black text-white px-4 py-2 rounded-r hover:bg-neutral-800 hover:outline hover:outline-1 hover:outline-white hover:outline-offset transition-colors"
                             onClick={handleApplyDiscount}
                             disabled={isFormSubmitted || !discountCode.trim() || isDiscountBeingApplied}
                         >
@@ -875,7 +875,7 @@ const Checkout = () => {
                         <p className="text-red-500 text-sm mt-1 dark:text-red-400">{discountError}</p>
                     )}
                     {discountApplied && (
-                        <p className="text-green-500 text-sm mt-1">
+                        <p className="text-green-600 dark:text-green-400 text-sm mt-1">
                             {discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4
                                 ? 'Discount applied: free shipping'
                                 : `Discount applied: ${discountPercentage}% off`}
@@ -889,12 +889,12 @@ const Checkout = () => {
                         {discountApplied && discountCode.trim().toUpperCase() !== import.meta.env.VITE_DISCOUNT_CODE4 ? (
                             <span>
                                 <span className="line-through text-neutral-400 mr-2 dark:text-neutral-500">
-                                    {cart.totalPrice?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
+                                    ${cart.totalPrice?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                 </span>
-                                <span>{discountedPrice?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</span>
+                                <span>${discountedPrice?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                             </span>
                         ) : (
-                            `${cart.totalPrice?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`
+                            `$${cart.totalPrice?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
                         )}
                     </p>
                 </div>
@@ -910,8 +910,8 @@ const Checkout = () => {
                 {discountApplied && (
                     <div className="flex justify-between items-center text-lg mt-2 dark:text-neutral-200">
                         <p>Discount ({discountPercentage}% off)</p>
-                        <p className="text-green-500">
-                            - {discountAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
+                        <p className="text-green-600">
+                            -${discountAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </p>
                     </div>
                 )}
@@ -920,16 +920,16 @@ const Checkout = () => {
                     <p className={((discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4) || (!discountApplied && cart.totalPrice >= 100)) ? 'text-green-600 font-medium' : ''}>
                         {(discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4) || (!discountApplied && cart.totalPrice >= 100)
                             ? 'Free!'
-                            : (shippingCost > 0 ? `${shippingCost.toFixed(2)} €` : 'calculated at checkout')}
+                            : (shippingCost > 0 ? `$${shippingCost.toFixed(2)}` : 'calculated at checkout')}
                     </p>
                 </div>
                 <div className="flex justify-between items-center text-xl font-semibold mt-4 border-t border-neutral-200 dark:border-neutral-700 pt-4 dark:text-white">
                     <p>Total</p>
                     <p>
-                        {`${(
+                        {`$${(
                             (discountApplied ? discountedPrice : cart.totalPrice) +
                             (discountApplied && discountCode.trim().toUpperCase() === import.meta.env.VITE_DISCOUNT_CODE4 ? 0 : shippingCost)
-                        ).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`}
+                        ).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
                     </p>
                 </div>
 
