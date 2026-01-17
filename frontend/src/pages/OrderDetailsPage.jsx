@@ -369,9 +369,9 @@ const OrderDetailsPage = () => {
                                                {item.name}
                                            </Link>
                                        </td>
-                                       <td className="py-2 px-4">${item.price}</td>
+                                       <td className="py-2 px-4">{item.price} €</td>
                                        <td className="py-2 px-4 text-center">{item.quantity}</td>
-                                       <td className="py-2 px-4">${item.price * item.quantity}</td>
+                                       <td className="py-2 px-4">{item.price * item.quantity} €</td>
                                    </tr>
                                ))}
                                 </tbody>
@@ -385,13 +385,13 @@ const OrderDetailsPage = () => {
                             <div className="space-y-2">
                                 <div className="flex justify-between">
                                     <span>Subtotal</span>
-                                    <span>${orderDetails.subtotal?.toFixed(2) || orderDetails.orderItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2) || '0.00'}</span>
+                                    <span>{orderDetails.subtotal?.toFixed(2) || orderDetails.orderItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2) || '0.00'} €</span>
                                 </div>
 
                                 {orderDetails.discount?.amount > 0 && (
                                     <div className="flex justify-between">
                                         <span>Discount {orderDetails.discount.percentage > 0 ? `(${orderDetails.discount.percentage}% off)` : ''}</span>
-                                        <span className="text-green-600">-${orderDetails.discount.amount.toFixed(2)}</span>
+                                        <span className="text-green-600">-{orderDetails.discount.amount.toFixed(2)} €</span>
                                     </div>
                                 )}
 
@@ -401,7 +401,7 @@ const OrderDetailsPage = () => {
                                     {orderDetails.discount?.isFreeShipping ? (
                                         <span className="text-green-600">Free!</span>
                                     ) : orderDetails.shippingCost > 0 ? (
-                                        `$${orderDetails.shippingCost.toFixed(2)}`
+                                        `${orderDetails.shippingCost.toFixed(2)} €`
                                     ) : orderDetails.shippingAddress?.country ? (
                                         // If we have a country but no shipping cost, calculate it
                                         (() => {

@@ -171,9 +171,9 @@ const MyOrdersPage = () => {
                                             <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell lg:text-left">
                                                 <div className="lg:hidden flex justify-between items-center">
                                                     <span className="font-semibold text-sm uppercase text-left">Price</span>
-                                                    <span className="text-right">${Number(order.totalPrice).toFixed(2)}</span>
+                                                    <span className="text-right">{Number(order.totalPrice).toFixed(2)} €</span>
                                                 </div>
-                                                <div className="hidden lg:block">${Number(order.totalPrice).toFixed(2)}</div>
+                                                <div className="hidden lg:block">{Number(order.totalPrice).toFixed(2)} €</div>
                                             </td>
                                             <td className="py-2 px-2 sm:py-4 sm:px-4 block lg:table-cell lg:text-left">
                                                 <div className="lg:hidden flex justify-between items-center">

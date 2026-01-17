@@ -312,7 +312,7 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
                                             </span>
                                         </h3>
                                         <p className="text-white font-bold text-sm md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300">
-                                            ${product.price}
+                                            {product.price} €
                                         </p>
                                     </div>
                                 </div>

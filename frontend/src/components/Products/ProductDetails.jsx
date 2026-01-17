@@ -538,7 +538,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                                                     {product.name || 'Product'}
                                                                                 </p>
                                                                                 <p className={`text-[10px] text-neutral-400`}>
-                                                                                    ${product.price % 1 === 0 ? product.price.toFixed(0) : product.price?.toFixed(2) || '0'}
+                                                                                    {product.price % 1 === 0 ? product.price.toFixed(0) : product.price?.toFixed(2) || '0'} €
                                                                                 </p>
                                                                             </div>
                                                                         </div>
@@ -661,7 +661,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                 </p>
                                             )}
                                             <p className={`text-3xl font-medium mb-2 ${themeClasses.text}`}>
-                                                $ {selectedProduct.price}
+                                                {selectedProduct.price} €
                                             </p>
                                             <div className="flex items-center">
                                                 <div className="flex items-center">
