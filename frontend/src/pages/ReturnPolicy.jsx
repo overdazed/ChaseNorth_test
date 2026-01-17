@@ -30,7 +30,7 @@ const ReturnPolicy = () => {
               </div>
             </div>
           </div>
-          <div className="md:col-span-3">
+          <div className="md:col-span-3 flex justify-center">
             <div className="bg-neutral-100 dark:bg-neutral-800 p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold text-neutral-800 dark:text-white mb-4">
                 30-Day Return Policy
@@ -43,7 +43,7 @@ const ReturnPolicy = () => {
                 <li>Tags and labels must be attached.</li>
                 <li>Proof of purchase is required.</li>
               </ul>
-              <p className="text-neutral-600 dark:text-neutral-300 mb-4">
+              <p className="text-neutral-600 dark:text-neutral-300 mb-4 mt-20">
                 To initiate a return, please contact us at <a href="mailto:support@chasenorth.com" className="text-blue-600 dark:text-blue-400">support@chasenorth.com</a>.
               </p>
             </div>
