@@ -11,7 +11,7 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes, useLocation, useNavigationType } from "react-router-dom";
 import { useEffect, useRef } from 'react';
-
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 
 // This component handles scroll restoration
