@@ -249,6 +249,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
     const [reviewsLoading, setReviewsLoading] = useState(true);
     const [refreshReviews, setRefreshReviews] = useState(0); // Add a refresh trigger
     const [selectedStarFilter, setSelectedStarFilter] = useState(null);
+    const [showStarDropdown, setShowStarDropdown] = useState(false);
 
     // Fetch reviews when product changes or when refresh is triggered
     const fetchReviews = useCallback(async () => {
@@ -1085,36 +1086,6 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                         </button>
                     </div>
 
-                    {/* Star Filter Section */}
-                    <div className="mt-6 flex flex-wrap gap-2">
-                        {[5, 4, 3, 2, 1].map((star) => {
-                            const count = reviews.filter(review => Math.round(review.rating) === star).length;
-                            return (
-                                <button
-                                    key={star}
-                                    onClick={() => setSelectedStarFilter(star)}
-                                    className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${
-                                        selectedStarFilter === star
-                                            ? 'bg-blue-500 text-white border-blue-500'
-                                            : 'bg-white text-neutral-700 border-neutral-300 hover:bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-600 dark:hover:bg-neutral-700'
-                                    }`}
-                                >
-                                    {star} Star{star > 1 ? 's' : ''} ({count})
-                                </button>
-                            );
-                        })}
-                        <button
-                            onClick={() => setSelectedStarFilter(null)}
-                            className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${
-                                selectedStarFilter === null
-                                    ? 'bg-blue-500 text-white border-blue-500'
-                                    : 'bg-white text-neutral-700 border-neutral-300 hover:bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-600 dark:hover:bg-neutral-700'
-                            }`}
-                        >
-                            All Reviews
-                        </button>
-                    </div>
-
                     {/* Rating Distribution */}
                     <div className="mt-6">
                         {/*<h3 className="text-lg font-medium mb-4">Rating Breakdown</h3>*/}
@@ -1260,6 +1231,61 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                         </div>
                     </div>
 
+                    {/* Star Filter Section */}
+                    <div className="mt-6 flex flex-wrap gap-2 items-center">
+                        <div className="relative inline-block text-left">
+                            <div>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowStarDropdown(!showStarDropdown)}
+                                    className="inline-flex justify-center w-full rounded-full shadow-sm px-4 py-2 bg-white text-sm font-medium text-neutral-700 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-600 dark:hover:bg-neutral-700"
+                                    id="options-menu"
+                                    aria-haspopup="true"
+                                    aria-expanded="true"
+                                >
+                                    {selectedStarFilter ? `${selectedStarFilter} Star${selectedStarFilter > 1 ? 's' : ''}` : 'Filter by Rating'}
+                                    <svg className="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            {showStarDropdown && (
+                                <div className="origin-top-right absolute left-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10 dark:bg-neutral-800 dark:ring-neutral-600">
+                                    <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                                        {[5, 4, 3, 2, 1].map((star) => {
+                                            const count = reviews.filter(review => Math.round(review.rating) === star).length;
+                                            return (
+                                                <button
+                                                    key={star}
+                                                    onClick={() => {
+                                                        setSelectedStarFilter(star);
+                                                        setShowStarDropdown(false);
+                                                    }}
+                                                    className="w-full text-left block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:hover:text-neutral-50"
+                                                    role="menuitem"
+                                                >
+                                                    {star} Star{star > 1 ? 's' : ''} ({count})
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <button
+                            onClick={() => setSelectedStarFilter(null)}
+                            className={`px-3 py-1.5 text-sm rounded-full transition-colors ${
+                                selectedStarFilter === null
+                                    ? 'bg-blue-500 text-white border-blue-500'
+                                    : 'bg-white text-neutral-700 hover:bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-600 dark:hover:bg-neutral-700'
+                            }`}
+                        >
+                            All Reviews
+                        </button>
+                    </div>
+
                     {/* Review Section */}
                     <section className="mt-12">
                         <div className="flex justify-between items-center mb-6">
@@ -1299,6 +1325,10 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     }
                                 }
                             }}
+                            filteredReviews={selectedStarFilter !== null
+                                ? reviews.filter(review => Math.round(review.rating) === selectedStarFilter)
+                                : reviews
+                            }
                         />
                     </section>
 

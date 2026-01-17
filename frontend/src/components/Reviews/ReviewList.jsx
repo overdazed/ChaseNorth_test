@@ -15,7 +15,7 @@ const isDaytime = () => {
 // Alias for backward compatibility
 const getWidthDisplay = getWidthDisplayText;
 
-const ReviewList = ({ productId, productName, refreshKey, currentUser, onReviewAction }) => {
+const ReviewList = ({ productId, productName, refreshKey, currentUser, onReviewAction, filteredReviews }) => {
   const [reviews, setReviews] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -331,7 +331,7 @@ const ReviewList = ({ productId, productName, refreshKey, currentUser, onReviewA
   return (
     <>
       <div className="space-y-6">
-        {reviews.map((review) => (
+        {(filteredReviews || reviews).map((review) => (
           <div key={review._id} className="border-b border-neutral-200 pb-6 last:border-0">
             <div className="flex justify-between items-start">
               <div className="flex-1">
