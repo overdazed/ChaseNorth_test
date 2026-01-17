@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CanvasRevealEffect } from "@/components/ui/CanvasRevealEffect";
 import { Link } from "react-router-dom";
+import { getColorHex } from "@/utils/colorUtils";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -145,42 +146,46 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
     fetchWeeklyProduct();
   }, []);
 
-  // Fetch the most recent product for New Arrivals Card
-  const [newArrivalsProduct, setNewArrivalsProduct] = useState(null);
+  // Fetch the best selling product for New Arrivals Card
+  const [bestSellingProduct, setBestSellingProduct] = useState(null);
   const [mensNewItemProduct, setMensNewItemProduct] = useState(null);
 
   useEffect(() => {
-    const fetchNewArrivalsProduct = async () => {
+    const fetchProducts = async () => {
       try {
-        const response = await fetch(`${API_BASE}/api/products/new-arrivals?limit=1`);
+        // Fetch best selling product
+        const bestSellerResponse = await fetch(`${API_BASE}/api/products/best-seller`);
+        if (bestSellerResponse.ok) {
+          const bestSeller = await bestSellerResponse.json();
+          setBestSellingProduct(bestSeller);
+        }
+
+        // Fetch all new arrivals products for men's section
+        const response = await fetch(`${API_BASE}/api/products/new-arrivals?limit=10`);
         if (response.ok) {
-          const products = await response.json();
-          if (products.length > 0) {
-            setNewArrivalsProduct(products[0]);
+          const allProducts = await response.json();
+
+          // Get the weekly product ID to avoid duplication
+          const weeklyProductId = weeklyProduct?._id || weeklyProduct?.id;
+
+          // Filter out the weekly product if it exists in new arrivals
+          const filteredProducts = weeklyProductId
+            ? allProducts.filter(p => p._id !== weeklyProductId && p.id !== weeklyProductId)
+            : allProducts;
+
+          // Filter for men's products and exclude weekly product
+          const mensProducts = filteredProducts.filter(p => p.gender === 'Men');
+          if (mensProducts.length > 0) {
+            setMensNewItemProduct(mensProducts[0]);
           }
         }
       } catch (err) {
-        console.error('Error fetching new arrivals product:', err);
+        console.error('Error fetching products:', err);
       }
     };
 
-    const fetchMensNewItemProduct = async () => {
-      try {
-        const response = await fetch(`${API_BASE}/api/products/new-arrivals?gender=Men&limit=1`);
-        if (response.ok) {
-          const products = await response.json();
-          if (products.length > 0) {
-            setMensNewItemProduct(products[0]);
-          }
-        }
-      } catch (err) {
-        console.error('Error fetching men\'s new item product:', err);
-      }
-    };
-
-    fetchNewArrivalsProduct();
-    fetchMensNewItemProduct();
-  }, []);
+    fetchProducts();
+  }, [weeklyProduct]);
 
   if (loading) {
     return (
@@ -258,8 +263,8 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                             {weeklyProduct.colors.map((color, i) => (
                                 <div
                                     key={i}
-                                    className="w-6 h-6 rounded-full border-2 border-white shadow-md"
-                                    style={{ backgroundColor: color }}
+                                    className="w-6 h-6 rounded-full border-1 border-white shadow-md"
+                                    style={{ backgroundColor: getColorHex(color) }}
                                 />
                             ))}
                           </div>
@@ -286,9 +291,9 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
             )}
 
             <div className="w-full h-full">
-              {newArrivalsProduct ? (
+              {bestSellingProduct ? (
                 <Link
-                    to={`/product/${newArrivalsProduct._id || newArrivalsProduct.id}`}
+                    to={`/product/${bestSellingProduct._id || bestSellingProduct.id}`}
                     onClick={(e) => {
                       const scrollY =
                           window.scrollY || document.documentElement.scrollTop;
@@ -300,28 +305,28 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                     className="block w-full h-full"
                 >
                   <Card
-                      title="New Arrivals"
+                      title="Best Selling"
                       icon={<AceternityIcon isDarkMode={isDarkMode} />}
                       isDarkMode={isDarkMode}
                   >
                     <div className="absolute inset-0">
                       <img
                           src={
-                              newArrivalsProduct.images?.[0]?.url ||
+                              bestSellingProduct.images?.[0]?.url ||
                               "https://via.placeholder.com/400x600?text=No+Image"
                           }
-                          alt={newArrivalsProduct.name}
+                          alt={bestSellingProduct.name}
                           className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-black/10" />
                     </div>
-                    {newArrivalsProduct.colors && newArrivalsProduct.colors.length > 0 && (
+                    {bestSellingProduct.colors && bestSellingProduct.colors.length > 0 && (
                         <div className="absolute bottom-4 right-4 flex space-x-2 z-10">
-                          {newArrivalsProduct.colors.map((color, i) => (
+                          {bestSellingProduct.colors.map((color, i) => (
                               <div
                                   key={i}
-                                  className="w-6 h-6 rounded-full border-2 border-white shadow-md"
-                                  style={{ backgroundColor: color }}
+                                  className="w-6 h-6 rounded-full border-1 border-white shadow-md"
+                                  style={{ backgroundColor: getColorHex(color) }}
                               />
                           ))}
                         </div>
@@ -329,24 +334,24 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                     <div className="absolute bottom-0 left-0 right-0 pt-24 pb-6 px-6 bg-gradient-to-t from-black/95 via-black/60 via-50% to-transparent">
                       <div className="flex justify-between items-start">
                         <h3 className="text-xl font-semibold text-white">
-                          {newArrivalsProduct.name}
+                          {bestSellingProduct.name}
                         </h3>
                         <span className="text-lg font-bold text-white">
-                      {newArrivalsProduct.price?.toLocaleString("en-US", {
+                      {bestSellingProduct.price?.toLocaleString("en-US", {
                         style: "currency",
                         currency: "USD",
                       })}
                     </span>
                       </div>
-                      {newArrivalsProduct.brand && (
-                          <p className="text-neutral-200 mt-1">{newArrivalsProduct.brand}</p>
+                      {bestSellingProduct.brand && (
+                          <p className="text-neutral-200 mt-1">{bestSellingProduct.brand}</p>
                       )}
                     </div>
                   </Card>
                 </Link>
               ) : (
                 <Card
-                    title="New Arrivals"
+                    title="Best Selling"
                     icon={<AceternityIcon isDarkMode={isDarkMode} />}
                     isDarkMode={isDarkMode}
                 >
@@ -397,8 +402,8 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                           {mensNewItemProduct.colors.map((color, i) => (
                               <div
                                   key={i}
-                                  className="w-6 h-6 rounded-full border-2 border-white shadow-md"
-                                  style={{ backgroundColor: color }}
+                                  className="w-6 h-6 rounded-full border-1 border-white shadow-md"
+                                  style={{ backgroundColor: getColorHex(color) }}
                               />
                           ))}
                         </div>
