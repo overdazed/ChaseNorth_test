@@ -6,6 +6,7 @@ import { fetchProductDetails, updateWishlistCount } from '../redux/slices/produc
 import { useDispatch, useSelector } from 'react-redux';
 import FilterSidebar from '../components/Products/FilterSidebar';
 import SortOptions from '../components/Products/SortOptions';
+import { getColorHex } from '../utils/colorUtils';
 
 // Helper function to check if product is new (added within last 14 days)
 const isProductNew = (createdAt) => {
@@ -17,6 +18,20 @@ const isProductNew = (createdAt) => {
   return diffDays <= 14;
 };
 
+const CornerIcon = ({ className }) => (
+    <>
+      <img
+          src="/src/assets/ChaseNorth_x-black.svg"
+          alt=""
+          className={`${className} w-6 h-6 dark:hidden`}
+      />
+      <img
+          src="/src/assets/ChaseNorth_x-white.svg"
+          alt=""
+          className={`${className} w-6 h-6 hidden dark:block`}
+      />
+    </>
+);
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
@@ -416,7 +431,122 @@ const Wishlist = () => {
           </div>
           {filteredProducts.length > 0 ? (
               <div className="w-full">
-                <ProductGrid products={filteredProducts} isDay={isDay} />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 w-full max-w-[1600px] mx-auto px-4">
+                  {filteredProducts.map((product, index) => (
+                      <div
+                          key={product._id}
+                          className={`relative w-full group ${isDay ? 'border-[0.5px] border-black/10 hover:shadow-lg transition-all duration-300 bg-white' : 'ring-[0.15px] ring-neutral-50/80 hover:ring-1 hover:ring-neutral-50 transition-all duration-300 bg-neutral-900'}`}
+                      >
+                        {/* Corner Icons - First product: top-left, Last product: bottom-right */}
+                        {index === 0 && (
+                            <CornerIcon className="absolute -top-3 -left-3 z-20" />
+                        )}
+                        {index === products.length - 1 && (
+                            <CornerIcon className="absolute -bottom-3 -right-3 z-20" />
+                        )}
+
+                        <Link
+                            to={`/product/${product._id}`}
+                            onClick={(e) => handleProductClick(e, product._id)}
+                            className="block w-full relative overflow-hidden"
+                        >
+                          {/* Aspect ratio container - 4:5 */}
+                          <div className="relative w-full aspect-[4/5] overflow-hidden">
+                            {/* New Product Badge */}
+                            {isProductNew(product.createdAt) && (
+                                <img
+                                    src="/new-star.svg"
+                                    alt="New Arrival"
+                                    className="absolute -top-2 -left-2 z-10 h-12 w-12 md:h-16 md:w-16"
+                                />
+                            )}
+
+                            {/* Color Indicators */}
+                            {product.colors?.length > 0 && (
+                                <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-10 flex space-x-1.5 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200 hidden md:flex">
+                                    {product.colors.map((color, i) => (
+                                        <div
+                                            key={i}
+                                            className="w-4 h-4 md:w-6 md:h-6 rounded-full border border-neutral-600 shadow-sm"
+                                            style={{
+                                                backgroundColor: getColorHex(color),
+                                                filter: 'saturate(0.7)',
+                                                border: getColorHex(color) === '#FFFFFF' || getColorHex(color) === '#FFF' ? '1px solid #525252' : 'none'
+                                            }}
+                                            title={color}
+                                            aria-label={color}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* Product Image with Contained Zoom */}
+                            <div className="absolute inset-0 overflow-hidden">
+                              <div
+                                  style={{
+                                    backgroundImage: `url(${product.images?.[0]?.url || 'https://via.placeholder.com/400'})`,
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
+                                    width: "100%",
+                                    height: "100%",
+                                    position: "absolute"
+                                  }}
+                                  className="transition-transform duration-500 ease-out group-hover:scale-105"
+                              />
+                            </div>
+
+                            {/* Product Info Overlay */}
+                            <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 bg-gradient-to-t from-black/70 to-transparent">
+                              {/* Brand Name - Hidden by default, shown on hover */}
+                              <div className="absolute bottom-1 left-0 md:bottom-4 md:left-2 p-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
+                                  <p className="text-neutral-300 text-xs md:text-sm font-normal">
+                                      {product.brand || 'Chase North'}
+                                  </p>
+                              </div>
+
+                              <div className="flex flex-col">
+                                  <div className="flex justify-between items-start">
+                                      <h3 className="text-white font-bold text-xs md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300 truncate">
+                                          <>
+                                              <span className="max-[550px]:hidden">
+                                                  {product.name}
+                                              </span>
+                                              <span className="hidden max-[550px]:inline truncate">
+                                                  {product.name.length > 12 ? `${product.name.substring(0, 12)}...` : product.name}
+                                              </span>
+                                          </>
+                                      </h3>
+                                      <p className="text-white font-bold text-xs sm:text-sm md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300 whitespace-nowrap">
+                                          {product.price} €
+                                      </p>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+
+                        {/* Heart Icon for removal */}
+                        <div className="absolute top-2 right-0 md:top-2 md:right-2 z-10 w-8 h-8 md:w-6 md:h-6">
+                          <div
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                removeFromWishlist(product._id);
+                              }}
+                              style={{ width: '100%', height: '100%', cursor: 'pointer' }}
+                          >
+                            <HeartIcon
+                                productId={product._id}
+                                className="w-full h-full text-red-500"
+                                containerClass="w-full h-full"
+                                isFilled={true}
+                                noAnimation={true}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                  ))}
+                </div>
               </div>
           ) : (
               <div className="bg-white dark:bg-neutral-900 rounded-lg shadow p-6 text-center max-w-2xl mx-auto">
