@@ -1251,7 +1251,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                             </div>
 
                             {showStarDropdown && (
-                                <div className="origin-top-right absolute left-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10 dark:bg-neutral-800 dark:ring-neutral-600">
+                                <div className="origin-top-right absolute left-0 mt-2 w-40 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10 dark:bg-neutral-800 dark:ring-neutral-600">
                                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                         {[5, 4, 3, 2, 1].map((star) => {
                                             const count = reviews.filter(review => Math.round(review.rating) === star).length;
