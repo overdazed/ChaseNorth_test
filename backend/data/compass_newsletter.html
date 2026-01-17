@@ -2,126 +2,87 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="color-scheme" content="light dark">
-    <meta name="supported-color-schemes" content="light dark">
     <title>Setz deinen Kompass</title>
     <style>
-        /* Reset for email clients */
-        body, p, h1, h2, h3, h4, h5, h6 {
-            margin: 0;
-            padding: 0;
-            -webkit-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%;
+        body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, Helvetica, Arial, sans-serif;
             line-height: 1.6;
             color: #111111;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 32px 20px;
+            background-color: #f6f6f6;
         }
-
-        /* Base styles */
-        .main-bg {
-            background-color: #f6f6f6 !important;
+        .content {
+            padding: 32px;
+            margin: 32px;
         }
-
-        .content-bg {
-            background-color: #ffffff !important;
-        }
-
         .accent {
-            color: #571100 !important;
+            color: #571100;
+            font-weight: 500;
         }
-
-        .text {
-            color: #111111 !important;
+        .discount-code {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: #571100;
+            margin: 16px 0;
         }
-
-        .light-text {
-            color: #5f6368 !important;
+        .footer {
+            margin-top: 32px;
+            font-size: 14px;
+            color: #5f6368;
         }
-
-        /* Dark mode overrides - will only work in clients that support it */
-        @media (prefers-color-scheme: dark) {
-            .content-bg, .content-bg td {
-                background-color: #121212 !important;
-                color: #e0e0e0 !important;
-            }
-
-            .accent, .accent * {
-                color: #ff8a80 !important;
-            }
-
-            .text, .light-text {
-                color: #e0e0e0 !important;
-            }
-
-            a {
-                color: #8ab4f8 !important;
-            }
+        a {
+            color: #571100;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
-    <!--[if mso]>
-    <style type="text/css">
-        /* Outlook-specific overrides */
-        .main-bg, .content-bg, .content-bg td {
-            background-color: #ffffff !important;
-            color: #111111 !important;
-        }
-        .accent, .accent * {
-            color: #571100 !important;
-        }
-    </style>
-    <![endif]-->
 </head>
-<body style="margin:0; padding:; background-color:#f6f6f6;" class="main-bg">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f6f6f6" style="background-color: #f6f6f6;">
-    <tr>
-        <td align="center" valign="top">
-            <table class="content-bg" width="600" border="0" cellspacing="0" cellpadding="40" bgcolor="#ffffff" style="background-color: #ffffff; max-width: 600px; width: 100%;">
-                <tr>
-                    <td style="font-size:16px; line-height:1.6;" class="text">
-                        <!-- Header with accent color -->
-                        <p style="margin-top:0; margin-bottom:20px; font-size:20px; font-weight:500; letter-spacing:0.2px;" class="accent">
-                            Willkommen bei <strong style="color: inherit;">Compass</strong> – deinem inneren Kreis von ChaseNorth
-                        </p>
+<body>
+<div class="content">
+    <!-- Header with accent color -->
+    <p style="margin-top:0; margin-bottom:20px; font-size:20px;" class="accent">
+        Willkommen bei <strong>Compass</strong> – deinem inneren Kreis von ChaseNorth
+    </p>
 
-                        <!-- Main content -->
-                        <p style="margin-bottom:20px; font-size:16px;" class="text">
-                            Wir stehen für <strong style="color: inherit;">bewusst ausgewählte Produkte</strong>: fair, vegan, mit Respekt vor Mensch, Tier und Umwelt.
-                            Alles, was wir teilen, ist sorgfältig geprüft.
-                        </p>
+    <!-- Main content -->
+    <p style="margin-bottom:20px;">
+        Wir stehen für <strong>bewusst ausgewählte Produkte</strong>: fair, vegan, mit Respekt vor Mensch, Tier und Umwelt.
+        Alles, was wir teilen, ist sorgfältig geprüft.
+    </p>
 
-                        <p style="margin-bottom:16px; font-size:16px;" class="text">
-                            Zum Start bekommst du etwas mit auf den Weg:
-                        </p>
+    <p style="margin-bottom:16px;">
+        Zum Start bekommst du etwas mit auf den Weg:
+    </p>
 
-                        <!-- Discount code with accent color -->
-                        <p style="font-size:22px; font-weight:600; letter-spacing:1.5px; margin-bottom:16px;" class="accent">
-                            COMPASS10
-                        </p>
+    <!-- Discount code with accent color -->
+    <p class="discount-code">
+        <strong style="color: #571100;">COMPASS10</strong>
+    </p>
 
-                        <p style="margin-bottom:20px; font-size:16px;" class="text">
-                            10&nbsp;% auf deine erste Bestellung.<br>
-                            Dein Weg beginnt hier. Der Rabattcode wartet, wenn du ihn brauchst.
-                        </p>
+    <p style="margin-bottom:20px;">
+        10&nbsp;% auf deine erste Bestellung.<br>
+        Dein Weg beginnt hier. Der Rabattcode wartet, wenn du ihn brauchst.
+    </p>
 
-                        <p style="margin-bottom:20px; font-size:16px; line-height:1.6;" class="text">
-                            Lass dich treiben.<br>
-                            Zieh weiter, wenn es Zeit ist.<br>
-                            Willkommen an Bord. Dein Kompass zeigt nach Norden.
-                        </p>
+    <p style="margin-bottom:20px; line-height:1.6;">
+        Lass dich treiben.<br>
+        Zieh weiter, wenn es Zeit ist.<br>
+        Willkommen an Bord. Dein Kompass zeigt nach Norden.
+    </p>
 
-                        <!-- Footer -->
-                        <p style="margin-top:30px; font-size:14px;" class="light-text">
-                            —<br>
-                            ChaseNorth<br>
-                            <a href="mailto:compass@chasenorth.com" style="color: #571100; text-decoration: none;" class="accent">
-                                compass@chasenorth.com
-                            </a>
-                        </p>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+    <!-- Footer -->
+    <div class="footer">
+        <p>
+            —<br>
+            ChaseNorth<br>
+            <a href="mailto:compass@chasenorth.com">compass@chasenorth.com</a>
+        </p>
+    </div>
+</div>
 </body>
 </html>
