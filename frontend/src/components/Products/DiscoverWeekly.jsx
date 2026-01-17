@@ -275,9 +275,9 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                             {weeklyProduct.name}
                           </h3>
                           <span className="text-lg font-bold text-white">
-                        {weeklyProduct.price?.toLocaleString("en-US", {
+                        {weeklyProduct.price?.toLocaleString("de-DE", {
                           style: "currency",
-                          currency: "USD",
+                          currency: "EUR",
                         })}
                       </span>
                         </div>
@@ -337,9 +337,9 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                           {bestSellingProduct.name}
                         </h3>
                         <span className="text-lg font-bold text-white">
-                      {bestSellingProduct.price?.toLocaleString("en-US", {
+                      {bestSellingProduct.price?.toLocaleString("de-DE", {
                         style: "currency",
-                        currency: "USD",
+                        currency: "EUR",
                       })}
                     </span>
                       </div>
@@ -414,9 +414,9 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                           {mensNewItemProduct.name}
                         </h3>
                         <span className="text-lg font-bold text-white">
-                      {mensNewItemProduct.price?.toLocaleString("en-US", {
+                      {mensNewItemProduct.price?.toLocaleString("de-DE", {
                         style: "currency",
-                        currency: "USD",
+                        currency: "EUR",
                       })}
                     </span>
                       </div>
