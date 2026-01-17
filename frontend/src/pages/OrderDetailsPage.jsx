@@ -407,7 +407,7 @@ const OrderDetailsPage = () => {
                                         (() => {
                                             const countryName = orderDetails.shippingAddress.country;
                                             const shippingCost = getShippingCost(countryName);
-                                            return `$${shippingCost.toFixed(2)}`;
+                                            return `${shippingCost.toFixed(2)} €`;
                                         })()
                                     ) : (
                                         'Not available'
@@ -419,7 +419,7 @@ const OrderDetailsPage = () => {
 
                                 <div className="flex justify-between text-lg font-semibold">
                                     <span>Total</span>
-                                    <span>${(() => {
+                                    <span>{(() => {
                                         // Calculate subtotal from items if not provided
                                         const subtotal = orderDetails.subtotal ||
                                             orderDetails.orderItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0;
@@ -442,7 +442,7 @@ const OrderDetailsPage = () => {
 
                                         // Return formatted total
                                         return total.toFixed(2);
-                                    })()}</span>
+                                    })()} €</span>
                                 </div>
                             </div>
                         </div>
