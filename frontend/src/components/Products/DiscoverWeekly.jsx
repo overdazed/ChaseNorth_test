@@ -145,6 +145,43 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
     fetchWeeklyProduct();
   }, []);
 
+  // Fetch the most recent product for New Arrivals Card
+  const [newArrivalsProduct, setNewArrivalsProduct] = useState(null);
+  const [mensNewItemProduct, setMensNewItemProduct] = useState(null);
+
+  useEffect(() => {
+    const fetchNewArrivalsProduct = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/api/products/new-arrivals?limit=1`);
+        if (response.ok) {
+          const products = await response.json();
+          if (products.length > 0) {
+            setNewArrivalsProduct(products[0]);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching new arrivals product:', err);
+      }
+    };
+
+    const fetchMensNewItemProduct = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/api/products/new-arrivals?gender=Men&limit=1`);
+        if (response.ok) {
+          const products = await response.json();
+          if (products.length > 0) {
+            setMensNewItemProduct(products[0]);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching men\'s new item product:', err);
+      }
+    };
+
+    fetchNewArrivalsProduct();
+    fetchMensNewItemProduct();
+  }, []);
+
   if (loading) {
     return (
         <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
@@ -217,7 +254,7 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                         <div className="absolute inset-0 bg-black/10" />
                       </div>
                       {weeklyProduct.colors && weeklyProduct.colors.length > 0 && (
-                          <div className="absolute bottom-4 right-4 flex space-x-2">
+                          <div className="absolute bottom-4 right-4 flex space-x-2 z-10">
                             {weeklyProduct.colors.map((color, i) => (
                                 <div
                                     key={i}
@@ -249,37 +286,157 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
             )}
 
             <div className="w-full h-full">
-              <Card
-                  title="New Arrivals"
-                  icon={<AceternityIcon isDarkMode={isDarkMode} />}
-                  isDarkMode={isDarkMode}
-              >
-                <CanvasRevealEffect
-                    animationSpeed={3}
-                    containerClassName={isDarkMode ? "bg-red-700" : "bg-red-600"}
-                    colors={isDarkMode ? [[220, 38, 38]] : [[239, 68, 68]]}
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white text-xl font-bold">Coming Soon</span>
-                </div>
-              </Card>
+              {newArrivalsProduct ? (
+                <Link
+                    to={`/product/${newArrivalsProduct._id || newArrivalsProduct.id}`}
+                    onClick={(e) => {
+                      const scrollY =
+                          window.scrollY || document.documentElement.scrollTop;
+                      sessionStorage.setItem(
+                          `scrollPos:${window.location.pathname}`,
+                          scrollY
+                      );
+                    }}
+                    className="block w-full h-full"
+                >
+                  <Card
+                      title="New Arrivals"
+                      icon={<AceternityIcon isDarkMode={isDarkMode} />}
+                      isDarkMode={isDarkMode}
+                  >
+                    <div className="absolute inset-0">
+                      <img
+                          src={
+                              newArrivalsProduct.images?.[0]?.url ||
+                              "https://via.placeholder.com/400x600?text=No+Image"
+                          }
+                          alt={newArrivalsProduct.name}
+                          className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/10" />
+                    </div>
+                    {newArrivalsProduct.colors && newArrivalsProduct.colors.length > 0 && (
+                        <div className="absolute bottom-4 right-4 flex space-x-2 z-10">
+                          {newArrivalsProduct.colors.map((color, i) => (
+                              <div
+                                  key={i}
+                                  className="w-6 h-6 rounded-full border-2 border-white shadow-md"
+                                  style={{ backgroundColor: color }}
+                              />
+                          ))}
+                        </div>
+                    )}
+                    <div className="absolute bottom-0 left-0 right-0 pt-24 pb-6 px-6 bg-gradient-to-t from-black/95 via-black/60 via-50% to-transparent">
+                      <div className="flex justify-between items-start">
+                        <h3 className="text-xl font-semibold text-white">
+                          {newArrivalsProduct.name}
+                        </h3>
+                        <span className="text-lg font-bold text-white">
+                      {newArrivalsProduct.price?.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </span>
+                      </div>
+                      {newArrivalsProduct.brand && (
+                          <p className="text-neutral-200 mt-1">{newArrivalsProduct.brand}</p>
+                      )}
+                    </div>
+                  </Card>
+                </Link>
+              ) : (
+                <Card
+                    title="New Arrivals"
+                    icon={<AceternityIcon isDarkMode={isDarkMode} />}
+                    isDarkMode={isDarkMode}
+                >
+                  <CanvasRevealEffect
+                      animationSpeed={3}
+                      containerClassName={isDarkMode ? "bg-red-700" : "bg-red-600"}
+                      colors={isDarkMode ? [[220, 38, 38]] : [[239, 68, 68]]}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-white text-xl font-bold">Coming Soon</span>
+                  </div>
+                </Card>
+              )}
             </div>
 
             <div className="w-full h-full">
-              <Card
-                  title="Men's new item"
-                  icon={<AceternityIcon isDarkMode={isDarkMode} />}
-                  isDarkMode={isDarkMode}
-              >
-                <CanvasRevealEffect
-                    animationSpeed={3}
-                    containerClassName={isDarkMode ? "bg-sky-700" : "bg-sky-600"}
-                    colors={isDarkMode ? [[56, 189, 248]] : [[125, 211, 252]]}
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white text-xl font-bold">Stay Tuned</span>
-                </div>
-              </Card>
+              {mensNewItemProduct ? (
+                <Link
+                    to={`/product/${mensNewItemProduct._id || mensNewItemProduct.id}`}
+                    onClick={(e) => {
+                      const scrollY =
+                          window.scrollY || document.documentElement.scrollTop;
+                      sessionStorage.setItem(
+                          `scrollPos:${window.location.pathname}`,
+                          scrollY
+                      );
+                    }}
+                    className="block w-full h-full"
+                >
+                  <Card
+                      title="Men's new item"
+                      icon={<AceternityIcon isDarkMode={isDarkMode} />}
+                      isDarkMode={isDarkMode}
+                  >
+                    <div className="absolute inset-0">
+                      <img
+                          src={
+                              mensNewItemProduct.images?.[0]?.url ||
+                              "https://via.placeholder.com/400x600?text=No+Image"
+                          }
+                          alt={mensNewItemProduct.name}
+                          className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/10" />
+                    </div>
+                    {mensNewItemProduct.colors && mensNewItemProduct.colors.length > 0 && (
+                        <div className="absolute bottom-4 right-4 flex space-x-2 z-10">
+                          {mensNewItemProduct.colors.map((color, i) => (
+                              <div
+                                  key={i}
+                                  className="w-6 h-6 rounded-full border-2 border-white shadow-md"
+                                  style={{ backgroundColor: color }}
+                              />
+                          ))}
+                        </div>
+                    )}
+                    <div className="absolute bottom-0 left-0 right-0 pt-24 pb-6 px-6 bg-gradient-to-t from-black/95 via-black/60 via-50% to-transparent">
+                      <div className="flex justify-between items-start">
+                        <h3 className="text-xl font-semibold text-white">
+                          {mensNewItemProduct.name}
+                        </h3>
+                        <span className="text-lg font-bold text-white">
+                      {mensNewItemProduct.price?.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </span>
+                      </div>
+                      {mensNewItemProduct.brand && (
+                          <p className="text-neutral-200 mt-1">{mensNewItemProduct.brand}</p>
+                      )}
+                    </div>
+                  </Card>
+                </Link>
+              ) : (
+                <Card
+                    title="Men's new item"
+                    icon={<AceternityIcon isDarkMode={isDarkMode} />}
+                    isDarkMode={isDarkMode}
+                >
+                  <CanvasRevealEffect
+                      animationSpeed={3}
+                      containerClassName={isDarkMode ? "bg-sky-700" : "bg-sky-600"}
+                      colors={isDarkMode ? [[56, 189, 248]] : [[125, 211, 252]]}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-white text-xl font-bold">Stay Tuned</span>
+                  </div>
+                </Card>
+              )}
             </div>
           </div>
         </div>
