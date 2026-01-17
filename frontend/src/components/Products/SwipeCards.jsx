@@ -15,7 +15,7 @@ const transformProducts = (products) => {
   return products.map((product, index) => ({
     id: product._id || index,
     title: product.name,
-    price: `$${product.price?.toFixed(2) || "0.00"}`,
+    price: `${product.price?.toFixed(2) || "0.00"} €`,
     brand: product.brand || "Fashion",
     colors: Array.isArray(product.colors) ? product.colors : ["#000000"],
     image: product.images?.[0]?.url || "https://via.placeholder.com/400x500",
