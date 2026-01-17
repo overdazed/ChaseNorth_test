@@ -864,7 +864,7 @@ const Checkout = () => {
                             disabled={isFormSubmitted}
                         />
                         <button
-                            className="bg-black text-white px-4 py-2 rounded-r hover:bg-neutral-800 hover:outline hover:outline-1 hover:outline-white hover:outline-offset transition-colors"
+                            className="bg-black text-white px-4 py-2 rounded-r hover:bg-neutral-800 hover:outline hover:outline-1 hover:outline-none hover:outline-offset transition-colors"
                             onClick={handleApplyDiscount}
                             disabled={isFormSubmitted || !discountCode.trim() || isDiscountBeingApplied}
                         >
