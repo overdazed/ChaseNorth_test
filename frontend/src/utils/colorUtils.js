@@ -102,7 +102,7 @@ export const colorMap = {
     'powder blue': '#B0E0E6',
     'pumpkin': '#FF7518',
     'purple': '#800080',
-    'red': '#ab0000',
+    'red': '#c20000',
     'rose': '#FF007F',
     'rose gold': '#B76E79',
     'royal blue': '#4169E1',

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useInView } from "react-intersection-observer";
 import ChaseNorthBlack from "../../assets/ChaseNorth_x-black.svg";
 import ChaseNorthWhite from "../../assets/ChaseNorth_x-white.svg";
+import { getColorHex } from "../../utils/colorUtils";
 
 const NewArrivals = () => {
     const [isNightMode, setIsNightMode] = useState(false);
@@ -324,7 +325,7 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
                                         <div
                                             key={i}
                                             className="w-4 h-4 md:w-6 md:h-6 rounded-full border border-neutral-400 shadow-sm"
-                                            style={{ backgroundColor: color, filter: 'saturate(0.7)' }}
+                                            style={{ backgroundColor: getColorHex(color), filter: 'saturate(0.7)' }}
                                             title={color}
                                         />
                                     ))}
