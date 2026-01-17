@@ -501,11 +501,11 @@ const CollectionPage = () => {
                                     }`}>
                                         <div className="space-y-3">
                                             <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-2">
-                                                The highest price is ${highestPrice.toFixed(2)}
+                                                The highest price is {highestPrice.toFixed(2)} €
                                             </div>
                                             <div className="flex items-center space-x-2">
                                                 <div className="relative flex-1">
-                                                    <span className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>$</span>
+                                                    <span className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>€</span>
                                                     <input
                                                         type="number"
                                                         placeholder="From"
@@ -524,7 +524,7 @@ const CollectionPage = () => {
                                                 </div>
                                                 <span className="text-neutral-400">-</span>
                                                 <div className="relative flex-1">
-                                                    <span className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>$</span>
+                                                    <span className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>€</span>
                                                     <input
                                                         type="number"
                                                         placeholder="To"
