@@ -129,19 +129,19 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                             <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 bg-gradient-to-t from-black/70 to-transparent">
                                 {/* Brand Name - Hidden by default, shown on hover */}
                                 <div className="absolute bottom-1 left-0 md:bottom-4 md:left-2 p-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
-                                    <p className="text-neutral-300 text-xs md:text-sm font-normal">
+                                    <p className="text-neutral-300 text-xs md:text-sm font-normal max-[550px]:hidden">
                                         {product.brand || 'Chase North'}
                                     </p>
                                 </div>
 
                                 <div className="flex flex-col">
                                     <div className="flex justify-between items-start">
-                                        <h3 className="text-white font-bold text-xs md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300 truncate">
+                                        <h3 className="text-white font-bold text-[10px] sm:text-xs md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300 truncate">
                                             <>
                                                 <span className="max-[550px]:hidden">
                                                     {product.name}
                                                 </span>
-                                                <span className="hidden max-[550px]:inline truncate">
+                                                <span className="hidden max-[550px]:inline truncate -translate-">
                                                     {product.name.length > 12 ? `${product.name.substring(0, 12)}...` : product.name}
                                                 </span>
                                             </>
