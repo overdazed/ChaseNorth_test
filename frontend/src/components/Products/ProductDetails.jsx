@@ -205,13 +205,13 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
         card: isDay ? 'bg-white' : 'bg-neutral-900',
         input: isDay
             ? 'bg-white border-neutral-300 focus:border-neutral-500'
-            : 'bg-neutral-800 border-neutral-700 focus:border-neutral-500 text-white',
+            : 'bg-neutral-800 border-neutral-700 focus:border-neutral-500 text-neutral-50',
         select: isDay
             ? 'bg-white border-neutral-300 focus:border-neutral-500'
-            : 'bg-neutral-800 border-neutral-700 focus:border-neutral-500 text-white',
+            : 'bg-neutral-800 border-neutral-700 focus:border-neutral-500 text-neutral-50',
         characteristics: {
             text: isDay ? 'text-neutral-800' : 'text-neutral-200',
-            value: isDay ? 'text-neutral-950' : 'text-white',
+            value: isDay ? 'text-neutral-950' : 'text-neutral-50',
         },
         quantity: isDay ? 'text-neutral-950' : 'text-neutral-50',
         divider: isDay ? 'border-neutral-200' : 'border-neutral-800',
@@ -681,7 +681,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                             reviewsSection.scrollIntoView({ behavior: 'smooth' });
                                                         }
                                                     }}
-                                                    className="text-sm font-medium text-neutral-600 underline hover:no-underline dark:text-white focus:outline-none"
+                                                    className="text-sm font-medium text-neutral-600 underline hover:no-underline dark:text-neutral-50 focus:outline-none"
                                                 >
                                                     ({selectedProduct?.numReviews || 0})
                                                 </button>
@@ -748,20 +748,20 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                     // className={`w-full h-12 flex items-center justify-center rounded-full border border-[0.5px] transition-all ${
                                                     //     selectedSize === size
                                                     //         ? isDay
-                                                    //             ? 'bg-black text-white border-black'
+                                                    //             ? 'bg-black text-neutral-50 border-black'
                                                     //             : 'bg-white text-black border-white'
                                                     //         : isDay
                                                     //             ? 'bg-white border-neutral-300 hover:border-neutral-400 hover:bg-neutral-100 text-black'
-                                                    //             : 'bg-neutral-950 border-neutral-700 hover:border-neutral-600 hover:bg-neutral-800 text-white'
+                                                    //             : 'bg-neutral-950 border-neutral-700 hover:border-neutral-600 hover:bg-neutral-800 text-neutral-50'
                                                     // }`}
                                                     className={`w-full h-12 flex items-center justify-center rounded-full border border-[0.5px] transition-all ${
                                                         selectedSize === size
                                                             ? isDay
-                                                                ? 'bg-black text-white border-black'
+                                                                ? 'bg-black text-neutral-50 border-black'
                                                                 : 'bg-white text-black border-black'
                                                             : isDay
                                                                 ? 'bg-white border-neutral-300 hover:border-neutral-400 hover:bg-neutral-100 text-black'
-                                                                : 'bg-black border-black hover:border-black hover:bg-neutral-900 text-white'
+                                                                : 'bg-black border-black hover:border-black hover:bg-neutral-900 text-neutral-50'
                                                     }`}
                                                 >
                                                     {size}
@@ -964,7 +964,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     <input
                                         type="text"
                                         id="review-title"
-                                        className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-neutral-700 dark:text-white"
+                                        className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-neutral-700 dark:text-neutral-50"
                                         placeholder="Summarize your experience"
                                         value={review.title}
                                         onChange={(e) => setReview({...review, title: e.target.value})}
@@ -979,7 +979,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     <textarea
                                         id="review-comment"
                                         rows="4"
-                                        className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-neutral-700 dark:text-white"
+                                        className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-neutral-700 dark:text-neutral-50"
                                         placeholder="Share details about your experience with this product"
                                         value={review.comment}
                                         onChange={(e) => setReview({...review, comment: e.target.value})}
@@ -995,7 +995,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                         <input
                                             type="text"
                                             id="reviewer-name"
-                                            className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-neutral-700 dark:text-white"
+                                            className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-neutral-700 dark:text-neutral-50"
                                             placeholder="Enter your name"
                                             value={review.name}
                                             onChange={(e) => setReview({...review, name: e.target.value})}
@@ -1009,7 +1009,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                         <input
                                             type="email"
                                             id="reviewer-email"
-                                            className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-neutral-700 dark:text-white"
+                                            className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent dark:bg-neutral-700 dark:text-neutral-50"
                                             placeholder="your@email.com"
                                             value={review.email}
                                             onChange={(e) => setReview({...review, email: e.target.value})}
@@ -1028,7 +1028,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     </button>
                                     <button
                                         type="submit"
-                                        className="px-6 py-2 bg-black text-white rounded-full text-sm font-medium hover:bg-neutral-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="px-6 py-2 bg-black text-neutral-50 rounded-full text-sm font-medium hover:bg-neutral-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                         disabled={!rating || !review.title || !review.comment || !review.name || !review.email}
                                     >
                                         Submit Review
@@ -1061,7 +1061,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                         </div>
                         {/*<button */}
                         {/*    onClick={() => setShowReviewForm(true)}*/}
-                        {/*    className="px-4 py-2 text-sm font-medium text-white bg-black rounded-full hover:bg-neutral-800 transition-colors"*/}
+                        {/*    className="px-4 py-2 text-sm font-medium text-neutral-50 bg-black rounded-full hover:bg-neutral-800 transition-colors"*/}
                         {/*>*/}
                         {/*    Write a Review*/}
                         {/*</button>*/}
@@ -1080,7 +1080,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                 }
                                 setShowReviewModal(true);
                             }}
-                            className="px-4 py-2.5 text-sm font-medium text-white bg-black rounded-full hover:bg-neutral-900 transition-colors"
+                            className="px-4 py-2.5 text-sm font-medium text-neutral-50 bg-black rounded-full hover:bg-neutral-900 transition-colors"
                         >
                             Write a Review
                         </button>
@@ -1111,8 +1111,11 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                         return (
                                             <div key={`star-${stars}`} className="flex items-center">
                                                 <button
-                                                    onClick={() => setSelectedStarFilter(stars)}
-                                                    className={`w-12 text-sm font-medium text-blue-500 dark:text-blue-500 hover:underline text-left`}
+                                                    onClick={() => {
+                                                        // Toggle functionality: if clicking the same star rating again, reset to null
+                                                        setSelectedStarFilter(selectedStarFilter === stars ? null : stars);
+                                                    }}
+                                                    className={`w-12 text-sm font-medium text-blue-500 dark:text-blue-500 hover:underline text-left ${selectedStarFilter === stars ? 'underline' : ''}`}
                                                 >
                                                     {stars} star{stars > 1 ? 's' : ''}
                                                 </button>
@@ -1276,9 +1279,9 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
                         <button
                             onClick={() => setSelectedStarFilter(null)}
-                            className={`px-3 py-1.5 text-sm rounded-full transition-colors ${
+                            className={`px-4 py-2 text-sm rounded-full transition-colors ${
                                 selectedStarFilter === null
-                                    ? 'bg-blue-500 text-white border-blue-500'
+                                    ? 'bg-blue-500 text-neutral-50'
                                     : 'bg-white text-neutral-700 hover:bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-600 dark:hover:bg-neutral-700'
                             }`}
                         >
@@ -1294,42 +1297,50 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                             {/*{user && (*/}
                             {/*    <button*/}
                             {/*        onClick={() => setShowReviewModal(true)}*/}
-                            {/*        className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors text-sm font-medium"*/}
+                            {/*        className="px-4 py-2 bg-primary-600 text-neutral-50 rounded-md hover:bg-primary-700 transition-colors text-sm font-medium"*/}
                             {/*    >*/}
                             {/*        Write a Review*/}
                             {/*    </button>*/}
                             {/*)}*/}
                         </div>
 
-                        <ReviewList
-                            productId={productId}
-                            productName={selectedProduct?.name || 'this product'}
-                            refreshKey={refreshReviews}
-                            currentUser={user}
-                            onReviewAction={async () => {
-                                // Refresh both product data and reviews when a review action occurs
-                                if (productId) {
-                                    try {
-                                        // Refresh product details
-                                        await dispatch(fetchProductDetails(productId));
+                        {selectedStarFilter !== null && reviews.filter(review => Math.round(review.rating) === selectedStarFilter).length === 0 ? (
+                            <div className="text-center py-8">
+                                <p className={`text-lg ${themeClasses.textMuted}`}>
+                                    There are no reviews with {selectedStarFilter} star{selectedStarFilter > 1 ? 's' : ''}
+                                </p>
+                            </div>
+                        ) : (
+                            <ReviewList
+                                productId={productId}
+                                productName={selectedProduct?.name || 'this product'}
+                                refreshKey={refreshReviews}
+                                currentUser={user}
+                                onReviewAction={async () => {
+                                    // Refresh both product data and reviews when a review action occurs
+                                    if (productId) {
+                                        try {
+                                            // Refresh product details
+                                            await dispatch(fetchProductDetails(productId));
 
-                                        // Force refresh of reviews
-                                        const data = await getProductReviews(productId, 1, 100);
-                                        setReviews(data.reviews || []);
+                                            // Force refresh of reviews
+                                            const data = await getProductReviews(productId, 1, 100);
+                                            setReviews(data.reviews || []);
 
-                                        // Increment refreshKey to force re-render
-                                        setRefreshReviews(prev => prev + 1);
-                                    } catch (error) {
-                                        console.error('Error refreshing data:', error);
-                                        toast.error('Error updating review information');
+                                            // Increment refreshKey to force re-render
+                                            setRefreshReviews(prev => prev + 1);
+                                        } catch (error) {
+                                            console.error('Error refreshing data:', error);
+                                            toast.error('Error updating review information');
+                                        }
                                     }
+                                }}
+                                filteredReviews={selectedStarFilter !== null
+                                    ? reviews.filter(review => Math.round(review.rating) === selectedStarFilter)
+                                    : reviews
                                 }
-                            }}
-                            filteredReviews={selectedStarFilter !== null
-                                ? reviews.filter(review => Math.round(review.rating) === selectedStarFilter)
-                                : reviews
-                            }
-                        />
+                            />
+                        )}
                     </section>
 
                 </div>

@@ -25,7 +25,8 @@ const VelocityText = ({ isNightMode = false }) => {
                 setTransformOrigin('24% 60%');
             } else {
                 // On desktop, use the original logic
-                setTransformOrigin(isNightMode ? 'center' : '35% 35%');
+                // dark; light
+                setTransformOrigin(isNightMode ? '49.75% 50%' : '35% 35%');
             }
         };
 
@@ -170,7 +171,7 @@ const VelocityText = ({ isNightMode = false }) => {
   const zoomScale = useTransform(
     scrollYProgress,
     [0.7, 1.2],
-    [1, isNightMode ? 300 : 400],
+    [1, isNightMode ? 500 : 600],
     {
       clamp: true,
       ease: smoothEase
