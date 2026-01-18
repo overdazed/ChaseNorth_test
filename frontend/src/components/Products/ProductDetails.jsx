@@ -700,20 +700,20 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     <div className={`${selectedColor ? 'mb-1' : 'mb-6'}`}>
                                         <p className={`mb-2 ${themeClasses.characteristics.text}`}>Color:</p>
                                         <div className="flex flex-wrap gap-2">
-                                            {selectedProduct.colors?.map((color) => (
-                                                <div key={color} className="flex flex-col items-center">
+                                            {selectedProduct.colors?.map((colorName) => (
+                                                <div key={colorName} className="flex flex-col items-center">
                                                     <button
-                                                        onClick={() => setSelectedColor(color)}
+                                                        onClick={() => setSelectedColor(colorName)}
                                                         className={`w-10 h-10 rounded-full border-2 transition-all ${
-                                                            selectedColor === color
+                                                            selectedColor === colorName
                                                                 ? 'ring-1 ring-offset-1 ring-accent scale-110' 
                                                                 : 'border-transparent hover:border-neutral-300 dark:hover:border-neutral-500'
                                                         }`}
                                                         style={{
-                                                            backgroundColor: getColorHex(color),
-                                                            border: getColorHex(color) === '#FFFFFF' || getColorHex(color) === '#FFF' ? '1px solid #E5E7EB' : 'none',
+                                                            backgroundColor: getColorHex(colorName),
+                                                            border: getColorHex(colorName) === '#FFFFFF' || getColorHex(colorName) === '#FFF' ? '1px solid #E5E7EB' : 'none',
                                                             transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                                                            boxShadow: selectedColor === color ? '0 0 0 2px rgba(99, 102, 241, 0.5)' : 'none'
+                                                            boxShadow: selectedColor === colorName ? '0 0 0 2px rgba(99, 102, 241, 0.5)' : 'none'
                                                         }}
                                                         onMouseEnter={(e) => {
                                                             e.currentTarget.style.transform = 'scale(1.1)';
@@ -722,14 +722,14 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                                 : '0 0 8px rgba(255,255,255,0.75)';
                                                         }}
                                                         onMouseLeave={(e) => {
-                                                            e.currentTarget.style.transform = selectedColor === color ? 'scale(1.0)' : 'scale(1.25)';
-                                                            e.currentTarget.style.boxShadow = selectedColor === color ? '0 0 0 2px rgba(99, 102, 241, 0.5)' : 'none';
+                                                            e.currentTarget.style.transform = selectedColor === colorName ? 'scale(1.1)' : 'scale(1)';
+                                                            e.currentTarget.style.boxShadow = selectedColor === colorName ? '0 0 0 2px rgba(99, 102, 241, 0.5)' : 'none';
                                                         }}
-                                                        aria-label={`Select color ${color}`}
+                                                        aria-label={`Select color ${colorName}`}
                                                     />
-                                                    {selectedColor === color && (
+                                                    {selectedColor === colorName && (
                                                         <span className="text-xs mt-1 text-center text-neutral-600 dark:text-neutral-300">
-                                                            {color}
+                                                            {colorName}
                                                         </span>
                                                     )}
                                                 </div>

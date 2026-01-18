@@ -93,7 +93,7 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
 
                             {/* Color Indicators */}
                             {product.colors?.length > 0 && (
-                                <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-10 flex space-x-0.5 sm:space-x-1.5 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200 md:flex">
+                                <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-10 flex space-x-0.5 sm:space-x-1.5 md: md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200 md:flex">
                                     {product.colors.map((color, i) => (
                                         <div
                                             key={i}
