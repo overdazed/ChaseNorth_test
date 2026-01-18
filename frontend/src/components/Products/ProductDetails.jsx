@@ -651,9 +651,9 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
                                     {/* Product Description */}
                                     <div className="mb-6">
-                                        <p className={`mb-4 ${themeClasses.textMuted}`}>
-                                            {selectedProduct.description}
-                                        </p>
+                                        {/*<p className={`mb-4 ${themeClasses.textMuted}`}>*/}
+                                        {/*    {selectedProduct.description}*/}
+                                        {/*</p>*/}
 
                                         {/* Price Section - Moved below description */}
                                         <div className="mt-4">
@@ -824,6 +824,20 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     <div className="mt-10">
                                         <h3 className={`text-xl font-bold mb-4 ${themeClasses.text}`}>Product Details</h3>
                                         <Accordion type="single" collapsible className="w-full">
+                                            <AccordionItem value="product-description" className={`border-b ${themeClasses.divider}`}>
+                                                <AccordionTrigger className={`text-left ${themeClasses.accordion.hover} ${themeClasses.accordion.text}`}>
+                                                    <span className={themeClasses.characteristics.text}>Product Description</span>
+                                                </AccordionTrigger>
+                                                <AccordionContent className="pt-2">
+                                                    <div className="space-y-2">
+                                                        <div className={themeClasses.textMuted}>
+                                                            <p>
+                                                                {selectedProduct.description || 'N/A'}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </AccordionContent>
+                                            </AccordionItem>
                                             <AccordionItem value="product-info" className={`border-b ${themeClasses.divider}`}>
                                                 <AccordionTrigger className={`text-left ${themeClasses.accordion.hover} ${themeClasses.accordion.text}`}>
                                                     <span className={themeClasses.characteristics.text}>Product Information</span>
