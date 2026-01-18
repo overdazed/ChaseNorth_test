@@ -727,7 +727,7 @@ const Navbar = ({ transparent = false }) => {
                         <div className="h-2 md:hidden"></div>
 
                         {/* Language Selector */}
-                        <div className="mt-auto pt-3 border-t border-neutral-400 dark:border-neutral-800">
+                        <div className="mt-auto pt-2 border-t border-neutral-400 dark:border-neutral-800">
                             <div className="relative">
                                 <button
                                     className="w-full flex items-center justify-between px-4 py-3 text-sm font-normal text-neutral-700 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
@@ -780,7 +780,7 @@ const Navbar = ({ transparent = false }) => {
                         {/* Social Media Links */}
                         <div className="pt-4 border-t border-neutral-400 dark:border-neutral-800">
                             {/*<p className="text-center text-neutral-500 dark:text-neutral-400 text-sm mb-4">FOLLOW US</p>*/}
-                            <div className="flex mt-6 justify-center items-center space-x-4 mb-6">
+                            <div className="flex mt-2 justify-center items-center space-x-4 mb-2">
                                 <a
                                     href="https://www.facebook.com"
                                     target="_blank"
