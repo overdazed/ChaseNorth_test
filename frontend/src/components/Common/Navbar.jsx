@@ -452,7 +452,7 @@ const Navbar = ({ transparent = false }) => {
                                 return (
                                     <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-white' : 'dark:text-neutral-400'}`}>
                                         Men
-                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-px bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
@@ -468,7 +468,7 @@ const Navbar = ({ transparent = false }) => {
                                 return (
                                     <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-white' : 'dark:text-neutral-400'}`}>
                                         Women
-                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-px bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
@@ -484,7 +484,7 @@ const Navbar = ({ transparent = false }) => {
                                 return (
                                     <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-white' : 'dark:text-neutral-400'}`}>
                                         Top Wear
-                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-px bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
@@ -500,7 +500,7 @@ const Navbar = ({ transparent = false }) => {
                                 return (
                                     <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-white' : 'dark:text-neutral-400'}`}>
                                         Bottom Wear
-                                        <span className={`absolute left-0 -bottom-1 w-full h-0.5 bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
+                                        <span className={`absolute left-0 -bottom-1 w-full h-px bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
                                     </span>
                                 );
                             }}
@@ -724,10 +724,10 @@ const Navbar = ({ transparent = false }) => {
                             <span className="text-sm font-normal ml-6">Cart</span>
                         </div>
 
-                        <div className="h-2 md:hidden"></div>
+                        <div className="md:hidden"></div>
 
                         {/* Language Selector */}
-                        <div className="mt-auto pt-2 border-t border-neutral-400 dark:border-neutral-800">
+                        <div className="mt-auto pt-3 border-t border-neutral-400 dark:border-neutral-800">
                             <div className="relative">
                                 <button
                                     className="w-full flex items-center justify-between px-4 py-3 text-sm font-normal text-neutral-700 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
