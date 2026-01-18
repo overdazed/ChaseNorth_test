@@ -649,7 +649,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                             <div className="mt-6 grid grid-cols-3 gap-4">
                                 <div>
                                     <label htmlFor="weight" className="block mb-2 text-sm font-medium text-neutral-900 dark:text-neutral-50">
-                                        Your Weight (kg) <span className="text-neutral-500 dark:text-neutral-400">(Optional)</span>
+                                        Your Weight (kg) <span className="block md:inline text-neutral-500 dark:text-neutral-400">(Optional)</span>
                                     </label>
                                     <input
                                         type="number"
@@ -671,7 +671,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                 </div>
                                 <div>
                                     <label htmlFor="height" className="block mb-2 text-sm font-medium text-neutral-900 dark:text-neutral-50">
-                                        Your Height (cm) <span className="text-neutral-500 dark:text-neutral-400">(Optional)</span>
+                                        Your Height (cm) <span className="block md:inline text-neutral-500 dark:text-neutral-400">(Optional)</span>
                                     </label>
                                     <input
                                         type="number"
@@ -692,8 +692,8 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                                     />
                                 </div>
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-neutral-900 dark:text-neutral-50">
-                                        Size Purchased <span className="text-neutral-500 dark:text-neutral-400">(Optional)</span>
+                                    <label htmlFor="height" className="block mb-2 text-sm font-medium text-neutral-900 dark:text-neutral-50">
+                                        Size Purchased <span className="block md:inline text-neutral-500 dark:text-neutral-400">(Optional)</span>
                                     </label>
                                     <CustomSelect
                                         value={formData.size}
