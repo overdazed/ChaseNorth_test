@@ -278,6 +278,8 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                         {weeklyProduct.price?.toLocaleString("de-DE", {
                           style: "currency",
                           currency: "EUR",
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 2
                         })}
                       </span>
                         </div>
@@ -340,6 +342,8 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                       {bestSellingProduct.price?.toLocaleString("de-DE", {
                         style: "currency",
                         currency: "EUR",
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 2
                       })}
                     </span>
                       </div>
@@ -417,6 +421,8 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                       {mensNewItemProduct.price?.toLocaleString("de-DE", {
                         style: "currency",
                         currency: "EUR",
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 2
                       })}
                     </span>
                       </div>
