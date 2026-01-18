@@ -840,7 +840,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                             </AccordionItem>
                                             <AccordionItem value="product-info" className={`border-b ${themeClasses.divider}`}>
                                                 <AccordionTrigger className={`text-left ${themeClasses.accordion.hover} ${themeClasses.accordion.text}`}>
-                                                    <span className={themeClasses.characteristics.text}>Product Information</span>
+                                                    <span className={themeClasses.characteristics.text}>Information</span>
                                                 </AccordionTrigger>
                                                 <AccordionContent className="pt-2">
                                                     <div className="space-y-4">
@@ -877,13 +877,13 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                         <div className="flex justify-between">
                                                             <span className={themeClasses.characteristics.text}>Tags</span>
                                                             <span className={`font-medium ${themeClasses.characteristics.value}`}>
-                                                                {selectedProduct.tags || 'N/A'}
+                                                                {selectedProduct.tags ? (Array.isArray(selectedProduct.tags) ? selectedProduct.tags.join(', ') : selectedProduct.tags) : 'N/A'}
                                                             </span>
                                                         </div>
                                                         <div className="flex justify-between">
-                                                            <span className={themeClasses.characteristics.text}>Created at</span>
+                                                            <span className={themeClasses.characteristics.text}>Created At</span>
                                                             <span className={`font-medium ${themeClasses.characteristics.value}`}>
-                                                                {selectedProduct.createdAt || 'N/A'}
+                                                                {selectedProduct.createdAt ? new Date(selectedProduct.createdAt).toISOString().split('T')[0] : 'N/A'}
                                                             </span>
                                                         </div>
                                                     </div>
