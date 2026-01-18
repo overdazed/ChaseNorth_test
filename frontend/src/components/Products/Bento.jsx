@@ -23,7 +23,7 @@ const SkeletonOne = ({ onClick }) => {
             style={{ pointerEvents: 'auto' }}
         >
             {/* Dim overlay with reduced opacity that's more visible on mobile */}
-            <div className="absolute inset-0 bg-black bg-opacity-30 md:bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
+            <div className="absolute inset-0 bg-black bg-opacity-30 md:bg-opacity-0 group-hover:bg-opacity-60 transition-opacity duration-500 z-0"></div>
 
             {/* Content - Always visible on mobile, animated on desktop */}
             <div className="absolute top-6 md:top-10 md:bottom-10 left-8 sm:left-12 md:left-12 z-10 space-y-2 md:space-y-4">
@@ -78,7 +78,7 @@ const SkeletonTwo = ({ onClick }) => {
             style={{ pointerEvents: 'auto' }}
         >
             {/* Dim overlay with reduced opacity that's more visible on mobile */}
-            <div className="absolute inset-0 bg-black bg-opacity-30 md:bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
+            <div className="absolute inset-0 bg-black bg-opacity-30 md:bg-opacity-0 group-hover:bg-opacity-60 transition-opacity duration-500 z-0"></div>
 
             {/* Content - Right Aligned - Always visible on mobile */}
             <div className="absolute top-6 md:top-10 md:bottom-10 right-8 sm:right-12 md:right-9 z-10 space-y-2 md:space-y-4 text-right">
@@ -110,7 +110,7 @@ const SkeletonThree = ({ onClick }) => {
             style={{ pointerEvents: 'auto' }}
         >
             {/* Dim overlay with reduced opacity that's more visible on mobile */}
-            <div className="absolute inset-0 bg-black bg-opacity-30 md:bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
+            <div className="absolute inset-0 bg-black bg-opacity-30 md:bg-opacity-0 group-hover:bg-opacity-60 transition-opacity duration-500 z-0"></div>
 
             {/* Content - Always visible on mobile, animated on desktop */}
             <div className="absolute top-6 md:top-10 left-8 sm:left-12 md:left-9 z-10 space-y-2 md:space-y-4">
@@ -141,7 +141,7 @@ const SkeletonFour = ({ onClick }) => {
             style={{ pointerEvents: 'auto' }}
         >
             {/* Dim overlay with reduced opacity that's more visible on mobile */}
-            <div className="absolute inset-0 bg-black bg-opacity-30 md:bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
+            <div className="absolute inset-0 bg-black bg-opacity-30 md:bg-opacity-0 group-hover:bg-opacity-60 transition-opacity duration-500 z-0"></div>
 
             {/* Content - Right Aligned - Always visible on mobile */}
             <div className="absolute top-6 md:top-10 right-8 sm:right-12 md:right-12 z-10 space-y-2 md:space-y-4 text-right">
