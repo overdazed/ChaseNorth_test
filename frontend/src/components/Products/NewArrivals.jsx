@@ -5,7 +5,7 @@ import axios from "axios";
 import { useInView } from "react-intersection-observer";
 import ChaseNorthBlack from "../../assets/ChaseNorth_x-black.svg";
 import ChaseNorthWhite from "../../assets/ChaseNorth_x-white.svg";
-import { getColorHex } from "../../utils/colorUtils";
+import { getColorHex } from "@/utils/colorUtils.js";
 
 const NewArrivals = () => {
     const [isNightMode, setIsNightMode] = useState(false);
