@@ -25,9 +25,9 @@ const SkeletonOne = ({ onClick }) => {
             {/* Dim overlay with reduced opacity that becomes fully transparent on hover */}
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
 
-            {/* Content */}
-            <div className="absolute bottom-10 left-12 z-10 space-y-4">
-                <p className="uppercase font-medium text-white text-6xl transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+            {/* Content - Always visible on mobile, animated on desktop */}
+            <div className="absolute bottom-10 left-6 md:left-12 z-10 space-y-2 md:space-y-4">
+                <p className="uppercase font-medium text-white text-4xl md:text-6xl transform md:-translate-x-full md:group-hover:translate-x-0 transition-all duration-500 ease-in-out md:opacity-0 md:group-hover:opacity-100">
                     Women
                 </p>
                 <p className="font-normal text-lg text-white transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[18em] break-words opacity-0 group-hover:opacity-100">
@@ -80,9 +80,9 @@ const SkeletonTwo = ({ onClick }) => {
             {/* Dim overlay with reduced opacity that becomes fully transparent on hover */}
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
 
-            {/* Content - Right Aligned */}
-            <div className="absolute bottom-10 right-9 z-10 space-y-4 text-right">
-                <p className="uppercase font-medium text-white text-6xl transform translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+            {/* Content - Right Aligned - Always visible on mobile */}
+            <div className="absolute bottom-10 right-4 md:right-9 z-10 space-y-2 md:space-y-4 text-right">
+                <p className="uppercase font-medium text-white text-4xl md:text-6xl transform md:translate-x-full md:group-hover:translate-x-0 transition-all duration-500 ease-in-out md:opacity-0 md:group-hover:opacity-100">
                     Top
                 </p>
                 <p className="font-normal text-base text-white transform translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[16em] break-words opacity-0 group-hover:opacity-100">
@@ -109,12 +109,12 @@ const SkeletonThree = ({ onClick }) => {
             className="relative h-full w-full group overflow-hidden"
             style={{ pointerEvents: 'auto' }}
         >
-            {/* Dim overlay with reduced opacity that becomes fully transparent on hover */}
-            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
+            {/* Dim overlay with reduced opacity that's more visible on mobile */}
+            <div className="absolute inset-0 bg-black bg-opacity-30 md:bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
 
-            {/* Content */}
-            <div className="absolute top-10 left-9 z-10 space-y-4">
-                <p className="uppercase font-medium text-white text-6xl transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+            {/* Content - Always visible on mobile, animated on desktop */}
+            <div className="absolute top-6 md:top-10 left-4 md:left-9 z-10 space-y-2 md:space-y-4">
+                <p className="uppercase font-medium text-white text-4xl md:text-6xl transform md:-translate-x-full md:group-hover:translate-x-0 transition-all duration-500 ease-in-out md:opacity-0 md:group-hover:opacity-100">
                     Bottom
                 </p>
                 <p className="font-normal text-base text-white transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[16em] break-words opacity-0 group-hover:opacity-100">
@@ -140,12 +140,12 @@ const SkeletonFour = ({ onClick }) => {
             className="relative h-full w-full group overflow-hidden"
             style={{ pointerEvents: 'auto' }}
         >
-            {/* Dim overlay with reduced opacity that becomes fully transparent on hover */}
-            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
+            {/* Dim overlay with reduced opacity that's more visible on mobile */}
+            <div className="absolute inset-0 bg-black bg-opacity-30 md:bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
 
-            {/* Content - Right Aligned */}
-            <div className="absolute top-10 right-12 z-10 space-y-4 text-right">
-                <p className="uppercase font-medium text-white text-6xl transform translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+            {/* Content - Right Aligned - Always visible on mobile */}
+            <div className="absolute top-6 md:top-10 right-4 md:right-12 z-10 space-y-2 md:space-y-4 text-right">
+                <p className="uppercase font-medium text-white text-4xl md:text-6xl transform md:translate-x-full md:group-hover:translate-x-0 transition-all duration-500 ease-in-out md:opacity-0 md:group-hover:opacity-100">
                     Men
                 </p>
                 <p className="font-normal text-base text-white transform translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[16em] break-words opacity-0 group-hover:opacity-100">
