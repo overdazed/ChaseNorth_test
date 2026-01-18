@@ -333,7 +333,7 @@ const Navbar = ({ transparent = false }) => {
                             <AnimatedHamburgerButton
                                 active={navDrawerOpen}
                                 onClick={toggleNavDrawer}
-                                className="text-neutral-700 hover:text-black"
+                                className="dark:text-neutral-300 text-neutral-700 hover:text-black"
                             />
                         </div>
 
