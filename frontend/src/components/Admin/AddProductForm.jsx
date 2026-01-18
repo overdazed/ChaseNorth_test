@@ -22,6 +22,7 @@ const AddProductForm = () => {
         collections: "",
         material: "",
         gender: "",
+        tags: "",
         sizes: [],
         colors: [],
         images: []
@@ -294,6 +295,18 @@ const AddProductForm = () => {
                         onKeyDown={(e) => handleCommaInput(e, setColorsInput)}
                         className={inputClasses}
                         required
+                    />
+                </div>
+
+                {/* Tags */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Tags (comma-separated)</label>
+                    <input
+                        type="text"
+                        name="tags"
+                        value={formData.tags}
+                        onChange={handleChange}
+                        className={inputClasses}
                     />
                 </div>
 
