@@ -198,17 +198,15 @@ const Navbar = ({ transparent = false }) => {
 
     useEffect(() => {
         const handleScroll = () => {
-            const isMobile = window.innerWidth < 768;
             const currentScrollPos = window.scrollY;
             const isScrollingDown = currentScrollPos > prevScrollPos && currentScrollPos > 10;
 
-            if (!isMobile) {
-                if (isScrollingDown) {
-                    setIsScrolled(true);
-                } else {
-                    setIsScrolled(false);
-                }
+            if (isScrollingDown) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
             }
+
             setPrevScrollPos(currentScrollPos);
         };
 
