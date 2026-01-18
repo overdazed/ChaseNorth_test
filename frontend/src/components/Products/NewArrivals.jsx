@@ -308,7 +308,8 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
                                                 {product.name}
                                             </span>
                                             <span className="hidden max-[550px]:inline">
-                                                {product.name.length > 12 ? `${product.name.substring(0, 12)}...` : product.name}
+                                                {/*{product.name.length > 12 ? `${product.name.substring(0, 12)}...` : product.name}*/}
+                                                {product.name}
                                             </span>
                                         </h3>
                                         <p className="text-white font-bold text-sm md:text-lg md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300">

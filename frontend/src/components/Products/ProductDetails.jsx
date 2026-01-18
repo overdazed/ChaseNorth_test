@@ -1306,7 +1306,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
                         {selectedStarFilter !== null && reviews.filter(review => Math.round(review.rating) === selectedStarFilter).length === 0 ? (
                             <div className="text-center py-8">
-                                <p className={`text-lg ${themeClasses.textMuted}`}>
+                                <p className={`text-md md:text-lg ${themeClasses.textMuted}`}>
                                     There are no reviews with {selectedStarFilter} star{selectedStarFilter > 1 ? 's' : ''}
                                 </p>
                             </div>
