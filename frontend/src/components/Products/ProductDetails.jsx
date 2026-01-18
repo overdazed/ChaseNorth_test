@@ -856,6 +856,36 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                                 {selectedProduct.material || 'N/A'}
                                                             </span>
                                                         </div>
+                                                        <div className="flex justify-between">
+                                                            <span className={themeClasses.characteristics.text}>Collection</span>
+                                                            <span className={`font-medium ${themeClasses.characteristics.value}`}>
+                                                                {selectedProduct.collections || 'N/A'}
+                                                            </span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span className={themeClasses.characteristics.text}>Category</span>
+                                                            <span className={`font-medium ${themeClasses.characteristics.value}`}>
+                                                                {selectedProduct.category || 'N/A'}
+                                                            </span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span className={themeClasses.characteristics.text}>Gender</span>
+                                                            <span className={`font-medium ${themeClasses.characteristics.value}`}>
+                                                                {selectedProduct.gender || 'N/A'}
+                                                            </span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span className={themeClasses.characteristics.text}>Tags</span>
+                                                            <span className={`font-medium ${themeClasses.characteristics.value}`}>
+                                                                {selectedProduct.tags || 'N/A'}
+                                                            </span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span className={themeClasses.characteristics.text}>Created at</span>
+                                                            <span className={`font-medium ${themeClasses.characteristics.value}`}>
+                                                                {selectedProduct.createdAt || 'N/A'}
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </AccordionContent>
                                             </AccordionItem>
