@@ -6,6 +6,8 @@
 // Filter Selection
 // colors
 // language
+// outdoor cooking
+// vegan gear
 
 // Farben
 import React from 'react'
