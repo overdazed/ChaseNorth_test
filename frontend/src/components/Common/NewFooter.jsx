@@ -89,7 +89,7 @@ const NewFooter = () => {
                       {/* Need a website? Link - Added for mobile view */}
                       <div className="flex items-center justify-left">
                         <Loader />
-                        <Link to="/need-a-website" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
+                        <Link to="/need-a-website" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm">
                           Need a website?
                         </Link>
                       </div>
