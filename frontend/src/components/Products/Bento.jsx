@@ -26,7 +26,7 @@ const SkeletonOne = ({ onClick }) => {
             <div className="absolute inset-0 bg-black bg-opacity-30 md:bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
 
             {/* Content - Always visible on mobile, animated on desktop */}
-            <div className="absolute top-6 md:bottom-10 left-8 sm:left-12 md:left-12 z-10 space-y-2 md:space-y-4">
+            <div className="absolute top-6 md:top-10 md:bottom-10 left-8 sm:left-12 md:left-12 z-10 space-y-2 md:space-y-4">
                 <p className="uppercase font-medium text-white text-xl sm:text-4xl md:text-6xl transform md:-translate-x-full md:group-hover:translate-x-0 transition-all duration-500 ease-in-out md:opacity-0 md:group-hover:opacity-100">
                     Women
                 </p>
@@ -81,7 +81,7 @@ const SkeletonTwo = ({ onClick }) => {
             <div className="absolute inset-0 bg-black bg-opacity-30 md:bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-500 z-0"></div>
 
             {/* Content - Right Aligned - Always visible on mobile */}
-            <div className="absolute top-6 md:bottom-10 right-8 sm:right-12 md:right-9 z-10 space-y-2 md:space-y-4 text-right">
+            <div className="absolute top-6 md:top-10 md:bottom-10 right-8 sm:right-12 md:right-9 z-10 space-y-2 md:space-y-4 text-right">
                 <p className="uppercase font-medium text-white text-xl sm:text-4xl md:text-6xl transform md:translate-x-full md:group-hover:translate-x-0 transition-all duration-500 ease-in-out md:opacity-0 md:group-hover:opacity-100">
                     Top
                 </p>
@@ -167,7 +167,7 @@ const cards = [
                     console.log('Navigating to Women\'s collection');
                     navigate('/collections/all?gender=Women', { state: { gender: 'Women' } });
                 }}
-                className="absolute inset-0 w-full h-full z-10 p-6 cursor-pointer"
+                className="absolute inset-0 w-full h-full z-10 cursor-pointer"
             >
             </div>
         ),
@@ -197,7 +197,7 @@ const cards = [
             <div
                 onClick={(e) => {
                     e.stopPropagation();
-                    console.log('Navigating to Top-Wear collection');
+                    console.log('Navigating to Bottom-Wear collection');
                     navigate('/collections/all?gender=Bottom+Wear', { state: { gender: 'Bottom-Wear' } });
                 }}
                 className="absolute inset-0 w-full h-full z-10 cursor-pointer"
@@ -213,7 +213,7 @@ const cards = [
             <div
                 onClick={(e) => {
                     e.stopPropagation();
-                    console.log('Navigating to Top-Wear collection');
+                    console.log('Navigating to Men collection');
                     navigate('/collections/all?gender=Men', { state: { gender: 'Men' } });
                 }}
                 className="absolute inset-0 w-full h-full z-10 cursor-pointer"
