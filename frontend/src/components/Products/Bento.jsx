@@ -27,7 +27,7 @@ const SkeletonOne = ({ onClick }) => {
 
             {/* Content - Always visible on mobile, animated on desktop */}
             <div className="absolute top-6 md:bottom-10 left-8 sm:left-12 md:left-12 z-10 space-y-2 md:space-y-4">
-                <p className="uppercase font-medium text-white text-4xl md:text-6xl transform md:-translate-x-full md:group-hover:translate-x-0 transition-all duration-500 ease-in-out md:opacity-0 md:group-hover:opacity-100">
+                <p className="uppercase font-medium text-white text-xl sm:text-4xl md:text-6xl transform md:-translate-x-full md:group-hover:translate-x-0 transition-all duration-500 ease-in-out md:opacity-0 md:group-hover:opacity-100">
                     Women
                 </p>
                 <p className="font-normal text-lg text-white transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[18em] break-words opacity-0 group-hover:opacity-100">
@@ -82,7 +82,7 @@ const SkeletonTwo = ({ onClick }) => {
 
             {/* Content - Right Aligned - Always visible on mobile */}
             <div className="absolute top-6 md:bottom-10 right-8 sm:right-12 md:right-9 z-10 space-y-2 md:space-y-4 text-right">
-                <p className="uppercase font-medium text-white text-4xl md:text-6xl transform md:translate-x-full md:group-hover:translate-x-0 transition-all duration-500 ease-in-out md:opacity-0 md:group-hover:opacity-100">
+                <p className="uppercase font-medium text-white text-xl sm:text-4xl md:text-6xl transform md:translate-x-full md:group-hover:translate-x-0 transition-all duration-500 ease-in-out md:opacity-0 md:group-hover:opacity-100">
                     Top
                 </p>
                 <p className="font-normal text-base text-white transform translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[16em] break-words opacity-0 group-hover:opacity-100">
@@ -114,7 +114,7 @@ const SkeletonThree = ({ onClick }) => {
 
             {/* Content - Always visible on mobile, animated on desktop */}
             <div className="absolute top-6 md:top-10 left-8 sm:left-12 md:left-9 z-10 space-y-2 md:space-y-4">
-                <p className="uppercase font-medium text-white text-4xl md:text-6xl transform md:-translate-x-full md:group-hover:translate-x-0 transition-all duration-500 ease-in-out md:opacity-0 md:group-hover:opacity-100">
+                <p className="uppercase font-medium text-white text-xl sm:text-4xl md:text-6xl transform md:-translate-x-full md:group-hover:translate-x-0 transition-all duration-500 ease-in-out md:opacity-0 md:group-hover:opacity-100">
                     Bottom
                 </p>
                 <p className="font-normal text-base text-white transform -translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[16em] break-words opacity-0 group-hover:opacity-100">
@@ -145,7 +145,7 @@ const SkeletonFour = ({ onClick }) => {
 
             {/* Content - Right Aligned - Always visible on mobile */}
             <div className="absolute top-6 md:top-10 right-8 sm:right-12 md:right-12 z-10 space-y-2 md:space-y-4 text-right">
-                <p className="uppercase font-medium text-white text-4xl md:text-6xl transform md:translate-x-full md:group-hover:translate-x-0 transition-all duration-500 ease-in-out md:opacity-0 md:group-hover:opacity-100">
+                <p className="uppercase font-medium text-white text-xl sm:text-4xl md:text-6xl transform md:translate-x-full md:group-hover:translate-x-0 transition-all duration-500 ease-in-out md:opacity-0 md:group-hover:opacity-100">
                     Men
                 </p>
                 <p className="font-normal text-base text-white transform translate-x-full group-hover:translate-x-0 transition-all duration-500 ease-in-out delay-100 max-w-[16em] break-words opacity-0 group-hover:opacity-100">
