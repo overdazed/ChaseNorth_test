@@ -219,7 +219,7 @@ const Navbar = ({ transparent = false }) => {
             {/* Full width background with fade effect - Sticky on mobile */}
             {/*<div className={`w-full ${transparent ? 'bg-transparent' : 'bg-white dark:bg-neutral-900'} transition-colors duration-300 fixed top-0 left-0 right-0 z-50`}>*/}
             <div className={`w-full transition-all duration-300 fixed top-0 md:fixed ${
-                isScrolled ? 'md:top-0' : 'md:top-10'
+                isScrolled ? 'md:top-0' : 'md:top-7'
             } z-40 ${
                 transparent ? 'bg-transparent' : 'bg-white dark:bg-neutral-900 shadow-sm'
             }`}>
@@ -329,7 +329,7 @@ const Navbar = ({ transparent = false }) => {
                         </div>
 
                         {/* Hamburger Menu Icon for mobile */}
-                        <div className="md:hidden">
+                        <div className="md:hidden mt-1">
                             <AnimatedHamburgerButton
                                 active={navDrawerOpen}
                                 onClick={toggleNavDrawer}
