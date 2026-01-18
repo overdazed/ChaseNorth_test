@@ -103,7 +103,9 @@ const Hero = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
                     >
-                        Discover the perfect fit for your next outdoor journey. High-quality clothing consciously chosen and designed for adventurers who demand the best.
+                        Discover the perfect fit for your next outdoor journey. High-quality clothing for ethical adventurers, made to explore, made to respect.
+                        High-quality clothing for ethical adventurers who care how they move through the world.
+                        High-quality clothing for ethical adventurers — impact without leaving a trace.
                     </motion.p>
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
