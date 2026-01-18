@@ -61,12 +61,14 @@ router.post(
                 user,
                 isFeatured,
                 isPublished,
-                images
+                images,
+                tags
             } = req.body;
             
-            // Ensure sizes and colors are arrays or convert from comma-separated strings
+            // Ensure sizes, colors, and tags are arrays or convert from comma-separated strings
             const sizesArray = Array.isArray(sizes) ? sizes : (sizes ? sizes.split(',').map(s => s.trim()) : []);
             const colorsArray = Array.isArray(colors) ? colors : (colors ? colors.split(',').map(c => c.trim()) : []);
+            const tagsArray = Array.isArray(tags) ? tags : (tags ? tags.split(',').map(t => t.trim()) : []);
             
             // Generate SKU automatically
             const generateSKU = async (productName) => {
@@ -107,6 +109,7 @@ router.post(
                 collections,
                 sizes: sizesArray,
                 colors: colorsArray,
+                tags: tagsArray,
                 material,
                 gender,
                 images: images || [],

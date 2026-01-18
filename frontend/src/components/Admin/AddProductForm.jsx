@@ -100,6 +100,10 @@ const AddProductForm = () => {
                 .split(",")
                 .map(c => capitalize(c.trim()))
                 .filter(Boolean),
+            tags: formData.tags
+                .split(",")
+                .map(tag => tag.trim())
+                .filter(Boolean),
             price: Number(formData.price),
             countInStock: Number(formData.countInStock),
             isFeatured: false,
@@ -305,7 +309,33 @@ const AddProductForm = () => {
                         type="text"
                         name="tags"
                         value={formData.tags}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                            const input = e.target.value;
+                            const formatted = input
+                                .split(',')
+                                .map((t) => {
+                                    const trimmed = t.trimStart();
+                                    return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+                                })
+                                .join(', ');
+                            setFormData(prev => ({
+                                ...prev,
+                                tags: formatted
+                            }));
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === ',') {
+                                e.preventDefault();
+                                const value = e.target.value;
+                                if (!value.endsWith(', ')) {
+                                    const newValue = value.endsWith(' ') ? value : value + ', ';
+                                    setFormData(prev => ({
+                                        ...prev,
+                                        tags: newValue
+                                    }));
+                                }
+                            }
+                        }}
                         className={inputClasses}
                     />
                 </div>
