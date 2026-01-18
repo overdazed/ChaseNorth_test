@@ -713,7 +713,8 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                             backgroundColor: getColorHex(colorName),
                                                             border: getColorHex(colorName) === '#FFFFFF' || getColorHex(colorName) === '#FFF' ? '1px solid #E5E7EB' : 'none',
                                                             transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                                                            boxShadow: selectedColor === colorName ? '0 0 0 2px rgba(99, 102, 241, 0.5)' : 'none'
+                                                            // boxShadow: '0.25px 0.25px 0 0 rgba(255, 255, 255, 0.5)'
+                                                            boxShadow: selectedColor === colorName ? '0 0 0 1px rgba(87, 17, 0, 1)' : '0.1px 0.1px 0 0 rgba(255, 255, 255, 0.5)'
                                                         }}
                                                         onMouseEnter={(e) => {
                                                             e.currentTarget.style.transform = 'scale(1.1)';
@@ -723,7 +724,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                         }}
                                                         onMouseLeave={(e) => {
                                                             e.currentTarget.style.transform = selectedColor === colorName ? 'scale(1.1)' : 'scale(1)';
-                                                            e.currentTarget.style.boxShadow = selectedColor === colorName ? '0 0 0 2px rgba(99, 102, 241, 0.5)' : 'none';
+                                                            e.currentTarget.style.boxShadow = selectedColor === colorName ? '0 0 0 2px rgba(87, 17, 0, 1)' : 'none';
                                                         }}
                                                         aria-label={`Select color ${colorName}`}
                                                     />
