@@ -270,6 +270,40 @@ const Bento = () => {
     const opacity = useTransform(scrollYProgress, [0, 0.9], [1, 0]);
     const scale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
 
+    // // Track scroll progress for mobile animations
+    // const { scrollY } = useScroll();
+    // const [mobileAnimations, setMobileAnimations] = React.useState({
+    //     women: false,
+    //     top: false,
+    //     bottom: false,
+    //     men: false
+    // });
+    //
+    // React.useEffect(() => {
+    //     const handleScroll = () => {
+    //         if (window.innerWidth <= 768) { // Mobile view
+    //             const scrollPosition = window.scrollY;
+    //             const windowHeight = window.innerHeight;
+    //
+    //             // Calculate when each card comes into view
+    //             const womenThreshold = windowHeight * 0.5;
+    //             const topThreshold = windowHeight * 1.2;
+    //             const bottomThreshold = windowHeight * 1.8;
+    //             const menThreshold = windowHeight * 2.5;
+    //
+    //             setMobileAnimations({
+    //                 women: scrollPosition > womenThreshold,
+    //                 top: scrollPosition > topThreshold,
+    //                 bottom: scrollPosition > bottomThreshold,
+    //                 men: scrollPosition > menThreshold
+    //             });
+    //         }
+    //     };
+    //
+    //     window.addEventListener('scroll', handleScroll);
+    //     return () => window.removeEventListener('scroll', handleScroll);
+    // }, []);
+
     const [isDaytime, setIsDaytime] = React.useState(() => {
         if (typeof window !== 'undefined') {
             const isDark = document.documentElement.classList.contains('dark');

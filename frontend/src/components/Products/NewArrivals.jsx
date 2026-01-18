@@ -326,7 +326,7 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
                                         <div
                                             key={i}
                                             className="w-4 h-4 md:w-6 md:h-6 rounded-full border border-neutral-400 shadow-sm"
-                                            style={{ backgroundColor: getColorHex(color), filter: 'saturate(0.7)' }}
+                                            style={{ backgroundColor: getColorHex(color), filter: 'saturate(1)' }}
                                             title={color}
                                         />
                                     ))}
