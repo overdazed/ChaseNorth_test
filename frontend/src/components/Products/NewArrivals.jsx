@@ -325,8 +325,8 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
                                     {product.colors.map((color, i) => (
                                         <div
                                             key={i}
-                                            className="w-4 h-4 md:w-6 md:h-6 rounded-full shadow-sm"
-                                            style={{ backgroundColor: getColorHex(color), filter: 'saturate(1)', boxShadow: '0.5px 0.5px 0 0 rgba(255, 255, 255, 0.5)' }}
+                                            className="w-4 h-4 md:w-6 md:h-6 rounded-full"
+                                            style={{ backgroundColor: getColorHex(color), filter: 'saturate(1)', boxShadow: '0.25px 0.25px 0 0 rgba(255, 255, 255, 0.5)' }}
                                             title={color}
                                         />
                                     ))}

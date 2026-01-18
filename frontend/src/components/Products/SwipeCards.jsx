@@ -596,10 +596,14 @@ function SwipeCards() {
                           {card.colors.map((color, i) => (
                             <div
                               key={i}
-                              className="w-6 h-6 rounded-full border border-neutral-600 shadow-md"
-                              style={{ backgroundColor: getColorHex(color) }}
+                              className="w-6 h-6 rounded-full z-10"
+                              style={{
+                                backgroundColor: getColorHex(color),
+                                boxShadow: '0.25px 0.25px 0 0 rgba(255, 255, 255, 0.5)'
+                            }}
                             />
                           ))}
+                          {/*boxShadow: '0.25px 0.25px 0 0 rgba(255, 255, 255, 0.5)'*/}
                         </div>
                       )}
                       <div className="absolute bottom-0 left-0 right-0 pt-24 pb-6 px-6 bg-gradient-to-t from-black/95 via-black/60 via-50% to-transparent rounded-b-2xl">

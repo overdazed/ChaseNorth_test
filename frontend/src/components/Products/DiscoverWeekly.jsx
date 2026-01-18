@@ -263,8 +263,8 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                             {weeklyProduct.colors.map((color, i) => (
                                 <div
                                     key={i}
-                                    className="w-6 h-6 rounded-full border-1 border-white shadow-md"
-                                    style={{ backgroundColor: getColorHex(color) }}
+                                    className="w-6 h-6 rounded-full"
+                                    style={{ backgroundColor: getColorHex(color), boxShadow: '0.25px 0.25px 0 0 rgba(255, 255, 255, 0.5)'}}
                                 />
                             ))}
                           </div>
@@ -325,8 +325,8 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                           {bestSellingProduct.colors.map((color, i) => (
                               <div
                                   key={i}
-                                  className="w-6 h-6 rounded-full border-1 border-white shadow-md"
-                                  style={{ backgroundColor: getColorHex(color) }}
+                                  className="w-6 h-6 rounded-full"
+                                  style={{ backgroundColor: getColorHex(color), boxShadow: '0.25px 0.25px 0 0 rgba(255, 255, 255, 0.5)' }}
                               />
                           ))}
                         </div>
@@ -403,7 +403,7 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                               <div
                                   key={i}
                                   className="w-6 h-6 rounded-full border-1 border-white shadow-md"
-                                  style={{ backgroundColor: getColorHex(color) }}
+                                  style={{ backgroundColor: getColorHex(color), boxShadow: '0.25px 0.25px 0 0 rgba(255, 255, 255, 0.5)' }}
                               />
                           ))}
                         </div>
