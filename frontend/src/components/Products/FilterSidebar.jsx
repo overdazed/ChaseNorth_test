@@ -375,6 +375,34 @@ const FilterSidebar = ({
         }
     };
 
+    const handleColorChange = (color) => {
+        const currentColorsFromUrl = searchParams.get('colors')
+            ? searchParams.get('colors').split(',')
+            : [];
+        const newColors = currentColorsFromUrl.includes(color)
+            ? currentColorsFromUrl.filter(c => c !== color)
+            : [...currentColorsFromUrl, color];
+
+        // Update URL
+        const params = new URLSearchParams(searchParams);
+        if (newColors.length > 0) {
+            params.set('colors', [...new Set(newColors)].join(','));
+        } else {
+            params.delete('colors');
+        }
+        setSearchParams(params, { replace: true });
+
+        // Notify parent component
+        if (onFilterChange) {
+            onFilterChange({
+                target: {
+                    name: 'colors',
+                    value: newColors
+                }
+            });
+        }
+    };
+
     // Check if a brand is currently selected
     // const isBrandSelected = (brand) => {
     //     return selectedBrands.includes(brand);
@@ -629,28 +657,7 @@ const FilterSidebar = ({
                                         value={color}
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            const newColors = isSelected
-                                                ? currentColorsFromUrl.filter(c => c !== color)
-                                                : [...currentColorsFromUrl, color];
-        
-                                            // Update URL
-                                            const params = new URLSearchParams(searchParams);
-                                            if (newColors.length > 0) {
-                                                params.set('colors', [...new Set(newColors)].join(','));
-                                            } else {
-                                                params.delete('colors');
-                                            }
-                                            setSearchParams(params, { replace: true });
-        
-                                            // Update parent component
-                                            if (onFilterChange) {
-                                                onFilterChange({
-                                                    target: {
-                                                        name: 'colors',
-                                                        value: newColors
-                                                    }
-                                                });
-                                            }
+                                            handleColorChange(color);
                                         }}
                                         className={`w-6 h-6 rounded-full mb-1 ${
                                             isSelected ? 'ring-2 ring-offset-1 ring-blue-500' : ''
