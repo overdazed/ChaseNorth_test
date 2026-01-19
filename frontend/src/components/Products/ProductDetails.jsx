@@ -481,7 +481,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                             <div className="flex flex-col md:flex-row">
                                 {/* Main Image */}
                                 <div className="w-full md:w-[calc(80%-2rem)] -mt-5 relative scale-95 origin-top-left">
-                                    <div className="pl-5 md:pr-5">
+                                    <div className="pl-4 md:pl-7 md:pr-5">
                                         <div className={`relative w-full ${isDay ? 'bg-neutral-50' : 'bg-neutral-900'} overflow-visible aspect-[4/5] scale-95`}>
                                             <div className="absolute inset-0 overflow-hidden">
                                                 <Lens
