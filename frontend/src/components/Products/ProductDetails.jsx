@@ -1399,7 +1399,6 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                             />
                         )}
                     </section>
-
                 </div>
             </div>
 
@@ -1421,7 +1420,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
             />
 
             {/* Size Chart Modal */}
-h            {showSizeChart && selectedProduct?.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
+            {showSizeChart && selectedProduct?.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white dark:bg-neutral-900 rounded-xl w-full max-w-2xl p-6 relative max-h-[80vh] overflow-y-auto">
                         <button
