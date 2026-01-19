@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { WobbleCard } from "./wobble-card";
 
-export const LayoutGrid = ({ cards: initialCards, isDay = true }) => {
+export const LayoutGrid = ({ cards: initialCards, isDay = true, hoveredCard, setHoveredCard }) => {
     const navigate = useNavigate();
     const [cards, setCards] = useState(initialCards);
     const [selected, setSelected] = useState(null);
@@ -35,9 +35,14 @@ export const LayoutGrid = ({ cards: initialCards, isDay = true }) => {
     return (
         <div className="w-full h-full p-10 grid grid-cols-1 md:grid-cols-3 max-w-7xl mx-auto gap-4 relative z-0">
             {cards.map((card, i) => (
-                <div key={i} className={cn(card.className, {
-                    'transition-all duration-300': selected && selected.id !== card.id
-                })}>
+                <div 
+                    key={i} 
+                    className={cn(card.className, {
+                        'transition-all duration-300': hoveredCard !== null
+                    })}
+                    onMouseEnter={() => setHoveredCard(card.id)}
+                    onMouseLeave={() => setHoveredCard(null)}
+                >
                     {/*{!selected ? (*/}
                     {/*    <WobbleCard */}
                     {/*      containerClassName="h-full w-full rounded-xl overflow-hidden" */}
@@ -69,7 +74,10 @@ export const LayoutGrid = ({ cards: initialCards, isDay = true }) => {
                     {/*) : (*/}
                     {!selected ? (
                         <WobbleCard
-                            containerClassName="h-full w-full rounded-xl overflow-hidden"
+                            containerClassName={cn(
+                                "h-full w-full rounded-xl overflow-hidden transition-all duration-300",
+                                hoveredCard !== null && hoveredCard !== card.id && "blur-sm scale-[0.98]"
+                            )}
                             className="p-0"
                             reducedBounce={i === 0 || i === 3}
                             isDay={isDay}

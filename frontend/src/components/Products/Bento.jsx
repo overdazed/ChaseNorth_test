@@ -6,7 +6,6 @@ import womensCollectionImage from "../../assets/woman/winter-2.jpg";
 import topCollectionImage from "../../assets/top/winter.jpg";
 import bottomCollectionImage from "../../assets/bottom/winter-2.jpg";
 import {useNavigate} from "react-router-dom";
-import {cn} from "@/lib/utils.js";
 
 
 const SkeletonOne = ({ onClick }) => {
@@ -229,7 +228,7 @@ const cards = [
 const Bento = () => {
     const navigate = useNavigate();
     const container = useRef(null);
-    const [hovered, setHovered] = useState(null);
+    const [hoveredCard, setHoveredCard] = useState(null);
 
     const handleCardClick = (path, state = {}) => {
         console.log('Navigating to:', path);
@@ -242,8 +241,6 @@ const Bento = () => {
             content: <SkeletonOne onClick={() => handleCardClick('/collections/all?gender=Women', { gender: 'Women' })} />,
             className: "md:col-span-2",
             thumbnail: womensCollectionImage,
-            title: "Women's Collection",
-            src: womensCollectionImage,
             // objectPosition: "center 60%",
         },
         {
@@ -251,24 +248,18 @@ const Bento = () => {
             content: <SkeletonTwo onClick={() => navigate('/collections/all?category=Top+Wear')} />,
             className: "col-span-1",
             thumbnail: topCollectionImage,
-            title: "Top Wear",
-            src: topCollectionImage,
         },
         {
             id: 3,
             content: <SkeletonThree onClick={() => navigate('/collections/all?category=Bottom+Wear')} />,
             className: "col-span-1",
             thumbnail: bottomCollectionImage,
-            title: "Bottom Wear",
-            src: bottomCollectionImage,
         },
         {
             id: 4,
             content: <SkeletonFour onClick={() => navigate('/collections/all?gender=Men', { state: { gender: 'Men' } })} />,
             className: "md:col-span-2",
             thumbnail: mensCollectionImage,
-            title: "Men's Collection",
-            src: mensCollectionImage,
         },
     ];
 
@@ -349,34 +340,12 @@ const Bento = () => {
             }}
         >
             <div className="h-full pb-20 pt-0">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-5xl mx-auto md:px-8 w-full">
-                    {cards.map((card, index) => (
-                        <div
-                            key={card.id}
-                            onMouseEnter={() => setHovered(index)}
-                            onMouseLeave={() => setHovered(null)}
-                            className={cn(
-                                "rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-60 md:h-96 w-full transition-all duration-300 ease-out",
-                                hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
-                            )}
-                        >
-                            <img src={card.src} alt={card.title} className="object-cover absolute inset-0" />
-                            <div
-                                className={cn(
-                                    "absolute inset-0 bg-black/50 flex items-end py-8 px-4 transition-opacity duration-300",
-                                    hovered === index ? "opacity-100" : "opacity-0"
-                                )}
-                            >
-                                <div
-                                    className="text-xl md:text-2xl font-medium bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200"
-                                >
-                                    {card.title}
-                                </div>
-                            </div>
-                            {card.content}
-                        </div>
-                    ))}
-                </div>
+                <LayoutGrid 
+                    cards={cards} 
+                    isDay={isDaytime} 
+                    hoveredCard={hoveredCard}
+                    setHoveredCard={setHoveredCard}
+                />
             </div>
         </motion.div>
     );
