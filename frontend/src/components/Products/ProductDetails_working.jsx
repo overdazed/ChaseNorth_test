@@ -113,7 +113,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
         return true;
     });
     const [recentlyViewed, setRecentlyViewed] = useState([]);
-    const [showSizeChart, setShowSizeChart] = useState(false);
+    // const [showSizeChart, setShowSizeChart] = useState(false);
 
     // Debug: Log the product ID source
     useEffect(() => {
@@ -741,17 +741,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
                                     {/* Size Selection */}
                                     <div className="mb-6">
-                                        <div className="flex justify-between items-center mb-2">
-                                            <p className={`mb-2 ${themeClasses.characteristics.text}`}>Size:</p>
-                                            {selectedProduct.sizeChart && (
-                                                <button
-                                                    onClick={() => setShowSizeChart(true)}
-                                                    className="text-sm text-blue-600 hover:underline dark:text-blue-400"
-                                                >
-                                                    Size Chart
-                                                </button>
-                                            )}
-                                        </div>
+                                        <p className={`mb-2 ${themeClasses.characteristics.text}`}>Size:</p>
                                         <div className={`grid ${selectedProduct.sizes?.length === 4 ? 'grid-cols-4' : 'grid-cols-5'} gap-2 w-full`}>
                                             {selectedProduct.sizes?.map((size) => (
                                                 <button
