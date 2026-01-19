@@ -386,6 +386,9 @@ const CollectionPage = () => {
                                 onFilterApply={toggleSidebar}
                                 isDay={isDay}
                                 onFilterChange={(e) => {
+                                    // Skip brand changes as they're handled internally
+                                    if (e.target.name === 'brand') return;
+
                                     const { name, value, type, checked } = e.target;
 
                                     // Handle different input types

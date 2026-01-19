@@ -3,15 +3,47 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import {setFilters} from "@/redux/slices/productsSlice.js";
 import { colorMap } from '@/utils/colorUtils.js';
 
+// Custom scrollbar styles
+const scrollbarStyles = `
+  .filter-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .filter-scrollbar::-webkit-scrollbar-track {
+    background-color: #f3f4f6; /* bg-neutral-100 */
+    border-radius: 3px;
+  }
+  .filter-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #d1d5db; /* bg-neutral-300 */
+    border-radius: 3px;
+  }
+  .dark .filter-scrollbar::-webkit-scrollbar-track {
+    background-color: #1f2937; /* dark:bg-neutral-800 */
+  }
+  .dark .filter-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #4b5563; /* dark:bg-neutral-600 */
+  }
+`;
+
 const FilterSidebar = ({
                            onFilterApply,
                            highestPrice = 0,
                            currentCategory,
                            products = [],
                            isDay = true,
-                           onFilterChange,  // Add this
-                           filters = { size: [] },     // Add default empty object
+                           onFilterChange,
+                           filters = { size: [] },
                        }) => {
+    // Add scrollbar styles to head
+    useEffect(() => {
+        const styleElement = document.createElement('style');
+        styleElement.textContent = scrollbarStyles;
+        document.head.appendChild(styleElement);
+        
+        return () => {
+            document.head.removeChild(styleElement);
+        };
+    }, []);
     const [searchParams, setSearchParams] = useSearchParams();
     const location = useLocation();
     const priceFilterRef = useRef(null);
@@ -22,8 +54,8 @@ const FilterSidebar = ({
     // Theme classes
     const themeClasses = {
         container: isDay
-            ? 'bg-neutral-50 text-neutral-900'
-            : 'bg-neutral-900 text-neutral-100',
+            ? 'bg-neutral-50 text-neutral-900 filter-scrollbar overflow-y-auto'
+            : 'bg-neutral-900 text-neutral-100 filter-scrollbar overflow-y-auto',
         header: isDay
             ? 'text-neutral-900 border-b border-neutral-200'
             : 'text-neutral-100 border-b border-neutral-700',
@@ -587,7 +619,7 @@ const FilterSidebar = ({
             <div className={`mb-6 pb-4 ${themeClasses.section}`}>
                 <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Brand</h4>
                 {brands.length > 0 ? (
-                    <div className="max-h-60 overflow-y-auto filter-options space-y-1">
+                    <div className="max-h-60 overflow-y-auto filter-options space-y-1 filter-scrollbar">
                         {brands.map((brand) => (
                             <label key={brand} className="flex items-center">
                                 <input
