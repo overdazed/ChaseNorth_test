@@ -154,7 +154,10 @@ const productSchema = new mongoose.Schema({
         width: Number,
         height: Number
     },
-    weight: Number
+    weight: Number,
+    sizeChart: {
+        type: String
+    }
 },
     { timestamps: true }
 );

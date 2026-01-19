@@ -113,6 +113,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
         return true;
     });
     const [recentlyViewed, setRecentlyViewed] = useState([]);
+    const [showSizeChart, setShowSizeChart] = useState(false);
 
     // Debug: Log the product ID source
     useEffect(() => {
@@ -740,7 +741,17 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
                                     {/* Size Selection */}
                                     <div className="mb-6">
-                                        <p className={`mb-2 ${themeClasses.characteristics.text}`}>Size:</p>
+                                        <div className="flex justify-between items-center mb-2">
+                                            <p className={`mb-2 ${themeClasses.characteristics.text}`}>Size:</p>
+                                            {selectedProduct.sizeChart && (
+                                                <button
+                                                    onClick={() => setShowSizeChart(true)}
+                                                    className="text-sm text-blue-600 hover:underline dark:text-blue-400"
+                                                >
+                                                    Size Chart
+                                                </button>
+                                            )}
+                                        </div>
                                         <div className={`grid ${selectedProduct.sizes?.length === 4 ? 'grid-cols-4' : 'grid-cols-5'} gap-2 w-full`}>
                                             {selectedProduct.sizes?.map((size) => (
                                                 <button
@@ -1363,6 +1374,44 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                 }}
                 user={user}
             />
+
+            {/* Size Chart Modal */}
+            {showSizeChart && selectedProduct?.sizeChart && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white dark:bg-neutral-800 rounded-xl w-full max-w-2xl p-6 relative max-h-[80vh] overflow-y-auto">
+                        <button
+                            onClick={() => setShowSizeChart(false)}
+                            className="absolute top-4 right-4 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
+                        >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+
+                        <h2 className="text-2xl font-bold mb-4 text-neutral-900 dark:text-neutral-50">Size Chart</h2>
+
+                        {/* Size Chart Content */}
+                        <div className="prose dark:prose-invert max-w-none">
+                            <div dangerouslySetInnerHTML={{ __html: selectedProduct.sizeChart }} />
+                        </div>
+
+                        {/* Product-Specific Sizes */}
+                        <div className="mt-6">
+                            <h3 className="text-lg font-semibold mb-2 text-neutral-900 dark:text-neutral-50">Available Sizes for this Product:</h3>
+                            <div className="flex flex-wrap gap-2">
+                                {selectedProduct.sizes?.map((size) => (
+                                    <span
+                                        key={size}
+                                        className="px-3 py-1 bg-neutral-100 dark:bg-neutral-700 rounded-full text-sm text-neutral-900 dark:text-neutral-50"
+                                    >
+                                        {size}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
