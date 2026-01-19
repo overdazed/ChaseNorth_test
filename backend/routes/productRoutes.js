@@ -211,8 +211,17 @@ router.get('/', async (req, res) => {
         }
 
         if (material)  {
-            // we are using $in operator, because we can have multiple materials selected in the filter
-            query.material = {$in: material.split(",")};
+            // Convert material to array if it's a string
+            const materialArray = Array.isArray(material) ? material : material.split(",");
+            
+            // Create a case-insensitive regex pattern for each material
+            query.$or = query.$or || [];
+            materialArray.forEach(m => {
+                const trimmedMaterial = m.trim();
+                if (trimmedMaterial) {
+                    query.$or.push({ material: { $regex: trimmedMaterial, $options: 'i' } });
+                }
+            });
         }
 
         if (brand)  {
