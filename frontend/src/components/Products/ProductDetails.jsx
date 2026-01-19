@@ -475,7 +475,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
 
     return (
-        <div className={`min-h-screen py-20 px-4 transition-colors duration-300 ${themeClasses.background} ${themeClasses.text} flex flex-col items-center justify-center`}>
+        <div className={`min-h-screen py-20 px-4 transition-colors duration-300 ${themeClasses.background} ${themeClasses.text} flex flex-col items-center justify-center`} onClick={() => setShowStarDropdown(false)}>
             <div className="max-w-6xl ml-[14px] w-full">
                 {selectedProduct ? (
                     <div className={`relative ${themeClasses.background} ${themeClasses.text}`}>
@@ -1373,7 +1373,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                     </div>
 
                     {/* Review Section */}
-                    <section className="mt-12">
+                    <section className="mt-12" onClick={() => setShowStarDropdown(false)}>
                         <div className="flex justify-between items-center mb-6">
                             {/*<h2 className="text-2xl font-semibold">Customer Reviews</h2>*/}
                             {console.log('Current user:', user)}
