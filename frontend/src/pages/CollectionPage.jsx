@@ -386,19 +386,19 @@ const CollectionPage = () => {
                                 onFilterApply={toggleSidebar}
                                 isDay={isDay}
                                 onFilterChange={(e) => {
-                                    const { name, value, checked, type } = e.target;
-            
+                                    const { name, value, type, checked } = e.target;
+
                                     // Handle different input types
                                     if (type === 'checkbox') {
                                         const currentValues = filters[name] || [];
                                         let newValues;
-            
+
                                         if (checked) {
                                             newValues = [...currentValues, value];
                                         } else {
                                             newValues = currentValues.filter(v => v !== value);
                                         }
-            
+
                                         dispatch(setFilters({ ...filters, [name]: newValues }));
                                     } else if (type === 'radio') {
                                         // For radio buttons, just set the value
