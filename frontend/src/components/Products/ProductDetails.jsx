@@ -747,7 +747,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                             <p className={`mb-2 ${themeClasses.characteristics.text}`}>Size (<span>{selectedProduct.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
                                                 <button
                                                     onClick={() => setShowSizeChart(true)}
-                                                    className="text-sm text-blue-600 hover:no-underline underline dark:text-gray-400"
+                                                    className="text-sm text-indigo-600 hover:no-underline underline dark:text-gray-400"
                                                 >
                                                     Size Chart
                                                 </button>
@@ -1172,7 +1172,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                         // Toggle functionality: if clicking the same star rating again, reset to null
                                                         setSelectedStarFilter(selectedStarFilter === stars ? null : stars);
                                                     }}
-                                                    className={`w-12 text-sm font-medium text-blue-500 dark:text-blue-500 hover:underline text-left ${selectedStarFilter === stars ? 'underline' : ''}`}
+                                                    className={`w-12 text-sm font-medium text-indigo-500 hover:underline text-left ${selectedStarFilter === stars ? 'underline' : ''}`}
                                                 >
                                                     {stars} star{stars > 1 ? 's' : ''}
                                                 </button>
@@ -1338,7 +1338,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                             onClick={() => setSelectedStarFilter(null)}
                             className={`px-4 py-2 text-sm rounded-full transition-colors ${
                                 selectedStarFilter === null
-                                    ? 'bg-blue-500 text-neutral-50'
+                                    ? 'bg-indigo-600 text-neutral-50'
                                     : 'bg-white text-neutral-700 hover:bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-600 dark:hover:bg-neutral-700'
                             }`}
                         >
