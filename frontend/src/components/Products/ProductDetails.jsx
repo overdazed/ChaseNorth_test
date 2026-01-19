@@ -200,7 +200,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
     const themeClasses = {
         background: isDay ? 'bg-neutral-50' : 'bg-neutral-950',
         text: isDay ? 'text-neutral-950' : 'text-neutral-50',
-        textMuted: isDay ? 'text-neutral-500' : 'text-neutral-500',
+        textMuted: isDay ? 'text-neutral-600' : 'text-neutral-400',
         border: isDay ? 'border-neutral-200' : 'border-neutral-800',
         button: {
             background: isDay ? 'bg-neutral-950 hover:bg-neutral-800' : 'bg-neutral-50 hover:bg-neutral-100',
@@ -1389,10 +1389,9 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
                         {selectedStarFilter !== null && reviews.filter(review => Math.round(review.rating) === selectedStarFilter).length === 0 ? (
                             <div className="text-center py-8">
-                                <p className={`md:text-md ${themeClasses.textMuted}`}>
+                                <p className={`text-md md:text-lg ${themeClasses.textMuted}`}>
                                     There are no reviews with {selectedStarFilter} star{selectedStarFilter > 1 ? 's' : ''}
                                 </p>
-
                             </div>
                         ) : (
                             <ReviewList
