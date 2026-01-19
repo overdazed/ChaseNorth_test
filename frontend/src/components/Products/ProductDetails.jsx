@@ -1477,6 +1477,8 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                 ))}
                             </div>
                         </div>
+
+                        <img />
                     </div>
                 </div>
             )}
