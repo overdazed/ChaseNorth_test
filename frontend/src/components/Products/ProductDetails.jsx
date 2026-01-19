@@ -200,7 +200,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
     const themeClasses = {
         background: isDay ? 'bg-neutral-50' : 'bg-neutral-950',
         text: isDay ? 'text-neutral-950' : 'text-neutral-50',
-        textMuted: isDay ? 'text-neutral-600' : 'text-neutral-400',
+        textMuted: isDay ? 'text-neutral-500' : 'text-neutral-500',
         border: isDay ? 'border-neutral-200' : 'border-neutral-800',
         button: {
             background: isDay ? 'bg-neutral-950 hover:bg-neutral-800' : 'bg-neutral-50 hover:bg-neutral-100',
@@ -1312,12 +1312,15 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                     </div>
 
                     {/* Star Filter Section */}
-                    <div className="mt-6 flex flex-wrap gap-2 items-center">
+                    <div className="mt-6 flex flex-wrap gap-2 items-center" onClick={() => setShowStarDropdown(false)}>
                         <div className="relative inline-block text-left">
                             <div>
                                 <button
                                     type="button"
-                                    onClick={() => setShowStarDropdown(!showStarDropdown)}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setShowStarDropdown(!showStarDropdown);
+                                    }}
                                     className="inline-flex justify-center w-full rounded-full shadow-sm px-4 py-2 bg-white text-sm font-medium text-neutral-700 hover:bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-600 dark:hover:bg-neutral-700"
                                     id="options-menu"
                                     aria-haspopup="true"
@@ -1331,7 +1334,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                             </div>
 
                             {showStarDropdown && (
-                                <div className="origin-top-right absolute left-0 mt-2 w-40 rounded-lg shadow-lg bg-white z-10 dark:bg-neutral-800">
+                                <div className="origin-top-right absolute left-0 mt-2 w-40 rounded-lg shadow-lg bg-white z-10 dark:bg-neutral-800" onClick={(e) => e.stopPropagation()}>
                                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                         {[5, 4, 3, 2, 1].map((star) => {
                                             const count = reviews.filter(review => Math.round(review.rating) === star).length;
@@ -1355,7 +1358,10 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                         </div>
 
                         <button
-                            onClick={() => setSelectedStarFilter(null)}
+                            onClick={() => {
+                                setSelectedStarFilter(null);
+                                setShowStarDropdown(false);
+                            }}
                             className={`px-4 py-2 text-sm rounded-full transition-colors ${
                                 selectedStarFilter === null
                                     ? 'bg-indigo-600 text-neutral-50'
@@ -1383,9 +1389,10 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
                         {selectedStarFilter !== null && reviews.filter(review => Math.round(review.rating) === selectedStarFilter).length === 0 ? (
                             <div className="text-center py-8">
-                                <p className={`text-md md:text-lg ${themeClasses.textMuted}`}>
+                                <p className={`md:text-md ${themeClasses.textMuted}`}>
                                     There are no reviews with {selectedStarFilter} star{selectedStarFilter > 1 ? 's' : ''}
                                 </p>
+
                             </div>
                         ) : (
                             <ReviewList
