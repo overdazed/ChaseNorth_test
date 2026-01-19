@@ -402,13 +402,13 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
                     <button
                         type="button"
                         onClick={onClose}
-                        className="group ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-600 dark:hover:text-neutral-200"
+                        className="inline-flex h-8 w-8 justify-center text-neutral-500  hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
                         aria-label="Close modal"
                     >
                         <img
                             src={xMarkIcon}
                             alt=""
-                            className="h-4 w-4"
+                            className="h-4 w-4 dark:hover:opacity-50"
                             style={{ filter: 'invert(50%)' }}
                         />
                         <span className="sr-only">Close modal</span>

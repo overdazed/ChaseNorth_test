@@ -1425,12 +1425,17 @@ h            {showSizeChart && selectedProduct?.sizeChartData && selectedProduct
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white dark:bg-neutral-900 rounded-xl w-full max-w-2xl p-6 relative max-h-[80vh] overflow-y-auto">
                         <button
+                            type="button"
+                            alt="Close"
                             onClick={() => setShowSizeChart(false)}
                             className="absolute top-4 right-4 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
                         >
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
+                            <img
+                                src={xMarkIcon}
+                                alt=""
+                                className="h-4 w-4 dark:hover:opacity-50"
+                                style={{ filter: 'invert(50%)' }}
+                            />
                         </button>
 
                         <h2 className="text-2xl font-bold mb-4 text-neutral-900 dark:text-neutral-50">Size Chart</h2>
