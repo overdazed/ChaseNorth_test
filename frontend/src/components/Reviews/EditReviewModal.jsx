@@ -629,29 +629,10 @@ const EditReviewModal = ({ isOpen, onClose, review, productName, onReviewUpdated
 
   if (!isOpen) return null;
 
-  const modalRef = useRef(null);
-
-  // Close modal when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen, onClose]);
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 select-none overflow-y-auto">
-      <div className="fixed inset-0 bg-black/65"></div>
-      <div ref={modalRef} className="relative z-10 w-full max-w-2xl rounded-lg bg-neutral-50 shadow-lg dark:bg-neutral-800 max-h-[90vh] flex flex-col">
+      <div className="fixed inset-0 bg-black/65" onClick={onClose}></div>
+      <div className="relative z-10 w-full max-w-2xl rounded-lg bg-neutral-50 shadow-lg dark:bg-neutral-800 max-h-[90vh] flex flex-col">
         <div className="flex-shrink-0 flex items-center justify-between rounded-t border-b border-neutral-200 p-4 dark:border-neutral-700 md:p-5">
           <div>
             <h3 className="mb-1 text-lg font-semibold text-neutral-900 dark:text-neutral-50">
