@@ -136,7 +136,7 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
 
                                 <div className="flex flex-col">
                                     <div className="flex justify-between items-start">
-                                        <h3 className="text-white font-bold text-[10px] sm:text-xs md:text-base md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300 truncate">
+                                        <h3 className="text-white font-bold text-[10px] text-xs md:text-base md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300 truncate">
                                             <>
                                                 <span className="max-[550px]:hidden">
                                                     {product.name}
