@@ -375,38 +375,10 @@ const FilterSidebar = ({
         }
     };
 
-    const handleColorChange = (color) => {
-        const currentColorsFromUrl = searchParams.get('colors')
-            ? searchParams.get('colors').split(',')
-            : [];
-        const newColors = currentColorsFromUrl.includes(color)
-            ? currentColorsFromUrl.filter(c => c !== color)
-            : [...currentColorsFromUrl, color];
-
-        // Update URL
-        const params = new URLSearchParams(searchParams);
-        if (newColors.length > 0) {
-            params.set('colors', [...new Set(newColors)].join(','));
-        } else {
-            params.delete('colors');
-        }
-        setSearchParams(params, { replace: true });
-
-        // Notify parent component
-        if (onFilterChange) {
-            onFilterChange({
-                target: {
-                    name: 'colors',
-                    value: newColors
-                }
-            });
-        }
-    };
-
     // Check if a brand is currently selected
-    // const isBrandSelected = (brand) => {
-    //     return selectedBrands.includes(brand);
-    // };
+    const isBrandSelected = (brand) => {
+        return selectedBrands.includes(brand);
+    };
 
     const handleFilterChange = (e) => {
         const { name, value, checked, type } = e.target;
@@ -590,19 +562,25 @@ const FilterSidebar = ({
                 <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Material</h4>
                 {availableMaterials.length > 0 ? (
                     <div className="filter-options space-y-1">
-                        {availableMaterials.map(material => (
-                            <label key={material} className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    name="material"
-                                    value={material}
-                                    checked={filters.material?.includes(material) || false}
-                                    onChange={handleFilterChange}
-                                    className={`mr-2 ${themeClasses.input}`}
-                                />
-                                <span>{material}</span>
-                            </label>
-                        ))}
+                        {availableMaterials.map(material => {
+                            const currentMaterialsFromUrl = searchParams.get('material')
+                                ? searchParams.get('material').split(',')
+                                : [];
+                            const isSelected = currentMaterialsFromUrl.includes(material);
+                            return (
+                                <label key={material} className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        name="material"
+                                        value={material}
+                                        checked={isSelected}
+                                        onChange={handleFilterChange}
+                                        className={`mr-2 ${themeClasses.input}`}
+                                    />
+                                    <span>{material}</span>
+                                </label>
+                            );
+                        })}
                     </div>
                 ) : (
                     <p className={`text-sm ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>
@@ -616,19 +594,22 @@ const FilterSidebar = ({
                 <h4 className={`font-medium mb-2 ${themeClasses.label}`}>Brand</h4>
                 {brands.length > 0 ? (
                     <div className="max-h-60 overflow-y-auto filter-options space-y-1">
-                        {brands.map((brand) => (
-                            <label key={brand} className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    name="brand"
-                                    value={brand}
-                                    checked={selectedBrands.includes(brand)}
-                                    onChange={() => handleBrandChange(brand)}
-                                    className={`mr-2 ${themeClasses.input}`}
-                                />
-                                <span>{brand}</span>
-                            </label>
-                        ))}
+                        {brands.map((brand) => {
+                            const isSelected = isBrandSelected(brand);
+                            return (
+                                <label key={brand} className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        name="brand"
+                                        value={brand}
+                                        checked={isSelected}
+                                        onChange={() => handleBrandChange(brand)}
+                                        className={`mr-2 ${themeClasses.input}`}
+                                    />
+                                    <span>{brand}</span>
+                                </label>
+                            );
+                        })}
                     </div>
                 ) : (
                     <p className={`text-sm ${isDay ? 'text-neutral-500' : 'text-neutral-400'}`}>
@@ -657,7 +638,28 @@ const FilterSidebar = ({
                                         value={color}
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            handleColorChange(color);
+                                            const newColors = isSelected
+                                                ? currentColorsFromUrl.filter(c => c !== color)
+                                                : [...currentColorsFromUrl, color];
+        
+                                            // Update URL
+                                            const params = new URLSearchParams(searchParams);
+                                            if (newColors.length > 0) {
+                                                params.set('colors', [...new Set(newColors)].join(','));
+                                            } else {
+                                                params.delete('colors');
+                                            }
+                                            setSearchParams(params, { replace: true });
+        
+                                            // Update parent component
+                                            if (onFilterChange) {
+                                                onFilterChange({
+                                                    target: {
+                                                        name: 'colors',
+                                                        value: newColors
+                                                    }
+                                                });
+                                            }
                                         }}
                                         className={`w-6 h-6 rounded-full mb-1 ${
                                             isSelected ? 'ring-2 ring-offset-1 ring-blue-500' : ''
