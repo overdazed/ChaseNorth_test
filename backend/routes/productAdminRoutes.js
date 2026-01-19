@@ -115,7 +115,8 @@ router.post(
                 images: images || [],
                 user,
                 isFeatured: isFeatured === 'true',
-                isPublished: isPublished === 'true'
+                isPublished: isPublished === 'true',
+                sizeChartData: req.body.sizeChartData || []
             });
 
             const createdProduct = await product.save();

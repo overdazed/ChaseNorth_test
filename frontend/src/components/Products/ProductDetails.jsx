@@ -743,11 +743,20 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     <div className="mb-6">
                                         {/*<p className={`mb-2 ${themeClasses.characteristics.text}`}>Size:</p>*/}
                                         <div className="flex justify-between items-center mb-2">
-                                            <p className={`mb-2 ${themeClasses.characteristics.text}`}>Size:</p>
+                                            <p className={`mb-2 ${themeClasses.characteristics.text}`}>Size:
+                                                {selectedProduct.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
+                                                    <button
+                                                        onClick={() => setShowSizeChart(true)}
+                                                        className="text-sm text-natural-600 hover:underline dark:text-natural-400"
+                                                    >
+                                                        Size Chart
+                                                    </button>
+                                                )}
+                                            </p>
                                             {selectedProduct.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
                                                 <button
                                                     onClick={() => setShowSizeChart(true)}
-                                                    className="text-sm text-blue-600 hover:underline dark:text-blue-400"
+                                                    className="text-sm text-natural-600 hover:underline dark:text-natural-400"
                                                 >
                                                     Size Chart
                                                 </button>
