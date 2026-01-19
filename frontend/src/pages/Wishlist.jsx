@@ -397,8 +397,8 @@ const Wishlist = () => {
         {/* Filter Sidebar */}
         <div className={`${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed top-0 left-0 h-full z-30 w-3/4 sm:w-1/2`}>
           <div className="absolute inset-0 bg-white"></div>
-          <div ref={sidebarRef} className="relative h-full overflow-y-auto pt-[112px]">
-            <FilterSidebar
+          <div ref={sidebarRef} className="relative h-full overflow-y-auto pt-[112px] filter-scrollbar">
+              <FilterSidebar
                 products={products}
                 currentCategory={null}
                 onFilterApply={toggleSidebar}

@@ -198,7 +198,9 @@ const CollectionPage = () => {
             limit: queryParams.limit, // Add default limit
             ...(queryParams.gender && { gender: queryParams.gender }),
             ...(queryParams.sizes && { sizes: queryParams.sizes }),
-            ...(queryParams.colors && { colors: queryParams.colors })
+            ...(queryParams.colors && { colors: queryParams.colors }),
+            ...(queryParams.material && { material: queryParams.material }),
+            ...(queryParams.brand && { brand: queryParams.brand })
         };
 
         // Add the debug log here
@@ -376,7 +378,7 @@ const CollectionPage = () => {
                 {/* Filter Sidebar */}
                 <div className={`${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} fixed top-0 left-0 h-full z-30 w-3/4 sm:w-1/2`}>
                     <div className="absolute inset-0 bg-neutral-50"></div>
-                    <div ref={sidebarRef} className="relative h-full overflow-y-auto pt-[112px]">
+                    <div ref={sidebarRef} className="relative h-full overflow-y-auto pt-[112px] filter-scrollbar">
                         <div className="relative z-40">
                             <FilterSidebar
                                 key={collection}

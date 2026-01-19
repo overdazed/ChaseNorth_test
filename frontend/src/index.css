@@ -27,6 +27,26 @@
   display: none; /* Safari and Chrome */
 }
 
+/* Custom scrollbar styles for dark and light mode */
+.filter-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.filter-scrollbar::-webkit-scrollbar-track {
+  background-color: #f3f4f6; /* bg-neutral-100 */
+  border-radius: 3px;
+}
+.filter-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #d1d5db; /* bg-neutral-300 */
+  border-radius: 3px;
+}
+.dark .filter-scrollbar::-webkit-scrollbar-track {
+  background-color: #1f2937; /* dark:bg-neutral-800 */
+}
+.dark .filter-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4b5563; /* dark:bg-neutral-600 */
+}
+
 
   /* Hide number input spinners */
 input[type="number"]::-webkit-outer-spin-button,
