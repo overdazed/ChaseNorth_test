@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import heroVideo from '../../assets/Blinking.mp4';
+import { HeroSection } from "@/components/Layout/HeroSection";
 
 const Hero = () => {
     const container = useRef(null);
@@ -86,42 +87,44 @@ const Hero = () => {
                 </div>
             </motion.div>
 
-            {/* Hero Content */}
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-                <div className="text-center text-white p-6 max-w-4xl mx-auto">
-                    <motion.h1 
-                        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter uppercase mb-6"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        Adventure Awaits
-                    </motion.h1>
-                    <motion.p 
-                        className="text-lg sm:text-xl md:text-2xl mb-8 tracking-tight leading-relaxed"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                    >
-                        Discover the perfect fit for your next outdoor journey. <br/>
-                        High-quality clothing for ethical adventurers, made to explore, made to respect.<br/>
-                        High-quality clothing for ethical adventurers who care how they move through the world.<br/>
-                        High-quality clothing for ethical adventurers — impact without leaving a trace.
-                    </motion.p>
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                    >
-                        <Link
-                            to="/collections/all"
-                            className="inline-block bg-white text-gray-950 py-3 px-8 rounded-sm text-lg font-medium transition-all duration-300 hover:bg-gray-100 hover:scale-105"
-                        >
-                            Shop Now
-                        </Link>
-                    </motion.div>
-                </div>
-            </div>
+            <HeroSection />
+
+            {/*/!* Hero Content *!/*/}
+            {/*<div className="absolute inset-0 flex items-center justify-center z-10">*/}
+            {/*    <div className="text-center text-white p-6 max-w-4xl mx-auto">*/}
+            {/*        <motion.h1 */}
+            {/*            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter uppercase mb-6"*/}
+            {/*            initial={{ opacity: 0, y: 20 }}*/}
+            {/*            animate={{ opacity: 1, y: 0 }}*/}
+            {/*            transition={{ duration: 0.8 }}*/}
+            {/*        >*/}
+            {/*            Adventure Awaits*/}
+            {/*        </motion.h1>*/}
+            {/*        <motion.p */}
+            {/*            className="text-lg sm:text-xl md:text-2xl mb-8 tracking-tight leading-relaxed"*/}
+            {/*            initial={{ opacity: 0, y: 20 }}*/}
+            {/*            animate={{ opacity: 1, y: 0 }}*/}
+            {/*            transition={{ duration: 0.8, delay: 0.2 }}*/}
+            {/*        >*/}
+            {/*            Discover the perfect fit for your next outdoor journey. <br/>*/}
+            {/*            High-quality clothing for ethical adventurers, made to explore, made to respect.<br/>*/}
+            {/*            High-quality clothing for ethical adventurers who care how they move through the world.<br/>*/}
+            {/*            High-quality clothing for ethical adventurers — impact without leaving a trace.*/}
+            {/*        </motion.p>*/}
+            {/*        <motion.div*/}
+            {/*            initial={{ opacity: 0, y: 20 }}*/}
+            {/*            animate={{ opacity: 1, y: 0 }}*/}
+            {/*            transition={{ duration: 0.8, delay: 0.4 }}*/}
+            {/*        >*/}
+            {/*            <Link*/}
+            {/*                to="/collections/all"*/}
+            {/*                className="inline-block bg-white text-gray-950 py-3 px-8 rounded-sm text-lg font-medium transition-all duration-300 hover:bg-gray-100 hover:scale-105"*/}
+            {/*            >*/}
+            {/*                Shop Now*/}
+            {/*            </Link>*/}
+            {/*        </motion.div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
         </section>
     );
 };
