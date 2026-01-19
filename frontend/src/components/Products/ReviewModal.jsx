@@ -387,7 +387,7 @@ const ReviewModal = ({ isOpen, onClose, productName, productId, onReviewSubmit, 
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-4 select-none overflow-y-auto filter-scrollbar"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-4 select-none overflow-y-auto"
             onMouseDown={handleModalClick}
             style={{ cursor: 'default' }}
         >

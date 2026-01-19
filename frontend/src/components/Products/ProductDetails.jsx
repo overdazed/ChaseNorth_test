@@ -477,11 +477,11 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
             <div className="max-w-6xl ml-[14px] w-full">
                 {selectedProduct ? (
                     <div className={`relative ${themeClasses.background} ${themeClasses.text}`}>
-                        <div className="p-4">
+                        <div className="pl-1 pr-4">
                             <div className="flex flex-col md:flex-row">
                                 {/* Main Image */}
                                 <div className="w-full md:w-[calc(80%-2rem)] -mt-5 relative scale-95 origin-top-left">
-                                    <div className="md:pr-3">
+                                    <div className="pl-5 md:pr-5">
                                         <div className={`relative w-full ${isDay ? 'bg-neutral-50' : 'bg-neutral-900'} overflow-visible aspect-[4/5] scale-95`}>
                                             <div className="absolute inset-0 overflow-hidden">
                                                 <Lens
@@ -958,7 +958,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
                 {/* You May Like Section - Only show if showRecommendations is true */}
                 {selectedProduct && showRecommendations && (
-                    <div className="mt-16 px-4 md:px-8">
+                    <div className="mt-16 pl-1 pr-4 md:px-8">
                         <h2 className={`text-2xl text-center font-medium mb-16 select-none ${themeClasses.text}`}>
                             You May Also Like
                         </h2>
@@ -1097,7 +1097,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                 )}
 
                 {/* Reviews Section */}
-                <div id="reviews" className="mt-20 px-4 md:px-8 max-w-4xl mx-auto">
+                <div id="reviews" className="mt-20 pl-1 pr-4 md:px-8 max-w-4xl mx-auto">
                     <h2 className={`text-2xl font-medium mb-8 text-center select-none ${themeClasses.text}`}>
                         Customer Reviews
                     </h2>
@@ -1422,7 +1422,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
             {/* Size Chart Modal */}
             {showSizeChart && selectedProduct?.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white dark:bg-neutral-900 rounded-xl w-full max-w-2xl p-6 relative max-h-[80vh] overflow-y-auto filter-scrollbar">
+                    <div className="bg-white dark:bg-neutral-900 rounded-xl w-full max-w-2xl p-6 relative max-h-[80vh] overflow-y-auto">
                         <button
                             type="button"
                             alt="Close"

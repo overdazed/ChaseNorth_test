@@ -440,7 +440,7 @@ const Navbar = ({ transparent = false }) => {
                     </div>
                 </div>
                 {/* Navigation links container */}
-                <div className="h-[calc(100vh-12rem)] flex flex-col justify-start pt-20 p-4 overflow-y-auto filter-scrollbar">
+                <div className="h-[calc(100vh-12rem)] flex flex-col justify-start pt-20 p-4 overflow-y-auto">
                     <nav className="space-y-12">
                         <NavLink
                             to="/collections/all?gender=Men"

@@ -68,13 +68,13 @@ const AdminLayout = () => {
                 }`}
                 style={{ height: '100vh' }}
             >
-                <div className="h-full overflow-y-auto filter-scrollbar">
+                <div className="h-full overflow-y-auto">
                     <AdminSidebar />
                 </div>
             </div>
 
             {/* Main Content - Adjusted padding for mobile header */}
-            <main className="flex-1 overflow-x-hidden overflow-y-auto pt-16 md:pt-0 filter-scrollbar">
+            <main className="flex-1 overflow-x-hidden overflow-y-auto pt-16 md:pt-0">
                 <div className="p-4 md:p-6 max-w-7xl mx-auto">
                     <div className="hidden md:flex justify-between items-center mb-6">
                         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
