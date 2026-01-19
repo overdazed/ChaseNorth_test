@@ -746,14 +746,14 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     <div className="mb-6">
                                         {/*<p className={`mb-2 ${themeClasses.characteristics.text}`}>Size:</p>*/}
                                         <div className="flex justify-between items-center mb-2">
-                                            <p className={`mb-2 ${themeClasses.characteristics.text}`}>Size (<span>{selectedProduct.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
+                                            <p className={`mb-2 ${themeClasses.characteristics.text}`}>Size: <span>{selectedProduct.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
                                                 <button
                                                     onClick={() => setShowSizeChart(true)}
                                                     className="text-sm text-indigo-600 hover:no-underline underline dark:text-gray-400"
                                                 >
-                                                    Size Chart
+                                                    (Size Chart)
                                                 </button>
-                                            )}</span>):</p>
+                                            )}</span></p>
                                         </div>
                                         <div className={`grid ${selectedProduct.sizes?.length === 4 ? 'grid-cols-4' : 'grid-cols-5'} gap-2 w-full`}>
                                             {selectedProduct.sizes?.map((size) => (
@@ -1439,7 +1439,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                             />
                         </button>
 
-                        <h2 className="text-2xl font-bold mb-4 text-neutral-900 dark:text-neutral-50">Size Chart</h2>
+                        <h2 className="text-xl md:text-2xl font-bold mb-4 text-neutral-900 dark:text-neutral-50">Size Chart</h2>
 
                         {/* Size Chart Table */}
                         <div className="overflow-x-auto mb-6">
@@ -1454,7 +1454,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                 </thead>
                                 <tbody>
                                     {selectedProduct.sizeChartData.map((row, index) => (
-                                        <tr key={index} className="bg-white dark:bg-neutral-800 text-xs">
+                                        <tr key={index} className="bg-white dark:bg-neutral-800 text-xs md:text-sm">
                                             <td className="p-3">{row.size}</td>
                                             <td className="p-3">{row.width}</td>
                                             <td className="p-3">{row.length}</td>
@@ -1472,7 +1472,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                 {selectedProduct.sizes?.map((size) => (
                                     <span
                                         key={size}
-                                        className="px-3 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-sm text-neutral-900 dark:text-neutral-50"
+                                        className="px-3 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-xs md:text-sm text-neutral-900 dark:text-neutral-50"
                                     >
                                         {size}
                                     </span>
