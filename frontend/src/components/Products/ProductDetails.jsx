@@ -19,6 +19,7 @@ import ReviewList from '../Reviews/ReviewList';
 import { isDaytime, isProductNew } from "../../utils/productUtils";
 import Breadcrumbs from "@/components/Common/Breadcrumbs.jsx";
 import xMarkIcon from "@/assets/x-mark.svg";
+import sizeShirt from "@/assets/size-shirt.svg"
 
 // Helper function to check if it's daytime (between 6 AM and 6 PM)
 // const isDaytime = () => {
@@ -1478,7 +1479,11 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                             </div>
                         </div>
 
-                        <img />
+                        <img
+                            src={sizeShirt}
+                            alt="Size Chart Shirt"
+                            className="mt-4 w-full max-w-md mx-auto"
+                        />
                     </div>
                 </div>
             )}
