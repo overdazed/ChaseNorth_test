@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 // import * as queryString from "node:querystring";
 import FilterSidebar from "../components/Products/FilterSidebar.jsx";
 import SortOptions from "../components/Products/SortOptions.jsx";
-import ProductGrid from "../components/Products/ProductGrid.jsx";
+//  import ProductGrid from "../components/Products/ProductGrid.jsx";
 import SwipeCards from "../components/Products/SwipeCards.jsx";
 import { fetchProductsByFilters, setFilters } from "../redux/slices/productsSlice.js";
-
+import ParallaxProductGrid from "../components/Products/ParallaxProductGrid.jsx";
 const CollectionPage = () => {
     // Theme state
     const [isDay, setIsDay] = useState(() => {
@@ -580,8 +580,8 @@ const CollectionPage = () => {
                         <>
                             {/* First two rows of products (6 products total) */}
                             {products.length > 6 ? (
-                                <ProductGrid
-                                    products={sortedProducts.slice(0, 12)}
+                                <ParallaxProductGrid
+                                    products={products}
                                     loading={loading}
                                     error={error}
                                     isDay={isDay}
