@@ -143,13 +143,15 @@ const Wishlist = () => {
         }
       }
 
-      // Filter by material
+      // Filter by material - case insensitive and handles compound material strings
       if (filters.material && filters.material.length > 0) {
-        if (!filters.material.some(material =>
-            product.material &&
-            typeof product.material === 'string' &&
-            product.material.toLowerCase().includes(material.toLowerCase())
-        )) {
+        if (!filters.material.some(material => {
+          if (!product.material) return false;
+          const materialStr = Array.isArray(product.material) 
+            ? product.material.join(' ') 
+            : String(product.material);
+          return new RegExp(material, 'i').test(materialStr);
+        })) {
           return false;
         }
       }
