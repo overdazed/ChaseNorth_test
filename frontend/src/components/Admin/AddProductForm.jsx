@@ -104,6 +104,10 @@ const AddProductForm = () => {
                 .split(",")
                 .map(tag => tag.trim())
                 .filter(Boolean),
+            material: formData.material
+                .split(",")
+                .map(m => m.trim())
+                .filter(Boolean),
             price: Number(formData.price),
             countInStock: Number(formData.countInStock),
             isFeatured: false,
@@ -233,12 +237,38 @@ const AddProductForm = () => {
                 {/* Material & Gender */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <label className="block font-semibold mb-2">Material</label>
+                        <label className="block font-semibold mb-2">Material (comma-separated)</label>
                         <input
                             type="text"
                             name="material"
                             value={formData.material}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                                const input = e.target.value;
+                                const formatted = input
+                                    .split(',')
+                                    .map((m) => {
+                                        const trimmed = m.trimStart();
+                                        return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+                                    })
+                                    .join(', ');
+                                setFormData(prev => ({
+                                    ...prev,
+                                    material: formatted
+                                }));
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === ',') {
+                                    e.preventDefault();
+                                    const value = e.target.value;
+                                    if (!value.endsWith(', ')) {
+                                        const newValue = value.endsWith(' ') ? value : value + ', ';
+                                        setFormData(prev => ({
+                                            ...prev,
+                                            material: newValue
+                                        }));
+                                    }
+                                }
+                            }}
                             className={inputClasses}
                         />
                     </div>

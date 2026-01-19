@@ -853,7 +853,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                         <div className="flex justify-between">
                                                             <span className={themeClasses.characteristics.text}>Material</span>
                                                             <span className={`font-medium ${themeClasses.characteristics.value}`}>
-                                                                {selectedProduct.material || 'N/A'}
+                                                                {selectedProduct.material ? (Array.isArray(selectedProduct.material) ? selectedProduct.material.join(', ') : selectedProduct.material) : 'N/A'}
                                                             </span>
                                                         </div>
                                                         <div className="flex justify-between">
