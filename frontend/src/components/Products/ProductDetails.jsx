@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { toast } from "sonner"
 import ProductGrid from "./ProductGrid.jsx";
 import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
@@ -18,6 +18,7 @@ import ReviewModal from './ReviewModal';
 import ReviewList from '../Reviews/ReviewList';
 import { isDaytime, isProductNew } from "../../utils/productUtils";
 import Breadcrumbs from "@/components/Common/Breadcrumbs.jsx";
+import xMarkIcon from "@/assets/x-mark.svg";
 
 // Helper function to check if it's daytime (between 6 AM and 6 PM)
 // const isDaytime = () => {
@@ -1422,7 +1423,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
             {/* Size Chart Modal */}
 h            {showSizeChart && selectedProduct?.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white dark:bg-neutral-800 rounded-xl w-full max-w-2xl p-6 relative max-h-[80vh] overflow-y-auto">
+                    <div className="bg-white dark:bg-neutral-900 rounded-xl w-full max-w-2xl p-6 relative max-h-[80vh] overflow-y-auto">
                         <button
                             onClick={() => setShowSizeChart(false)}
                             className="absolute top-4 right-4 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
@@ -1438,20 +1439,20 @@ h            {showSizeChart && selectedProduct?.sizeChartData && selectedProduct
                         <div className="overflow-x-auto mb-6">
                             <table className="w-full border-collapse">
                                 <thead>
-                                    <tr className="bg-neutral-100 dark:bg-neutral-700">
-                                        <th className="p-3 border border-neutral-300 dark:border-neutral-600 text-left font-semibold">Size</th>
-                                        <th className="p-3 border border-neutral-300 dark:border-neutral-600 text-left font-semibold">Width (cm)</th>
-                                        <th className="p-3 border border-neutral-300 dark:border-neutral-600 text-left font-semibold">Length (cm)</th>
-                                        <th className="p-3 border border-neutral-300 dark:border-neutral-600 text-left font-semibold">Sleeve Center Back (cm)</th>
+                                    <tr className="bg-neutral-100 dark:bg-neutral-300">
+                                        <th className="p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-sm">Size</th>
+                                        <th className="p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-sm">Width (cm)</th>
+                                        <th className="p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-sm">Length (cm)</th>
+                                        <th className="p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-sm">Sleeve Center Back (cm)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {selectedProduct.sizeChartData.map((row, index) => (
                                         <tr key={index} className="bg-white dark:bg-neutral-800">
-                                            <td className="p-3 border border-neutral-300 dark:border-neutral-600">{row.size}</td>
-                                            <td className="p-3 border border-neutral-300 dark:border-neutral-600">{row.width}</td>
-                                            <td className="p-3 border border-neutral-300 dark:border-neutral-600">{row.length}</td>
-                                            <td className="p-3 border border-neutral-300 dark:border-neutral-600">{row.sleeveCenterBack}</td>
+                                            <td className="p-3">{row.size}</td>
+                                            <td className="p-3">{row.width}</td>
+                                            <td className="p-3">{row.length}</td>
+                                            <td className="p-3">{row.sleeveCenterBack}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -1465,7 +1466,7 @@ h            {showSizeChart && selectedProduct?.sizeChartData && selectedProduct
                                 {selectedProduct.sizes?.map((size) => (
                                     <span
                                         key={size}
-                                        className="px-3 py-1 bg-neutral-100 dark:bg-neutral-700 rounded-full text-sm text-neutral-900 dark:text-neutral-50"
+                                        className="px-3 py-1 bg-neutral-100 dark:bg-neutral-800 rounded-full text-sm text-neutral-900 dark:text-neutral-50"
                                     >
                                         {size}
                                     </span>
