@@ -254,7 +254,6 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
     const [refreshReviews, setRefreshReviews] = useState(0); // Add a refresh trigger
     const [selectedStarFilter, setSelectedStarFilter] = useState(null);
     const [showStarDropdown, setShowStarDropdown] = useState(false);
-    const dropdownRef = useRef(null);
 
     // Fetch reviews when product changes or when refresh is triggered
     const fetchReviews = useCallback(async () => {
@@ -1295,7 +1294,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                     </div>
 
                     {/* Star Filter Section */}
-                    <div className="mt-6 flex flex-wrap gap-2 items-center" ref={dropdownRef}>
+                    <div className="mt-6 flex flex-wrap gap-2 items-center">
                         <div className="relative inline-block text-left">
                             <div>
                                 <button
