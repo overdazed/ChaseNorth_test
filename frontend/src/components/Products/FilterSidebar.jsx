@@ -280,17 +280,61 @@ const FilterSidebar = ({
         });
     }, [products]);
 
+    // Extract material names from strings like "80% Cotton, 20% Polyester"
+    const extractMaterialNames = (materialStr) => {
+        if (!materialStr) return [];
+        
+        // Split by comma and percentage patterns, then clean up
+        return materialStr
+            .split(/,|%\s*\d+\s*/) // Split by comma or percentage patterns
+            .map(m => m.trim())
+            .filter(Boolean) // Remove empty strings
+            .map(material => {
+                // Remove any remaining numbers or special characters at the start
+                return material.replace(/^[^a-zA-Z]+/, '').trim();
+            })
+            .filter(Boolean); // Filter out any empty strings after cleaning
+    };
+
     // Get unique materials from the current products
     const availableMaterials = React.useMemo(() => {
         if (!products || products.length === 0) return [];
 
         // Extract all materials from products
-        const allMaterials = products.flatMap(product =>
-            product.material ? [product.material] : []
-        );
+        const allMaterials = products.flatMap(product => {
+            if (!product.material) return [];
+            
+            // Handle both string and array cases
+            const materials = Array.isArray(product.material) 
+                ? product.material 
+                : [product.material];
+                
+            // Process each material string to extract material names
+            return materials.flatMap(materialStr => {
+                const cleanMaterial = materialStr.trim();
+                // If it looks like a percentage-based material list, extract names
+                if (/%/.test(cleanMaterial)) {
+                    return extractMaterialNames(cleanMaterial);
+                }
+                // Otherwise use the material as is
+                return [cleanMaterial];
+            });
+        });
 
-        // Remove duplicates and sort alphabetically
-        return [...new Set(allMaterials)].sort();
+        // Remove duplicates (case-insensitive) and sort alphabetically
+        const uniqueMaterials = [];
+        const lowerCaseSet = new Set();
+        
+        allMaterials.forEach(material => {
+            const lowerCaseMaterial = material.toLowerCase();
+            if (!lowerCaseSet.has(lowerCaseMaterial)) {
+                lowerCaseSet.add(lowerCaseMaterial);
+                // Keep the original case of the first occurrence
+                uniqueMaterials.push(material);
+            }
+        });
+
+        return uniqueMaterials.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
     }, [products]);
 
     // State for filters
