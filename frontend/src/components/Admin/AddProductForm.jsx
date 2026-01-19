@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createProduct } from "../../redux/slices/adminProductSlice";
@@ -31,6 +31,37 @@ const AddProductForm = () => {
 
     const [sizesInput, setSizesInput] = useState("");
     const [colorsInput, setColorsInput] = useState("");
+    
+    // Sync sizes with size chart
+    useEffect(() => {
+        const sizes = sizesInput
+            .split(",")
+            .map(s => s.trim().toUpperCase())
+            .filter(Boolean);
+            
+        // Keep existing size chart data for sizes that still exist
+        const existingData = formData.sizeChartData.filter(item => 
+            sizes.includes(item.size)
+        );
+        
+        // Add new sizes that don't exist in the size chart yet
+        const newSizes = sizes.filter(size => 
+            !formData.sizeChartData.some(item => item.size === size)
+        ).map(size => ({
+            size,
+            width: "",
+            length: "",
+            sleeveCenterBack: ""
+        }));
+        
+        // Only update if there are changes to avoid infinite loops
+        if (newSizes.length > 0 || existingData.length !== formData.sizeChartData.length) {
+            setFormData(prev => ({
+                ...prev,
+                sizeChartData: [...existingData, ...newSizes]
+            }));
+        }
+    }, [sizesInput]);
     const [uploading, setUploading] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
