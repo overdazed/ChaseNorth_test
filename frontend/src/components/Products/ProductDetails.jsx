@@ -744,7 +744,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                         {/*<p className={`mb-2 ${themeClasses.characteristics.text}`}>Size:</p>*/}
                                         <div className="flex justify-between items-center mb-2">
                                             <p className={`mb-2 ${themeClasses.characteristics.text}`}>Size:</p>
-                                            {selectedProduct.sizeChart && (
+                                            {selectedProduct.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
                                                 <button
                                                     onClick={() => setShowSizeChart(true)}
                                                     className="text-sm text-blue-600 hover:underline dark:text-blue-400"
@@ -1421,7 +1421,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
             />
 
             {/* Size Chart Modal */}
-            {showSizeChart && selectedProduct?.sizeChart && (
+h            {showSizeChart && selectedProduct?.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white dark:bg-neutral-800 rounded-xl w-full max-w-2xl p-6 relative max-h-[80vh] overflow-y-auto">
                         <button
@@ -1435,9 +1435,28 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
                         <h2 className="text-2xl font-bold mb-4 text-neutral-900 dark:text-neutral-50">Size Chart</h2>
 
-                        {/* Size Chart Content */}
-                        <div className="prose dark:prose-invert max-w-none">
-                            <div dangerouslySetInnerHTML={{ __html: selectedProduct.sizeChart }} />
+                        {/* Size Chart Table */}
+                        <div className="overflow-x-auto mb-6">
+                            <table className="w-full border-collapse">
+                                <thead>
+                                    <tr className="bg-neutral-100 dark:bg-neutral-700">
+                                        <th className="p-3 border border-neutral-300 dark:border-neutral-600 text-left font-semibold">Size</th>
+                                        <th className="p-3 border border-neutral-300 dark:border-neutral-600 text-left font-semibold">Width (cm)</th>
+                                        <th className="p-3 border border-neutral-300 dark:border-neutral-600 text-left font-semibold">Length (cm)</th>
+                                        <th className="p-3 border border-neutral-300 dark:border-neutral-600 text-left font-semibold">Sleeve Center Back (cm)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {selectedProduct.sizeChartData.map((row, index) => (
+                                        <tr key={index} className="bg-white dark:bg-neutral-800">
+                                            <td className="p-3 border border-neutral-300 dark:border-neutral-600">{row.size}</td>
+                                            <td className="p-3 border border-neutral-300 dark:border-neutral-600">{row.width}</td>
+                                            <td className="p-3 border border-neutral-300 dark:border-neutral-600">{row.length}</td>
+                                            <td className="p-3 border border-neutral-300 dark:border-neutral-600">{row.sleeveCenterBack}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
 
                         {/* Product-Specific Sizes */}

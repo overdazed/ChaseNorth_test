@@ -21,6 +21,7 @@ const AddProductForm = () => {
         brand: "",
         collections: "",
         material: "",
+        sizeChartData: [],
         gender: "",
         tags: "",
         sizes: [],
@@ -108,6 +109,7 @@ const AddProductForm = () => {
                 .split(",")
                 .map(m => m.trim())
                 .filter(Boolean),
+            sizeChartData: formData.sizeChartData,
             price: Number(formData.price),
             countInStock: Number(formData.countInStock),
             isFeatured: false,
@@ -368,6 +370,103 @@ const AddProductForm = () => {
                         }}
                         className={inputClasses}
                     />
+                </div>
+
+                {/* Size Chart */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Size Chart</label>
+                    <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                            <thead>
+                                <tr className="bg-neutral-100 dark:bg-neutral-800">
+                                    <th className="p-2 border border-neutral-300 dark:border-neutral-700 text-left">Size</th>
+                                    <th className="p-2 border border-neutral-300 dark:border-neutral-700 text-left">Width (cm)</th>
+                                    <th className="p-2 border border-neutral-300 dark:border-neutral-700 text-left">Length (cm)</th>
+                                    <th className="p-2 border border-neutral-300 dark:border-neutral-700 text-left">Sleeve Center Back (cm)</th>
+                                    <th className="p-2 border border-neutral-300 dark:border-neutral-700 text-left">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {formData.sizeChartData.map((row, index) => (
+                                    <tr key={index} className="bg-white dark:bg-neutral-900">
+                                        <td className="p-2 border border-neutral-300 dark:border-neutral-700">
+                                            <input
+                                                type="text"
+                                                value={row.size}
+                                                onChange={(e) => {
+                                                    const updatedData = [...formData.sizeChartData];
+                                                    updatedData[index].size = e.target.value;
+                                                    setFormData(prev => ({ ...prev, sizeChartData: updatedData }));
+                                                }}
+                                                className="w-full p-1 border rounded dark:bg-neutral-800 dark:text-neutral-50"
+                                            />
+                                        </td>
+                                        <td className="p-2 border border-neutral-300 dark:border-neutral-700">
+                                            <input
+                                                type="number"
+                                                value={row.width}
+                                                onChange={(e) => {
+                                                    const updatedData = [...formData.sizeChartData];
+                                                    updatedData[index].width = e.target.value;
+                                                    setFormData(prev => ({ ...prev, sizeChartData: updatedData }));
+                                                }}
+                                                className="w-full p-1 border rounded dark:bg-neutral-800 dark:text-neutral-50"
+                                            />
+                                        </td>
+                                        <td className="p-2 border border-neutral-300 dark:border-neutral-700">
+                                            <input
+                                                type="number"
+                                                value={row.length}
+                                                onChange={(e) => {
+                                                    const updatedData = [...formData.sizeChartData];
+                                                    updatedData[index].length = e.target.value;
+                                                    setFormData(prev => ({ ...prev, sizeChartData: updatedData }));
+                                                }}
+                                                className="w-full p-1 border rounded dark:bg-neutral-800 dark:text-neutral-50"
+                                            />
+                                        </td>
+                                        <td className="p-2 border border-neutral-300 dark:border-neutral-700">
+                                            <input
+                                                type="number"
+                                                value={row.sleeveCenterBack}
+                                                onChange={(e) => {
+                                                    const updatedData = [...formData.sizeChartData];
+                                                    updatedData[index].sleeveCenterBack = e.target.value;
+                                                    setFormData(prev => ({ ...prev, sizeChartData: updatedData }));
+                                                }}
+                                                className="w-full p-1 border rounded dark:bg-neutral-800 dark:text-neutral-50"
+                                            />
+                                        </td>
+                                        <td className="p-2 border border-neutral-300 dark:border-neutral-700">
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    const updatedData = [...formData.sizeChartData];
+                                                    updatedData.splice(index, 1);
+                                                    setFormData(prev => ({ ...prev, sizeChartData: updatedData }));
+                                                }}
+                                                className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                                            >
+                                                Remove
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setFormData(prev => ({
+                                ...prev,
+                                sizeChartData: [...prev.sizeChartData, { size: '', width: '', length: '', sleeveCenterBack: '' }]
+                            }));
+                        }}
+                        className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                    >
+                        Add Size Row
+                    </button>
                 </div>
 
                 {/* Product Images */}

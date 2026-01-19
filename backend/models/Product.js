@@ -157,6 +157,9 @@ const productSchema = new mongoose.Schema({
     weight: Number,
     sizeChart: {
         type: String
+    },
+    sizeChartData: {
+        type: [Object]
     }
 },
     { timestamps: true }
