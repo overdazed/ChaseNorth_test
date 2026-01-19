@@ -867,7 +867,25 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                         <div className="flex justify-between">
                                                             <span className={themeClasses.characteristics.text}>Material</span>
                                                             <span className={`font-medium ${themeClasses.characteristics.value}`}>
-                                                                {selectedProduct.material ? (Array.isArray(selectedProduct.material) ? selectedProduct.material.join(', ') : selectedProduct.material) : 'N/A'}
+                                                                {selectedProduct.material ? (
+                                                                    Array.isArray(selectedProduct.material) ? (
+                                                                        [...selectedProduct.material].sort((a, b) => {
+                                                                            const numA = parseInt(a.match(/\d+/)?.[0] || '0');
+                                                                            const numB = parseInt(b.match(/\d+/)?.[0] || '0');
+                                                                            return numB - numA;
+                                                                        }).map((material, index) => (
+                                                                            <div key={index} className="text-right">{material}</div>
+                                                                        ))
+                                                                    ) : (
+                                                                        [...selectedProduct.material.split(',')].sort((a, b) => {
+                                                                            const numA = parseInt(a.trim().match(/\d+/)?.[0] || '0');
+                                                                            const numB = parseInt(b.trim().match(/\d+/)?.[0] || '0');
+                                                                            return numB - numA;
+                                                                        }).map((material, index) => (
+                                                                            <div key={index} className="text-right">{material.trim()}</div>
+                                                                        ))
+                                                                    )
+                                                                ) : 'N/A'}
                                                             </span>
                                                         </div>
                                                         <div className="flex justify-between">
