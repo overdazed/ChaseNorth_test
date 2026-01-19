@@ -20,6 +20,7 @@ import { isDaytime, isProductNew } from "../../utils/productUtils";
 import Breadcrumbs from "@/components/Common/Breadcrumbs.jsx";
 import xMarkIcon from "@/assets/x-mark.svg";
 import sizeShirt from "@/assets/size-shirt.svg"
+import sizeShirtWhite from "@/assets/size-shirt-white.svg"
 
 // Helper function to check if it's daytime (between 6 AM and 6 PM)
 // const isDaytime = () => {
@@ -1445,15 +1446,15 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                             <table className="w-full border-collapse">
                                 <thead>
                                     <tr className="bg-neutral-100 dark:bg-neutral-300">
-                                        <th className="p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-sm">Size</th>
-                                        <th className="p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-sm">Width (cm)</th>
-                                        <th className="p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-sm">Length (cm)</th>
-                                        <th className="p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-sm">Sleeve Center Back (cm)</th>
+                                        <th className="p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-[8px] md:text-sm">Size</th>
+                                        <th className="p-1 md:p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-[8px] md:text-sm whitespace-nowrap">Width (cm)</th>
+                                        <th className="p-1 md:p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-[8px] md:text-sm whitespace-nowrap">Length (cm)</th>
+                                        <th className="p-1 md:p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-[8px] md:text-sm whitespace-nowrap">Sleeve Center Back (cm)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {selectedProduct.sizeChartData.map((row, index) => (
-                                        <tr key={index} className="bg-white dark:bg-neutral-800">
+                                        <tr key={index} className="bg-white dark:bg-neutral-800 text-xs">
                                             <td className="p-3">{row.size}</td>
                                             <td className="p-3">{row.width}</td>
                                             <td className="p-3">{row.length}</td>
@@ -1479,11 +1480,20 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                             </div>
                         </div>
 
-                        <img
-                            src={sizeShirt}
-                            alt="Size Chart Shirt"
-                            className="mt-4 w-full max-w-md mx-auto"
-                        />
+                        {isDay ? (
+                            <img
+                                src={sizeShirt}
+                                alt="Size Chart Shirt"
+                                className="mt-4 w-full max-w-md mx-auto"
+                            />
+                        ) : (
+                            <img
+                                src={sizeShirtWhite}
+                                alt="Size Chart Shirt"
+                                className="mt-4 w-full max-w-md mx-auto"
+                            />
+                        )}
+
                     </div>
                 </div>
             )}
