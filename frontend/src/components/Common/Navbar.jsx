@@ -297,9 +297,10 @@ const Navbar = ({ transparent = false }) => {
                                 to="/collections/all?category=Top+Wear"
                                 className="relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1 dark:text-neutral-300 dark:hover:text-white"
                             >
-                                {({ isActive: navLinkActive }) => {
+                                {() => {
                                     const searchParams = new URLSearchParams(window.location.search);
-                                    const isActive = searchParams.get('category') === 'Top+Wear';
+                                    const category = searchParams.get('category');
+                                    const isActive = category === 'Top+Wear' || category === 'Top Wear';
                                     return (
                                         <span className={`relative ${isActive ? 'text-black dark:text-white' : ''}`}>
                                         Top Wear
@@ -313,9 +314,10 @@ const Navbar = ({ transparent = false }) => {
                                 to="/collections/all?category=Bottom+Wear"
                                 className="relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1 dark:text-neutral-300 dark:hover:text-white"
                             >
-                                {({ isActive: navLinkActive }) => {
+                                {() => {
                                     const searchParams = new URLSearchParams(window.location.search);
-                                    const isActive = searchParams.get('category') === 'Bottom+Wear';
+                                    const category = searchParams.get('category');
+                                    const isActive = category === 'Bottom+Wear' || category === 'Bottom Wear';
                                     return (
                                         <span className={`relative ${isActive ? 'text-black dark:text-white' : ''}`}>
                                         Bottom Wear

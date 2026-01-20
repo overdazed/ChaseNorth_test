@@ -331,9 +331,46 @@ const AddProductForm = () => {
                         <select
                             name="gender"
                             value={formData.gender}
-                            onChange={handleChange}
-                            className={inputClasses}
+                            onClick={(e) => {
+                                // This ensures the dropdown opens on click
+                                e.target.size = e.target.size === 1 ? 4 : 1;
+                            }}
+                            onFocus={(e) => {
+                                // This ensures the dropdown opens on focus (tab navigation)
+                                e.target.size = 4;
+                            }}
+                            onBlur={(e) => {
+                                // Reset the size when focus is lost
+                                e.target.size = 1;
+                            }}
+                            onChange={(e) => {
+                                handleChange(e);
+                                // Force update the collections when gender changes
+                                const gender = e.target.value;
+                                let collectionsValue = "";
+                                if (gender === "Men") {
+                                    collectionsValue = "Men";
+                                } else if (gender === "Women") {
+                                    collectionsValue = "Women";
+                                } else if (gender === "Unisex") {
+                                    collectionsValue = "Unisex";
+                                }
+                                setFormData(prev => ({
+                                    ...prev,
+                                    collections: collectionsValue
+                                }));
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    // Toggle the dropdown
+                                    const select = e.target;
+                                    select.size = select.size === 1 ? 4 : 1;
+                                }
+                            }}
+                            className={`${inputClasses} appearance-none`}
                         >
+                            <option value="">Select Gender</option>
                             <option value="Men">Men</option>
                             <option value="Women">Women</option>
                             <option value="Unisex">Unisex</option>
