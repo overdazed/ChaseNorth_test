@@ -1470,15 +1470,15 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                             <table className="w-full border-collapse">
                                 <thead>
                                     <tr className="bg-neutral-200 dark:bg-neutral-400 dark:text-black">
-                                        <th className="p-3 text-left font-semibold uppercase text-[8px] md:text-sm text-center border-r dark:border-neutral-300">Size</th>
-                                        <th className="p-1 md:p-3 text-left font-semibold uppercase text-[8px] md:text-sm whitespace-nowrap text-center border-r dark:border-neutral-300">Width (cm)</th>
-                                        <th className="p-1 md:p-3 text-left font-semibold uppercase text-[8px] md:text-sm whitespace-nowrap text-center border-r dark:border-neutral-300">Length (cm)</th>
+                                        <th className="p-3 text-left font-semibold uppercase text-[8px] md:text-sm text-center">Size</th>
+                                        <th className="p-1 md:p-3 text-left font-semibold uppercase text-[8px] md:text-sm whitespace-nowrap text-center">Width (cm)</th>
+                                        <th className="p-1 md:p-3 text-left font-semibold uppercase text-[8px] md:text-sm whitespace-nowrap text-center">Length (cm)</th>
                                         <th className="p-1 md:p-3 text-left font-semibold uppercase text-[8px] md:text-sm whitespace-nowrap text-center">Sleeve Center Back (cm)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {selectedProduct.sizeChartData.map((row, index) => (
-                                        <tr key={index} className="bg-white dark:bg-neutral-800 text-xs md:text-sm dark:text-black">
+                                        <tr key={index} className="bg-white text-xs md:text-sm dark:text-black border-b dark:border-neutral-200">
                                             <td className="p-3 bg-neutral-50 dark:bg-neutral-300 text-center">{row.size}</td>
                                             <td className="p-3 bg-neutral-50 dark:bg-neutral-300 text-center">{row.width}</td>
                                             <td className="p-3 bg-neutral-50 dark:bg-neutral-300 text-center">{row.length}</td>
