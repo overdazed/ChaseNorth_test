@@ -224,7 +224,6 @@ const Navbar = ({ transparent = false }) => {
             transition-all duration-300 ease-in-out
             ${isScrolled ? 'backdrop-blur-md shadow-md md:top-0' : 'bg-transparent md:top-7'}
             ${isScrollingUp ? 'translate-y-0' : '-translate-y-full'}
-            ${isScrolled ? 'rounded-2xl' : 'rounded-2xl'}
             `}>
                 {/* Fade effect overlay */}
                 {transparent && (
