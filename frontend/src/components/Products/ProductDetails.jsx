@@ -1467,20 +1467,20 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
 
                         {/* Size Chart Table */}
                         <div className="overflow-x-auto mb-6">
-                            <table className="w-full border-collapse">
+                            <table className="w-full border-collapse ">
                                 <thead>
                                     <tr className="bg-neutral-100 dark:bg-neutral-300">
-                                        <th className="p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-[8px] md:text-sm">Size</th>
-                                        <th className="p-1 md:p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-[8px] md:text-sm whitespace-nowrap">Width (cm)</th>
-                                        <th className="p-1 md:p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-[8px] md:text-sm whitespace-nowrap">Length (cm)</th>
-                                        <th className="p-1 md:p-3 border border-neutral-300 dark:border-neutral-500 text-left font-semibold dark:text-black uppercase text-[8px] md:text-sm whitespace-nowrap">Sleeve Center Back (cm)</th>
+                                        <th className="p-3 text-left font-semibold dark:text-black uppercase text-[8px] md:text-sm">Size</th>
+                                        <th className="p-1 md:p-3 text-left font-semibold dark:text-black uppercase text-[8px] md:text-sm whitespace-nowrap">Width (cm)</th>
+                                        <th className="p-1 md:p-3 text-left font-semibold dark:text-black uppercase text-[8px] md:text-sm whitespace-nowrap">Length (cm)</th>
+                                        <th className="p-1 md:p-3 text-left font-semibold dark:text-black uppercase text-[8px] md:text-sm whitespace-nowrap">Sleeve Center Back (cm)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {selectedProduct.sizeChartData.map((row, index) => (
                                         <tr key={index} className="bg-white dark:bg-neutral-800 text-xs md:text-sm">
                                             <td className="p-3">{row.size}</td>
-                                            <td className="p-3">{row.width}</td>
+                                            <td className="p-3 bg-neutral-50 dark:bg-neutral-300">{row.width}</td>
                                             <td className="p-3">{row.length}</td>
                                             <td className="p-3">{row.sleeveCenterBack}</td>
                                         </tr>
