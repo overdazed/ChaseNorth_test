@@ -64,7 +64,7 @@ const SortOptions = ({ onSortChange, currentSort = '' }) => {
                         <button
                             type="button"
                             onClick={() => setIsOpen(!isOpen)}
-                            className="inline-flex justify-between items-center w-full rounded-md shadow-sm px-4 py-3 bg-neutral-50 dark:bg-neutral-950 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-900 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-transparent dark:focus:border-transparent"
+                            className="inline-flex justify-between items-center w-full h-[38px] rounded-md px-3 py-2 bg-neutral-50 dark:bg-neutral-950 text-sm font-normal text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-900 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-transparent dark:focus:border-transparent"
                             id="options-menu"
                             aria-haspopup="true"
                             aria-expanded="true"
@@ -77,13 +77,13 @@ const SortOptions = ({ onSortChange, currentSort = '' }) => {
                     </div>
 
                     {isOpen && (
-                        <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-neutral-800 ring-1 ring-black ring-opacity-5 z-10" onClick={(e) => e.stopPropagation()}>
+                        <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-neutral-800 ring-1 ring-black ring-opacity-5 z-50" onClick={(e) => e.stopPropagation()}>
                             <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                 {sortOptions.map((option) => (
                                     <button
                                         key={option.value}
                                         onClick={() => handleSortChange(option.value)}
-                                        className={`w-full text-left block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-green-100 dark:hover:bg-green-900 hover:text-neutral-900 dark:hover:text-neutral-50 ${sortValue === option.value ? 'bg-green-50 dark:bg-green-950' : ''}`}
+                                        className={`w-full text-left block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-accent-100 dark:hover:bg-accent-900 hover:text-neutral-900 dark:hover:text-neutral-50 ${sortValue === option.value ? 'bg-green-50 dark:bg-green-950' : ''}`}
                                         role="menuitem"
                                     >
                                         {option.label}
