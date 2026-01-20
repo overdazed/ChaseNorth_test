@@ -10,9 +10,14 @@ const StyledButton = styled(Link)`
   outline: none;
   border: none;
   background-color: inherit;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
-  padding: 10px 20px;
+  padding: 8px 16px;
+  
+  @media (min-width: 768px) {
+    font-size: 24px;
+    padding: 10px 20px;
+  }
   position: relative;
   cursor: pointer;
   text-decoration: none;
@@ -82,7 +87,7 @@ export function HeroSection() {
                             animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
                             transition={{
                                 duration: 0.3,
-                                delay: index * 0.25,
+                                delay: index * 0.175,
                                 ease: "easeInOut",
                             }}
                             className="mr-2 inline-block"

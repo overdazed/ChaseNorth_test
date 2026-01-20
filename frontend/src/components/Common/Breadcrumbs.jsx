@@ -140,6 +140,38 @@ const Breadcrumbs = () => {
                 Home
               </Link>
             </li>
+            
+            {/* Show Collections and collection name for product pages */}
+            {isProductPage && product?.gender && (
+              <>
+                <li className="flex items-center">
+                  <ChevronRight className={`h-4 w-4 mx-1 ${
+                    isDarkMode ? 'text-neutral-600' : 'text-neutral-400'
+                  }`} />
+                  <Link 
+                    to="/collections/all"
+                    className={`${
+                      isDarkMode ? 'text-neutral-400 hover:text-neutral-200' : 'text-neutral-500 hover:text-neutral-700'
+                    } transition-colors`}
+                  >
+                    Collections
+                  </Link>
+                </li>
+                <li className="flex items-center">
+                  <ChevronRight className={`h-4 w-4 mx-1 ${
+                    isDarkMode ? 'text-neutral-600' : 'text-neutral-400'
+                  }`} />
+                  <Link 
+                    to={`/collections/all?gender=${product.gender.toLowerCase()}`}
+                    className={`${
+                      isDarkMode ? 'text-neutral-400 hover:text-neutral-200' : 'text-neutral-500 hover:text-neutral-700'
+                    } transition-colors`}
+                  >
+                    {product.gender}
+                  </Link>
+                </li>
+              </>
+            )}
             {pathnames.map((name, index) => {
               const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
               const isLast = index === pathnames.length - 1;

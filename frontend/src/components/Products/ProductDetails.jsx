@@ -510,8 +510,8 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                                 style={{ aspectRatio: '4/5' }}
                                                             />
                                                             {/* Mobile-only tap to zoom hint */}
-                                                            <div className={`md:hidden absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white text-xs px-3 py-1 rounded-full transition-opacity duration-500 ${showZoomHint ? 'opacity-100' : 'opacity-0'}`}>
-                                                                Tap to see details
+                                                            <div className={`md:hidden absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white text-sm px-3 py-1 rounded-full transition-opacity duration-500 ${showZoomHint ? 'opacity-100' : 'opacity-0'}`}>
+                                                                Tap to see Details
                                                             </div>
                                                         </div>
                                                     </div>
