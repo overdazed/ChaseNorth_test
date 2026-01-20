@@ -29,21 +29,16 @@ const AddProductForm = () => {
         images: []
     });
 
-    // Automatically set collections based on gender and category
+    // Automatically set collections based on gender
     useEffect(() => {
         if (formData.gender) {
             let collectionsValue = "";
             if (formData.gender === "Men") {
-                collectionsValue = "Men Collection";
+                collectionsValue = "Men";
             } else if (formData.gender === "Women") {
-                collectionsValue = "Women Collection";
+                collectionsValue = "Women";
             } else if (formData.gender === "Unisex") {
-                collectionsValue = "Unisex Collection";
-            }
-            
-            // Append category if available
-            if (formData.category) {
-                collectionsValue += `, ${formData.category} Collection`;
+                collectionsValue = "Unisex";
             }
             
             setFormData(prev => ({
@@ -51,7 +46,7 @@ const AddProductForm = () => {
                 collections: collectionsValue
             }));
         }
-    }, [formData.gender, formData.category]);
+    }, [formData.gender]);
 
     const [sizesInput, setSizesInput] = useState("");
     const [colorsInput, setColorsInput] = useState("");
