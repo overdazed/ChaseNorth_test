@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 export function HeroSection() {
-    // const heading = "dfgd Awaits dsfgdsfg sdfgsdfgsdrg sdfgsdfgsdfg sdfgsdfgsdfg";
+    const heading = "dfgd Awaits dsfgdsfg sdfgsdfgsdrg sdfgsdfgsdfg sdfgsdfgsdfg";
     const subheading = "Discover the perfect fit for your next outdoor journey. " + "High-quality clothing for ethical adventurers, made to explore, made to respect.";
     const descriptions = [
         "High-quality clothing for ethical adventurers who care how they move through the world.",
@@ -12,9 +12,7 @@ export function HeroSection() {
         <div className="relative flex h-[90vh] w-full items-center justify-center px-4">
             <div className="w-full max-w-[2000px]">
                 <h1 className="relative z-10 mx-auto max-w-6xl text-center text-2xl font-bold text-slate-700 md:text-5xl lg:text-7xl dark:text-slate-300">
-                    {"dfgd Awaits dsfgdsfg sdfgsdfgsdrg sdfgsdfgsdfg sdfgsdfgsdfg"
-                        .split(" ")
-                        .map((word, index) => (
+                    {heading.split(" ").map((word, index) => (
                         <motion.span
                             key={index}
                             initial={{ opacity: 0, filter: "blur(4px)", y: 10 }}
