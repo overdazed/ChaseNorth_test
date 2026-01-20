@@ -32,7 +32,9 @@ const AddProductForm = () => {
     // Automatically set collections based on gender
     useEffect(() => {
         if (formData.gender) {
+            console.log('Gender changed to:', formData.gender);
             let collectionsValue = "";
+            console.log('Setting collections to:', collectionsValue);
             if (formData.gender === "Men") {
                 collectionsValue = "Men";
             } else if (formData.gender === "Women") {
