@@ -77,7 +77,7 @@ const Breadcrumbs = () => {
 
     return (
         <div className={`${isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'}`}>
-          <nav className="text-sm py-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+          <nav className="text-xs md:text-sm py-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full">
             <ol className="flex items-center space-x-1 md:space-x-2">
               <li>
                 <Link to="/" className={`${
@@ -127,7 +127,7 @@ const Breadcrumbs = () => {
   // Default breadcrumb generation for other pages
   return (
       <div className={`${isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'}`}>
-        <nav className={`text-sm py-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full ${
+        <nav className={`text-xs md:text-sm py-4 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto w-full ${
             isDarkMode ? 'bg-neutral-950' : 'bg-neutral-50'
         }`}>
           <ol className="flex items-center space-x-1 md:space-x-2">
@@ -162,7 +162,7 @@ const Breadcrumbs = () => {
                     isDarkMode ? 'text-neutral-600' : 'text-neutral-400'
                   }`} />
                   <Link 
-                    to={`/collections/all?gender=${product.gender.toLowerCase()}`}
+                    to={`/collections/all?gender=${product.gender}`}
                     className={`${
                       isDarkMode ? 'text-neutral-400 hover:text-neutral-200' : 'text-neutral-500 hover:text-neutral-700'
                     } transition-colors`}
@@ -177,6 +177,11 @@ const Breadcrumbs = () => {
               const isLast = index === pathnames.length - 1;
               const isProductId = pathnames[0] === 'product' && index === 1;
               const isOrderId = pathnames[0] === 'order' && index === 1;
+              
+              // Skip the 'product' text in the breadcrumb
+              if (pathnames[0] === 'product' && index === 0) {
+                return null;
+              }
 
               // Skip the 'order' breadcrumb if it's not the last item
               if (pathnames[0] === 'order' && index === 0) {

@@ -64,7 +64,19 @@ const Card = ({ title, icon, children, className = "", isDarkMode }) => {
 };
 
 // ================== Icons ==================
-const AceternityIcon = ({ isDarkMode }) => {
+const AceternityIcon = ({ isDarkMode, title }) => {
+  // For mobile view, we'll show the title text instead of the logo
+  if (window.innerWidth < 1024) {
+    return (
+        <div className="text-center">
+          <h2 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'} group-hover/canvas-card:opacity-80 transition-opacity`}>
+            {title}
+          </h2>
+        </div>
+    );
+  }
+  
+  // For desktop, show the logo as before
   const logo = isDarkMode
       ? "/src/assets/ChaseNorth-white.svg"
       : "/src/assets/ChaseNorth-black.svg";
