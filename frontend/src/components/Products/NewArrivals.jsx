@@ -240,12 +240,33 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
         />
     );
 
+    // Log the current viewport width for debugging
+    useEffect(() => {
+        const logViewportWidth = () => {
+            const width = window.innerWidth;
+            console.log(`Current viewport width: ${width}px`);
+            if (width >= 420 && width <= 1024) {
+                console.log('Viewport is in the 420-1024px range. Card dimensions should be adjusted.');
+            }
+        };
+
+        logViewportWidth();
+        window.addEventListener('resize', logViewportWidth);
+        return () => window.removeEventListener('resize', logViewportWidth);
+    }, []);
+
     return (
         <div
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className={`relative h-[320px] w-[240px] sm:h-[360px] sm:w-[280px] lg:h-[560px] lg:w-[448px] flex-shrink-0 ${
-                isNightMode ? 'ring-[0.5px] ring-neutral-50/80 bg-neutral-900' : 'border-[0.5px] border-black/10 bg-white'
+            className={`relative 
+        h-[320px] w-[240px] 
+        md:h-[400px] md:w-[300px] 
+        lg:h-[560px] lg:w-[448px] 
+        flex-shrink-0 ${
+                isNightMode
+                    ? 'ring-[0.5px] ring-neutral-50/80 bg-neutral-900'
+                    : 'border-[0.5px] border-black/10 bg-white'
             } group`}
         >
             {isFirst && (
