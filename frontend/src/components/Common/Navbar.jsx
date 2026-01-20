@@ -118,6 +118,7 @@ const Navbar = ({ transparent = false }) => {
 
     // to open and const navigate = useNavigate();
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isScrollingUp, setIsScrollingUp] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const { wishlistCount } = useSelector((state) => state.products);
@@ -199,18 +200,19 @@ const Navbar = ({ transparent = false }) => {
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollPos = window.scrollY;
-            const isScrollingDown = currentScrollPos > prevScrollPos && currentScrollPos > 10;
+            const scrollingUp = currentScrollPos < prevScrollPos;
 
-            if (isScrollingDown) {
-                setIsScrolled(true);
-            } else {
-                setIsScrolled(false);
-            }
-
+            // Show/hide navbar based on scroll direction
+            setIsScrollingUp(scrollingUp);
+            
+            // Update scrolled state for background change
+            setIsScrolled(currentScrollPos > 10);
+            
+            // Update previous scroll position
             setPrevScrollPos(currentScrollPos);
         };
 
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, [prevScrollPos]);
 
@@ -218,11 +220,12 @@ const Navbar = ({ transparent = false }) => {
         <>
             {/* Full width background with fade effect - Sticky on mobile */}
             {/*<div className={`w-full ${transparent ? 'bg-transparent' : 'bg-white dark:bg-neutral-900'} transition-colors duration-300 fixed top-0 left-0 right-0 z-50`}>*/}
-            <div className={`w-full transition-all duration-300 fixed top-0 md:fixed ${
-                isScrolled ? 'md:top-0' : 'md:top-7'
-            } z-40 ${
-                transparent ? 'bg-transparent' : 'bg-white dark:bg-neutral-900 shadow-sm'
-            }`}>
+            <div className={`fixed top-0 left-0 right-0 z-50
+            transition-all duration-300 ease-in-out
+            ${isScrolled ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-md' : 'bg-transparent'}
+            ${isScrollingUp ? 'translate-y-0' : '-translate-y-full'}
+            ${isScrolled ? 'rounded-b-2xl' : 'rounded-none'}
+            `}>
                 {/* Fade effect overlay */}
                 {transparent && (
                     <div className="absolute inset-0 bg-gradient-to-b from-neutral-50/70 to-neutral-50/70 backdrop-blur-sm dark:from-neutral-900/70 dark:to-neutral-900/70"></div>
