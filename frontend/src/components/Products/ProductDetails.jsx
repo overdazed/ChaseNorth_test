@@ -710,26 +710,26 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                         onClick={() => setSelectedColor(colorName)}
                                                         className={`w-10 h-10 rounded-full border-2 transition-all ${
                                                             selectedColor === colorName
-                                                                ? 'ring-1 ring-accent scale-110' 
+                                                                ? 'scale-100' 
                                                                 : 'border-transparent hover:border-neutral-300 dark:hover:border-neutral-500'
                                                         }`}
                                                         style={{
                                                             backgroundColor: getColorHex(colorName),
                                                             border: getColorHex(colorName) === '#FFFFFF' || getColorHex(colorName) === '#FFF' ? '1px solid #E5E7EB' : 'none',
-                                                            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                                                            transition: 'transform 0.2s ease, box-shadow opacity-10 0.2s ease',
                                                             // boxShadow: '0.25px 0.25px 0 0 rgba(255, 255, 255, 0.5)'
-                                                            boxShadow: selectedColor === colorName ? '0 0 0 0.1px rgba(87, 17, 0, 1)' : '0.1px 0.1px 0 0 rgba(255, 255, 255, 0.5)'
+                                                            boxShadow: selectedColor === colorName ? 'box-shadow opacity-10' : '0.1px 0.1px 0 0 rgba(255, 255, 255, 0.5)'
                                                         }}
                                                         onMouseEnter={(e) => {
                                                             e.currentTarget.style.transform = 'scale(1.1)';
                                                             e.currentTarget.style.boxShadow = isDay 
                                                                 ? '0 0 8px rgba(0,0,0,0.25)'
-                                                                : '0 0 8px rgba(255,255,255,0.75)';
+                                                                : '0 0 8px rgba(255,255,255,0.5)';
                                                         }}
                                                         onMouseLeave={(e) => {
                                                             e.currentTarget.style.transform = selectedColor === colorName ? 'scale(1.1)' : 'scale(1)';
                                                             e.currentTarget.style.boxShadow = selectedColor === colorName 
-                                                                ? '0 0 0 2px rgba(87, 17, 0, 1)'
+                                                                ? 'box-shadow opacity-10'
                                                                 : '0.1px 0.1px 0 0 rgba(160, 160, 160, 0.5)';
                                                         }}
                                                         aria-label={`Select color ${colorName}`}
