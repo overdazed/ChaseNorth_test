@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-const CustomSelect = ({ options = [], value, onChange, placeholder = 'Select...', placeholderMobile }) => {
+const CustomSelect = ({ options = [], value, onChange, placeholder = 'Select...', placeholderMobile, onKeyDown }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(value || '');
   const selectRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     setSelectedValue(value || '');
@@ -17,16 +18,91 @@ const CustomSelect = ({ options = [], value, onChange, placeholder = 'Select...'
       }
     };
 
+    const handleKeyDown = (e) => {
+      if (!isOpen) return;
+
+      const options = dropdownRef.current?.querySelectorAll('.option');
+      if (!options) return;
+
+      const currentIndex = Array.from(options).findIndex(
+          option => option.getAttribute('data-value') === selectedValue
+      );
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          const nextIndex = (currentIndex + 1) % options.length;
+          const nextOption = options[nextIndex];
+          if (nextOption) {
+            setSelectedValue(nextOption.getAttribute('data-value'));
+            nextOption.focus();
+          }
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          const prevIndex = (currentIndex - 1 + options.length) % options.length;
+          const prevOption = options[prevIndex];
+          if (prevOption) {
+            setSelectedValue(prevOption.getAttribute('data-value'));
+            prevOption.focus();
+          }
+          break;
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          if (selectedValue) {
+            handleSelect(selectedValue);
+          }
+          break;
+        case 'Escape':
+          e.preventDefault();
+          setIsOpen(false);
+          selectRef.current?.querySelector('.selected')?.focus();
+          break;
+        case 'Tab':
+          if (!e.shiftKey) {
+            setIsOpen(false);
+          }
+          break;
+        default:
+          break;
+      }
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [isOpen, selectedValue, options]);
 
   const handleSelect = (value) => {
     setSelectedValue(value);
     onChange?.(value);
     setIsOpen(false);
+  };
+
+  const handleKeyDown = (e) => {
+    if (!isOpen) {
+      if (['Enter', ' ', 'ArrowDown', 'ArrowUp'].includes(e.key)) {
+        e.preventDefault();
+        setIsOpen(true);
+        // Focus the selected option or first option when opening
+        setTimeout(() => {
+          const selectedOption = dropdownRef.current?.querySelector('.option[data-selected="true"]') ||
+                              dropdownRef.current?.querySelector('.option');
+          selectedOption?.focus();
+        }, 0);
+      }
+    } else {
+      // Let the global keydown handler manage arrow key navigation when open
+      if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(e.key)) {
+        e.preventDefault();
+      }
+    }
+    onKeyDown?.(e);
   };
 
   const displayText = selectedValue ?
@@ -38,17 +114,22 @@ const CustomSelect = ({ options = [], value, onChange, placeholder = 'Select...'
           <div
               className="selected"
               onClick={() => setIsOpen(!isOpen)}
-              data-value={selectedValue}
+              onKeyDown={handleKeyDown}
+              tabIndex="0"
+              role="combobox"
+              aria-haspopup="listbox"
+              aria-expanded={isOpen}
+              aria-controls="custom-select-options"
           >
-            <span className={!selectedValue ? 'text-neutral-400 dark:text-neutral-400' : ''}>
-              {selectedValue ? displayText : (
+          <span className={!selectedValue ? 'text-neutral-400 dark:text-neutral-400' : ''}>
+            {selectedValue ? displayText : (
                 <>
                   <span className="hidden sm:inline">{placeholder}</span>
                   {placeholderMobile && <span className="sm:hidden">{placeholderMobile}</span>}
                   {!placeholderMobile && <span className="sm:hidden">{placeholder}</span>}
                 </>
-              )}
-            </span>
+            )}
+          </span>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="1em"
@@ -59,12 +140,28 @@ const CustomSelect = ({ options = [], value, onChange, placeholder = 'Select...'
             </svg>
           </div>
           {isOpen && (
-              <div className="options">
+              <div
+                  id="custom-select-options"
+                  ref={dropdownRef}
+                  className="options"
+                  role="listbox"
+                  aria-label="Select an option"
+              >
                 {options.map((option) => (
                     <div
                         key={option.value}
                         className={`option ${selectedValue === option.value ? 'selected' : ''}`}
                         onClick={() => handleSelect(option.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleSelect(option.value);
+                          }
+                        }}
+                        tabIndex={-1}
+                        role="option"
+                        aria-selected={selectedValue === option.value}
+                        data-value={option.value}
                     >
                       {option.label}
                     </div>

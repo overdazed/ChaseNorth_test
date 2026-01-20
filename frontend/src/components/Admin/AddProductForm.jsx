@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createProduct } from "../../redux/slices/adminProductSlice";
 import { FiUpload } from "react-icons/fi";
+import CustomSelect from "../Common/CustomSelect";
 import axios from "axios";
 
 const AddProductForm = () => {
@@ -328,31 +329,23 @@ const AddProductForm = () => {
                     </div>
                     <div>
                         <label className="block font-semibold mb-2">Gender</label>
-                        <select
-                            name="gender"
+                        <CustomSelect
                             value={formData.gender}
-                            onClick={(e) => {
-                                // This ensures the dropdown opens on click
-                                e.target.size = e.target.size === 1 ? 4 : 1;
-                            }}
-                            onFocus={(e) => {
-                                // This ensures the dropdown opens on focus (tab navigation)
-                                e.target.size = 4;
-                            }}
-                            onBlur={(e) => {
-                                // Reset the size when focus is lost
-                                e.target.size = 1;
-                            }}
-                            onChange={(e) => {
-                                handleChange(e);
-                                // Force update the collections when gender changes
-                                const gender = e.target.value;
+                            onChange={(value) => {
+                                const event = {
+                                    target: {
+                                        name: 'gender',
+                                        value: value
+                                    }
+                                };
+                                handleChange(event);
+                                // Update collections based on gender
                                 let collectionsValue = "";
-                                if (gender === "Men") {
+                                if (value === "Men") {
                                     collectionsValue = "Men";
-                                } else if (gender === "Women") {
+                                } else if (value === "Women") {
                                     collectionsValue = "Women";
-                                } else if (gender === "Unisex") {
+                                } else if (value === "Unisex") {
                                     collectionsValue = "Unisex";
                                 }
                                 setFormData(prev => ({
@@ -360,21 +353,14 @@ const AddProductForm = () => {
                                     collections: collectionsValue
                                 }));
                             }}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                    e.preventDefault();
-                                    // Toggle the dropdown
-                                    const select = e.target;
-                                    select.size = select.size === 1 ? 4 : 1;
-                                }
-                            }}
-                            className={`${inputClasses} appearance-none`}
-                        >
-                            <option value="">Select Gender</option>
-                            <option value="Men">Men</option>
-                            <option value="Women">Women</option>
-                            <option value="Unisex">Unisex</option>
-                        </select>
+                            placeholder="Select Gender"
+                            options={[
+                                { value: 'Men', label: 'Men' },
+                                { value: 'Women', label: 'Women' },
+                                { value: 'Unisex', label: 'Unisex' }
+                            ]}
+                            tabIndex="0"
+                        />
                     </div>
                 </div>
 
