@@ -124,7 +124,7 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                             </div>
 
                             {/* Product Info Overlay */}
-                            <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 bg-gradient-to-t from-black/70 to-transparent">
+                            <div className="absolute bottom-0 left-0 right-0 p-10 bg-gradient-to-t from-black/70 to-transparent">
                                 {/* Brand Name - Hidden by default, shown on hover */}
                                 <div className="absolute bottom-1 left-0 md:bottom-4 md:left-2 p-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                                     <p className="text-neutral-300 text-[10px] sm:text-xs md:text-base font-normal">
