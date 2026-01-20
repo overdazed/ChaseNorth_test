@@ -569,7 +569,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                         alt={`Thumbnail ${index + 1}`}
                                                         className={`w-full h-full object-cover cursor-pointer dark:bg-neutral-950 ${
                                                             mainImage === image.url
-                                                                ? 'ring-1 outline outline-0.5 ' + (isDay ? 'ring-black outline-black' : 'ring-neutral-50 outline-accent bg-neutral-50')
+                                                                ? 'ring-1 outline outline-0.5 ' + (isDay ? 'ring-black outline-black' : 'ring-neutral-50 outline-neutral-50 bg-neutral-50')
                                                                 : ''
                                                         }`}
                                                         style={{ aspectRatio: '4/5' }}
@@ -710,7 +710,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                         onClick={() => setSelectedColor(colorName)}
                                                         className={`w-10 h-10 rounded-full border-2 transition-all ${
                                                             selectedColor === colorName
-                                                                ? 'ring-1 ring-offset-1 ring-accent scale-110' 
+                                                                ? 'ring-1 ring-accent scale-110' 
                                                                 : 'border-transparent hover:border-neutral-300 dark:hover:border-neutral-500'
                                                         }`}
                                                         style={{
@@ -718,7 +718,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                             border: getColorHex(colorName) === '#FFFFFF' || getColorHex(colorName) === '#FFF' ? '1px solid #E5E7EB' : 'none',
                                                             transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                                                             // boxShadow: '0.25px 0.25px 0 0 rgba(255, 255, 255, 0.5)'
-                                                            boxShadow: selectedColor === colorName ? '0 0 0 1px rgba(87, 17, 0, 1)' : '0.1px 0.1px 0 0 rgba(255, 255, 255, 0.5)'
+                                                            boxShadow: selectedColor === colorName ? '0 0 0 0.1px rgba(87, 17, 0, 1)' : '0.1px 0.1px 0 0 rgba(255, 255, 255, 0.5)'
                                                         }}
                                                         onMouseEnter={(e) => {
                                                             e.currentTarget.style.transform = 'scale(1.1)';
