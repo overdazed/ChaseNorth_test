@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 export function HeroSection() {
     const heading = "dfgd Awaits dsfgdsfg sdfgsdfgsdrg sdfgsdfgsdfg sdfgsdfgsdfg";
@@ -19,7 +19,7 @@ export function HeroSection() {
                             animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
                             transition={{
                                 duration: 0.3,
-                                delay: index * 0.1,
+                                delay: index * 0.15,
                                 ease: "easeInOut",
                             }}
                             className="mr-2 inline-block"
