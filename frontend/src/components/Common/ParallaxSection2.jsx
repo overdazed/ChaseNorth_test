@@ -48,16 +48,19 @@ const ParallaxSection2 = () => {
         Endless Horizons
       </h3>
 
-      {/* Text stays in its current position */}
-      <p className="absolute text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-3xl z-10 text-left top-[84%] sm:top-[89%] md:top-[87%] lg:top-[86%] xl:top-[85%] left-6 right-6 transform -translate-y-1/2 w-auto select-none">
-        Discover the perfect blend of adventure and style with our curated collection
-      </p>
+      {/* Container for text and button with consistent spacing */}
+      <div className="absolute inset-x-6 bottom-24 z-10">
+        {/* Text with responsive sizing and spacing */}
+        <p className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-3xl mb-2 md:mb-4 select-none">
+          Discover the perfect blend of adventure and style with our curated collection
+        </p>
+      </div>
 
-      {/* Button matches desktop position on mobile */}
-      <div className="absolute bottom-12 left-6 z-10 w-[calc(100%-3rem)] sm:w-auto">
+      {/* Original button with its existing positioning */}
+      <div className="absolute bottom-12 left-6 right-6 sm:left-6 sm:right-auto z-10">
         <button
             onClick={() => navigate('/collections/all')}
-            className="inline-block bg-transparent border-2 border-white text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-white hover:text-black transition-colors duration-300"
+            className="bg-transparent border-2 border-white text-white px-6 py-2 text-sm uppercase tracking-wider hover:bg-white hover:text-black transition-colors duration-300"
         >
           Explore Collection
         </button>
