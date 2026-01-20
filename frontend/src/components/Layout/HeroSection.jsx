@@ -77,9 +77,9 @@ export function HeroSection() {
     // ];
 
     return (
-        <div className="relative flex h-[100vh] md:h-[95vh] w-full items-center justify-center px-4">
+        <div className="relative flex h-[105vh] md:h-[95vh] w-full items-center justify-center px-4">
             <div className="w-full max-w-[2000px]">
-                <h1 className="relative z-10 mx-auto max-w-6xl text-center text-2xl font-bold text-slate-700 md:text-5xl lg:text-7xl dark:text-slate-300">
+                <h1 className="relative z-10 mx-auto max-w-6xl text-center text-2xl font-bold md:text-5xl lg:text-7xl text-slate-300">
                     {heading.split(" ").map((word, index) => (
                         <motion.span
                             key={index}
@@ -101,7 +101,7 @@ export function HeroSection() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.3, delay: 0.5 }}
-                    className="relative z-10 mx-auto max-w-2xl py-4 text-center md:text-lg lg:text-2xl font-normal text-neutral-600 dark:text-neutral-400"
+                    className="relative z-10 mx-auto max-w-2xl py-4 text-center md:text-lg lg:text-2xl font-normal text-neutral-400"
                 >
                     {subheading}
                 </motion.p>
@@ -127,7 +127,7 @@ export function HeroSection() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.3, delay: 1.2 }}
-                    className="relative z-10 mt-8"
+                    className="relative z-10 mt-10"
                 >
                     <StyledButton to="/collections/all">
                         Shop Now

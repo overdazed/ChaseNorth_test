@@ -260,9 +260,9 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             className={`relative 
-        h-[320px] w-[240px] 
-        md:h-[400px] md:w-[300px] 
-        lg:h-[560px] lg:w-[448px] 
+        h-[320px] w-[240px]
+        md:h-[450px] md:w-[350px]
+        lg:h-[560px] lg:w-[448px]
         flex-shrink-0 ${
                 isNightMode
                     ? 'ring-[0.5px] ring-neutral-50/80 bg-neutral-900'
