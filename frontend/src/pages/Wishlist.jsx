@@ -453,7 +453,7 @@ const Wishlist = () => {
                   {filteredProducts.map((product, index) => (
                       <div
                           key={product._id}
-                          className={`relative w-full group ${isDay ? 'border-[0.5px] border-black/10 hover:shadow-lg transition-all duration-300 bg-white' : 'ring-[0.15px] ring-neutral-50/80 hover:ring-1 hover:ring-neutral-50 transition-all duration-300 bg-neutral-900'}`}
+                          className={`relative w-full group ${isDay ? 'border-[0.5px] border-black/10 hover:shadow-lg transition-all duration-300 bg-white' : 'hover:ring-[0.5px] hover:ring-neutral-50 transition-all duration-300 bg-neutral-900'}`}
                       >
                         {/* Corner Icons - First product: top-left, Last product: bottom-right */}
                         {index === 0 && (
