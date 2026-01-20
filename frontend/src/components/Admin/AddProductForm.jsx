@@ -40,7 +40,7 @@ const AddProductForm = () => {
             } else if (formData.gender === "Unisex") {
                 collectionsValue = "Unisex";
             }
-            
+
             setFormData(prev => ({
                 ...prev,
                 collections: collectionsValue
