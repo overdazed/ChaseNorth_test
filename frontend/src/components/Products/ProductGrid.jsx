@@ -126,7 +126,7 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                             {/* Product Info Overlay */}
                             <div className="absolute bottom-0 left-0 right-0">
                                 {/* Gradient Overlay */}
-                                <div className="h-40 w-full bg-gradient-to-t from-black/70 to-transparent"></div>
+                                <div className="h-20 md:h-40 w-full bg-gradient-to-t from-black/70 to-transparent"></div>
                                 {/* Content Container */}
                                 <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4">
                                 {/* Brand Name - Hidden by default, shown on hover */}
