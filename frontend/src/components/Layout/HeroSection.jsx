@@ -77,7 +77,7 @@ export function HeroSection() {
     // ];
 
     return (
-        <div className="relative flex h-[95vh] w-full items-center justify-center px-4">
+        <div className="relative flex h-[100vh] md:h-[95vh] w-full items-center justify-center px-4">
             <div className="w-full max-w-[2000px]">
                 <h1 className="relative z-10 mx-auto max-w-6xl text-center text-2xl font-bold text-slate-700 md:text-5xl lg:text-7xl dark:text-slate-300">
                     {heading.split(" ").map((word, index) => (

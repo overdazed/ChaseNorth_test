@@ -13,13 +13,45 @@ const isNighttime = () => {
 };
 
 // ================== Card component ==================
-const Card = ({ title, icon, children, className = "", isDarkMode }) => {
+const Card = ({ title, icon, children, className = "", isDarkMode, onClick }) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTapped, setIsTapped] = useState(false);
   const [hovered, setHovered] = useState(false);
+  
+  // Check if mobile on component mount
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+  
+  const handleTouch = (e) => {
+    if (!isMobile) return;
+    
+    if (isTapped) {
+      // If already tapped, navigate to the product
+      if (onClick) {
+        onClick(e);
+      }
+    } else {
+      // First tap, show hover state
+      e.preventDefault();
+      setIsTapped(true);
+      // Reset tap after a delay if no second tap
+      setTimeout(() => setIsTapped(false), 2000);
+    }
+  };
 
+  const showHover = isMobile ? isTapped : hovered;
+  
   return (
       <div
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
+          onMouseEnter={() => !isMobile && setHovered(true)}
+          onMouseLeave={() => !isMobile && setHovered(false)}
+          onTouchStart={handleTouch}
           className={`${
               isDarkMode
                   ? "ring-[0.5px] ring-neutral-50/80 bg-neutral-950"
@@ -40,10 +72,11 @@ const Card = ({ title, icon, children, className = "", isDarkMode }) => {
         />
 
         <AnimatePresence>
-          {hovered && (
+          {showHover && (
               <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   className="h-full w-full absolute inset-0"
               >
                 {children}
@@ -52,10 +85,10 @@ const Card = ({ title, icon, children, className = "", isDarkMode }) => {
         </AnimatePresence>
 
         <div className="relative z-20 w-full h-full flex items-center justify-center">
-          <div className="absolute inset-0 flex items-center justify-center group-hover/canvas-card:-translate-y-4 group-hover/canvas-card:opacity-0 transition duration-200">
+          <div className={`absolute inset-0 flex items-center justify-center ${isMobile ? (isTapped ? 'opacity-0 -translate-y-4' : 'opacity-100') : 'group-hover/canvas-card:-translate-y-4 group-hover/canvas-card:opacity-0'} transition duration-200`}>
             {icon}
           </div>
-          <h2 className={`text-xl opacity-0 group-hover/canvas-card:opacity-100 relative z-10 text-white -mt-8 font-bold group-hover/canvas-card:-translate-y-2 transition duration-200`}>
+          <h2 className={`text-xl ${isMobile ? (isTapped ? 'opacity-100 -translate-y-2' : 'opacity-0') : 'opacity-0 group-hover/canvas-card:opacity-100'} relative z-10 text-white -mt-8 font-bold ${isMobile ? (isTapped ? '-translate-y-2' : '') : 'group-hover/canvas-card:-translate-y-2'} transition duration-200`}>
             {title}
           </h2>
         </div>
@@ -64,19 +97,7 @@ const Card = ({ title, icon, children, className = "", isDarkMode }) => {
 };
 
 // ================== Icons ==================
-const AceternityIcon = ({ isDarkMode, title }) => {
-  // For mobile view, we'll show the title text instead of the logo
-  if (window.innerWidth < 1024) {
-    return (
-        <div className="text-center">
-          <h2 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'} group-hover/canvas-card:opacity-80 transition-opacity`}>
-            {title}
-          </h2>
-        </div>
-    );
-  }
-  
-  // For desktop, show the logo as before
+const AceternityIcon = ({ isDarkMode }) => {
   const logo = isDarkMode
       ? "/src/assets/ChaseNorth-white.svg"
       : "/src/assets/ChaseNorth-black.svg";
@@ -258,6 +279,7 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                         title="New in Women"
                         icon={<AceternityIcon isDarkMode={isDarkMode} />}
                         isDarkMode={isDarkMode}
+                        onClick={() => window.location.href = `/product/${weeklyProduct._id || weeklyProduct.id}`}
                     >
                       <div className="absolute inset-0">
                         <img
@@ -322,6 +344,7 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                       title="Best Selling"
                       icon={<AceternityIcon isDarkMode={isDarkMode} />}
                       isDarkMode={isDarkMode}
+                      onClick={() => window.location.href = `/product/${bestSellingProduct._id || bestSellingProduct.id}`}
                   >
                     <div className="absolute inset-0">
                       <img
@@ -370,6 +393,7 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                     title="Best Selling"
                     icon={<AceternityIcon isDarkMode={isDarkMode} />}
                     isDarkMode={isDarkMode}
+                    onClick={() => window.location.href = '/products?sort=best-seller'}
                 >
                   <CanvasRevealEffect
                       animationSpeed={3}
@@ -401,6 +425,10 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                       title="Men's new item"
                       icon={<AceternityIcon isDarkMode={isDarkMode} />}
                       isDarkMode={isDarkMode}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.location.href = `/product/${mensNewItemProduct._id || mensNewItemProduct.id}`;
+                      }}
                   >
                     <div className="absolute inset-0">
                       <img
@@ -449,6 +477,7 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
                     title="Men's new item"
                     icon={<AceternityIcon isDarkMode={isDarkMode} />}
                     isDarkMode={isDarkMode}
+                    onClick={() => window.location.href = '/products?gender=Men&sort=newest'}
                 >
                   <CanvasRevealEffect
                       animationSpeed={3}

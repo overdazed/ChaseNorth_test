@@ -244,7 +244,7 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
         <div
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className={`relative h-[400px] w-[300px] lg:h-[560px] lg:w-[448px] flex-shrink-0 ${
+            className={`relative h-[320px] w-[240px] sm:h-[360px] sm:w-[280px] lg:h-[560px] lg:w-[448px] flex-shrink-0 ${
                 isNightMode ? 'ring-[0.5px] ring-neutral-50/80 bg-neutral-900' : 'border-[0.5px] border-black/10 bg-white'
             } group`}
         >
@@ -269,7 +269,7 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
                 <img
                     src="/new-star.svg"
                     alt="New Arrival"
-                    className="absolute -top-2 -left-2 z-10 h-20 w-20"
+                    className="absolute -top-2 -left-2 z-10 h-14 w-14 sm:h-16 sm:w-16 lg:h-20 lg:w-20"
                 />
 
                 <div className="absolute inset-0 overflow-hidden">
@@ -293,7 +293,7 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
                         }}
                     >
                         <div className="absolute bottom-0 left-0 right-0 pt-10 lg:pt-16 pb-4 lg:pb-6 px-4 lg:px-6">
-                            <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 bg-gradient-to-t from-black/70 to-transparent">
+                            <div className="absolute bottom-0 left-0 right-0 p-1.5 sm:p-2 md:p-4 bg-gradient-to-t from-black/70 to-transparent">
                                 {/* Brand Name - Hidden by default, shown on hover */}
                                 <div className="absolute bottom-1 left-0 md:bottom-4 md:left-2 p-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                                     <p className="text-neutral-300 text-xs md:text-sm font-normal">
