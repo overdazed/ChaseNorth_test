@@ -1,13 +1,13 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 export function HeroSection() {
     const heading = "dfgd Awaits dsfgdsfg sdfgsdfgsdrg sdfgsdfgsdfg sdfgsdfgsdfg";
     const subheading = "Discover the perfect fit for your next outdoor journey. " + "High-quality clothing for ethical adventurers, made to explore, made to respect.";
-    const descriptions = [
-        "High-quality clothing for ethical adventurers who care how they move through the world.",
-        "High-quality clothing for ethical adventurers — impact without leaving a trace."
-    ];
+    // const descriptions = [
+    //     "High-quality clothing for ethical adventurers who care how they move through the world.",
+    //     "High-quality clothing for ethical adventurers — impact without leaving a trace."
+    // ];
 
     return (
         <div className="relative flex h-[95vh] w-full items-center justify-center px-4">
@@ -19,7 +19,7 @@ export function HeroSection() {
                             initial={{ opacity: 0, filter: "blur(4px)", y: 10 }}
                             animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
                             transition={{
-                                duration: 0.3,
+                                duration: 0.4,
                                 delay: index * 0.175,
                                 ease: "easeInOut",
                             }}
