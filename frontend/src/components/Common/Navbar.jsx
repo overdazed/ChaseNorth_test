@@ -216,11 +216,23 @@ const Navbar = ({ transparent = false }) => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [prevScrollPos]);
 
+    // Fix for initial navbar position on page refresh
+    useEffect(() => {
+        if (window.scrollY === 0) {
+            setIsScrollingUp(true);
+        }
+    }, []);
+
     // Debug logs for navbar positioning
     useEffect(() => {
         console.log('Navbar state - isScrolled:', isScrolled, 'isScrollingUp:', isScrollingUp);
         console.log('Navbar position classes:', isScrolled ? 'backdrop-blur-md shadow-md md:top-0' : 'bg-transparent md:top-7', isScrollingUp ? 'translate-y-0' : '-translate-y-full');
     }, [isScrolled, isScrollingUp]);
+
+    // Additional debug logs for scroll position
+    useEffect(() => {
+        console.log('Current scroll position:', window.scrollY, 'Previous scroll position:', prevScrollPos);
+    }, [prevScrollPos]);
 
     return (
         <>
