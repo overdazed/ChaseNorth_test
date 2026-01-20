@@ -29,7 +29,7 @@
     "libphonenumber-js": "^1.12.9",
     "lucide-react": "^0.544.0",
     "maath": "^0.10.8",
-    "motion": "^12.27.1",
+    "motion": "^12.27.5",
     "multer": "^2.0.2",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
