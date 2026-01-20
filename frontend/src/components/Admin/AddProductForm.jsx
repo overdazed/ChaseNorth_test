@@ -29,6 +29,25 @@ const AddProductForm = () => {
         images: []
     });
 
+    // Automatically set collections based on gender
+    useEffect(() => {
+        if (formData.gender) {
+            let collectionsValue = "";
+            if (formData.gender === "Men") {
+                collectionsValue = "Men";
+            } else if (formData.gender === "Women") {
+                collectionsValue = "Women";
+            } else if (formData.gender === "Unisex") {
+                collectionsValue = "Unisex";
+            }
+            
+            setFormData(prev => ({
+                ...prev,
+                collections: collectionsValue
+            }));
+        }
+    }, [formData.gender]);
+
     const [sizesInput, setSizesInput] = useState("");
     const [colorsInput, setColorsInput] = useState("");
     
