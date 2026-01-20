@@ -21,7 +21,7 @@ const Card = ({ title, icon, children, className = "", isDarkMode, onClick }) =>
   // Check if mobile on component mount
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
+      setIsMobile(window.innerWidth < 766);
     };
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
