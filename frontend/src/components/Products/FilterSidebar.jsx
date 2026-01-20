@@ -97,6 +97,9 @@ const FilterSidebar = ({
 
     // Apply price filter
     const applyPriceFilter = () => {
+        // Log when the apply button is clicked
+        console.log('Apply button clicked with price range:', priceRange);
+        
         // Convert to numbers
         const minPrice = priceRange.min ? parseFloat(priceRange.min) : null;
         const maxPrice = priceRange.max ? parseFloat(priceRange.max) : null;
@@ -118,6 +121,19 @@ const FilterSidebar = ({
 
         // Update the URL with the new params
         setSearchParams(params, { replace: true });
+
+        // Notify parent component about the price range change
+        if (onFilterChange) {
+            onFilterChange({
+                target: {
+                    name: 'priceRange',
+                    value: {
+                        min: minPrice,
+                        max: maxPrice
+                    }
+                }
+            });
+        }
 
         // Close the sidebar on mobile when a filter is applied
         if (onFilterApply && window.innerWidth < 1024) {
@@ -526,15 +542,11 @@ const FilterSidebar = ({
 
         setPriceRange(newPriceRange);
 
-        // Call the parent's onFilterChange if provided
-        if (onFilterChange) {
-            onFilterChange({
-                target: {
-                    name: 'priceRange',
-                    value: newPriceRange
-                }
-            });
-        }
+        // Log the price range change for debugging
+        console.log('Price range changed:', newPriceRange);
+
+        // Don't call onFilterChange here - wait for Apply button click
+        // This prevents immediate filtering when typing in price inputs
     };
 
 

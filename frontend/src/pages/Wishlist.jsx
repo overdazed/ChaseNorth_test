@@ -218,6 +218,9 @@ const Wishlist = () => {
         };
       }
 
+      // Log the filter change for debugging
+      console.log('Filter changed:', name, value, 'New filters:', newFilters);
+
       // Apply the filters immediately
       applyFilters(newFilters);
       return newFilters;
