@@ -1,9 +1,71 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import styled from 'styled-components';
+
+const StyledButton = styled(Link)`
+  z-index: 2;
+  display: block;
+  width: fit-content;
+  height: auto;
+  outline: none;
+  border: none;
+  background-color: inherit;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 10px 20px;
+  position: relative;
+  cursor: pointer;
+  text-decoration: none;
+  color: #cbd5e1; /* text-slate-300 */
+  text-align: center;
+  margin: 0 auto;
+
+  &::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    transform: scaleX(0.2) scaleY(0.5) translate(250%, 100%);
+    border-top: solid 2px #cbd5e1;
+    border-left: solid 4px #cbd5e1;
+    transition: all .4s ease-in-out;
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%) scaleX(0.2) scaleY(0.5);
+    border-bottom: solid 2px #cbd5e1;
+    border-right: solid 4px #cbd5e1;
+    transition: all .4s ease-in-out;
+  }
+
+  &:hover::before {
+    transform: translate(0%, 0%) scaleX(1) scaleY(1);
+    border-top: solid 1px #cbd5e1;
+    border-left: solid 1px #cbd5e1;
+  }
+
+  &:hover::after {
+    transform: scaleX(1) scaleY(1) translate(0%, 0%);
+    border-bottom: solid 1px #cbd5e1;
+    border-right: solid 1px #cbd5e1;
+  }
+`;
 
 export function HeroSection() {
-    const heading = "dfgd Awaits dsfgdsfg sdfgsdfgsdrg sdfgsdfgsdfg sdfgsdfgsdfg";
-    const subheading = "Discover the perfect fit for your next outdoor journey. " + "High-quality clothing for ethical adventurers, made to explore, made to respect.";
+    const heading = "Discover the perfect fit for your next outdoor journey";
+    const subheading = "High-quality clothing for ethical adventurers, made to explore, made to respect.";
     // const descriptions = [
     //     "High-quality clothing for ethical adventurers who care how they move through the world.",
     //     "High-quality clothing for ethical adventurers — impact without leaving a trace."
@@ -19,8 +81,8 @@ export function HeroSection() {
                             initial={{ opacity: 0, filter: "blur(4px)", y: 10 }}
                             animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
                             transition={{
-                                duration: 0.4,
-                                delay: index * 0.175,
+                                duration: 0.3,
+                                delay: index * 0.25,
                                 ease: "easeInOut",
                             }}
                             className="mr-2 inline-block"
@@ -60,11 +122,11 @@ export function HeroSection() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.3, delay: 1.2 }}
-                    className="relative z-10 mt-8 flex justify-center"
+                    className="relative z-10 mt-8"
                 >
-                    <Link to="/collections/all" className="w-48 transform rounded-lg bg-black px-6 py-3 text-center font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 md:w-56">
+                    <StyledButton to="/collections/all">
                         Shop Now
-                    </Link>
+                    </StyledButton>
                 </motion.div>
             </div>
         </div>
