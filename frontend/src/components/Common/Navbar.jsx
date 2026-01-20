@@ -222,9 +222,9 @@ const Navbar = ({ transparent = false }) => {
             {/*<div className={`w-full ${transparent ? 'bg-transparent' : 'bg-white dark:bg-neutral-900'} transition-colors duration-300 fixed top-0 left-0 right-0 z-50`}>*/}
             <div className={`fixed top-0 left-0 right-0 z-50
             transition-all duration-300 ease-in-out
-            ${isScrolled ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-md' : 'bg-transparent'}
+            ${isScrolled ? 'backdrop-blur-md shadow-md md:top-0' : 'bg-transparent md:top-7'}
             ${isScrollingUp ? 'translate-y-0' : '-translate-y-full'}
-            ${isScrolled ? 'rounded-b-2xl' : 'rounded-none'}
+            ${isScrolled ? 'rounded-2xl' : 'rounded-2xl'}
             `}>
                 {/* Fade effect overlay */}
                 {transparent && (
