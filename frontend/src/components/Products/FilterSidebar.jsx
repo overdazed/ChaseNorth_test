@@ -97,12 +97,13 @@ const FilterSidebar = ({
 
     // Apply price filter
     const applyPriceFilter = () => {
-        const params = new URLSearchParams(location.search);
-
         // Convert to numbers
         const minPrice = priceRange.min ? parseFloat(priceRange.min) : null;
         const maxPrice = priceRange.max ? parseFloat(priceRange.max) : null;
 
+        // Update URL directly with the new price range
+        const params = new URLSearchParams(location.search);
+        
         // Clear existing price params
         params.delete('minPrice');
         params.delete('maxPrice');
@@ -115,12 +116,13 @@ const FilterSidebar = ({
             params.set('maxPrice', maxPrice.toString());
         }
 
-        setSearchParams(params);
+        // Update the URL with the new params
+        setSearchParams(params, { replace: true });
 
         // Close the sidebar on mobile when a filter is applied
-        // if (onFilterApply && window.innerWidth < 1024) {
-        //     onFilterApply();
-        // }
+        if (onFilterApply && window.innerWidth < 1024) {
+            onFilterApply();
+        }
     };
 
     // Clear price filter

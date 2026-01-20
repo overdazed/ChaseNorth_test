@@ -16,8 +16,8 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
     // Theme classes
     const themeClasses = {
         card: isDay 
-            ? 'transition-all duration-300 md:border-[0.5px] border-black/30 bg-black/30 md:hover:ring-[0.75px] md:hover:ring-black/30 hover:bg-black/30'
-            : 'transition-all duration-300 md:ring-[0.5px] ring-neutral-50/80 bg-neutral-900 md:hover:ring-neutral-50/100 hover:bg-neutral-800',
+            ? 'transition-all duration-300 md:hover:ring-[0.5px] md:hover:ring-black hover:bg-black'
+            : 'transition-all duration-300 md:hover:ring-[0.5px] md:hover:ring-neutral-50 hover:bg-neutral-50',
         text: isDay ? 'text-neutral-950' : 'text-neutral-50',
         background: ''
     };

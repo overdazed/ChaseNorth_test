@@ -147,8 +147,8 @@ const Wishlist = () => {
       if (filters.material && filters.material.length > 0) {
         if (!filters.material.some(material => {
           if (!product.material) return false;
-          const materialStr = Array.isArray(product.material) 
-            ? product.material.join(' ') 
+          const materialStr = Array.isArray(product.material)
+            ? product.material.join(' ')
             : String(product.material);
           return new RegExp(material, 'i').test(materialStr);
         })) {
@@ -169,11 +169,24 @@ const Wishlist = () => {
 
       // Filter by color - updated to handle multiple color selection
       if (filters.colors && Array.isArray(filters.colors) && filters.colors.length > 0) {
-        if (!filters.colors.some(color => 
-          product.colors && 
-          Array.isArray(product.colors) && 
+        if (!filters.colors.some(color =>
+          product.colors &&
+          Array.isArray(product.colors) &&
           product.colors.some(c => c === color)
         )) {
+          return false;
+        }
+      }
+
+      // Filter by price range
+      if (filters.priceRange) {
+        const minPrice = filters.priceRange.min ? parseFloat(filters.priceRange.min) : null;
+        const maxPrice = filters.priceRange.max ? parseFloat(filters.priceRange.max) : null;
+
+        if (minPrice !== null && !isNaN(minPrice) && product.price < minPrice) {
+          return false;
+        }
+        if (maxPrice !== null && !isNaN(maxPrice) && product.price > maxPrice) {
           return false;
         }
       }
