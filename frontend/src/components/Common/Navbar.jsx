@@ -263,62 +263,62 @@ const Navbar = ({ transparent = false }) => {
                         <div className="flex space-x-4 lg:space-x-8 px-4">
                             <NavLink
                                 to="/collections/all?gender=Men"
-                                className="relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1 dark:text-neutral-300 dark:hover:text-white"
-                            >
-                                {() => {
-                                    const isActive = window.location.search === '?gender=Men';
-                                    return (
-                                        <span className={`relative ${isActive ? 'text-black dark:text-white' : ''}`}>
-                                        Men
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                                    </span>
-                                    );
+                                className={({ isActive }) => `relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1 dark:text-neutral-300 dark:hover:text-white ${isActive ? 'text-black dark:text-white' : ''}`}
+                                isActive={(match, location) => {
+                                    if (!match) return false;
+                                    const params = new URLSearchParams(location.search);
+                                    return params.get('gender') === 'Men';
                                 }}
+                            >
+                                <span className="relative">
+                                    Men
+                                    <span className="absolute left-0 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 group-has-[.active]:w-full w-0 group-hover:w-full"></span>
+                                </span>
                             </NavLink>
 
                             <NavLink
                                 to="/collections/all?gender=Women"
-                                className="relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1 dark:text-neutral-300 dark:hover:text-white"
-                            >
-                                {() => {
-                                    const isActive = window.location.search === '?gender=Women';
-                                    return (
-                                        <span className={`relative ${isActive ? 'text-black dark:text-white' : ''}`}>
-                                        Women
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                                    </span>
-                                    );
+                                className={({ isActive }) => `relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1 dark:text-neutral-300 dark:hover:text-white ${isActive ? 'text-black dark:text-white' : ''}`}
+                                isActive={(match, location) => {
+                                    if (!match) return false;
+                                    const params = new URLSearchParams(location.search);
+                                    return params.get('gender') === 'Women';
                                 }}
+                            >
+                                <span className="relative">
+                                    Women
+                                    <span className="absolute left-0 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 group-has-[.active]:w-full w-0 group-hover:w-full"></span>
+                                </span>
                             </NavLink>
 
                             <NavLink
                                 to="/collections/all?category=Top+Wear"
-                                className="relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1 dark:text-neutral-300 dark:hover:text-white"
-                            >
-                                {() => {
-                                    const isActive = window.location.search === '?category=Top+Wear';
-                                    return (
-                                        <span className={`relative ${isActive ? 'text-black dark:text-white' : ''}`}>
-                                        Top Wear
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                                    </span>
-                                    );
+                                className={({ isActive }) => `relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1 dark:text-neutral-300 dark:hover:text-white ${isActive ? 'text-black dark:text-white' : ''}`}
+                                isActive={(match, location) => {
+                                    if (!match) return false;
+                                    const params = new URLSearchParams(location.search);
+                                    return params.get('category') === 'Top+Wear';
                                 }}
+                            >
+                                <span className="relative">
+                                    Top Wear
+                                    <span className="absolute left-0 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 group-has-[.active]:w-full w-0 group-hover:w-full"></span>
+                                </span>
                             </NavLink>
 
                             <NavLink
                                 to="/collections/all?category=Bottom+Wear"
-                                className="relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1 dark:text-neutral-300 dark:hover:text-white"
-                            >
-                                {() => {
-                                    const isActive = window.location.search === '?category=Bottom+Wear';
-                                    return (
-                                        <span className={`relative ${isActive ? 'text-black dark:text-white' : ''}`}>
-                                        Bottom Wear
-                                        <span className={`absolute left-0 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                                    </span>
-                                    );
+                                className={({ isActive }) => `relative text-neutral-700 hover:text-black text-sm font-medium uppercase group pb-1 dark:text-neutral-300 dark:hover:text-white ${isActive ? 'text-black dark:text-white' : ''}`}
+                                isActive={(match, location) => {
+                                    if (!match) return false;
+                                    const params = new URLSearchParams(location.search);
+                                    return params.get('category') === 'Bottom+Wear';
                                 }}
+                            >
+                                <span className="relative">
+                                    Bottom Wear
+                                    <span className="absolute left-0 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 group-has-[.active]:w-full w-0 group-hover:w-full"></span>
+                                </span>
                             </NavLink>
                         </div>
                     </div>
@@ -446,66 +446,66 @@ const Navbar = ({ transparent = false }) => {
                     <nav className="space-y-12">
                         <NavLink
                             to="/collections/all?gender=Men"
-                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-white group uppercase font-normal"
+                            className={({ isActive }) => `relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-white group uppercase font-normal ${isActive ? 'text-black dark:text-white' : ''}`}
+                            isActive={(match, location) => {
+                                if (!match) return false;
+                                const params = new URLSearchParams(location.search);
+                                return params.get('gender') === 'Men';
+                            }}
                             onClick={toggleNavDrawer}
                         >
-                            {() => {
-                                const isActive = window.location.search === '?gender=Men';
-                                return (
-                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-white' : 'dark:text-neutral-400'}`}>
-                                        Men
-                                        <span className={`absolute left-0 -bottom-1 w-full h-px bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
-                                    </span>
-                                );
-                            }}
+                            <span className="relative">
+                                Men
+                                <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 group-has-[.active]:w-16 w-0 group-hover:w-16"></span>
+                            </span>
                         </NavLink>
 
                         <NavLink
                             to="/collections/all?gender=Women"
-                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-white group uppercase font-normal"
+                            className={({ isActive }) => `relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-white group uppercase font-normal ${isActive ? 'text-black dark:text-white' : ''}`}
+                            isActive={(match, location) => {
+                                if (!match) return false;
+                                const params = new URLSearchParams(location.search);
+                                return params.get('gender') === 'Women';
+                            }}
                             onClick={toggleNavDrawer}
                         >
-                            {() => {
-                                const isActive = window.location.search === '?gender=Women';
-                                return (
-                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-white' : 'dark:text-neutral-400'}`}>
-                                        Women
-                                        <span className={`absolute left-0 -bottom-1 w-full h-px bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
-                                    </span>
-                                );
-                            }}
+                            <span className="relative">
+                                Women
+                                <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 group-has-[.active]:w-20 w-0 group-hover:w-20"></span>
+                            </span>
                         </NavLink>
 
                         <NavLink
                             to="/collections/all?category=Top+Wear"
-                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-white group uppercase font-normal"
+                            className={({ isActive }) => `relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-white group uppercase font-normal ${isActive ? 'text-black dark:text-white' : ''}`}
+                            isActive={(match, location) => {
+                                if (!match) return false;
+                                const params = new URLSearchParams(location.search);
+                                return params.get('category') === 'Top+Wear';
+                            }}
                             onClick={toggleNavDrawer}
                         >
-                            {() => {
-                                const isActive = window.location.search === '?category=Top+Wear';
-                                return (
-                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-white' : 'dark:text-neutral-400'}`}>
-                                        Top Wear
-                                        <span className={`absolute left-0 -bottom-1 w-full h-px bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
-                                    </span>
-                                );
-                            }}
+                            <span className="relative">
+                                Top Wear
+                                <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 group-has-[.active]:w-28 w-0 group-hover:w-28"></span>
+                            </span>
                         </NavLink>
 
                         <NavLink
                             to="/collections/all?category=Bottom+Wear"
-                            className="relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-white group uppercase font-normal"
+                            className={({ isActive }) => `relative block text-center text-neutral-700 dark:text-neutral-50 hover:text-black dark:hover:text-white group uppercase font-normal ${isActive ? 'text-black dark:text-white' : ''}`}
+                            isActive={(match, location) => {
+                                if (!match) return false;
+                                const params = new URLSearchParams(location.search);
+                                return params.get('category') === 'Bottom+Wear';
+                            }}
                             onClick={toggleNavDrawer}
                         >
-                            {() => {
-                                const isActive = window.location.search === '?category=Bottom+Wear';
-                                return (
-                                    <span className={`relative inline-block text-3xl font-normal ${isActive ? 'text-black dark:text-white' : 'dark:text-neutral-400'}`}>
-                                        Bottom Wear
-                                        <span className={`absolute left-0 -bottom-1 w-full h-px bg-black dark:bg-white transition-all duration-300 transform scale-x-0 ${isActive ? 'scale-x-100' : 'group-hover:scale-x-100'}`}></span>
-                                    </span>
-                                );
-                            }}
+                            <span className="relative">
+                                Bottom Wear
+                                <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-1 h-px bg-black dark:bg-white transition-all duration-300 group-has-[.active]:w-36 w-0 group-hover:w-36"></span>
+                            </span>
                         </NavLink>
                     </nav>
                 </div>
