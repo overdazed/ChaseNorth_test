@@ -34,11 +34,11 @@ const AddProductForm = () => {
         if (formData.gender) {
             let collectionsValue = "";
             if (formData.gender === "Men") {
-                collectionsValue = "Men";
+                collectionsValue = "Men Collection";
             } else if (formData.gender === "Women") {
-                collectionsValue = "Women";
+                collectionsValue = "Women Collection";
             } else if (formData.gender === "Unisex") {
-                collectionsValue = "Unisex";
+                collectionsValue = "Unisex Collection";
             }
             
             setFormData(prev => ({
