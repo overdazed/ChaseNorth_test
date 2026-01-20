@@ -83,7 +83,7 @@ const SortOptions = ({ onSortChange, currentSort = '' }) => {
                                     <button
                                         key={option.value}
                                         onClick={() => handleSortChange(option.value)}
-                                        className={`w-full text-left block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-accent-100 dark:hover:bg-accent-900 hover:text-neutral-900 dark:hover:text-neutral-50 ${sortValue === option.value ? 'bg-green-50 dark:bg-green-950' : ''}`}
+                                        className={`w-full text-left block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-accent hover:bg-opacity-10 dark:hover:bg-accent dark:hover:bg-opacity-40 hover:text-neutral-900 dark:hover:text-neutral-50 ${sortValue === option.value ? 'bg-accent bg-opacity-30 dark:bg-accent' : ''}`}
                                         role="menuitem"
                                     >
                                         {option.label}

@@ -398,7 +398,7 @@ const Navbar = ({ transparent = false }) => {
                                         noAnimation={true}
                                     />
                                     {wishlistCount > 0 && (
-                                        <span className="absolute -top-1.5 -right-1 bg-accent text-neutral-50 text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                                        <span className="absolute -top-1.5 -right-1 bg-accent text-neutral-50 text-[9px] rounded-full h-3.5 w-3.5 flex items-center justify-center">
                                             {wishlistCount}
                                         </span>
                                     )}
@@ -408,7 +408,7 @@ const Navbar = ({ transparent = false }) => {
                             <button onClick={toggleCartDrawer} className="relative">
                                 <HiOutlineShoppingBag className="h-6 w-6 text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"/>
                                 {cartItemCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 bg-accent text-neutral-50 text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                                    <span className="absolute -top-1 -right-1 bg-accent text-neutral-50 text-[9px] rounded-full h-3.5 w-3.5 flex items-center justify-center">
                                         {cartItemCount}
                                     </span>
                                 )}
