@@ -34,7 +34,7 @@ const SortOptions = ({ onSortChange, currentSort = '' }) => {
                     id="sort"
                     onChange={handleSortChange}
                     value={sortValue}
-                    className="p-3 rounded-md text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-950 hover:dark:bg-neutral-900 hover:bg-neutral-100 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-transparent dark:focus:border-transparent"
+                    className="p-3 rounded-md text-sm text-neutral-600 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-950 hover:bg-accent focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-transparent dark:focus:border-transparent"
                 >
                     <option value="featured">Featured</option>
                     <option value="bestSelling">Best Selling</option>
