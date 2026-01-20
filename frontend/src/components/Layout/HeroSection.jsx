@@ -1,5 +1,3 @@
-// src/components/HeroSection.jsx
-"use client";
 import { motion } from "framer-motion";
 
 export function HeroSection() {
@@ -14,7 +12,7 @@ export function HeroSection() {
     return (
         <div className="relative flex h-[80vh] w-full items-center justify-center">
             <div className="w-full max-w-7xl px-4">
-                <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold text-slate-700 md:text-4xl lg:text-7xl dark:text-slate-300">
+                <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold text-slate-700 md:text-4xl lg:text-8xl dark:text-slate-300">
                     {heading.split(" ").map((word, index) => (
                         <motion.span
                             key={index}
