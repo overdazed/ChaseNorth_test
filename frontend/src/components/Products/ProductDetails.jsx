@@ -254,6 +254,7 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
     const [refreshReviews, setRefreshReviews] = useState(0); // Add a refresh trigger
     const [selectedStarFilter, setSelectedStarFilter] = useState(null);
     const [showStarDropdown, setShowStarDropdown] = useState(false);
+    const [showZoomHint, setShowZoomHint] = useState(true);
 
     // Fetch reviews when product changes or when refresh is triggered
     const fetchReviews = useCallback(async () => {
@@ -289,6 +290,15 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
             setReviewsLoading(false);
         }
     }, [selectedProduct, dispatch]);
+
+    // Show zoom hint when product changes
+    useEffect(() => {
+        setShowZoomHint(true);
+        const timer = setTimeout(() => {
+            setShowZoomHint(false);
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, [productId]); // Trigger when productId changes
 
     useEffect(() => {
         fetchReviews();
@@ -492,19 +502,18 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                     className="w-full h-full"
                                                 >
                                                     <div className="relative w-full h-full">
-                                                        <img
-                                                            src={mainImage}
-                                                            alt="Main Product"
-                                                            className="w-full h-full object-cover dark:bg-neutral-950"
-                                                            style={{ aspectRatio: '4/5' }}
-                                                        />
-                                                        {selectedProduct?.createdAt && isProductNew(selectedProduct.createdAt) && (
+                                                        <div className="relative w-full h-full">
                                                             <img
-                                                                src="/new-star.svg"
-                                                                alt="New"
-                                                                className="absolute -top-2 -left-2 w-20 h-20 md:w-16 md:h-16 z-10 transition-all duration-200"
+                                                                src={mainImage}
+                                                                alt="Main Product"
+                                                                className="w-full h-full object-cover dark:bg-neutral-950"
+                                                                style={{ aspectRatio: '4/5' }}
                                                             />
-                                                        )}
+                                                            {/* Mobile-only tap to zoom hint */}
+                                                            <div className={`md:hidden absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white text-xs px-3 py-1 rounded-full transition-opacity duration-500 ${showZoomHint ? 'opacity-100' : 'opacity-0'}`}>
+                                                                Tap to see details
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </Lens>
                                             </div>
@@ -748,14 +757,14 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     <div className="mb-6">
                                         {/*<p className={`mb-2 ${themeClasses.characteristics.text}`}>Size:</p>*/}
                                         <div className="flex justify-between items-center mb-2">
-                                            <p className={`mb-2 ${themeClasses.characteristics.text}`}>Size: <span>{selectedProduct.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
+                                            <p className={`mb-2 ${themeClasses.characteristics.text}`}>Size: <span className="text-sm text-indigo-600 dark:text-gray-400">(</span><span>{selectedProduct.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
                                                 <button
                                                     onClick={() => setShowSizeChart(true)}
                                                     className="text-sm text-indigo-600 hover:no-underline underline dark:text-gray-400"
                                                 >
-                                                    (Size Chart)
+                                                    Size Chart
                                                 </button>
-                                            )}</span></p>
+                                            )}</span><span className="text-sm text-indigo-600 dark:text-gray-400">)</span></p>
                                         </div>
                                         <div className={`grid ${selectedProduct.sizes?.length === 4 ? 'grid-cols-4' : 'grid-cols-5'} gap-2 w-full`}>
                                             {selectedProduct.sizes?.map((size) => (

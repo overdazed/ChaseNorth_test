@@ -2,9 +2,18 @@
 import {useDispatch} from "react-redux";
 import {removeFromCart, updateCartItemQuantity} from "@/redux/slices/cartSlice";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
-const CartContents = ({cart, userId, guestId}) => {
+const CartContents = ({cart, userId, guestId, onProductClick}) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    
+    const handleProductClick = (productId) => {
+        navigate(`/product/${productId}`);
+        if (onProductClick) {
+            onProductClick();
+        }
+    };
 
     // Handle adding or subtracting to cart
     // delta is the value that the user can add or subtract from the cart, delta > 1 for addition and delta > -1 for subtraction
@@ -62,10 +71,16 @@ const CartContents = ({cart, userId, guestId}) => {
                             <img
                                 src={product.image}
                                 alt={product.name}
-                                className="w-20 h-24 object-cover mr-4 rounded"
+                                className="w-20 h-24 object-cover mr-4 rounded cursor-pointer hover:opacity-80 transition-opacity"
+                                onClick={() => handleProductClick(product.productId)}
                             />
                             <div>
-                                <h3 className="text-md text-neutral-950 dark:text-neutral-100">{product.name}</h3>
+                                <h3 
+                                    className="text-md text-neutral-950 dark:text-neutral-100 cursor-pointer hover:underline"
+                                    onClick={() => handleProductClick(product.productId)}
+                                >
+                                    {product.name}
+                                </h3>
                                 <p className="text-sm text-neutral-500">
                                     size: {product.size} | color: {product.color}
                                 </p>

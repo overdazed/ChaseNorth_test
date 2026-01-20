@@ -94,7 +94,12 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
                 <div className="flex-grow p-4 overflow-y-auto">
                     <h2 className={`text-2xl uppercase mb-8 ${isDark ? 'text-neutral-50' : 'text-neutral-900'}`}>Your Cart</h2>
                     {cart?.products?.length > 0 ? (
-                        <CartContents cart={cart} userId={userId} guestId={guestId} />
+                        <CartContents 
+                            cart={cart} 
+                            userId={userId} 
+                            guestId={guestId} 
+                            onProductClick={toggleCartDrawer}
+                        />
                     ) : (
                         <p className={isDark ? 'text-neutral-300' : 'text-neutral-700'}>Your cart is empty.</p>
                     )}
