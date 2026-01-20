@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createProduct } from "../../redux/slices/adminProductSlice";
+import { createProduct } from "@/redux/slices/adminProductSlice.js";
 import { FiUpload } from "react-icons/fi";
 import CustomSelect from "../Common/CustomSelect";
 import axios from "axios";
@@ -27,8 +27,12 @@ const AddProductForm = () => {
         tags: "",
         sizes: [],
         colors: [],
-        images: []
+        images: [],
+        colorImageMap: {}
     });
+    
+    const [selectedColor, setSelectedColor] = useState("");
+    const [selectedImageIndex, setSelectedImageIndex] = useState(-1);
 
     // Gender and collections are now independent fields
 
@@ -79,6 +83,33 @@ const AddProductForm = () => {
         }));
     };
 
+    const handleColorSelect = (color) => {
+        setSelectedColor(color);
+        // If this color already has a mapped image, select it
+        if (formData.colorImageMap[color] !== undefined) {
+            const index = formData.images.findIndex(img => img.url === formData.colorImageMap[color]);
+            setSelectedImageIndex(index);
+        } else {
+            setSelectedImageIndex(-1);
+        }
+    };
+
+    const mapColorToImage = () => {
+        if (!selectedColor || selectedImageIndex === -1) return;
+        
+        const selectedImage = formData.images[selectedImageIndex];
+        
+        setFormData(prevData => ({
+            ...prevData,
+            colorImageMap: {
+                ...prevData.colorImageMap,
+                [selectedColor]: selectedImage.url
+            }
+        }));
+        
+        toast.success(`Mapped ${selectedColor} to selected image`);
+    };
+
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
         const formData = new FormData();
@@ -94,9 +125,11 @@ const AddProductForm = () => {
                 }
             );
             
+            const newImage = { url: data.imageUrl, altText: "" };
+            
             setFormData(prevData => ({
                 ...prevData,
-                images: [...prevData.images, { url: data.imageUrl, altText: "" }],
+                images: [...prevData.images, newImage],
             }));
             
             setUploading(false);
@@ -134,30 +167,32 @@ const AddProductForm = () => {
             colors: colorsInput
                 .split(",")
                 .map(c => capitalize(c.trim()))
-                .filter(Boolean),
-            tags: formData.tags
-                .split(",")
-                .map(tag => tag.trim())
-                .filter(Boolean),
-            material: formData.material
-                .split(",")
-                .map(m => m.trim())
-                .filter(Boolean),
-            sizeChartData: formData.sizeChartData,
-            price: Number(formData.price),
-            countInStock: Number(formData.countInStock),
-            isFeatured: false,
-            isPublished: false
         };
-
-        try {
-            await dispatch(createProduct(productDataToSend)).unwrap();
-            navigate("/admin/products");
-        } catch (err) {
-            setError(err.message || "Failed to create product");
-        } finally {
-            setIsLoading(false);
-        }
+        
+        // Ensure colorImageMap only contains valid colors
+        const validColors = productData.colors;
+        const filteredColorImageMap = {};
+        
+        Object.entries(productData.colorImageMap).forEach(([color, imageUrl]) => {
+            if (validColors.includes(color)) {
+                filteredColorImageMap[color] = imageUrl;
+            }
+        });
+        
+        productData.colorImageMap = filteredColorImageMap;
+        
+        dispatch(createProduct({ productData, token: user.token }))
+            .unwrap()
+            .then(() => {
+                toast.success("Product added successfully!");
+                navigate("/admin/products");
+            })
+            .catch((error) => {
+                toast.error(error.message || "Failed to add product");
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     };
 
     return (
