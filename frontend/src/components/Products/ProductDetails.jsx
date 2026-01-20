@@ -728,7 +728,9 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                                         }}
                                                         onMouseLeave={(e) => {
                                                             e.currentTarget.style.transform = selectedColor === colorName ? 'scale(1.1)' : 'scale(1)';
-                                                            e.currentTarget.style.boxShadow = selectedColor === colorName ? '0 0 0 2px rgba(87, 17, 0, 1)' : 'none';
+                                                            e.currentTarget.style.boxShadow = selectedColor === colorName 
+                                                                ? '0 0 0 2px rgba(87, 17, 0, 1)'
+                                                                : '0.1px 0.1px 0 0 rgba(160, 160, 160, 0.5)';
                                                         }}
                                                         aria-label={`Select color ${colorName}`}
                                                     />
