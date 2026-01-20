@@ -1,18 +1,17 @@
 import { motion } from "framer-motion";
 
 export function HeroSection() {
-    const heading = "Adventure Awaits";
-    const subheading = "Discover the perfect fit for your next outdoor journey.";
+    const heading = "dfgd Awaits dsfgdsfg sdfgsdfgsdrg sdfgsdfgsdfg sdfgsdfgsdfg";
+    const subheading = "Discover the perfect fit for your next outdoor journey. " + "High-quality clothing for ethical adventurers, made to explore, made to respect.";
     const descriptions = [
-        "High-quality clothing for ethical adventurers, made to explore, made to respect.",
         "High-quality clothing for ethical adventurers who care how they move through the world.",
         "High-quality clothing for ethical adventurers — impact without leaving a trace."
     ];
 
     return (
-        <div className="relative flex h-[80vh] w-full items-center justify-center">
-            <div className="w-full max-w-7xl px-4">
-                <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold text-slate-700 md:text-4xl lg:text-8xl dark:text-slate-300">
+        <div className="relative flex h-[90vh] w-full items-center justify-center px-4">
+            <div className="w-full max-w-[2000px]">
+                <h1 className="relative z-10 mx-auto max-w-6xl text-center text-2xl font-bold text-slate-700 md:text-5xl lg:text-7xl dark:text-slate-300">
                     {heading.split(" ").map((word, index) => (
                         <motion.span
                             key={index}
@@ -34,7 +33,7 @@ export function HeroSection() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.3, delay: 0.5 }}
-                    className="relative z-10 mx-auto max-w-2xl py-4 text-center text-lg font-normal text-neutral-600 dark:text-neutral-400"
+                    className="relative z-10 mx-auto max-w-2xl py-4 text-center md:text-lg lg:text-2xl font-normal text-neutral-600 dark:text-neutral-400"
                 >
                     {subheading}
                 </motion.p>
