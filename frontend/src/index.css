@@ -39,15 +39,16 @@
 }
 
 @font-face {
-  font-family: 'Basement Grotesque';
-  src: url('/fonts/BasementGrotesque-Black_v1.202.otf') format('opentype');
-  font-weight: 100 900;
+  font-family: 'Raydis';
+  src: url('/fonts/RAYDIS.woff') format('woff');
+  src: url('/fonts/RAYDIS.woff2') format('woff2');
   font-style: normal;
-  font-display: swap;
+  font-weight: normal;
+  text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Basement Grotesque", sans-serif;
+  font-family: "Raydis", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
   font-weight: 100;
