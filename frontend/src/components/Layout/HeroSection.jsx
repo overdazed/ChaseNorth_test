@@ -10,6 +10,7 @@ const StyledButton = styled(Link)`
   outline: none;
   border: none;
   background-color: inherit;
+    font-family: "Dirtyline36Daysoftype2022", sans-serif;
   font-size: 18px;
   font-weight: bold;
   padding: 8px 16px;
@@ -79,7 +80,7 @@ export function HeroSection() {
     return (
         <div className="relative flex h-[105vh] md:h-[95vh] w-full items-center justify-center px-4">
             <div className="w-full max-w-[2000px]">
-                <h1 className="relative z-10 mx-auto max-w-6xl text-center text-2xl font-bold md:text-5xl lg:text-7xl text-slate-300">
+                <h1 className="relative z-10 mx-auto max-w-6xl text-center text-4xl font-bold md:text-5xl lg:text-8xl text-slate-300">
                     {heading.split(" ").map((word, index) => (
                         <motion.span
                             key={index}
