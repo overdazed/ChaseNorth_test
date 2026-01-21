@@ -56,14 +56,14 @@
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Leiko", sans-serif;
+  font-family: "Bricolage Grotesque", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  font-weight: 100;
+  font-weight: 900;
 }
 
 p {
-  font-family: "Orbitron", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
 }
