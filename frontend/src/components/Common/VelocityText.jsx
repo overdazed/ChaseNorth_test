@@ -26,7 +26,8 @@ const VelocityText = ({ isNightMode = false }) => {
             } else {
                 // On desktop, use the original logic
                 // dark; light
-                setTransformOrigin(isNightMode ? '49.75% 50%' : '35% 35%');
+                // setTransformOrigin(isNightMode ? '49.75% 50%' : '35% 35%');
+                setTransformOrigin(isNightMode ? '35% 35%' : '49.75% 50%');
             }
         };
 
