@@ -18,10 +18,19 @@
 /*  font-style: normal; !* with this configuration, our App will now use the inter font *!*/
 /*}*/
 
+@font-face {
+  font-family: 'Blackbird';
+  src: url('/fonts/PROJEKT BLACKBIRD.otf') format('opentype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 h1, h2, h3, h4, h5, h6 {
-  font-family: "", sans-serif;
+  font-family: "Blackbird", serif;
   font-optical-sizing: auto;
   font-style: normal;
+  font-weight: 100;
 }
 
 p {
