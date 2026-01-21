@@ -69,7 +69,7 @@ const StyledButton = styled(Link)`
 `;
 
 export function HeroSection() {
-    const heading = "Discover the perfect fit for your next outdoor journey";
+    const heading = "Discover The perfect fit for your next outdoor journey";
     const subheading = "High-quality clothing for ethical adventurers, made to explore, made to respect.";
     // const descriptions = [
     //     "High-quality clothing for ethical adventurers who care how they move through the world.",
