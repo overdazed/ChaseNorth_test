@@ -12,10 +12,14 @@
   animation: fadeIn 0.5s ease-in-out;
 }
 
-#root {
-  font-family: "Inter", sans-serif;
-  font-optical-sizing: auto; /* will adjust the optical size depending on font size */
-  font-style: normal; /* with this configuration, our App will now use the inter font */
+/*#root {*/
+/*  font-family: "Inter", sans-serif;*/
+/*  font-optical-sizing: auto; !* will adjust the optical size depending on font size *!*/
+/*  font-style: normal; !* with this configuration, our App will now use the inter font *!*/
+/*}*/
+
+h1 {
+  font-family: ;
 }
 
 /* Hide scrollbar for all browsers */
