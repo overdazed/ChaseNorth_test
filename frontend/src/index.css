@@ -18,8 +18,16 @@
 /*  font-style: normal; !* with this configuration, our App will now use the inter font *!*/
 /*}*/
 
-h1 {
-  font-family: ;
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Italiana", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+p {
+  font-family: "Helvetica", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
 /* Hide scrollbar for all browsers */
