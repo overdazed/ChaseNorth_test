@@ -225,13 +225,13 @@ const Navbar = ({ transparent = false }) => {
 
     // Debug logs for navbar positioning
     useEffect(() => {
-        console.log('Navbar state - isScrolled:', isScrolled, 'isScrollingUp:', isScrollingUp);
-        console.log('Navbar position classes:', isScrolled ? 'backdrop-blur-md shadow-md md:top-0' : 'bg-transparent md:top-7', isScrollingUp ? 'translate-y-0' : '-translate-y-full');
+        // console.log('Navbar state - isScrolled:', isScrolled, 'isScrollingUp:', isScrollingUp);
+        // console.log('Navbar position classes:', isScrolled ? 'backdrop-blur-md shadow-md md:top-0' : 'bg-transparent md:top-7', isScrollingUp ? 'translate-y-0' : '-translate-y-full');
     }, [isScrolled, isScrollingUp]);
 
     // Additional debug logs for scroll position
     useEffect(() => {
-        console.log('Current scroll position:', window.scrollY, 'Previous scroll position:', prevScrollPos);
+        // console.log('Current scroll position:', window.scrollY, 'Previous scroll position:', prevScrollPos);
     }, [prevScrollPos]);
 
     return (
