@@ -35,6 +35,22 @@
 }
 
 @font-face {
+  font-family: 'Cotta';
+  src: url('/fonts/Cotta-Free-DCU.otf') format('opentype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
+  font-family: 'Corbby';
+  src: url('/fonts/Corbby.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: auto;
+}
+
+@font-face {
   font-family: 'Dirtyline36Daysoftype2022';
   src: url('/fonts/Dirtyline 36daysoftype 2022.eot');
   src: url('/fonts/Dirtyline 36daysoftype 2022.eot?#iefix') format('embedded-opentype'),
@@ -56,14 +72,14 @@
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Italiana", sans-serif;
+  font-family: "", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
   font-weight: 900;
 }
 
 p {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Lora", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
 }
