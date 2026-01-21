@@ -253,12 +253,16 @@ const DiscoverWeeklyContent = ({ isDarkMode }) => {
       >
         <div className="max-w-7xl mx-auto select-none">
           <h1
-              className={`text-3xl md:text-4xl font-bold text-center mb-12 ${
+              className={`text-3xl md:text-4xl font-bold text-center mb-2 ${
                   isDarkMode ? "text-neutral-50" : "text-neutral-950"
               }`}
           >
             Discover Weekly
           </h1>
+          <p className="text-center mb-16 text-sm lg:text-md max-w-2xl mx-auto px-2 dark:text-neutral-400 text-neutral-600">
+            Lorem ipsum
+          </p>
+
 
           <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-8 px-4 max-w-7xl mx-auto">
             {weeklyProduct && (
