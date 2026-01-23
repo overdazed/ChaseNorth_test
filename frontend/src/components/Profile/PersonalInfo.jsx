@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/slices/authSlice';
-import { FaEdit, FaSave, FaTimes } from 'react-icons/fa';
+import { FaEdit, FaSave, FaTimes, FaCamera, FaKey } from 'react-icons/fa';
 
 const PersonalInfo = () => {
   const { user } = useSelector((state) => state.auth);
@@ -10,14 +10,31 @@ const PersonalInfo = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
-    email: ''
+    email: '',
+    profilePicture: null,
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+
+  const [addressData, setAddressData] = useState({
+    billingAddress: '',
+    shippingAddress: ''
   });
 
   useEffect(() => {
     if (user) {
       setFormData({
         name: user.name || '',
-        email: user.email || ''
+        email: user.email || '',
+        profilePicture: user.profilePicture || null,
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      });
+      setAddressData({
+        billingAddress: user.billingAddress || '',
+        shippingAddress: user.shippingAddress || ''
       });
     }
   }, [user]);
@@ -30,10 +47,54 @@ const PersonalInfo = () => {
     }));
   };
 
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    setAddressData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleProfilePictureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({
+          ...prev,
+          profilePicture: reader.result
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    e.preventDefault();
+    if (formData.newPassword !== formData.confirmPassword) {
+      alert("New passwords don't match");
+      return;
+    }
+    // Dispatch password change action
+    dispatch(updateUser({
+      ...formData,
+      password: formData.newPassword
+    }));
+    setFormData(prev => ({
+      ...prev,
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: ''
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Dispatch update user action
-    dispatch(updateUser(formData));
+    dispatch(updateUser({
+      ...formData,
+      ...addressData
+    }));
     setIsEditing(false);
   };
 
