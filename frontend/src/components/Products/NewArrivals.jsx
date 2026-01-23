@@ -262,7 +262,8 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
             className={`relative 
         h-[320px] w-[240px]
         md:h-[450px] md:w-[350px]
-        lg:h-[560px] lg:w-[448px]
+        lg:h-[500px] lg:w-[400px]
+        xl:h-[560px] lg:w-[448px]
         flex-shrink-0 ${
                 isNightMode
                     ? 'ring-[0.5px] ring-neutral-50/80 bg-neutral-900'
