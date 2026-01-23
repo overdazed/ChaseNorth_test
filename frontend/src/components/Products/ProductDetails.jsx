@@ -757,14 +757,14 @@ const ProductDetails = ({ productId: propProductId, showRecommendations = true }
                                     <div className="mb-6">
                                         {/*<p className={`mb-2 ${themeClasses.characteristics.text}`}>Size:</p>*/}
                                         <div className="flex justify-between items-center mb-2">
-                                            <p className={`mb-2 ${themeClasses.characteristics.text}`}>Size: <span className="text-sm text-indigo-600 dark:text-gray-400">(</span><span>{selectedProduct.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
+                                            <p className={`mb-2 ${themeClasses.characteristics.text}`}>Size: <span>{selectedProduct.sizeChartData && selectedProduct.sizeChartData.length > 0 && (
                                                 <button
                                                     onClick={() => setShowSizeChart(true)}
                                                     className="text-sm text-indigo-600 hover:no-underline underline dark:text-gray-400"
                                                 >
-                                                    Size Chart
+                                                    (Size Chart)
                                                 </button>
-                                            )}</span><span className="text-sm text-indigo-600 dark:text-gray-400">)</span></p>
+                                            )}</span></p>
                                         </div>
                                         <div className={`grid ${selectedProduct.sizes?.length === 4 ? 'grid-cols-4' : 'grid-cols-5'} gap-2 w-full`}>
                                             {selectedProduct.sizes?.map((size) => (

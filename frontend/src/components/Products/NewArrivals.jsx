@@ -164,7 +164,7 @@ const HorizontalScrollCarousel = ({ products, isNightMode }) => {
             <div className="sticky top-20 lg:top-40 h-screen flex flex-col justify-center">
                 <div className="mt-0 sm:mt-80 md:mt-80 lg:mt-48 xl:mt-28 absolute top-4 lg:top-10 w-full pt-4 lg:pt-8">
                     <div className="container mx-auto text-center px-4">
-                        <h2 className={`text-2xl lg:text-3xl font-bold mb-2 -mt-40 lg:-mt-16 xl:mt-4 ${
+                        <h2 className={`text-2xl lg:text-3xl font-bold mb-2 -mt-4 md:-mt-40 lg:-mt-16 xl:mt-4 ${
                             isNightMode ? 'text-neutral-50' : 'text-neutral-950'
                         }`}>
                             Explore New Arrivals
