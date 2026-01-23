@@ -4,6 +4,11 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import axios from 'axios';
 
+// Helper function to get auth token from localStorage
+const getAuthToken = () => {
+    return localStorage.getItem('userToken') || '';
+};
+
 // Retrieve the user info and token from local storage
 const userFromStorage = localStorage.getItem('userInfo')
     ? JSON.parse(localStorage.getItem('userInfo')) : null;
@@ -12,8 +17,8 @@ const userFromStorage = localStorage.getItem('userInfo')
 // Check for an existing guest ID in localStorage or generate a new one
 const initialGuestId =
     localStorage.getItem('guestId') || `guest_${new Date().getTime()}`;
-    // safe this guest ID to local storage for future use
-    localStorage.setItem('guestId', initialGuestId);
+// safe this guest ID to local storage for future use
+localStorage.setItem('guestId', initialGuestId);
 
 // Set up initial state for authentication slice
 const initialState = {
@@ -48,7 +53,6 @@ export const loginUser = createAsyncThunk(
         }
     }
 );
-
 
 // Async Thunk for user registration
 export const registerUser = createAsyncThunk(
@@ -131,6 +135,18 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload.message;
             })
+            .addCase(updateUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+            })
+            .addCase(updateUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
     }
 })
 
@@ -168,8 +184,37 @@ export const resetPassword = createAsyncThunk(
     }
 );
 
+// Async thunk for updating user profile
+export const updateUser = createAsyncThunk(
+    'auth/updateUser',
+    async (userData, { rejectWithValue }) => {
+        try {
+            const token = getAuthToken();
+            const response = await axios.patch(
+                `${import.meta.env.VITE_BACKEND_URL}/api/users/updateMe`,
+                userData,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+            
+            // Update user info in localStorage
+            const currentUser = JSON.parse(localStorage.getItem('userInfo'));
+            const updatedUser = { ...currentUser, ...response.data.user };
+            localStorage.setItem('userInfo', JSON.stringify(updatedUser));
+            
+            return updatedUser;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || 'Failed to update profile');
+        }
+    }
+);
+
 // Export the actions, so we can use them in our components
-export const { logout, generateNewGuestId } = authSlice.actions;
+export const { logout, generateNewGuestId, clearError } = authSlice.actions;
 
 // Export the reducer, so it can be added to the store
 export default authSlice.reducer;
