@@ -149,7 +149,7 @@ const ProductGrid = ({ products, loading, error, isDay = true, newStarBadgeSize 
                                             </>
                                         </h3>
                                         <p className="text-white font-bold text-xs sm:text-sm md:text-base md:mt-1 -translate-y-5 md:translate-y-0 md:group-hover:-translate-y-8 transition-transform duration-300 whitespace-nowrap">
-                                            {product.price} €
+                                            {Number(product.price).toLocaleString('de-DE')} €
                                         </p>
                                     </div>
                                 </div>
