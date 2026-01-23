@@ -164,7 +164,7 @@ const HorizontalScrollCarousel = ({ products, isNightMode }) => {
             <div className="sticky top-20 lg:top-40 h-screen flex flex-col justify-center">
                 <div className="mt-0 sm:mt-80 md:mt-80 lg:mt-48 xl:mt-28 absolute top-4 lg:top-10 w-full pt-4 lg:pt-8">
                     <div className="container mx-auto text-center px-4">
-                        <h2 className={`text-2xl lg:text-3xl font-bold mb-2 mt-4 lg:mt-20 ${
+                        <h2 className={`text-2xl lg:text-3xl font-bold mb-2 mt-4 ${
                             isNightMode ? 'text-neutral-50' : 'text-neutral-950'
                         }`}>
                             Explore New Arrivals
@@ -259,11 +259,10 @@ const Card = ({ product, isFirst, isLast, isNightMode }) => {
         <div
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className={`relative 
+            className={`-mt-20 relative 
         h-[320px] w-[240px]
         md:h-[450px] md:w-[350px]
-        lg:h-[500px] lg:w-[400px]
-        xl:h-[560px] lg:w-[448px]
+        lg:h-[464px] lg:w-[368px]
         flex-shrink-0 ${
                 isNightMode
                     ? 'ring-[0.5px] ring-neutral-50/80 bg-neutral-900'
