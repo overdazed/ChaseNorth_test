@@ -29,6 +29,8 @@ const PersonalInfo = () => {
       country: ''
     },
     shippingAddress: {
+      firstName: '',
+      lastName: '',
       street: '',
       city: '',
       postalCode: '',
@@ -59,6 +61,8 @@ const PersonalInfo = () => {
           country: ''
         },
         shippingAddress: user.shippingAddress || {
+          firstName: '',
+          lastName: '',
           street: '',
           city: '',
           postalCode: '',
@@ -196,34 +200,30 @@ const PersonalInfo = () => {
 
     return (
       <div className="space-y-2">
-        {type === 'billing' && (
-          <>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">First Name</label>
-                <input
-                  type="text"
-                  name={`${prefix}.firstName`}
-                  value={address.firstName || ''}
-                  onChange={handleAddressChange}
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Last Name</label>
-                <input
-                  type="text"
-                  name={`${prefix}.lastName`}
-                  value={address.lastName || ''}
-                  onChange={handleAddressChange}
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
-                />
-              </div>
-            </div>
-          </>
-        )}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">First Name</label>
+            <input
+              type="text"
+              name={`${prefix}.firstName`}
+              value={address.firstName || ''}
+              onChange={handleAddressChange}
+              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Last Name</label>
+            <input
+              type="text"
+              name={`${prefix}.lastName`}
+              value={address.lastName || ''}
+              onChange={handleAddressChange}
+              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
+            />
+          </div>
+        </div>
         <div>
           <label className="block text-sm font-medium mb-1">Street</label>
           <input
@@ -457,8 +457,8 @@ const PersonalInfo = () => {
                 <div className="space-y-2 text-gray-700">
                   {user.shippingAddress?.street ? (
                     <>
-                      {user.billingAddress.firstName && (
-                          <p>{user.billingAddress.firstName} {user.billingAddress.lastName}</p>
+                      {user.shippingAddress.firstName && (
+                          <p>{user.shippingAddress.firstName} {user.shippingAddress.lastName}</p>
                       )}
                       <p>{user.shippingAddress.street}</p>
                       <p>{user.shippingAddress.city}, {user.shippingAddress.postalCode}</p>
