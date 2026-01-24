@@ -226,6 +226,8 @@ export const updateUser = createAsyncThunk(
                 const currentUser = JSON.parse(localStorage.getItem('userInfo') || '{}');
                 const updatedUserInfo = { ...currentUser, ...updatedUser };
                 localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));
+                // Force a page reload to ensure the UI reflects the updated profile picture
+                window.location.reload();
             }
 
             return updatedUser;
