@@ -207,9 +207,15 @@ const PersonalInfo = () => {
               type="text"
               name={`${prefix}.firstName`}
               value={address.firstName || ''}
-              onChange={handleAddressChange}
+              onChange={(e) => {
+                const value = e.target.value;
+                const capitalized = value.charAt(0).toUpperCase() + value.slice(1);
+                handleAddressChange({ target: { name: e.target.name, value: capitalized } });
+              }}
               className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
+              pattern="[A-Za-z\s]+"
+              title="Please enter a valid name"
             />
           </div>
           <div>
@@ -218,9 +224,15 @@ const PersonalInfo = () => {
               type="text"
               name={`${prefix}.lastName`}
               value={address.lastName || ''}
-              onChange={handleAddressChange}
+              onChange={(e) => {
+                const value = e.target.value;
+                const capitalized = value.charAt(0).toUpperCase() + value.slice(1);
+                handleAddressChange({ target: { name: e.target.name, value: capitalized } });
+              }}
               className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
+              pattern="[A-Za-z\s]+"
+              title="Please enter a valid last name"
             />
           </div>
         </div>
@@ -230,9 +242,15 @@ const PersonalInfo = () => {
             type="text"
             name={`${prefix}.street`}
             value={address.street || ''}
-            onChange={handleAddressChange}
+            onChange={(e) => {
+                const value = e.target.value;
+                const capitalized = value.charAt(0).toUpperCase() + value.slice(1);
+                handleAddressChange({ target: { name: e.target.name, value: capitalized } });
+              }}
             className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
+            pattern="^[A-Za-zßüöäÜÖÄ.\s]+\s\d+.*$"
+            title="Address must include a street name followed by a space and number"
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
@@ -242,9 +260,15 @@ const PersonalInfo = () => {
               type="text"
               name={`${prefix}.city`}
               value={address.city || ''}
-              onChange={handleAddressChange}
+              onChange={(e) => {
+                const value = e.target.value;
+                const capitalized = value.charAt(0).toUpperCase() + value.slice(1);
+                handleAddressChange({ target: { name: e.target.name, value: capitalized } });
+              }}
               className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
+              pattern="^[A-Za-z\s]+" // only allows letters
+              title="City name must contain only letters"
             />
           </div>
           <div>
@@ -253,22 +277,39 @@ const PersonalInfo = () => {
               type="text"
               name={`${prefix}.postalCode`}
               value={address.postalCode || ''}
-              onChange={handleAddressChange}
+              onChange={(e) => {
+                const value = e.target.value.toUpperCase();
+                handleAddressChange({ target: { name: e.target.name, value: value } });
+              }}
               className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
+              pattern="^[0-9A-Z]{4}.*$"
+              maxLength="7"
+              title="Postal code must start with 4 digits (numbers and uppercase letters only)"
             />
           </div>
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Country</label>
-          <input
-            type="text"
+          <select
             name={`${prefix}.country`}
             value={address.country || ''}
             onChange={handleAddressChange}
             className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
-          />
+          >
+            <option value="" disabled hidden>Select a country</option>
+            <option value="Germany">Germany</option>
+            <option value="Netherlands">Netherlands</option>
+            <option value="Belgium">Belgium</option>
+            <option value="France">France</option>
+            <option value="Italy">Italy</option>
+            <option value="Spain">Spain</option>
+            <option value="United States">United States</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="Canada">Canada</option>
+            <option value="Australia">Australia</option>
+          </select>
         </div>
       </div>
     );

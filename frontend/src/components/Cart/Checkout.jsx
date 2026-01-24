@@ -683,10 +683,10 @@ const Checkout = () => {
                                     isFormSubmitted ? 'bg-neutral-100 dark:bg-neutral-600' : ''
                                 }`}
                                 required
-                                pattern="^[0-9A-Z]{3,7}$"
+                                pattern="^[0-9A-Z]{4}.*$"
                                 maxLength="7"
                                 onInput={(e) => e.target.value = e.target.value.toUpperCase()}
-                                title="Postal code must be 3-7 characters (numbers and uppercase letters only)"
+                                title="Postal code must start with 4 digits (numbers and uppercase letters only)"
                                 disabled={isFormSubmitted}
                             />
                         </div>
