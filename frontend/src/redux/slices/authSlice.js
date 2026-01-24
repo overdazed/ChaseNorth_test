@@ -191,10 +191,10 @@ export const updateUser = createAsyncThunk(
         try {
             const token = getAuthToken();
             const isPasswordUpdate = userData.currentPassword && userData.newPassword;
-            
+
             let endpoint = '/update-profile';
             let data = { ...userData };
-            
+
             if (isPasswordUpdate) {
                 endpoint = '/update-password';
                 data = {
@@ -220,7 +220,7 @@ export const updateUser = createAsyncThunk(
 
             // For password updates, we get a token back, for profile updates we get the user object
             const updatedUser = response.data.data?.user || response.data.user || getState().auth.user;
-            
+
             // Update local storage if it's a profile update
             if (!isPasswordUpdate) {
                 const currentUser = JSON.parse(localStorage.getItem('userInfo') || '{}');
