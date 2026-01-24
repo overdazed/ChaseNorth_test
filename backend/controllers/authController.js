@@ -253,6 +253,7 @@ exports.updateProfile = async (req, res, next) => {
 
                         // Update the profile picture URL in the filtered body
                         filteredBody.profilePicture = publicUrlData.publicUrl;
+                        console.log('Profile picture updated:', filteredBody.profilePicture);
                     }
                 } catch (error) {
                     console.error('Error handling profile picture upload:', error);

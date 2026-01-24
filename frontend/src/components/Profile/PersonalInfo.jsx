@@ -209,6 +209,8 @@ const PersonalInfo = () => {
 
       await dispatch(updateUser(updateData)).unwrap();
       setIsEditing(false);
+      // Force a reload to ensure the UI reflects the updated profile picture
+      window.location.reload();
     } catch (error) {
       alert(error.message || 'Failed to update profile');
     }
