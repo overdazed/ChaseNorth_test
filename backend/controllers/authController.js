@@ -222,6 +222,27 @@ exports.updateProfile = async (req, res, next) => {
                         }
                     }
 
+                    // Delete old profile pictures for this user
+                    const { data: files, error: listFilesError } = await supabase
+                        .storage
+                        .from('profile-pictures')
+                        .list('', {
+                            search: `${req.user.id}-`
+                        });
+
+                    if (!listFilesError && files.length > 0) {
+                        for (const file of files) {
+                            const { error: deleteError } = await supabase
+                                .storage
+                                .from('profile-pictures')
+                                .remove([file.name]);
+
+                            if (deleteError) {
+                                console.error('Error deleting old profile picture:', deleteError);
+                            }
+                        }
+                    }
+
                     // Upload the profile picture to Supabase Storage
                     const fileName = `profile-pictures/${req.user.id}-${Date.now()}.jpg`;
                     const { data, error } = await supabase
