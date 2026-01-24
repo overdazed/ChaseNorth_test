@@ -132,6 +132,9 @@ const PersonalInfo = () => {
     }
   };
 
+  // Debug: Log the profile picture data before submission
+  console.log('Profile picture data before submission:', formData.profilePicture);
+
   const handlePasswordChange = async (e) => {
     e.preventDefault();
 
