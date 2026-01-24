@@ -149,6 +149,30 @@ router.get('/order/:orderId', async (req, res) => {
     }
 });
 
+// @route   GET /api/reports/user/:email
+// @desc    Get reports by user email
+// @access  Public
+router.get('/user/:email', async (req, res) => {
+    try {
+        const reports = await Report.find({ email: req.params.email })
+            .populate('orderId', 'orderNumber')
+            .sort({ createdAt: -1 })
+            .lean();
+
+        res.json({
+            success: true,
+            reports: reports || []
+        });
+    } catch (error) {
+        console.error('Error fetching user reports:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error fetching user reports',
+            error: error.message
+        });
+    }
+});
+
 // Admin routes
 const adminRouter = express.Router();
 
