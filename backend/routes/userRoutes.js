@@ -156,6 +156,134 @@ router.patch('/reset-password/:token', authController.resetPassword);
 router.patch('/update-profile', protect, authController.updateProfile);
 router.patch('/update-password', protect, authController.updatePassword);
 
+// Payment methods routes
+router.get('/:userId/payment-methods', protect, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId).select('paymentMethods');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json(user.paymentMethods);
+    } catch (error) {
+        console.error('Error fetching payment methods:', error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+router.post('/:userId/payment-methods', protect, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // If this is the first payment method, set it as default
+        const isFirstMethod = user.paymentMethods.length === 0;
+        const newMethod = {
+            ...req.body,
+            isDefault: isFirstMethod || req.body.isDefault
+        };
+
+        // If setting as default, unset default from other methods
+        if (newMethod.isDefault) {
+            user.paymentMethods.forEach(method => {
+                method.isDefault = false;
+            });
+        }
+
+        user.paymentMethods.push(newMethod);
+        await user.save();
+
+        res.status(201).json(newMethod);
+    } catch (error) {
+        console.error('Error adding payment method:', error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+router.put('/:userId/payment-methods/:methodId', protect, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const method = user.paymentMethods.id(req.params.methodId);
+        if (!method) {
+            return res.status(404).json({ message: 'Payment method not found' });
+        }
+
+        // Update the method
+        method.cardNumber = req.body.cardNumber;
+        method.cardHolder = req.body.cardHolder;
+        method.expiryDate = req.body.expiryDate;
+        if (req.body.cvv) {
+            method.cvv = req.body.cvv;
+        }
+
+        await user.save();
+        res.json(method);
+    } catch (error) {
+        console.error('Error updating payment method:', error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+router.delete('/:userId/payment-methods/:methodId', protect, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const methodIndex = user.paymentMethods.findIndex(method => method._id.toString() === req.params.methodId);
+        if (methodIndex === -1) {
+            return res.status(404).json({ message: 'Payment method not found' });
+        }
+
+        // If deleting the default method and there are other methods, set first one as default
+        if (user.paymentMethods[methodIndex].isDefault && user.paymentMethods.length > 1) {
+            user.paymentMethods[0].isDefault = true;
+        }
+
+        user.paymentMethods.splice(methodIndex, 1);
+        await user.save();
+
+        res.json({ message: 'Payment method deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting payment method:', error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+router.put('/:userId/payment-methods/:methodId/default', protect, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // First unset default from all methods
+        user.paymentMethods.forEach(method => {
+            method.isDefault = false;
+        });
+
+        // Set the selected method as default
+        const method = user.paymentMethods.id(req.params.methodId);
+        if (!method) {
+            return res.status(404).json({ message: 'Payment method not found' });
+        }
+
+        method.isDefault = true;
+        await user.save();
+
+        res.json(method);
+    } catch (error) {
+        console.error('Error setting default payment method:', error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
 module.exports = router;
 
 // open server.js file

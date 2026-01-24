@@ -83,6 +83,29 @@ const userSchema = new mongoose.Schema({
         default: true,
         select: false
     }
+    paymentMethods: [{
+        cardNumber: {
+            type: String,
+            required: true
+        },
+        cardHolder: {
+            type: String,
+            required: true
+        },
+        expiryDate: {
+            type: String,
+            required: true
+        },
+        cvv: {
+            type: String,
+            required: true,
+            select: false
+        },
+        isDefault: {
+            type: Boolean,
+            default: false
+        }
+    }]
 },
     { timestamps: true }
 );

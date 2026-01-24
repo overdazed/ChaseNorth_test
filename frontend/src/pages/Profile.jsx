@@ -1,6 +1,7 @@
 import MyOrdersPage from "./MyOrdersPage"
 import PersonalInfo from "../components/Profile/PersonalInfo"
-import { FaSignOutAlt, FaUser, FaShoppingBag } from "react-icons/fa"
+import PaymentMethods from "../components/Profile/PaymentMethods"
+import { FaSignOutAlt, FaUser, FaShoppingBag, FaCreditCard } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -54,11 +55,12 @@ const Profile = () => {
     
     // State for active tab
     const [activeTab, setActiveTab] = useState('orders')
-    
+     
     // Tab configuration
     const tabs = [
         { id: 'orders', label: 'My Orders', icon: <FaShoppingBag className="mr-2" /> },
-        { id: 'personal', label: 'Personal Information', icon: <FaUser className="mr-2" /> }
+        { id: 'personal', label: 'Personal Information', icon: <FaUser className="mr-2" /> },
+        { id: 'payment', label: 'Payment Methods', icon: <FaCreditCard className="mr-2" /> }
     ]
 
     return (
@@ -123,8 +125,10 @@ const Profile = () => {
                         <div className="p-6">
                             {activeTab === 'orders' ? (
                                 <MyOrdersPage />
-                            ) : (
+                            ) : activeTab === 'personal' ? (
                                 <PersonalInfo />
+                            ) : (
+                                <PaymentMethods />
                             )}
                         </div>
                     </div>
