@@ -177,6 +177,19 @@ const PersonalInfo = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Validate postal codes before submission
+      const postalCodePattern = /^[0-9A-Z]{4}[0-9A-Z ]{1,3}$/;
+
+      if (addressData.billingAddress.postalCode && !postalCodePattern.test(addressData.billingAddress.postalCode)) {
+        alert('Billing Address Postal Code must start with 4 digits, followed by 1-3 characters (5-7 characters total)');
+        return;
+      }
+
+      if (addressData.shippingAddress.postalCode && !postalCodePattern.test(addressData.shippingAddress.postalCode)) {
+        alert('Shipping Address Postal Code must start with 4 digits, followed by 1-3 characters (5-7 characters total)');
+        return;
+      }
+
       const updateData = {
         ...formData,
         ...addressData
@@ -283,10 +296,10 @@ const PersonalInfo = () => {
               }}
               className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
-              pattern="^[0-9A-Z]{4}[0-9A-Z ]{1,3}$"
+              pattern="^[0-9]{4}[0-9A-Z ]{1,3}$"
               maxLength="7"
               minLength="5"
-              title="Postal code must start with 4 digits, followed by 1-3 characters (5-7 characters total)"
+              title="Postal code must start with exactly 4 digits, followed by 1-3 letters/numbers (5-7 characters total)"
             />
           </div>
         </div>
