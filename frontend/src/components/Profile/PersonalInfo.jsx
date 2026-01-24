@@ -496,7 +496,7 @@ const PersonalInfo = () => {
                         <p>{user.billingAddress.firstName} {user.billingAddress.lastName}</p>
                       )}
                       <p>{user.billingAddress.street}</p>
-                      <p>{user.billingAddress.city} {user.billingAddress.postalCode}</p>
+                      <p>{user.billingAddress.postalCode} {user.billingAddress.city}</p>
                       <p>{user.billingAddress.country}</p>
                     </>
                   ) : (
@@ -534,7 +534,7 @@ const PersonalInfo = () => {
                           <p>{user.shippingAddress.firstName} {user.shippingAddress.lastName}</p>
                       )}
                       <p>{user.shippingAddress.street}</p>
-                      <p>{user.shippingAddress.city} {user.shippingAddress.postalCode}</p>
+                      <p>{user.shippingAddress.postalCode} {user.shippingAddress.city}</p>
                       <p>{user.shippingAddress.country}</p>
                     </>
                   ) : (

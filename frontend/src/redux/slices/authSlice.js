@@ -42,7 +42,7 @@ export const loginUser = createAsyncThunk(
                 userData
             );
             // If the login works, set the user info in the local storage
-            localStorage.setItem('userInfo', JSON.stringify(response.data.user));
+            localStorage.setItem('userInfo', JSON.stringify(response.data.user || response.data.data.user));
             // save the user token for authentication purpose
             localStorage.setItem('userToken', response.data.token);
 
