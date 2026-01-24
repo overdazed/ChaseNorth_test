@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/slices/authSlice';
 import { FaEdit, FaSave, FaTimes, FaCamera, FaKey, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { countries } from '../../data/countries.jsx';
 
 const PersonalInfo = () => {
   const { user } = useSelector((state) => state.auth);
@@ -335,16 +336,11 @@ const PersonalInfo = () => {
             disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
           >
             <option value="" disabled hidden>Select a country</option>
-            <option value="Germany">Germany</option>
-            <option value="Netherlands">Netherlands</option>
-            <option value="Belgium">Belgium</option>
-            <option value="France">France</option>
-            <option value="Italy">Italy</option>
-            <option value="Spain">Spain</option>
-            <option value="United States">United States</option>
-            <option value="United Kingdom">United Kingdom</option>
-            <option value="Canada">Canada</option>
-            <option value="Australia">Australia</option>
+            {countries.map((country) => (
+              <option key={country.code} value={country.name}>
+                {country.name}
+              </option>
+            ))}
           </select>
         </div>
       </div>
