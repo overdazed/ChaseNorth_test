@@ -21,6 +21,8 @@ const PersonalInfo = () => {
 
   const [addressData, setAddressData] = useState({
     billingAddress: {
+      firstName: '',
+      lastName: '',
       street: '',
       city: '',
       postalCode: '',
@@ -49,6 +51,8 @@ const PersonalInfo = () => {
 
       setAddressData({
         billingAddress: user.billingAddress || {
+          firstName: '',
+          lastName: '',
           street: '',
           city: '',
           postalCode: '',
@@ -192,6 +196,34 @@ const PersonalInfo = () => {
 
     return (
       <div className="space-y-2">
+        {type === 'billing' && (
+          <>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">First Name</label>
+                <input
+                  type="text"
+                  name={`${prefix}.firstName`}
+                  value={address.firstName || ''}
+                  onChange={handleAddressChange}
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Last Name</label>
+                <input
+                  type="text"
+                  name={`${prefix}.lastName`}
+                  value={address.lastName || ''}
+                  onChange={handleAddressChange}
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
+                />
+              </div>
+            </div>
+          </>
+        )}
         <div>
           <label className="block text-sm font-medium mb-1">Street</label>
           <input
@@ -321,7 +353,7 @@ const PersonalInfo = () => {
           <h3 className="text-lg font-semibold text-gray-800">Personal Details</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
               {isEditing ? (
                 <input
                   type="text"
@@ -359,7 +391,7 @@ const PersonalInfo = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  placeholder="+1 (___) ___-____"
+                  placeholder="+1 "
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               ) : (
@@ -387,6 +419,9 @@ const PersonalInfo = () => {
                 <div className="space-y-2 text-gray-700">
                   {user.billingAddress?.street ? (
                     <>
+                      {user.billingAddress.firstName && (
+                        <p>{user.billingAddress.firstName} {user.billingAddress.lastName}</p>
+                      )}
                       <p>{user.billingAddress.street}</p>
                       <p>{user.billingAddress.city}, {user.billingAddress.postalCode}</p>
                       <p>{user.billingAddress.country}</p>
@@ -422,6 +457,9 @@ const PersonalInfo = () => {
                 <div className="space-y-2 text-gray-700">
                   {user.shippingAddress?.street ? (
                     <>
+                      {user.billingAddress.firstName && (
+                          <p>{user.billingAddress.firstName} {user.billingAddress.lastName}</p>
+                      )}
                       <p>{user.shippingAddress.street}</p>
                       <p>{user.shippingAddress.city}, {user.shippingAddress.postalCode}</p>
                       <p>{user.shippingAddress.country}</p>
