@@ -4,8 +4,9 @@ const PaypalButton = ({amount, onSuccess, onError}) => {
     return (
         <PayPalScriptProvider
             // for now it's hardcoded, declare a variable in .env
-            options={{"client-id":
-                    import.meta.env.VITE_PAYPAL_CLIENT_ID
+            options={{
+                "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
+                currency: "EUR"
             }}
         >
             <PayPalButtons
