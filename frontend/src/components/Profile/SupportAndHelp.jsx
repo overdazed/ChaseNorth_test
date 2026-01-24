@@ -1,37 +1,46 @@
-import { useState } from 'react';
-import { FaQuestionCircle, FaTicketAlt, FaHeadset, FaExternalLinkAlt } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { FaQuestionCircle, FaTicketAlt, FaHeadset, FaExternalLinkAlt, FaImage, FaFileAlt } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 const SupportAndHelp = () => {
-    const [tickets, setTickets] = useState([
-        {
-            id: 1,
-            title: 'Order #12345 not delivered',
-            status: 'Open',
-            date: '2023-10-15',
-            priority: 'High'
-        },
-        {
-            id: 2,
-            title: 'Payment issue with Order #12346',
-            status: 'In Progress',
-            date: '2023-10-14',
-            priority: 'Medium'
-        },
-        {
-            id: 3,
-            title: 'Product defect reported',
-            status: 'Resolved',
-            date: '2023-10-10',
-            priority: 'Low'
-        }
-    ]);
-
+    const { user } = useSelector((state) => state.auth);
+    const [reports, setReports] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [showContactForm, setShowContactForm] = useState(false);
     const [formData, setFormData] = useState({
         subject: '',
         message: '',
         priority: 'Medium'
     });
+
+    useEffect(() => {
+        const fetchUserReports = async () => {
+            if (!user || !user.email) {
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const API_URL = import.meta.env.VITE_API_URL;
+                const response = await fetch(`${API_URL}/api/reports/user/${user.email}`);
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch reports');
+                }
+
+                const data = await response.json();
+                setReports(data.reports || []);
+            } catch (err) {
+                console.error('Error fetching reports:', err);
+                setError('Failed to load your reports. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserReports();
+    }, [user]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -51,9 +60,12 @@ const SupportAndHelp = () => {
 
     const getStatusColor = (status) => {
         switch (status) {
-            case 'Open': return 'bg-red-100 text-red-800';
-            case 'In Progress': return 'bg-yellow-100 text-yellow-800';
+            case 'Submitted': return 'bg-blue-100 text-blue-800';
+            case 'In Review': return 'bg-yellow-100 text-yellow-800';
+            case 'Needs Info': return 'bg-orange-100 text-orange-800';
+            case 'Rejected': return 'bg-red-100 text-red-800';
             case 'Resolved': return 'bg-green-100 text-green-800';
+            case 'Archived': return 'bg-gray-100 text-gray-800';
             default: return 'bg-gray-100 text-gray-800';
         }
     };
@@ -65,6 +77,28 @@ const SupportAndHelp = () => {
             case 'Low': return 'bg-green-500';
             default: return 'bg-gray-500';
         }
+    };
+
+    const formatDate = (dateString) => {
+        if (!dateString) return 'N/A';
+        try {
+            return new Date(dateString).toLocaleDateString();
+        } catch {
+            return 'Invalid date';
+        }
+    };
+
+    const getFileIcon = (filename) => {
+        if (!filename) return <FaFileAlt className="text-gray-400" />;
+        
+        const extension = filename.split('.').pop().toLowerCase();
+        const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
+        
+        if (imageExtensions.includes(extension)) {
+            return <FaImage className="text-blue-500" />;
+        }
+        
+        return <FaFileAlt className="text-gray-500" />;
     };
 
     return (
@@ -128,53 +162,93 @@ const SupportAndHelp = () => {
                 </div>
             </div>
 
-            {/* Recent Support Tickets */}
+            {/* User Reports Section */}
             <div className="bg-white rounded-xl shadow-sm p-6">
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="text-lg font-semibold text-gray-800 flex items-center">
                         <FaTicketAlt className="mr-2 text-yellow-500" />
-                        Recent Support Tickets
+                        Your Reports
                     </h3>
-                    <button
-                        onClick={() => setShowContactForm(true)}
+                    <a
+                        href="/report"
                         className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center"
                     >
                         <FaTicketAlt className="mr-1" />
-                        Create New Ticket
-                    </button>
+                        Create New Report
+                    </a>
                 </div>
 
-                {tickets.length === 0 ? (
+                {loading ? (
                     <div className="text-center py-8">
-                        <p className="text-gray-500 italic">No support tickets found</p>
+                        <p className="text-gray-500 italic">Loading your reports...</p>
+                    </div>
+                ) : error ? (
+                    <div className="text-center py-8">
+                        <p className="text-red-500 italic">{error}</p>
                         <button
-                            onClick={() => setShowContactForm(true)}
+                            onClick={() => window.location.reload()}
                             className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                         >
-                            Create Your First Ticket
+                            Retry
                         </button>
+                    </div>
+                ) : reports.length === 0 ? (
+                    <div className="text-center py-8">
+                        <p className="text-gray-500 italic">No reports found</p>
+                        <a
+                            href="/report"
+                            className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                        >
+                            Create Your First Report
+                        </a>
                     </div>
                 ) : (
                     <div className="space-y-4">
-                        {tickets.map((ticket) => (
-                            <div key={ticket.id} className="border rounded-lg p-4 bg-gray-50">
+                        {reports.map((report) => (
+                            <div key={report._id} className="border rounded-lg p-4 bg-gray-50">
                                 <div className="flex justify-between items-start mb-2">
-                                    <div>
-                                        <h4 className="font-medium text-gray-900">{ticket.title}</h4>
-                                        <p className="text-sm text-gray-500 mt-1">
-                                            Ticket #{ticket.id} • {new Date(ticket.date).toLocaleDateString()}
-                                        </p>
-                                    </div>
-                                    <div className="flex items-center space-x-2">
-                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(ticket.status)}`}>
-                                            {ticket.status}
-                                        </span>
-                                        <span className={`w-2 h-2 rounded-full ${getPriorityColor(ticket.priority)}`} title={ticket.priority}></span>
+                                    <div className="flex-1">
+                                        <div className="flex items-center justify-between mb-1">
+                                            <h4 className="font-medium text-gray-900">Report #{report.referenceNumber}</h4>
+                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(report.status)}`}>
+                                                {report.status}
+                                            </span>
+                                        </div>
+                                        <p className="text-sm text-gray-600 mb-2">{report.problemType}</p>
+                                        <p className="text-sm text-gray-700 mb-3">{report.details}</p>
+                                        
+                                        <div className="flex flex-wrap gap-4 text-xs text-gray-500 mb-2">
+                                            <span>Order: {report.orderId?.orderNumber || 'N/A'}</span>
+                                            <span>Created: {formatDate(report.createdAt)}</span>
+                                            <span>Updated: {formatDate(report.updatedAt)}</span>
+                                        </div>
+                                        
+                                        {/* Attachments */}
+                                        {report.attachments && report.attachments.length > 0 && (
+                                            <div className="mt-3">
+                                                <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Attachments:</p>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {report.attachments.map((attachment, index) => (
+                                                        <div key={index} className="flex items-center bg-white border rounded px-2 py-1 text-xs">
+                                                            {getFileIcon(attachment.filename)}
+                                                            <span className="ml-1 truncate max-w-[150px]">{attachment.filename}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
-                                <div className="flex space-x-2">
-                                    <button className="text-xs text-blue-600 hover:text-blue-800">View Details</button>
-                                    <button className="text-xs text-gray-500 hover:text-gray-700">Update</button>
+                                <div className="flex space-x-2 mt-3">
+                                    <a
+                                        href={`/report/${report._id}`}
+                                        className="text-xs text-blue-600 hover:text-blue-800"
+                                    >
+                                        View Details
+                                    </a>
+                                    {report.status === 'Submitted' && (
+                                        <button className="text-xs text-gray-500 hover:text-gray-700">Edit</button>
+                                    )}
                                 </div>
                             </div>
                         ))}
