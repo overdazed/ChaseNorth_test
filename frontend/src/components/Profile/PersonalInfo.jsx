@@ -6,7 +6,7 @@ import { FaEdit, FaSave, FaTimes, FaCamera, FaKey, FaPhone, FaMapMarkerAlt } fro
 const PersonalInfo = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  
+
   const [isEditing, setIsEditing] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -46,7 +46,7 @@ const PersonalInfo = () => {
         newPassword: '',
         confirmPassword: ''
       });
-      
+
       setAddressData({
         billingAddress: user.billingAddress || {
           street: '',
@@ -75,7 +75,7 @@ const PersonalInfo = () => {
 
   const handleAddressChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
+
     if (name === 'sameAsBilling') {
       setAddressData(prev => ({
         ...prev,
@@ -86,7 +86,7 @@ const PersonalInfo = () => {
     }
 
     const [addressType, field] = name.split('.');
-    
+
     setAddressData(prev => {
       const newState = { ...prev };
       if (addressType === 'billing' || addressType === 'shipping') {
@@ -95,7 +95,7 @@ const PersonalInfo = () => {
           ...newState[addressField],
           [field]: value
         };
-        
+
         // If same as billing is checked, update shipping address too
         if (addressType === 'billing' && newState.sameAsBilling) {
           newState.shippingAddress = { ...newState.billingAddress };
@@ -125,30 +125,43 @@ const PersonalInfo = () => {
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
+
+    // Validate that new password and confirm password match
     if (formData.newPassword !== formData.confirmPassword) {
       alert("New passwords don't match");
       return;
     }
+
     if (formData.newPassword.length < 6) {
       alert("Password must be at least 6 characters long");
       return;
     }
 
     try {
-      await dispatch(updateUser({
+      // Dispatch the updateUser action with password change data
+      const resultAction = await dispatch(updateUser({
         currentPassword: formData.currentPassword,
-        password: formData.newPassword
-      })).unwrap();
-
-      setFormData(prev => ({
-        ...prev,
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: ''
+        newPassword: formData.newPassword
       }));
-      setShowPasswordForm(false);
-      alert('Password updated successfully');
+
+      // Check if the update was successful
+      if (updateUser.fulfilled.match(resultAction)) {
+        // Clear the form and show success message
+        setFormData(prev => ({
+          ...prev,
+          currentPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        }));
+        setShowPasswordForm(false);
+        alert('Password updated successfully!');
+      } else {
+        // Show error message if update failed
+        const error = resultAction.error?.message || 'Failed to update password';
+        alert(error);
+      }
     } catch (error) {
+      console.error('Password update error:', error);
       alert(error.message || 'Failed to update password');
     }
   };
@@ -160,12 +173,12 @@ const PersonalInfo = () => {
         ...formData,
         ...addressData
       };
-      
+
       // Don't send password fields in the regular update
       delete updateData.currentPassword;
       delete updateData.newPassword;
       delete updateData.confirmPassword;
-      
+
       await dispatch(updateUser(updateData)).unwrap();
       setIsEditing(false);
     } catch (error) {
@@ -176,7 +189,7 @@ const PersonalInfo = () => {
   const renderAddressForm = (type) => {
     const address = type === 'billing' ? addressData.billingAddress : addressData.shippingAddress;
     const prefix = type === 'billing' ? 'billing' : 'shipping';
-    
+
     return (
       <div className="space-y-2">
         <div>
@@ -269,9 +282,9 @@ const PersonalInfo = () => {
           <div className="relative">
             <div className="w-32 h-32 rounded-full bg-gray-200 overflow-hidden border-4 border-white shadow">
               {formData.profilePicture ? (
-                <img 
-                  src={formData.profilePicture} 
-                  alt="Profile" 
+                <img
+                  src={formData.profilePicture}
+                  alt="Profile"
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -292,11 +305,11 @@ const PersonalInfo = () => {
               </label>
             )}
           </div>
-          
+
           <div className="flex-1 w-full">
             <h3 className="text-xl font-semibold mb-2">Profile Picture</h3>
             <p className="text-sm text-gray-600">
-              {isEditing 
+              {isEditing
                 ? 'Click on the camera icon to upload a new photo. JPG, GIF or PNG. Max size 2MB.'
                 : 'Update your profile picture to personalize your account.'}
             </p>
@@ -322,7 +335,7 @@ const PersonalInfo = () => {
                 <p className="p-3 bg-gray-50 rounded-lg">{user.name}</p>
               )}
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
               <div className="p-3 bg-gray-50 rounded-lg">
@@ -363,7 +376,7 @@ const PersonalInfo = () => {
               <FaMapMarkerAlt className="text-red-500" /> Address Information
             </h3>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Billing Address */}
             <div className="border rounded-lg p-5 bg-gray-50">
@@ -384,7 +397,7 @@ const PersonalInfo = () => {
                 </div>
               )}
             </div>
-            
+
             {/* Shipping Address */}
             <div className="border rounded-lg p-5 bg-gray-50">
               <div className="flex justify-between items-center mb-4 pb-2 border-b">
@@ -402,7 +415,7 @@ const PersonalInfo = () => {
                   </label>
                 )}
               </div>
-              
+
               {isEditing ? (
                 renderAddressForm('shipping')
               ) : (
@@ -429,91 +442,89 @@ const PersonalInfo = () => {
               <FaKey className="text-yellow-500" /> Password & Security
             </h3>
             {!showPasswordForm && (
-              <button
-                onClick={() => setShowPasswordForm(true)}
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-              >
-                Change Password
-              </button>
+                <button
+                    onClick={() => setShowPasswordForm(true)}
+                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                >
+                  Change Password
+                </button>
             )}
           </div>
-          
-          {showPasswordForm && (
-            <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
-              <form onSubmit={handlePasswordChange} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
-                  <input
-                    type="password"
-                    name="currentPassword"
-                    value={formData.currentPassword}
-                    onChange={handleInputChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
-                  />
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          {showPasswordForm ? (
+              <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
+                <form onSubmit={handlePasswordChange} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
                     <input
-                      type="password"
-                      name="newPassword"
-                      value={formData.newPassword}
-                      onChange={handleInputChange}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      minLength={6}
-                      required
+                        type="password"
+                        name="currentPassword"
+                        value={formData.currentPassword}
+                        onChange={handleInputChange}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        required
                     />
                   </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
-                    <input
-                      type="password"
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleInputChange}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      minLength={6}
-                      required
-                    />
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                      <input
+                          type="password"
+                          name="newPassword"
+                          value={formData.newPassword}
+                          onChange={handleInputChange}
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          minLength={6}
+                          required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                      <input
+                          type="password"
+                          name="confirmPassword"
+                          value={formData.confirmPassword}
+                          onChange={handleInputChange}
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          minLength={6}
+                          required
+                      />
+                    </div>
                   </div>
-                </div>
-                
-                <div className="flex justify-end gap-3 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowPasswordForm(false);
-                      setFormData(prev => ({
-                        ...prev,
-                        currentPassword: '',
-                        newPassword: '',
-                        confirmPassword: ''
-                      }));
-                    }}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
-                  >
-                    Update Password
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
-          
-          {!showPasswordForm && (
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="text-sm text-gray-600">
-                Last changed: {user.lastPasswordChange ? new Date(user.lastPasswordChange).toLocaleDateString() : 'Never'}
-              </p>
-            </div>
+
+                  <div className="flex justify-end gap-3 pt-2">
+                    <button
+                        type="button"
+                        onClick={() => {
+                          setShowPasswordForm(false);
+                          setFormData(prev => ({
+                            ...prev,
+                            currentPassword: '',
+                            newPassword: '',
+                            confirmPassword: ''
+                          }));
+                        }}
+                        className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                    >
+                      Update Password
+                    </button>
+                  </div>
+                </form>
+              </div>
+          ) : (
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-sm text-gray-600">
+                  Last changed: {user.lastPasswordChange ? new Date(user.lastPasswordChange).toLocaleDateString() : 'Never'}
+                </p>
+              </div>
           )}
         </div>
       </div>

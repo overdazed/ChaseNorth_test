@@ -3,6 +3,44 @@ const crypto = require('crypto');
 const User = require('../models/User');
 const sendEmail = require('../utils/sendEmail');
 
+exports.login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        console.log('Login attempt for:', email);
+
+        // 1) Check if email and password exist
+        if (!email || !password) {
+            console.log('Missing email or password');
+            return next(new AppError('Please provide email and password!', 400));
+        }
+
+        // 2) Check if user exists
+        const user = await User.findOne({ email }).select('+password');
+        console.log('User found:', user ? 'Yes' : 'No');
+
+        if (!user) {
+            console.log('No user found with email:', email);
+            return next(new AppError('Incorrect email or password', 401));
+        }
+
+        // 3) Check if password is correct
+        const isMatch = await user.matchPassword(password);
+        console.log('Password match:', isMatch);
+
+        if (!isMatch) {
+            console.log('Incorrect password for user:', email);
+            return next(new AppError('Incorrect email or password', 401));
+        }
+
+        // 4) If everything ok, send token to client
+        console.log('Login successful for user:', email);
+        createSendToken(user, 200, res);
+    } catch (err) {
+        console.error('Login error:', err);
+        next(err);
+    }
+};
+
 // Helper function to create and send JWT token
 const createSendToken = (user, statusCode, res) => {
     // Create token

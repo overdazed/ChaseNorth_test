@@ -96,10 +96,11 @@ userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
 
     // salt = makes use of the generate salt method, that will take a number, the higher the number, more secure it will be, but it can be slower
-    const salt = await bcrypt.genSalt(10);
+    // const salt = await bcrypt.genSalt(10);
 
     // update the password with the hash value that get's generated using the salt value
-    this.password = await bcrypt.hash(this.password, salt);
+    // this.password = await bcrypt.hash(this.password, salt);
+    this.password = await bcrypt.hash(this.password, 12);
     // after this runs, ensure you specify the next middleware, so it will go ahead with the rest of the operations
     next();
 })
@@ -107,10 +108,18 @@ userSchema.pre('save', async function (next) {
 // Now that we are hashing the password, we'll also require a method that will compare the plain text password that the user enters during the login
 // and compare it with the hashed password stored in our database
 
-userSchema.methods.matchPassword = async function (enteredPassword) {
-    // returns a boolean value by using the compare function available in bcrypt library
-    return await bcrypt.compare(enteredPassword, this.password);
-}
+userSchema.methods.matchPassword = async function(enteredPassword) {
+    try {
+        console.log('Entered password length:', enteredPassword ? enteredPassword.length : 0);
+        console.log('Stored password hash:', this.password ? 'exists' : 'missing');
+        const isMatch = await bcrypt.compare(enteredPassword, this.password);
+        console.log('Password match result:', isMatch);
+        return isMatch;
+    } catch (err) {
+        console.error('Error in matchPassword:', err);
+        return false;
+    }
+};
 
 userSchema.methods.createPasswordResetToken = function() {
     const resetToken = crypto.randomBytes(32).toString('hex');

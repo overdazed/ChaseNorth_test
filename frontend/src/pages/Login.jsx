@@ -81,29 +81,47 @@ const Login = () => {
     // prevent full page reload
     // for backend
 
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     setError(""); // Clear previous errors
+    //
+    //     if (!email || !password) {
+    //         setError("Please enter both email and password");
+    //         return;
+    //     }
+    //
+    //     setIsLoggingIn(true);
+    //
+    //     try {
+    //         await dispatch(loginUser({
+    //             email: email.trim().toLowerCase(),
+    //             password
+    //         })).unwrap();
+    //     } catch (error) {
+    //         console.error('Login error:', error);
+    //         setError("Invalid e-mail or password! Try again.");
+    //     } finally {
+    //         setIsLoggingIn(false);
+    //     }
+    // }
+
+    // In Login.jsx
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(""); // Clear previous errors
-
-        if (!email || !password) {
-            setError("Please enter both email and password");
-            return;
-        }
-
-        setIsLoggingIn(true);
-
         try {
-            await dispatch(loginUser({
-                email: email.trim().toLowerCase(),
-                password
-            })).unwrap();
-        } catch (error) {
-            console.error('Login error:', error);
-            setError("Invalid e-mail or password! Try again.");
-        } finally {
-            setIsLoggingIn(false);
+            const resultAction = await dispatch(loginUser({ email, password }));
+            if (loginUser.fulfilled.match(resultAction)) {
+                navigate('/');
+            } else {
+                const error = resultAction.error?.message || 'Login failed';
+                console.error('Login error:', error);
+                setError(error);
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            setError(err.message || 'Login failed');
         }
-    }
+    };
 
     return (
         <LoginContainer>
