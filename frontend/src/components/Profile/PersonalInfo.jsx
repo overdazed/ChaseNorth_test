@@ -283,9 +283,10 @@ const PersonalInfo = () => {
               }}
               className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
-              pattern="^[0-9A-Z]{4}.*$"
+              pattern="^[0-9A-Z]{4}[0-9A-Z ]{1,3}$"
               maxLength="7"
-              title="Postal code must start with 4 digits (numbers and uppercase letters only)"
+              minLength="5"
+              title="Postal code must start with 4 digits, followed by 1-3 characters (5-7 characters total)"
             />
           </div>
         </div>
