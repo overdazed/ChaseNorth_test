@@ -1,6 +1,7 @@
 import MyOrdersPage from "./MyOrdersPage"
 import PersonalInfo from "../components/Profile/PersonalInfo"
-import { FaSignOutAlt, FaUser, FaShoppingBag } from "react-icons/fa"
+import SupportAndHelp from "../components/Profile/SupportAndHelp"
+import { FaSignOutAlt, FaUser, FaShoppingBag, FaQuestionCircle } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -58,7 +59,8 @@ const Profile = () => {
     // Tab configuration
     const tabs = [
         { id: 'orders', label: 'My Orders', icon: <FaShoppingBag className="mr-2" /> },
-        { id: 'personal', label: 'Personal Information', icon: <FaUser className="mr-2" /> }
+        { id: 'personal', label: 'Personal Information', icon: <FaUser className="mr-2" /> },
+        { id: 'support', label: 'Support & Help', icon: <FaUser className="mr-2" /> }
     ]
 
     return (
@@ -87,13 +89,24 @@ const Profile = () => {
                         <button
                             onClick={() => setActiveTab('personal')}
                             className={`w-full mt-4 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
-                                activeTab === 'personal' 
-                                    ? 'bg-blue-600 text-white' 
+                                activeTab === 'personal'
+                                    ? 'bg-blue-600 text-white'
                                     : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
                             }`}
                         >
                             <FaUser />
                             Personal Information
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('support')}
+                            className={`w-full mt-4 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
+                                activeTab === 'support'
+                                    ? 'bg-blue-600 text-white'
+                                    : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
+                            }`}
+                        >
+                            <FaQuestionCircle />
+                            Support & Help
                         </button>
                     </div>
                     
@@ -120,13 +133,15 @@ const Profile = () => {
                         </div>
                         
                         {/* Tab Content */}
-                        <div className="p-6">
-                            {activeTab === 'orders' ? (
-                                <MyOrdersPage />
-                            ) : (
-                                <PersonalInfo />
-                            )}
-                        </div>
+                       <div className="p-6">
+                           {activeTab === 'orders' ? (
+                               <MyOrdersPage />
+                           ) : activeTab === 'personal' ? (
+                               <PersonalInfo />
+                           ) : (
+                               <SupportAndHelp />
+                           )}
+                       </div>
                     </div>
                 </div>
             </div>
