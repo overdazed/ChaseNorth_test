@@ -115,25 +115,108 @@ exports.resetPassword = async (req, res, next) => {
             .digest('hex');
 
         const user = await User.findOne({
-            resetPasswordToken: hashedToken,
-            resetPasswordExpire: { $gt: Date.now() }
+            passwordResetToken: hashedToken,
+            passwordResetExpires: { $gt: Date.now() }
         });
 
         // 2) If token has not expired, and there is user, set the new password
         if (!user) {
-            return next(new Error('Token is invalid or has expired'));
+            return res.status(400).json({
+                status: 'error',
+                message: 'Token is invalid or has expired'
+            });
         }
 
-        // 3) Update changedPasswordAt property for the user
+        // 3) Update password and reset token fields
         user.password = req.body.password;
-        user.passwordConfirm = req.body.passwordConfirm;
-        user.resetPasswordToken = undefined;
-        user.resetPasswordExpire = undefined;
+        user.passwordResetToken = undefined;
+        user.passwordResetExpires = undefined;
         await user.save();
 
         // 4) Log the user in, send JWT
         createSendToken(user, 200, res);
     } catch (err) {
-        next(err);
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        });
+    }
+};
+
+// @desc    Update user profile
+// @route   PATCH /api/users/update-profile
+// @access  Private
+exports.updateProfile = async (req, res, next) => {
+    try {
+        // 1) Create error if user POSTs password data
+        if (req.body.password || req.body.passwordConfirm) {
+            return res.status(400).json({
+                status: 'error',
+                message: 'This route is not for password updates. Please use /update-password.'
+            });
+        }
+
+        // 2) Filtered out unwanted fields that are not allowed to be updated
+        const filteredBody = {};
+        const allowedFields = ['name', 'email', 'phone', 'profilePicture', 'billingAddress', 'shippingAddress'];
+        
+        Object.keys(req.body).forEach(el => {
+            if (allowedFields.includes(el)) {
+                filteredBody[el] = req.body[el];
+            }
+        });
+
+        // 3) Update user document
+        const updatedUser = await User.findByIdAndUpdate(
+            req.user.id,
+            filteredBody,
+            {
+                new: true,
+                runValidators: true
+            }
+        );
+
+        // 4) Send response
+        res.status(200).json({
+            status: 'success',
+            data: {
+                user: updatedUser
+            }
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: 'error',
+            message: err.message
+        });
+    }
+};
+
+// @desc    Update user password
+// @route   PATCH /api/users/update-password
+// @access  Private
+exports.updatePassword = async (req, res, next) => {
+    try {
+        // 1) Get user from collection
+        const user = await User.findById(req.user.id).select('+password');
+
+        // 2) Check if POSTed current password is correct
+        if (!(await user.matchPassword(req.body.currentPassword))) {
+            return res.status(401).json({
+                status: 'error',
+                message: 'Your current password is wrong.'
+            });
+        }
+
+        // 3) If so, update password
+        user.password = req.body.newPassword;
+        await user.save();
+
+        // 4) Log user in, send JWT
+        createSendToken(user, 200, res);
+    } catch (err) {
+        res.status(400).json({
+            status: 'error',
+            message: err.message
+        });
     }
 };

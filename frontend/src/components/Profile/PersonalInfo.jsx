@@ -125,30 +125,43 @@ const PersonalInfo = () => {
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
+
+    // Validate that new password and confirm password match
     if (formData.newPassword !== formData.confirmPassword) {
       alert("New passwords don't match");
       return;
     }
+
     if (formData.newPassword.length < 6) {
       alert("Password must be at least 6 characters long");
       return;
     }
-    
+
     try {
-      await dispatch(updateUser({
+      // Dispatch the updateUser action with password change data
+      const resultAction = await dispatch(updateUser({
         currentPassword: formData.currentPassword,
-        password: formData.newPassword
-      })).unwrap();
-      
-      setFormData(prev => ({
-        ...prev,
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: ''
+        newPassword: formData.newPassword
       }));
-      setShowPasswordForm(false);
-      alert('Password updated successfully');
+
+      // Check if the update was successful
+      if (updateUser.fulfilled.match(resultAction)) {
+        // Clear the form and show success message
+        setFormData(prev => ({
+          ...prev,
+          currentPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        }));
+        setShowPasswordForm(false);
+        alert('Password updated successfully!');
+      } else {
+        // Show error message if update failed
+        const error = resultAction.error?.message || 'Failed to update password';
+        alert(error);
+      }
     } catch (error) {
+      console.error('Password update error:', error);
       alert(error.message || 'Failed to update password');
     }
   };

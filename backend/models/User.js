@@ -5,6 +5,25 @@ const jwt = require('jsonwebtoken');
 
 // define the user schema
 // new mongoose.Schema() will help us define the structure, types and validation rules for the entries in our database
+const addressSchema = new mongoose.Schema({
+    street: {
+        type: String,
+        trim: true
+    },
+    city: {
+        type: String,
+        trim: true
+    },
+    postalCode: {
+        type: String,
+        trim: true
+    },
+    country: {
+        type: String,
+        trim: true
+    }
+}, { _id: false });
+
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -16,25 +35,39 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
         trim: true,
+        lowercase: true,
         match: [/.+@.+\..+/, 'Please fill a valid email address']
     },
     password: {
         type: String,
         required: true,
         minlength: 6,
+        select: false
+    },
+    phone: {
+        type: String,
+        trim: true
+    },
+    profilePicture: {
+        type: String,
+        default: ''
     },
     role: {
         type: String,
         enum: ['customer', 'admin'],
         default: 'customer'
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    billingAddress: {
+        type: addressSchema,
+        default: {}
     },
-    updatedAt: {
-        type: Date,
-        default: Date.now
+    shippingAddress: {
+        type: addressSchema,
+        default: {}
+    },
+    sameAsBilling: {
+        type: Boolean,
+        default: true
     },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
@@ -42,6 +75,14 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product'
     }],
+    lastPasswordChange: {
+        type: Date
+    },
+    active: {
+        type: Boolean,
+        default: true,
+        select: false
+    }
 },
     { timestamps: true }
 );

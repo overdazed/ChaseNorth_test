@@ -187,12 +187,29 @@ export const resetPassword = createAsyncThunk(
 // Async thunk for updating user profile
 export const updateUser = createAsyncThunk(
     'auth/updateUser',
-    async (userData, { rejectWithValue }) => {
+    async (userData, { rejectWithValue, getState }) => {
         try {
             const token = getAuthToken();
+            const isPasswordUpdate = userData.currentPassword && userData.newPassword;
+            
+            let endpoint = '/update-profile';
+            let data = { ...userData };
+            
+            if (isPasswordUpdate) {
+                endpoint = '/update-password';
+                data = {
+                    currentPassword: userData.currentPassword,
+                    newPassword: userData.newPassword
+                };
+            } else {
+                // Remove password fields from profile update
+                const { currentPassword, newPassword, confirmPassword, ...profileData } = userData;
+                data = profileData;
+            }
+
             const response = await axios.patch(
-                `${import.meta.env.VITE_BACKEND_URL}/api/users/updateMe`,
-                userData,
+                `${import.meta.env.VITE_BACKEND_URL}/api/users${endpoint}`,
+                data,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -200,15 +217,22 @@ export const updateUser = createAsyncThunk(
                     }
                 }
             );
+
+            // For password updates, we get a token back, for profile updates we get the user object
+            const updatedUser = response.data.data?.user || response.data.user || getState().auth.user;
             
-            // Update user info in localStorage
-            const currentUser = JSON.parse(localStorage.getItem('userInfo'));
-            const updatedUser = { ...currentUser, ...response.data.user };
-            localStorage.setItem('userInfo', JSON.stringify(updatedUser));
-            
+            // Update local storage if it's a profile update
+            if (!isPasswordUpdate) {
+                const currentUser = JSON.parse(localStorage.getItem('userInfo') || '{}');
+                const updatedUserInfo = { ...currentUser, ...updatedUser };
+                localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));
+            }
+
             return updatedUser;
         } catch (error) {
-            return rejectWithValue(error.response?.data?.message || 'Failed to update profile');
+            return rejectWithValue(
+                error.response?.data?.message || 'Failed to update profile'
+            );
         }
     }
 );

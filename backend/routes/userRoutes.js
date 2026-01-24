@@ -152,6 +152,10 @@ router.get("/profile", protect, async (req, res) => {
 router.post('/forgot-password', authController.forgotPassword);
 router.patch('/reset-password/:token', authController.resetPassword);
 
+// Update user profile and password routes (protected)
+router.patch('/update-profile', protect, authController.updateProfile);
+router.patch('/update-password', protect, authController.updatePassword);
+
 module.exports = router;
 
 // open server.js file

@@ -58,6 +58,30 @@ const Checkout = () => {
         phone: "",
     });
 
+    // Prefill shipping address from user profile if available
+    useEffect(() => {
+        if (user) {
+            // Split the name into first and last name
+            const nameParts = user.name ? user.name.trim().split(' ') : [];
+            const firstName = nameParts[0] || '';
+            const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+            
+            // Get shipping address from user profile
+            const userShippingAddress = user.shippingAddress || {};
+            
+            setShippingAddress(prev => ({
+                ...prev,
+                firstName: firstName,
+                lastName: lastName || prev.lastName,
+                address: userShippingAddress.street || '',
+                city: userShippingAddress.city || '',
+                postalCode: userShippingAddress.postalCode || '',
+                country: userShippingAddress.country || '',
+                phone: user.phone || ''
+            }));
+        }
+    }, [user]);
+
     useEffect(() => {
         if (!cart || !cart.products || cart.products.length === 0) {
             navigate("/");
