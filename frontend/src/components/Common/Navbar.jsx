@@ -381,9 +381,17 @@ const Navbar = ({ transparent = false }) => {
                                 </Link>
                             )}
 
-                            <Link to="/profile" className="">
+                            <Link to="/profile" className="relative">
                                 {user ? (
-                                    <AiOutlineUser className="h-6 w-6 text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"/>
+                                    user.profilePicture ? (
+                                        <img
+                                            src={user.profilePicture}
+                                            alt="Profile"
+                                            className="h-6 w-6 rounded-full object-cover text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"
+                                        />
+                                    ) : (
+                                        <AiOutlineUser className="h-6 w-6 text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"/>
+                                    )
                                 ) : (
                                     <HiArrowLeftEndOnRectangle className="h-6 w-6 text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"/>
                                 )}

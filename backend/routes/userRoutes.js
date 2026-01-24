@@ -85,7 +85,7 @@ router.post('/login', async (req, res) => {
     try {
         // Find the user by email (case-insensitive)
         const emailLower = email.toLowerCase();
-        let user = await User.findOne({ email: { $regex: new RegExp(`^${emailLower}$`, 'i') } });
+        let user = await User.findOne({ email: { $regex: new RegExp(`^${emailLower}$`, 'i') } }).select('+password');
 
         if (!user) return res.status(400).json({message: "Invalid credentials"});
         // We need to match the password
