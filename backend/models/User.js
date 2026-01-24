@@ -6,6 +6,14 @@ const jwt = require('jsonwebtoken');
 // define the user schema
 // new mongoose.Schema() will help us define the structure, types and validation rules for the entries in our database
 const addressSchema = new mongoose.Schema({
+    firstName: {
+        type: String,
+        trim: true
+    },
+    lastName: {
+        type: String,
+        trim: true
+    },
     street: {
         type: String,
         trim: true

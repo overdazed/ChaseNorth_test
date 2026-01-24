@@ -61,14 +61,15 @@ const Checkout = () => {
     // Prefill shipping address from user profile if available
     useEffect(() => {
         if (user) {
-            // Split the name into first and last name
-            const nameParts = user.name ? user.name.trim().split(' ') : [];
-            const firstName = nameParts[0] || '';
-            const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
-            
             // Get shipping address from user profile
             const userShippingAddress = user.shippingAddress || {};
-            
+             
+            // Use firstName and lastName from shipping address if available, otherwise split name
+            const firstName = userShippingAddress.firstName || (user.name ? user.name.trim().split(' ')[0] : '');
+            const lastName = userShippingAddress.lastName || (user.name && user.name.trim().split(' ').length > 1
+                ? user.name.trim().split(' ').slice(1).join(' ')
+                : '');
+             
             setShippingAddress(prev => ({
                 ...prev,
                 firstName: firstName,

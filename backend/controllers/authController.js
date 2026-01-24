@@ -196,7 +196,7 @@ exports.updateProfile = async (req, res, next) => {
 
         // 2) Filtered out unwanted fields that are not allowed to be updated
         const filteredBody = {};
-        const allowedFields = ['name', 'email', 'phone', 'profilePicture', 'billingAddress', 'shippingAddress'];
+        const allowedFields = ['name', 'email', 'phone', 'profilePicture', 'billingAddress', 'shippingAddress', 'sameAsBilling'];
         
         Object.keys(req.body).forEach(el => {
             if (allowedFields.includes(el)) {
