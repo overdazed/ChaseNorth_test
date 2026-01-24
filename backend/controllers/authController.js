@@ -202,7 +202,54 @@ exports.updateProfile = async (req, res, next) => {
             }
         });
 
-        // 3) Update user document
+        // 3) Handle profile picture upload to Supabase
+        if (filteredBody.profilePicture) {
+            const supabase = require('../config/supabase');
+            if (supabase) {
+                try {
+                    // Create the bucket if it doesn't exist
+                    const { data: buckets, error: listError } = await supabase
+                        .storage
+                        .listBuckets();
+
+                    if (!listError && !buckets.find(bucket => bucket.name === 'profile-pictures')) {
+                        const { error: createError } = await supabase
+                            .storage
+                            .createBucket('profile-pictures', { public: true });
+
+                        if (createError) {
+                            console.error('Error creating bucket:', createError);
+                        }
+                    }
+
+                    // Upload the profile picture to Supabase Storage
+                    const fileName = `profile-pictures/${req.user.id}-${Date.now()}.jpg`;
+                    const { data, error } = await supabase
+                        .storage
+                        .from('profile-pictures')
+                        .upload(fileName, Buffer.from(filteredBody.profilePicture.split(',')[1], 'base64'), {
+                            contentType: 'image/jpeg'
+                        });
+
+                    if (error) {
+                        console.error('Supabase upload error:', error);
+                    } else {
+                        // Get the public URL of the uploaded file
+                        const { data: publicUrlData } = supabase
+                            .storage
+                            .from('profile-pictures')
+                            .getPublicUrl(fileName);
+
+                        // Update the profile picture URL in the filtered body
+                        filteredBody.profilePicture = publicUrlData.publicUrl;
+                    }
+                } catch (error) {
+                    console.error('Error handling profile picture upload:', error);
+                }
+            }
+        }
+
+        // 4) Update user document
         const updatedUser = await User.findByIdAndUpdate(
             req.user.id,
             filteredBody,
@@ -212,7 +259,7 @@ exports.updateProfile = async (req, res, next) => {
             }
         );
 
-        // 4) Send response
+        // 5) Send response
         res.status(200).json({
             status: 'success',
             data: {
