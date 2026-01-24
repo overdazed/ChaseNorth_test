@@ -228,7 +228,6 @@ exports.updateProfile = async (req, res, next) => {
                         .storage
                         .from('profile-pictures')
                         .remove([oldFileName]);
-
                     if (deleteError) {
                         console.error('Error deleting old profile picture:', deleteError);
                     }
