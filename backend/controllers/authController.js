@@ -222,34 +222,25 @@ exports.updateProfile = async (req, res, next) => {
                         }
                     }
 
-                    // Delete old profile pictures for this user
-                    const { data: files, error: listFilesError } = await supabase
+                    // Delete old profile picture for this user
+                    const oldFileName = `profile-pictures/${req.user.id}.jpg`;
+                    const { error: deleteError } = await supabase
                         .storage
                         .from('profile-pictures')
-                        .list('', {
-                            search: `${req.user.id}-`
-                        });
+                        .remove([oldFileName]);
 
-                    if (!listFilesError && files.length > 0) {
-                        for (const file of files) {
-                            const { error: deleteError } = await supabase
-                                .storage
-                                .from('profile-pictures')
-                                .remove([file.name]);
-
-                            if (deleteError) {
-                                console.error('Error deleting old profile picture:', deleteError);
-                            }
-                        }
+                    if (deleteError) {
+                        console.error('Error deleting old profile picture:', deleteError);
                     }
 
                     // Upload the profile picture to Supabase Storage
-                    const fileName = `profile-pictures/${req.user.id}-${Date.now()}.jpg`;
+                    const fileName = `profile-pictures/${req.user.id}.jpg`;
                     const { data, error } = await supabase
                         .storage
                         .from('profile-pictures')
                         .upload(fileName, Buffer.from(filteredBody.profilePicture.split(',')[1], 'base64'), {
-                            contentType: 'image/jpeg'
+                            contentType: 'image/jpeg',
+                            upsert: true
                         });
 
                     if (error) {
