@@ -67,9 +67,16 @@ const Profile = () => {
                 <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
                     {/* Left Section*/}
                     <div className={`w-full md:w-1/3 lg:1/4 shadow-md border-r border-l rounded-lg p-6 ${bgClass} ${borderClass}`}>
-                        <h1 className={`text-2xl md:text-3xl font-bold mb-4 ${textClass}`}>
-                            {user?.name}
-                        </h1>
+                        <div className="flex items-center mb-4">
+                            <img
+                                src={user?.profilePicture || "https://via.placeholder.com/150"}
+                                alt="Profile"
+                                className="w-16 h-16 rounded-full mr-4"
+                            />
+                            <h1 className={`text-2xl md:text-3xl font-bold ${textClass}`}>
+                                {user?.name}
+                            </h1>
+                        </div>
                         <p className="text-lg text-neutral-600 mb-4">{user?.email}</p>
                         <button
                             onClick={handleLogout}
