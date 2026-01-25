@@ -32,12 +32,15 @@ const SupportAndHelp = () => {
                 const data = await response.json();
                 console.log('Fetched reports:', data);
                 
-                // The API returns the reports array directly in the response
+                // The API returns the reports array in the response
                 if (data.success && Array.isArray(data.reports)) {
                     setReports(data.reports);
                 } else if (Array.isArray(data)) {
                     // Fallback in case the response is just the array directly
                     setReports(data);
+                } else if (data.success === false) {
+                    console.warn('API returned success: false:', data);
+                    setReports([]);
                 } else {
                     console.warn('Unexpected API response format:', data);
                     setReports([]);
