@@ -56,22 +56,23 @@ app.use((req, res, next) => {
 // Import routes (combining both files)
 const reviewRoutes = require('./routes/productReviews');
 const productRoutes = require('./routes/productRoutes');
-import userRoutes from './routes/userRoutes.js';
-import productRoutes from './routes/productRoutes.js';
-import supportRoutes from './routes/supportRoutes.js';
+const userRoutes = require('./routes/userRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const checkoutRoutes = require('./routes/checkoutRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const subscribeRoute = require('./routes/subscribeRoute');
 const adminRoutes = require('./routes/adminRoutes');
-const orderRoutes = require('./routes/orderRoutes');
 const invoiceRoutes = require('./routes/invoiceRoutes');
+const productAdminRoutes = require('./routes/productAdminRoutes');
+const adminOrderRoutes = require('./routes/adminOrderRoutes');
 const newsletterRoutes = require('./routes/newsletterRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const bugReportRoutes = require('./routes/bugReportRoutes');
 const initializeCounters = require('./initializeCounter');
 const adminReportRoutes = require('./routes/adminReportRoutes');
 const wishlistRoutes = require('./routes/wishlistRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 
 // Test route from minimal.js
 app.get('/api/test', (req, res) => {
@@ -90,8 +91,6 @@ app.get("/", (req, res) => {
 app.use('/api/product-reviews', reviewRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/support', supportRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/checkout', checkoutRoutes);
@@ -100,6 +99,7 @@ app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/bug-report', bugReportRoutes);
 app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Additional routes (commented out for now - enable one by one as needed)
 app.use('/api/upload', uploadRoutes);
