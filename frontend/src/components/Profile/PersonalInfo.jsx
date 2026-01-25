@@ -11,18 +11,18 @@ const scrollbarStyles = `
     height: 6px;
   }
   .country-scrollbar::-webkit-scrollbar-track {
-    background-color: #f3f4f6;
-    border-radius: 3px;
+    background-color: #404040;
+    border-radius: 1px;
   }
   .country-scrollbar::-webkit-scrollbar-thumb {
     background-color: #d1d5db;
-    border-radius: 3px;
+    border-radius: 1px;
   }
   .dark .country-scrollbar::-webkit-scrollbar-track {
-    background-color: #161616;
+    background-color: #202020;
   }
   .dark .country-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #4b5563;
+    background-color: #404040;
   }
 `;
 
@@ -546,7 +546,7 @@ const PersonalInfo = () => {
             </div>
 
             {/* Shipping Address */}
-            <div className="rounded-lg p-5 bg-neutral-50 dark:bg-neutral-800">
+            <div className="rounded-lg p-5 bg-neutral-50 dark:bg-neutral-900">
               <div className="flex justify-between items-center mb-4 pb-2 border-b dark:border-neutral-700">
                 <h4 className="font-medium text-neutral-900 dark:text-neutral-50 ">Shipping Address</h4>
                 {isEditing && (
