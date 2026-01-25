@@ -427,15 +427,15 @@ const PersonalInfo = () => {
         {!isEditing ? (
           <button
             onClick={() => setIsEditing(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors"
+            className="flex items-center font-medium gap-2 px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors"
           >
-            <FaEdit className="text-sm font-medium text-white" /> Edit Profile
+            <FaEdit className="text-sm" /> Edit Profile
           </button>
         ) : (
           <div className="flex gap-2">
             <button
               onClick={handleSubmit}
-              className="flex items-center gap-2 px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-full hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
+              className="flex items-center font-medium gap-2 px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-full hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
             >
               <FaSave className="text-sm" /> Save Changes
             </button>
@@ -444,7 +444,7 @@ const PersonalInfo = () => {
                 setIsEditing(false);
                 setShowPasswordForm(false);
               }}
-              className="flex items-center gap-2 px-4 py-2 bg-neutral-100 text-gray-800 rounded-full hover:bg-gray-300 transition-colors"
+              className="flex items-center font-medium gap-2 px-4 py-2 bg-neutral-200 dark:bg-neutral-100 dark:bg-neutral-100 text-neutral-800 rounded-full hover:bg-neutral-300 transition-colors"
             >
               <FaTimes className="text-sm" /> Cancel
             </button>
@@ -688,15 +688,15 @@ const PersonalInfo = () => {
                             confirmPassword: ''
                           }));
                         }}
-                        className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-full hover:bg-gray-50"
+                        className="flex items-center font-medium gap-2 px-4 py-2 bg-neutral-200 dark:bg-neutral-100 text-neutral-800 rounded-full hover:bg-neutral-300 transition-colors"
                     >
-                      Cancel
+                      <FaTimes className="text-sm" /> Cancel
                     </button>
                     <button
                         type="submit"
-                        className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-full hover:bg-indigo-700"
+                        className="flex items-center font-medium gap-2 px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors"
                     >
-                      Update Password
+                      <FaEdit className="text-sm" /> Update Password
                     </button>
                   </div>
                 </form>
