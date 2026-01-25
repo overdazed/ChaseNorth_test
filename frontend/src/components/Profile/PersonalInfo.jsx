@@ -4,6 +4,7 @@ import { updateUser, logout, updateEmailVerification } from '../../redux/slices/
 import { FaEdit, FaSave, FaTimes, FaCamera, FaKey, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import { FaMapLocationDot } from "react-icons/fa6";
 import { IoMailOutline } from "react-icons/io5";
+import { AiOutlineUser } from "react-icons/ai";
 import { countries } from '../../data/countries.jsx';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:9000';
@@ -698,7 +699,7 @@ const PersonalInfo = () => {
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-400">
-                  <span className="text-4xl">{user.name?.charAt(0).toUpperCase()}</span>
+                  <AiOutlineUser className="text-4xl" />
                 </div>
               )}
             </div>
