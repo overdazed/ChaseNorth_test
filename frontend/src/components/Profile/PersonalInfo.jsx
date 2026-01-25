@@ -4,12 +4,45 @@ import { updateUser } from '../../redux/slices/authSlice';
 import { FaEdit, FaSave, FaTimes, FaCamera, FaKey, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import { countries } from '../../data/countries.jsx';
 
+// Custom scrollbar styles
+const scrollbarStyles = `
+  .country-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .country-scrollbar::-webkit-scrollbar-track {
+    background-color: #f3f4f6;
+    border-radius: 3px;
+  }
+  .country-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #d1d5db;
+    border-radius: 3px;
+  }
+  .dark .country-scrollbar::-webkit-scrollbar-track {
+    background-color: #161616;
+  }
+  .dark .country-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #4b5563;
+  }
+`;
+
 const PersonalInfo = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const [isEditing, setIsEditing] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
+  // Add scrollbar styles to head
+  useEffect(() => {
+    const styleElement = document.createElement('style');
+    styleElement.textContent = scrollbarStyles;
+    document.head.appendChild(styleElement);
+    
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -237,7 +270,7 @@ const PersonalInfo = () => {
                 const capitalized = value.charAt(0).toUpperCase() + value.slice(1);
                 handleAddressChange({ target: { name: e.target.name, value: capitalized } });
               }}
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-"
+              className="w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-blue-500 focus:border-transparent dark:bg-neutral-800"
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
               pattern="[A-Za-z\s]+"
               title="Please enter a valid name"
@@ -254,7 +287,7 @@ const PersonalInfo = () => {
                 const capitalized = value.charAt(0).toUpperCase() + value.slice(1);
                 handleAddressChange({ target: { name: e.target.name, value: capitalized } });
               }}
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-blue-500 focus:border-transparent dark:bg-neutral-800"
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
               pattern="[A-Za-z\s]+"
               title="Please enter a valid last name"
@@ -272,7 +305,7 @@ const PersonalInfo = () => {
                 const capitalized = value.charAt(0).toUpperCase() + value.slice(1);
                 handleAddressChange({ target: { name: e.target.name, value: capitalized } });
               }}
-            className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-blue-500 focus:border-transparent dark:bg-neutral-800"
             disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
             pattern="^[A-Za-zßüöäÜÖÄ.\s]+\s\d+.*$"
             title="Address must include a street name followed by a space and number"
@@ -290,7 +323,7 @@ const PersonalInfo = () => {
                 const capitalized = value.charAt(0).toUpperCase() + value.slice(1);
                 handleAddressChange({ target: { name: e.target.name, value: capitalized } });
               }}
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-blue-500 focus:border-transparent dark:bg-neutral-800"
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
               pattern="^[A-Za-z\s]+" // only allows letters
               title="City name must contain only letters"
@@ -319,7 +352,7 @@ const PersonalInfo = () => {
                   handleAddressChange({ target: { name: e.target.name, value: limitedValue } });
                 }
               }}
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-blue-500 focus:border-transparent dark:bg-neutral-800"
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
               pattern="^[0-9]{4}[0-9A-Z ]{1,3}$"
               maxLength="7"
@@ -337,7 +370,8 @@ const PersonalInfo = () => {
             name={`${prefix}.country`}
             value={address.country || ''}
             onChange={handleAddressChange}
-            className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-blue-500 focus:border-transparent dark:bg-neutral-800 country-scrollbar"
+            style={{ scrollbarWidth: 'thin' }}
             disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
           >
             <option value="" disabled hidden>Select a country</option>
@@ -489,7 +523,7 @@ const PersonalInfo = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Billing Address */}
-            <div className="rounded-lg p-5 bg-neutral-50 dark:bg-neutral-800">
+            <div className="rounded-lg p-5 bg-neutral-50 dark:bg-neutral-900">
               <h4 className="font-medium text-neutral-900 dark:text-neutral-50 mb-4 pb-2 border-b dark:border-neutral-700">Billing Address</h4>
               {isEditing ? (
                 renderAddressForm('billing')
