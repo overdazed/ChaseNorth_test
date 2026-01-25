@@ -223,12 +223,48 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
         },
         {
             question: 'How do I contact customer support?',
-            answer: 'You can contact our support team through the "Contact Us" form above, by emailing support@chasenorth.com.',
+            answer: (
+                <span>
+                    You can contact our support team through the{' '}
+                    <button 
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setShowContactForm(true);
+                        }}
+                        className="text-blue-600 hover:underline dark:text-blue-400"
+                    >
+                        Contact Us
+                    </button>{' '}
+                    form above or by emailing{' '}
+                    <a 
+                        href="mailto:support@chasenorth.com" 
+                        className="text-blue-600 hover:underline dark:text-blue-400"
+                    >
+                        support@chasenorth.com
+                    </a>{' '}
+                    directly.
+                </span>
+            ),
             additionalInfo: 'Average response time is within 24-48 hours on business days.'
         },
         {
             question: 'What payment methods do you accept?',
-            answer: 'We accept all major credit cards (Visa, Mastercard, American Express, Discover), PayPal, and Apple Pay.',
+            answer: (
+                <span>
+                    Please see our{' '}
+                    <a 
+                        href="/payments" 
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate('/payments');
+                        }}
+                        className="text-blue-600 hover:underline dark:text-blue-400"
+                    >
+                        Payments
+                    </a>{' '}
+                    page. We accept all major credit cards (Visa, Mastercard, American Express, Discover), PayPal, and Apple Pay.
+                </span>
+            ),
             additionalInfo: 'All transactions are secure and encrypted.'
         },
         {
