@@ -73,14 +73,8 @@ const UserReports = () => {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold">Your Reports</h2>
-                <button
-                    onClick={() => navigate('/report')}
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
-                >
-                    New Report
-                </button>
+            <div className="mb-6">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Your Reports</h2>
             </div>
 
             {reports.length === 0 ? (

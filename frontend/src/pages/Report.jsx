@@ -40,7 +40,7 @@ const Report = () => {
         console.error('No order ID found');
         return;
       }
-      
+
       try {
         const response = await fetch(`${API_URL}/api/orders/${location.state.orderId}`);
         console.log('Order API response status:', response.status);
@@ -89,7 +89,7 @@ const Report = () => {
       setValue('email', user.email);
     }
   }, [user, setValue]);
-  
+
   const problemType = watch('problemType');
 
   // Get order details from location state or query params
@@ -172,18 +172,26 @@ const Report = () => {
     formData.append('email', data.email);
 
     // Add files if any
-    selectedFiles.forEach((fileObj, index) => {
+    selectedFiles.forEach((fileObj) => {
       formData.append('attachments', fileObj.file);
     });
 
     try {
+      const token = localStorage.getItem('token');
+      const headers = {};
+
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
       const response = await fetch(`${API_URL}/api/reports`, {
         method: 'POST',
+        headers,
+        credentials: 'include',
         body: formData,
-        // No Authorization header needed
       });
 
-      // First check if the response is JSON
+      // Check if response is JSON
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
         const text = await response.text();
@@ -202,7 +210,7 @@ const Report = () => {
 
       navigate('/report/confirmation', {
         state: {
-          referenceNumber: responseData.data?.referenceNumber || `REF-${Date.now()}`, // Fallback to timestamp if not available
+          referenceNumber: responseData.data?.referenceNumber || `REF-${Date.now()}`,
           email: data.email
         }
       });
@@ -216,25 +224,25 @@ const Report = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className="bg-neutral-50 dark:bg-neutral-900 rounded-lg shadow-md p-6 md:p-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-50 mb-2">
-          Report a problem with your order
-        </h1>
-        <p className="text-neutral-600 dark:text-neutral-300 mb-8">
-          We'll review your report and get back to you within 24 hours.
-        </p>
+      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          <div className="bg-neutral-50 dark:bg-neutral-900 rounded-lg shadow-md p-6 md:p-8">
+            <h1 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-50 mb-2">
+              Report a problem with your order
+            </h1>
+            <p className="text-neutral-600 dark:text-neutral-300 mb-8">
+              We'll review your report and get back to you within 24 hours.
+            </p>
 
-        {/* Order Context */}
-        <div className="bg-neutral-100 dark:bg-neutral-800 p-4 rounded-lg mb-8">
-          <h2 className="text-lg font-medium text-neutral-900 dark:text-neutral-50 mb-3">Order Details</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">Order ID</p>
-              <p className="font-medium text-neutral-900 dark:text-neutral-50">{orderDetails.orderNumber}</p>
-            </div>
-            {/* Product selection temporarily disabled
+            {/* Order Context */}
+            <div className="bg-neutral-100 dark:bg-neutral-800 p-4 rounded-lg mb-8">
+              <h2 className="text-lg font-medium text-neutral-900 dark:text-neutral-50 mb-3">Order Details</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-neutral-500 dark:text-neutral-400">Order ID</p>
+                  <p className="font-medium text-neutral-900 dark:text-neutral-50">{orderDetails.orderNumber}</p>
+                </div>
+                {/* Product selection temporarily disabled
             <div>
               <label htmlFor="product" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                 Product
@@ -260,85 +268,85 @@ const Report = () => {
               </div>
             </div>
             */}
-            <div>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">{dateLabel}</p>
-              <p className="font-medium text-neutral-900 dark:text-neutral-50">
-                {new Date(displayDate).toLocaleDateString()}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">Shipping Address</p>
-              <div className="font-medium text-neutral-900 dark:text-neutral-50">
-                {orderDetails.shippingAddress ? (
-                  <>
-                    {orderDetails.shippingAddress.address && <div>{orderDetails.shippingAddress.address}</div>}
-                    {(orderDetails.shippingAddress.city || orderDetails.shippingAddress.postalCode) && (
-                      <div>
-                        {orderDetails.shippingAddress.postalCode} {orderDetails.shippingAddress.city}
-                      </div>
+                <div>
+                  <p className="text-sm text-neutral-500 dark:text-neutral-400">{dateLabel}</p>
+                  <p className="font-medium text-neutral-900 dark:text-neutral-50">
+                    {new Date(displayDate).toLocaleDateString()}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-neutral-500 dark:text-neutral-400">Shipping Address</p>
+                  <div className="font-medium text-neutral-900 dark:text-neutral-50">
+                    {orderDetails.shippingAddress ? (
+                        <>
+                          {orderDetails.shippingAddress.address && <div>{orderDetails.shippingAddress.address}</div>}
+                          {(orderDetails.shippingAddress.city || orderDetails.shippingAddress.postalCode) && (
+                              <div>
+                                {orderDetails.shippingAddress.postalCode} {orderDetails.shippingAddress.city}
+                              </div>
+                          )}
+                          {orderDetails.shippingAddress.country && <div>{orderDetails.shippingAddress.country}</div>}
+                        </>
+                    ) : (
+                        'No shipping address available'
                     )}
-                    {orderDetails.shippingAddress.country && <div>{orderDetails.shippingAddress.country}</div>}
-                  </>
-                ) : (
-                  'No shipping address available'
-                )}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Problem Type */}
-          <div>
-            <h2 className="text-lg font-medium text-neutral-900 dark:text-neutral-50 mb-3">What's the problem?</h2>
-            <div className="space-y-2">
-              {problemTypes.map((type) => (
-                <div key={type} className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id={type}
-                      type="radio"
-                      value={type}
-                      className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-neutral-300"
-                      {...register('problemType', { 
-                        required: 'Please select a problem type',
-                        onChange: (e) => setSelectedProblemType(e.target.value)
-                      })}
-                    />
-                  </div>
-                  <label htmlFor={type} className="ml-3 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                    {type}
-                  </label>
-                </div>
-              ))}
-              {problemType === 'Other' && (
-                <div className="mt-2 ml-7">
-                  <input
-                    type="text"
-                    className="mt-1 block w-1/3 rounded-md border-neutral-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm dark:bg-neutral-800 dark:border-neutral-600 dark:text-neutral-50 py-2 px-3 h-10"
-                    placeholder="Please specify the problem"
-                    style={{ minHeight: '2rem' }}
-                    {...register('otherProblem', { 
-                      required: problemType === 'Other' ? 'Please specify the problem' : false
-                    })}
-                  />
-                  {errors.otherProblem && (
-                    <p className="mt-1 text-sm text-red-700">{errors.otherProblem.message}</p>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {/* Problem Type */}
+              <div>
+                <h2 className="text-lg font-medium text-neutral-900 dark:text-neutral-50 mb-3">What's the problem?</h2>
+                <div className="space-y-2">
+                  {problemTypes.map((type) => (
+                      <div key={type} className="flex items-start">
+                        <div className="flex items-center h-5">
+                          <input
+                              id={type}
+                              type="radio"
+                              value={type}
+                              className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-neutral-300"
+                              {...register('problemType', {
+                                required: 'Please select a problem type',
+                                onChange: (e) => setSelectedProblemType(e.target.value)
+                              })}
+                          />
+                        </div>
+                        <label htmlFor={type} className="ml-3 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                          {type}
+                        </label>
+                      </div>
+                  ))}
+                  {problemType === 'Other' && (
+                      <div className="mt-2 ml-7">
+                        <input
+                            type="text"
+                            className="mt-1 block w-1/3 rounded-md border-neutral-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm dark:bg-neutral-800 dark:border-neutral-600 dark:text-neutral-50 py-2 px-3 h-10"
+                            placeholder="Please specify the problem"
+                            style={{ minHeight: '2rem' }}
+                            {...register('otherProblem', {
+                              required: problemType === 'Other' ? 'Please specify the problem' : false
+                            })}
+                        />
+                        {errors.otherProblem && (
+                            <p className="mt-1 text-sm text-red-700">{errors.otherProblem.message}</p>
+                        )}
+                      </div>
+                  )}
+                  {errors.problemType && (
+                      <p className="mt-1 text-sm text-red-700">{errors.problemType.message}</p>
                   )}
                 </div>
-              )}
-              {errors.problemType && (
-                <p className="mt-1 text-sm text-red-700">{errors.problemType.message}</p>
-              )}
-            </div>
-          </div>
+              </div>
 
-          {/* Details */}
-          <div>
-            <label htmlFor="details" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-              What went wrong? Include dates or photos if relevant.
-            </label>
-            <div className="mt-1">
+              {/* Details */}
+              <div>
+                <label htmlFor="details" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+                  What went wrong? Include dates or photos if relevant.
+                </label>
+                <div className="mt-1">
               <textarea
                   id="details"
                   rows={4}
@@ -353,169 +361,169 @@ const Report = () => {
                     }
                   })}
               />
-              {errors.details && (
-                <p className="mt-1 text-sm text-red-700">{errors.details.message}</p>
-              )}
-            </div>
-          </div>
-
-          {/* File Upload */}
-          <div>
-            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-              Add photos or documents (optional, up to 5 files)
-            </label>
-            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-600 border-dashed rounded-md">
-              <div className="space-y-1 text-center">
-                <svg
-                    className="mx-auto h-8 w-8 text-neutral-500"
-                    stroke="currentColor"
-                    fill="none"
-                    viewBox="0 0 48 48"
-                    aria-hidden="true"
-                >
-                  <path
-                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                      strokeWidth={4}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                  />
-                </svg>
-                <div className="flex text-sm text-neutral-600 dark:text-neutral-400">
-                  <label
-                    htmlFor="file-upload"
-                    className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none"
-                  >
-                    <span className="text-red-800" >Upload files</span>
-                    <input
-                      id="file-upload"
-                      name="file-upload"
-                      type="file"
-                      className="sr-only"
-                      multiple
-                      onChange={handleFileChange}
-                      accept="image/*,.pdf"
-                    />
-                  </label>
-                  <p className="pl-1">or drag and drop</p>
+                  {errors.details && (
+                      <p className="mt-1 text-sm text-red-700">{errors.details.message}</p>
+                  )}
                 </div>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                  PNG, JPG, PDF up to 10MB
-                </p>
               </div>
-            </div>
 
-            {/* Preview uploaded files */}
-            {previewUrls.length > 0 && (
-              <div className="mt-4">
-                <div className="flex flex-wrap gap-4">
-                  {previewUrls.map((preview, index) => (
-                    <div key={index} className="relative group">
-                      <div className="h-24 w-24 rounded-md overflow-hidden bg-neutral-100 dark:bg-neutral-700">
-                        {preview.startsWith('blob:') ? (
-                          <img
-                            src={preview}
-                            alt={`Preview ${index + 1}`}
-                            className="h-full w-full object-cover"
-                          />
-                        ) : (
-                          <div className="h-full w-full flex items-center justify-center">
-                            <span className="text-neutral-500">PDF</span>
-                          </div>
-                        )}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => removeImage(index)}
-                        className="absolute -top-2 -right-2 bg-red-500 text-neutral-50 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                        title="Remove"
+              {/* File Upload */}
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+                  Add photos or documents (optional, up to 5 files)
+                </label>
+                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-600 border-dashed rounded-md">
+                  <div className="space-y-1 text-center">
+                    <svg
+                        className="mx-auto h-8 w-8 text-neutral-500"
+                        stroke="currentColor"
+                        fill="none"
+                        viewBox="0 0 48 48"
+                        aria-hidden="true"
+                    >
+                      <path
+                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                          strokeWidth={4}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                      />
+                    </svg>
+                    <div className="flex text-sm text-neutral-600 dark:text-neutral-400">
+                      <label
+                          htmlFor="file-upload"
+                          className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none"
                       >
-                        <svg
-                          className="h-4 w-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M6 18L18 6M6 6l12 12"
-                          />
-                        </svg>
-                      </button>
+                        <span className="text-red-800" >Upload files</span>
+                        <input
+                            id="file-upload"
+                            name="file-upload"
+                            type="file"
+                            className="sr-only"
+                            multiple
+                            onChange={handleFileChange}
+                            accept="image/*,.pdf"
+                        />
+                      </label>
+                      <p className="pl-1">or drag and drop</p>
                     </div>
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                      PNG, JPG, PDF up to 10MB
+                    </p>
+                  </div>
+                </div>
+
+                {/* Preview uploaded files */}
+                {previewUrls.length > 0 && (
+                    <div className="mt-4">
+                      <div className="flex flex-wrap gap-4">
+                        {previewUrls.map((preview, index) => (
+                            <div key={index} className="relative group">
+                              <div className="h-24 w-24 rounded-md overflow-hidden bg-neutral-100 dark:bg-neutral-700">
+                                {preview.startsWith('blob:') ? (
+                                    <img
+                                        src={preview}
+                                        alt={`Preview ${index + 1}`}
+                                        className="h-full w-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="h-full w-full flex items-center justify-center">
+                                      <span className="text-neutral-500">PDF</span>
+                                    </div>
+                                )}
+                              </div>
+                              <button
+                                  type="button"
+                                  onClick={() => removeImage(index)}
+                                  className="absolute -top-2 -right-2 bg-red-500 text-neutral-50 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                  title="Remove"
+                              >
+                                <svg
+                                    className="h-4 w-4"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                  <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M6 18L18 6M6 6l12 12"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+                        ))}
+                      </div>
+                    </div>
+                )}
+              </div>
+
+              {/* Desired Outcome */}
+              <div>
+                <h2 className="text-lg font-medium text-neutral-900 dark:text-neutral-50 mb-3">What would you like to happen?</h2>
+                <div className="space-y-2">
+                  {desiredOutcomes.map((outcome) => (
+                      <div key={outcome} className="flex items-center">
+                        <input
+                            id={`outcome-${outcome}`}
+                            type="radio"
+                            value={outcome}
+                            {...register('desiredOutcome', { required: 'Please select a desired outcome' })}
+                            className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-neutral-300 dark:border-neutral-600"
+                        />
+                        <label
+                            htmlFor={`outcome-${outcome}`}
+                            className="ml-3 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+                        >
+                          {outcome}
+                        </label>
+                      </div>
                   ))}
+                  {errors.desiredOutcome && (
+                      <p className="mt-1 text-sm text-red-700">{errors.desiredOutcome.message}</p>
+                  )}
                 </div>
               </div>
-            )}
-          </div>
 
-          {/* Desired Outcome */}
-          <div>
-            <h2 className="text-lg font-medium text-neutral-900 dark:text-neutral-50 mb-3">What would you like to happen?</h2>
-            <div className="space-y-2">
-              {desiredOutcomes.map((outcome) => (
-                <div key={outcome} className="flex items-center">
+              {/* Contact Email - Read-only and always uses profile email */}
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                  Contact email
+                </label>
+                <div className="mt-1">
                   <input
-                    id={`outcome-${outcome}`}
-                    type="radio"
-                    value={outcome}
-                    {...register('desiredOutcome', { required: 'Please select a desired outcome' })}
-                    className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-neutral-300 dark:border-neutral-600"
+                      type="email"
+                      id="email"
+                      readOnly
+                      value={user?.email || ''}
+                      className="block w-1/3 sm:text-sm border-neutral-300 dark:border-neutral-600 rounded-md bg-gray-100 dark:bg-neutral-700 text-gray-700 dark:text-neutral-300 py-2 px-3 h-10 cursor-not-allowed"
+                      title="This email is taken from your profile and cannot be changed"
                   />
-                  <label
-                    htmlFor={`outcome-${outcome}`}
-                    className="ml-3 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
-                  >
-                    {outcome}
-                  </label>
+                  <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    This email is taken from your profile
+                  </p>
+                  {/* Hidden input to include the email in form submission */}
+                  <input type="hidden" {...register('email')} value={user?.email || ''} />
                 </div>
-              ))}
-              {errors.desiredOutcome && (
-                <p className="mt-1 text-sm text-red-700">{errors.desiredOutcome.message}</p>
-              )}
-            </div>
-          </div>
+              </div>
 
-          {/* Contact Email - Read-only and always uses profile email */}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
-              Contact email
-            </label>
-            <div className="mt-1">
-              <input
-                type="email"
-                id="email"
-                readOnly
-                value={user?.email || ''}
-                className="block w-1/3 sm:text-sm border-neutral-300 dark:border-neutral-600 rounded-md bg-gray-100 dark:bg-neutral-700 text-gray-700 dark:text-neutral-300 py-2 px-3 h-10 cursor-not-allowed"
-                title="This email is taken from your profile and cannot be changed"
-              />
-              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                This email is taken from your profile
-              </p>
-              {/* Hidden input to include the email in form submission */}
-              <input type="hidden" {...register('email')} value={user?.email || ''} />
-            </div>
+              {/* Submit Button */}
+              <div className="pt-4">
+                <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className=" w-full flex-1 h-12 flex items-center justify-center py-3 rounded-full text-sm font-slim text-neutral-50 transition-colors duration-200 bg-black hover:bg-neutral-800  disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Submitting...' : 'Send report'}
+                </button>
+                {/*<p className="mt-2 text-center text-sm text-neutral-500 dark:text-neutral-400">*/}
+                {/*  You'll receive a confirmation email shortly.*/}
+                {/*</p>*/}
+              </div>
+            </form>
           </div>
-
-          {/* Submit Button */}
-          <div className="pt-4">
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className=" w-full flex-1 h-12 flex items-center justify-center py-3 rounded-full text-sm font-slim text-neutral-50 transition-colors duration-200 bg-black hover:bg-neutral-800  disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? 'Submitting...' : 'Send report'}
-            </button>
-            {/*<p className="mt-2 text-center text-sm text-neutral-500 dark:text-neutral-400">*/}
-            {/*  You'll receive a confirmation email shortly.*/}
-            {/*</p>*/}
-          </div>
-        </form>
         </div>
       </div>
-    </div>
   );
 };
 
