@@ -56,7 +56,7 @@ const Profile = () => {
     const borderClass = isDarkMode ? 'border-neutral-700' : 'border-neutral-250'
     
     // State for active tab
-    const [activeTab, setActiveTab] = useState('orders')
+    const [activeTab, setActiveTab] = useState('personal')
      
     // Tab configuration - Personal Information first
     const tabs = [

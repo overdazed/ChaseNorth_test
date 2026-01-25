@@ -122,6 +122,31 @@ ${emailData.attachments && emailData.attachments.length > 0 ?
     }
 };
 
+const sendEmailVerification = async (email, verificationLink) => {
+    try {
+        const html = await compileTemplate('emailVerification', {
+            verificationLink: verificationLink,
+            email: email
+        });
+
+        const emailOptions = {
+            from: `"ChaseNorth Support" <${process.env.SYSTEM_EMAIL}>`,
+            to: email,
+            subject: 'Verify Your New Email Address',
+            html: html,
+            text: `Please verify your new email address by clicking the following link: ${verificationLink}`
+        };
+
+        const info = await transporter.sendMail(emailOptions);
+        console.log('Email verification sent:', info.messageId);
+        return info;
+    } catch (error) {
+        console.error('Error sending verification email:', error);
+        throw error;
+    }
+};
+
 module.exports = {
-    sendReportConfirmation
+    sendReportConfirmation,
+    sendEmailVerification
 };

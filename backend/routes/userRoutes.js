@@ -212,6 +212,20 @@ router.put('/update-email', protect, async (req, res) => {
         user.emailVerified = false; // Require email verification
         await user.save();
 
+        // Generate verification token
+        const verificationToken = jwt.sign(
+            { userId: user._id, newEmail: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: '1d' }
+        );
+
+        // Create verification link
+        const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
+
+        // Send verification email
+        const { sendEmailVerification } = require('../services/emailService');
+        await sendEmailVerification(user.email, verificationLink);
+
         // Generate new token with updated email
         const payload = {
             user: {
@@ -242,6 +256,51 @@ router.put('/update-email', protect, async (req, res) => {
     } catch (error) {
         console.error('Error updating email:', error);
         res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// @route   GET /api/users/verify-email
+// @desc    Verify user's email after change
+// @access  Public
+router.get('/verify-email', async (req, res) => {
+    try {
+        const { token } = req.query;
+        
+        if (!token) {
+            return res.status(400).json({ message: 'Verification token is required' });
+        }
+
+        // Verify the token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        
+        // Find the user
+        const user = await User.findById(decoded.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if the email in token matches current user email
+        if (user.email !== decoded.newEmail) {
+            return res.status(400).json({ message: 'Email verification token is invalid or expired' });
+        }
+
+        // Mark email as verified
+        user.emailVerified = true;
+        await user.save();
+
+        // Redirect to frontend confirmation page or send success response
+        res.redirect(`${process.env.FRONTEND_URL}/email-verified?success=true`);
+        
+    } catch (error) {
+        console.error('Error verifying email:', error);
+        
+        // Handle token expiration specifically
+        if (error.name === 'TokenExpiredError') {
+            return res.redirect(`${process.env.FRONTEND_URL}/email-verified?error=expired`);
+        }
+        
+        // Handle other errors
+        res.redirect(`${process.env.FRONTEND_URL}/email-verified?error=invalid`);
     }
 });
 
