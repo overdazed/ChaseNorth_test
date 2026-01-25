@@ -195,8 +195,8 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
         },
         {
             question: 'How do I contact customer support?',
-            answer: 'You can contact our support team through the contact form below, by emailing support@chasenorth.com, or by calling our support line at (555) 123-4567 during business hours (9am-5pm EST, Monday-Friday).',
-            additionalInfo: 'Average response time is within 24 hours on business days.'
+            answer: 'You can contact our support team through the "Contact Us" form above, by emailing support@chasenorth.com.',
+            additionalInfo: 'Average response time is within 24-48 hours on business days.'
         },
         {
             question: 'What payment methods do you accept?',
@@ -205,8 +205,8 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
         },
         {
             question: 'Do you ship internationally?',
-            answer: 'Yes, we ship to most countries worldwide. Shipping costs and delivery times vary by destination.',
-            additionalInfo: 'Please note that international orders may be subject to customs fees and import duties which are the responsibility of the customer.'
+            answer: 'No, we ship to european countries incl. Switzerland. Shipping costs and delivery times vary by destination.',
+            // additionalInfo: 'Please note that international orders may be subject to customs fees and import duties which are the responsibility of the customer.'
         }
     ];
 
@@ -550,14 +550,14 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
                                             support@chasenorth.com
                                         </a>
                                     </div>
-                                    <div className="flex items-center">
-                                        <FaHeadset className="text-gray-500 mr-2" />
-                                        <span>Phone: </span>
-                                        <a href="tel:+15551234567" className="text-blue-600 hover:underline ml-1 dark:text-blue-400">
-                                            (555) 123-4567
-                                        </a>
-                                        <span className="text-gray-500 text-sm ml-2">(Mon-Fri, 9am-5pm EST)</span>
-                                    </div>
+                                    {/*<div className="flex items-center">*/}
+                                    {/*    <FaHeadset className="text-gray-500 mr-2" />*/}
+                                    {/*    <span>Phone: </span>*/}
+                                    {/*    <a href="tel:+15551234567" className="text-blue-600 hover:underline ml-1 dark:text-blue-400">*/}
+                                    {/*        (555) 123-4567*/}
+                                    {/*    </a>*/}
+                                    {/*    <span className="text-gray-500 text-sm ml-2">(Mon-Fri, 9am-5pm EST)</span>*/}
+                                    {/*</div>*/}
                                 </div>
                             </div>
                         </div>
