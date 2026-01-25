@@ -357,11 +357,11 @@ const PersonalInfo = () => {
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Personal Information</h2>
+        <h2 className="text-2xl font-bold text-neutral-950 dark:text-neutral-50">Personal Information</h2>
         {!isEditing ? (
           <button
             onClick={() => setIsEditing(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-blue-700 transition-colors"
           >
             <FaEdit className="text-sm" /> Edit Profile
           </button>
@@ -369,7 +369,7 @@ const PersonalInfo = () => {
           <div className="flex gap-2">
             <button
               onClick={handleSubmit}
-              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-full hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
             >
               <FaSave className="text-sm" /> Save Changes
             </button>
@@ -378,7 +378,7 @@ const PersonalInfo = () => {
                 setIsEditing(false);
                 setShowPasswordForm(false);
               }}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-neutral-100 text-gray-800 rounded-full hover:bg-gray-300 transition-colors"
             >
               <FaTimes className="text-sm" /> Cancel
             </button>
@@ -386,11 +386,11 @@ const PersonalInfo = () => {
         )}
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm p-6 space-y-8">
+      <div className="dark:bg-neutra bg-white rounded-xl shadow-sm p-6 space-y-8">
         {/* Profile Picture Section */}
         <div className="flex flex-col items-center md:flex-row md:items-start gap-6 pb-6 border-b">
           <div className="relative">
-            <div className="w-32 h-32 rounded-full bg-gray-200 overflow-hidden border-4 border-white shadow">
+            <div className="w-32 h-32 rounded-full bg-gray-200 overflow-hidden shadow-md">
               {formData.profilePicture ? (
                 <img
                   src={formData.profilePicture}
