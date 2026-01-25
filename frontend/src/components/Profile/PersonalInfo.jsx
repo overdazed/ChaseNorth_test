@@ -270,7 +270,19 @@ const PersonalInfo = () => {
                 const capitalized = value.charAt(0).toUpperCase() + value.slice(1);
                 handleAddressChange({ target: { name: e.target.name, value: capitalized } });
               }}
-              className="w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-blue-500 focus:border-transparent dark:bg-neutral-800"
+              onBlur={(e) => {
+                // Capitalize first letter of each word
+                const capitalized = e.target.value
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                  .join(' ');
+                handleAddressChange({ target: { name: e.target.name, value: capitalized } });
+              }}
+              className={`w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-indigo-500 focus:border-transparent ${
+                !isEditing || (type === 'shipping' && addressData.sameAsBilling) 
+                  ? 'dark:bg-neutral-900 dark:text-neutral-400' 
+                  : 'dark:bg-neutral-800 dark:text-white'
+              }`}
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
               pattern="[A-Za-z\s]+"
               title="Please enter a valid name"
@@ -287,7 +299,11 @@ const PersonalInfo = () => {
                 const capitalized = value.charAt(0).toUpperCase() + value.slice(1);
                 handleAddressChange({ target: { name: e.target.name, value: capitalized } });
               }}
-              className="w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-blue-500 focus:border-transparent dark:bg-neutral-800"
+              className={`w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-indigo-500 focus:border-transparent ${
+                !isEditing || (type === 'shipping' && addressData.sameAsBilling) 
+                  ? 'dark:bg-neutral-900 dark:text-neutral-400' 
+                  : 'dark:bg-neutral-800 dark:text-white'
+              }`}
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
               pattern="[A-Za-z\s]+"
               title="Please enter a valid last name"
@@ -305,7 +321,11 @@ const PersonalInfo = () => {
                 const capitalized = value.charAt(0).toUpperCase() + value.slice(1);
                 handleAddressChange({ target: { name: e.target.name, value: capitalized } });
               }}
-            className="w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-blue-500 focus:border-transparent dark:bg-neutral-800"
+            className={`w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-indigo-500 focus:border-transparent ${
+              !isEditing || (type === 'shipping' && addressData.sameAsBilling) 
+                ? 'dark:bg-neutral-900 dark:text-neutral-400' 
+                : 'dark:bg-neutral-800 dark:text-white'
+            }`}
             disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
             pattern="^[A-Za-zßüöäÜÖÄ.\s]+\s\d+.*$"
             title="Address must include a street name followed by a space and number"
@@ -323,7 +343,11 @@ const PersonalInfo = () => {
                 const capitalized = value.charAt(0).toUpperCase() + value.slice(1);
                 handleAddressChange({ target: { name: e.target.name, value: capitalized } });
               }}
-              className="w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-blue-500 focus:border-transparent dark:bg-neutral-800"
+              className={`w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-indigo-500 focus:border-transparent ${
+                !isEditing || (type === 'shipping' && addressData.sameAsBilling) 
+                  ? 'dark:bg-neutral-900 dark:text-neutral-400' 
+                  : 'dark:bg-neutral-800 dark:text-white'
+              }`}
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
               pattern="^[A-Za-z\s]+" // only allows letters
               title="City name must contain only letters"
@@ -352,7 +376,11 @@ const PersonalInfo = () => {
                   handleAddressChange({ target: { name: e.target.name, value: limitedValue } });
                 }
               }}
-              className="w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-blue-500 focus:border-transparent dark:bg-neutral-800"
+              className={`w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-indigo-500 focus:border-transparent ${
+                !isEditing || (type === 'shipping' && addressData.sameAsBilling) 
+                  ? 'dark:bg-neutral-900 dark:text-neutral-400' 
+                  : 'dark:bg-neutral-800 dark:text-white'
+              }`}
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
               pattern="^[0-9]{4}[0-9A-Z ]{1,3}$"
               maxLength="7"
@@ -370,7 +398,11 @@ const PersonalInfo = () => {
             name={`${prefix}.country`}
             value={address.country || ''}
             onChange={handleAddressChange}
-            className="w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-blue-500 focus:border-transparent dark:bg-neutral-800 country-scrollbar"
+            className={`w-full p-2 border border-neutral-300 dark:border-neutral-700 rounded focus:ring-none focus:ring-indigo-500 focus:border-transparent country-scrollbar ${
+              !isEditing || (type === 'shipping' && addressData.sameAsBilling) 
+                ? 'dark:bg-neutral-900 dark:text-neutral-400' 
+                : 'dark:bg-neutral-800 dark:text-white'
+            }`}
             style={{ scrollbarWidth: 'thin' }}
             disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
           >
@@ -395,9 +427,9 @@ const PersonalInfo = () => {
         {!isEditing ? (
           <button
             onClick={() => setIsEditing(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors"
           >
-            <FaEdit className="text-sm" /> Edit Profile
+            <FaEdit className="text-sm font-medium text-white" /> Edit Profile
           </button>
         ) : (
           <div className="flex gap-2">
@@ -438,7 +470,7 @@ const PersonalInfo = () => {
               )}
             </div>
             {isEditing && (
-              <label className="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full cursor-pointer hover:bg-blue-700 transition-colors">
+              <label className="absolute bottom-0 right-0 bg-indigo-600 text-white p-2 rounded-full cursor-pointer hover:bg-indigo-700 transition-colors">
                 <FaCamera />
                 <input
                   type="file"
@@ -485,7 +517,7 @@ const PersonalInfo = () => {
               <div className="p-3 bg-gray-50 dark:bg-neutral-800 rounded-lg">
                 <div className="flex items-center gap-2">
                   {user.email}
-                  <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                  <span className="text-xs bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full">
                     Verified
                   </span>
                 </div>
@@ -514,7 +546,7 @@ const PersonalInfo = () => {
         </div>
 
         {/* Address Section */}
-        <div className="space-y-6 pt-6 border-t">
+        <div className="space-y-6 pt-6 border-t dark:border-neutral-900">
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-50 flex items-center gap-2">
               <FaMapMarkerAlt className="text-red-500" /> Address Information
@@ -556,7 +588,7 @@ const PersonalInfo = () => {
                       name="sameAsBilling"
                       checked={addressData.sameAsBilling}
                       onChange={handleAddressChange}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                     />
                     Same as billing
                   </label>
@@ -566,7 +598,7 @@ const PersonalInfo = () => {
               {isEditing ? (
                 renderAddressForm('shipping')
               ) : (
-                <div className="space-y-2 text-gray-700">
+                <div className="space-y-2 text-neutral-700 dark:text-neutral-300">
                   {user.shippingAddress?.street ? (
                     <>
                       {user.shippingAddress.firstName && (
@@ -586,15 +618,15 @@ const PersonalInfo = () => {
         </div>
 
         {/* Password Section */}
-        <div className="pt-6 border-t">
+        <div className="pt-6 border-t dark:border-neutral-900">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-50 flex items-center gap-2">
               <FaKey className="text-yellow-500" /> Password & Security
             </h3>
             {!showPasswordForm && (
                 <button
                     onClick={() => setShowPasswordForm(true)}
-                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                    className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
                 >
                   Change Password
                 </button>
@@ -605,7 +637,7 @@ const PersonalInfo = () => {
               <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100 dark:border-neutral-950 dark:bg-neutral-950">
                 <form onSubmit={handlePasswordChange} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                    <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-400 mb-1">Current Password</label>
                     <input
                         type="password"
                         name="currentPassword"
@@ -618,7 +650,7 @@ const PersonalInfo = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                      <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-400 mb-1">New Password</label>
                       <input
                           type="password"
                           name="newPassword"
@@ -631,7 +663,7 @@ const PersonalInfo = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                      <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-400 mb-1">Confirm New Password</label>
                       <input
                           type="password"
                           name="confirmPassword"
@@ -656,13 +688,13 @@ const PersonalInfo = () => {
                             confirmPassword: ''
                           }));
                         }}
-                        className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                        className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-full hover:bg-gray-50"
                     >
                       Cancel
                     </button>
                     <button
                         type="submit"
-                        className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                        className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-full hover:bg-indigo-700"
                     >
                       Update Password
                     </button>
@@ -670,8 +702,8 @@ const PersonalInfo = () => {
                 </form>
               </div>
           ) : (
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="text-sm text-gray-600">
+              <div className="bg-neutral-50 dark:bg-neutral-900 p-4 rounded-lg">
+                <p className="text-sm text-neutral-600 dark:text-neutral-500">
                   Last changed: {user.lastPasswordChange ? new Date(user.lastPasswordChange).toLocaleDateString() : 'Never'}
                 </p>
               </div>
