@@ -286,21 +286,29 @@ router.get('/verify-email', async (req, res) => {
 
         // Mark email as verified
         user.emailVerified = true;
-        await user.save();
+        const savedUser = await user.save();
+        
+        console.log('User after verification:', {
+            userId: savedUser._id,
+            email: savedUser.email,
+            emailVerified: savedUser.emailVerified
+        });
 
-        // Redirect to frontend confirmation page or send success response
-        res.redirect(`${process.env.FRONTEND_URL}/email-verified?success=true`);
+        // Redirect to profile page after successful verification
+        res.redirect(`${process.env.FRONTEND_URL}/profile?emailVerified=true`);
         
     } catch (error) {
         console.error('Error verifying email:', error);
         
         // Handle token expiration specifically
         if (error.name === 'TokenExpiredError') {
-            return res.redirect(`${process.env.FRONTEND_URL}/email-verified?error=expired`);
+            console.log('Token expired error');
+            return res.redirect(`${process.env.FRONTEND_URL}/profile?emailError=expired`);
         }
         
         // Handle other errors
-        res.redirect(`${process.env.FRONTEND_URL}/email-verified?error=invalid`);
+        console.log('Invalid token error:', error.message);
+        res.redirect(`${process.env.FRONTEND_URL}/profile?emailError=invalid`);
     }
 });
 
