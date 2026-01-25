@@ -477,32 +477,25 @@ const Report = () => {
             </div>
           </div>
 
-          {/* Contact Email */}
+          {/* Contact Email - Read-only and always uses profile email */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
               Contact email
             </label>
             <div className="mt-1">
-
-
               <input
-                type="text"
+                type="email"
                 id="email"
-                className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-1/3 sm:text-sm border-neutral-300 dark:border-neutral-600 rounded-md dark:bg-neutral-800 dark:text-neutral-50 py-2 px-3 h-10"
-                placeholder="your@email.com"
-                style={{ minHeight: '2rem' }}
-                title="Please enter a valid email address (e.g. yourname@example.com)"
-                {...register('email', {
-                  required: 'Email is required',
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i,
-                    message: 'Please enter a valid email address'
-                  }
-                })}
+                readOnly
+                value={user?.email || ''}
+                className="block w-1/3 sm:text-sm border-neutral-300 dark:border-neutral-600 rounded-md bg-gray-100 dark:bg-neutral-700 text-gray-700 dark:text-neutral-300 py-2 px-3 h-10 cursor-not-allowed"
+                title="This email is taken from your profile and cannot be changed"
               />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-700">{errors.email.message}</p>
-              )}
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                This email is taken from your profile
+              </p>
+              {/* Hidden input to include the email in form submission */}
+              <input type="hidden" {...register('email')} value={user?.email || ''} />
             </div>
           </div>
 

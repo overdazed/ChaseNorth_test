@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { FaQuestionCircle, FaTicketAlt, FaHeadset, FaExternalLinkAlt, FaImage, FaFileAlt } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const SupportAndHelp = () => {
     const { user } = useSelector((state) => state.auth);
+    const navigate = useNavigate();
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -267,12 +269,16 @@ const SupportAndHelp = () => {
                                     </div>
                                 </div>
                                 <div className="flex space-x-2 mt-3">
-                                    <a
-                                        href={`/report/${report._id}`}
-                                        className="text-xs text-blue-600 hover:text-blue-800"
+                                    <button
+                                        onClick={() => {
+                                            // Store the current location before navigating
+                                            sessionStorage.setItem('fromSupportAndHelp', 'true');
+                                            navigate(`/order/${report.orderId?._id || report.orderId}`);
+                                        }}
+                                        className="text-xs text-blue-600 hover:text-blue-800 cursor-pointer"
                                     >
-                                        View Details
-                                    </a>
+                                        View Order Details
+                                    </button>
                                     {report.status === 'Submitted' && (
                                         <button className="text-xs text-gray-500 hover:text-gray-700">Edit</button>
                                     )}

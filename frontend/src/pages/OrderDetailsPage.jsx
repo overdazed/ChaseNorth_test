@@ -119,6 +119,18 @@ const OrderDetailsPage = () => {
         }
     }, [])
 
+    useEffect(() => {
+        const handleBackNavigation = () => {
+            if (sessionStorage.getItem('fromSupportAndHelp')) {
+                sessionStorage.removeItem('fromSupportAndHelp');
+                navigate('/profile?tab=support', { replace: true });
+            }
+        };
+
+        window.addEventListener('popstate', handleBackNavigation);
+        return () => window.removeEventListener('popstate', handleBackNavigation);
+    }, [navigate]);
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
 
