@@ -237,7 +237,7 @@ const PersonalInfo = () => {
                 const capitalized = value.charAt(0).toUpperCase() + value.slice(1);
                 handleAddressChange({ target: { name: e.target.name, value: capitalized } });
               }}
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-"
               disabled={!isEditing || (type === 'shipping' && addressData.sameAsBilling)}
               pattern="[A-Za-z\s]+"
               title="Please enter a valid name"
@@ -438,7 +438,7 @@ const PersonalInfo = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 dark:border-neutral-700 dark:bg-neutral-800 rounded-lg focus:ring-none focus:ring-accent focus:border-transparent"
                   required
                 />
               ) : (
@@ -470,7 +470,7 @@ const PersonalInfo = () => {
                   value={formData.phone}
                   onChange={handleInputChange}
                   placeholder="+1 "
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 dark:border-neutral-700 dark:bg-neutral-800 rounded-lg focus:ring-none focus:ring-accent focus:border-transparent"
                 />
               ) : (
                 <p className="p-3 bg-gray-50 dark:bg-neutral-800 rounded-lg">{user.phone || 'Not provided'}</p>
@@ -516,7 +516,7 @@ const PersonalInfo = () => {
               <div className="flex justify-between items-center mb-4 pb-2 border-b dark:border-neutral-700">
                 <h4 className="font-medium text-neutral-900 dark:text-neutral-50 ">Shipping Address</h4>
                 {isEditing && (
-                  <label className="flex items-center gap-2 text-sm text-gray-600">
+                  <label className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
                     <input
                       type="checkbox"
                       name="sameAsBilling"
@@ -568,7 +568,7 @@ const PersonalInfo = () => {
           </div>
 
           {showPasswordForm ? (
-              <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
+              <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100 dark:border-neutral-950 dark:bg-neutral-950">
                 <form onSubmit={handlePasswordChange} className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
@@ -577,7 +577,7 @@ const PersonalInfo = () => {
                         name="currentPassword"
                         value={formData.currentPassword}
                         onChange={handleInputChange}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full p-3 border border-gray-300 dark:border-neutral-700 dark:bg-neutral-800 rounded-lg focus:ring-none focus:ring-accent focus:border-transparent"
                         required
                     />
                   </div>
@@ -590,7 +590,7 @@ const PersonalInfo = () => {
                           name="newPassword"
                           value={formData.newPassword}
                           onChange={handleInputChange}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full p-3 border border-gray-300 dark:border-neutral-700 dark:bg-neutral-800 rounded-lg focus:ring-none focus:ring-accent focus:border-transparent"
                           minLength={6}
                           required
                       />
@@ -603,7 +603,7 @@ const PersonalInfo = () => {
                           name="confirmPassword"
                           value={formData.confirmPassword}
                           onChange={handleInputChange}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full p-3 border border-gray-300 dark:border-neutral-700 dark:bg-neutral-800 rounded-lg focus:ring-none focus:ring-accent focus:border-transparent"
                           minLength={6}
                           required
                       />
