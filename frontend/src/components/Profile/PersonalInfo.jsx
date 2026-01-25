@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useuseState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser, logout } from '../../redux/slices/authSlice';
 import { FaEdit, FaSave, FaTimes, FaCamera, FaKey, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
@@ -71,6 +71,52 @@ const PersonalInfo = () => {
     currentPassword: ''
   });
   const [emailError, setEmailError] = useState('');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // Function to refresh user data
+  const refreshUserData = async () => {
+    try {
+      setIsRefreshing(true);
+      const token = localStorage.getItem('userToken');
+      if (!token) return;
+
+      const response = await fetch(`${API_URL}/api/users/profile`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        
+        // Update the user data in Redux store
+        dispatch(updateUser(userData));
+        
+        // Update local storage
+        const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+        if (userInfo) {
+          localStorage.setItem('userInfo', JSON.stringify({
+            ...userInfo,
+            emailVerified: userData.emailVerified
+          }));
+        }
+        
+        return userData;
+      }
+    } catch (error) {
+      console.error('Error refreshing user data:', error);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
+  // Check email verification status on component mount
+  useEffect(() => {
+    if (user && !user.emailVerified) {
+      refreshUserData();
+    }
+  }, [user?.emailVerified]);
 
   const [addressData, setAddressData] = useState({
     billingAddress: {
@@ -125,6 +171,20 @@ const PersonalInfo = () => {
       });
     }
   }, [user]);
+
+  useEffect(() => {
+    const checkEmailVerification = async () => {
+      if (user && !user.emailVerified) {
+        const updatedUser = await refreshUserData();
+        // If we have updated user data and it's now verified, update the UI
+        if (updatedUser?.emailVerified) {
+          dispatch(updateUser(updatedUser));
+        }
+      }
+    };
+
+    checkEmailVerification();
+  }, [user?.emailVerified]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -611,6 +671,10 @@ const PersonalInfo = () => {
 
   if (!user) return null;
 
+  // Debug logs
+  console.log('User object in PersonalInfo:', user);
+  console.log('Email verified status:', user.emailVerified, 'Type:', typeof user.emailVerified);
+
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
@@ -765,13 +829,15 @@ const PersonalInfo = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       {user.email}
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${
-                        user.emailVerified 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {user.emailVerified ? 'Verified' : 'Unverified'}
-                      </span>
+                      {user.emailVerified ? (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-800">
+                          Verified
+                        </span>
+                      ) : (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800">
+                          Unverified
+                        </span>
+                      )}
                     </div>
                     <button
                       onClick={() => setIsEditingEmail(true)}

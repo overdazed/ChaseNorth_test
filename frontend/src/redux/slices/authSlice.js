@@ -104,6 +104,21 @@ const authSlice = createSlice({
         clearError: (state) => {
             state.error = null;
         },
+        // Add a new action to update the email verification status
+        updateEmailVerification: (state, action) => {
+            if (state.user) {
+                state.user = {
+                    ...state.user,
+                    emailVerified: action.payload
+                };
+                // Also update the user in localStorage
+                const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+                if (userInfo) {
+                    userInfo.emailVerified = action.payload;
+                    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                }
+            }
+        },
     },
     // handle the external users for our async thunks
     extraReducers: (builder) => {
@@ -240,7 +255,7 @@ export const updateUser = createAsyncThunk(
 );
 
 // Export the actions, so we can use them in our components
-export const { logout, generateNewGuestId, clearError } = authSlice.actions;
+export const { logout, generateNewGuestId, clearError, updateEmailVerification } = authSlice.actions;
 
 // Export the reducer, so it can be added to the store
 export default authSlice.reducer;

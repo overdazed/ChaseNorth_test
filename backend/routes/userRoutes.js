@@ -129,7 +129,8 @@ router.post('/login', async (req, res) => {
                         profilePicture: user.profilePicture,
                         billingAddress: user.billingAddress,
                         shippingAddress: user.shippingAddress,
-                        sameAsBilling: user.sameAsBilling
+                        sameAsBilling: user.sameAsBilling,
+                        emailVerified: user.emailVerified
                     },
                     token,
                 });
@@ -152,9 +153,22 @@ router.post('/login', async (req, res) => {
 
 // create a middleware function to protect this request, we implement it later, but this is where it will be called
 router.get("/profile", protect, async (req, res) => {
-    // we will respond with request.user which will be assigned by our middleware and it will contain the user object
-    // req.user is getting assigned in middleware
-    res.json(req.user)
+    try {
+        // Find the user and include the emailVerified field
+        const user = await User.findById(req.user._id).select('emailVerified');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        
+        // Return the user data with emailVerified status
+        res.json({
+            ...req.user.toObject(),
+            emailVerified: user.emailVerified
+        });
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
 })
 
 // create folder "middleware" > file "authMiddleware.js"
