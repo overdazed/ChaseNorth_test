@@ -225,43 +225,52 @@ exports.updateProfile = async (req, res, next) => {
                     // Upload the profile picture to Supabase Storage using direct replacement
                     const fileName = `profile-pictures/${req.user.id}.jpg`;
                     
-                    // Use upsert with cache invalidation to directly replace the file
-                    const { data, error } = await supabase
+                    // First, explicitly delete the old file if it exists
+                    try {
+                        await supabase
+                            .storage
+                            .from('profile-pictures')
+                            .remove([fileName]);
+                        console.log('Old profile picture deleted (if existed):', fileName);
+                    } catch (deleteError) {
+                        console.log('No existing profile picture to delete or delete failed:', deleteError.message);
+                    }
+                    
+                    // Now upload the new file with a unique temporary name first
+                    const tempFileName = `profile-pictures/temp_${req.user.id}_${Date.now()}.jpg`;
+                    const { data: uploadData, error: uploadError } = await supabase
                         .storage
                         .from('profile-pictures')
-                        .upload(fileName, Buffer.from(filteredBody.profilePicture.split(',')[1], 'base64'), {
+                        .upload(tempFileName, Buffer.from(filteredBody.profilePicture.split(',')[1], 'base64'), {
                             contentType: 'image/jpeg',
-                            upsert: true,
                             cacheControl: '0, no-cache, no-store, must-revalidate'
                         });
                     
-                    if (error) {
-                        console.error('Supabase upload error:', error);
-                    } else {
-                        // Get the public URL of the uploaded file
-                        const { data: publicUrlData } = supabase
-                            .storage
-                            .from('profile-pictures')
-                            .getPublicUrl(fileName);
-
-                        // Update the profile picture URL in the filtered body
-                        filteredBody.profilePicture = publicUrlData.publicUrl;
-                        console.log('Profile picture updated:', filteredBody.profilePicture);
+                    if (uploadError) {
+                        console.error('Supabase upload error:', uploadError);
+                        throw uploadError;
                     }
-
-                    if (error) {
-                        console.error('Supabase upload error:', error);
-                    } else {
-                        // Get the public URL of the uploaded file
-                        const { data: publicUrlData } = supabase
-                            .storage
-                            .from('profile-pictures')
-                            .getPublicUrl(fileName);
-
-                        // Update the profile picture URL in the filtered body
-                        filteredBody.profilePicture = publicUrlData.publicUrl;
-                        console.log('Profile picture updated:', filteredBody.profilePicture);
+                    
+                    // Now move the temporary file to the final location
+                    const { data: moveData, error: moveError } = await supabase
+                        .storage
+                        .from('profile-pictures')
+                        .move(tempFileName, fileName);
+                    
+                    if (moveError) {
+                        console.error('Supabase move error:', moveError);
+                        throw moveError;
                     }
+                    
+                    // Get the public URL of the final file
+                    const { data: publicUrlData } = supabase
+                        .storage
+                        .from('profile-pictures')
+                        .getPublicUrl(fileName);
+
+                    // Update the profile picture URL in the filtered body
+                    filteredBody.profilePicture = publicUrlData.publicUrl;
+                    console.log('Profile picture updated successfully:', filteredBody.profilePicture);
                 } catch (error) {
                     console.error('Error handling profile picture upload:', error);
                 }
