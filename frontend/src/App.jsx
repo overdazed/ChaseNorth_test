@@ -125,6 +125,7 @@ import {Provider, useDispatch, useSelector} from "react-redux";
 import store from "./redux/store";
 import ProtectedRoute from "./components/Common/ProtectedRoute.jsx";
 import BugReportConfirmation from "@/pages/BugReportConfirmation.jsx";
+import EmailVerification from "./pages/EmailVerification.jsx";
 import {updateWishlistCount} from "@/redux/slices/productsSlice.js";
 
 const WishlistInitializer = () => {
@@ -258,6 +259,7 @@ const App = () => {
                             <Route path="reset-password/:token" element={<ResetPassword />} />
                             <Route path="bug-report" element={<BugReport />} />
                             <Route path="bug-report/confirmation" element={<BugReportConfirmation />} />
+                            <Route path="verify-email" element={<EmailVerification />} />
                         </Route>
                         <Route
                             path="/admin"
