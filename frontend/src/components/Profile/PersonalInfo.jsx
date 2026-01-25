@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser, logout } from '../../redux/slices/authSlice';
+import { updateUser, logout, updateEmailVerification } from '../../redux/slices/authSlice';
 import { FaEdit, FaSave, FaTimes, FaCamera, FaKey, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import { FaMapLocationDot } from "react-icons/fa6";
 import { IoMailOutline } from "react-icons/io5";
@@ -80,7 +80,7 @@ const PersonalInfo = () => {
       const token = localStorage.getItem('userToken');
       if (!token) return;
 
-      const response = await fetch(`${API_URL}/api/users/me`, {
+      const response = await fetch(`${API_URL}/api/users/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -112,7 +112,7 @@ const PersonalInfo = () => {
     if (user && !user.emailVerified) {
       refreshUserData();
     }
-  }, [user?.emailVerified]);
+  }, [user]);
 
   const [addressData, setAddressData] = useState({
     billingAddress: {
