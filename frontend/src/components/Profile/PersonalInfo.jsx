@@ -698,8 +698,8 @@ const PersonalInfo = () => {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400">
-                  <AiOutlineUser className="text-4xl" />
+                <div className="w-full h-full flex items-center justify-center bg-gray-300 dark:bg-neutral-700">
+                  <AiOutlineUser className="text-4xl text-neutral-700 dark:text-neutral-300" />
                 </div>
               )}
             </div>
