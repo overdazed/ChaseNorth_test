@@ -154,24 +154,46 @@ router.get('/order/:orderId', async (req, res) => {
 // @access  Public
 router.get('/user/:email', async (req, res) => {
     try {
-        const reports = await Report.find({ email: req.params.email })
+        const userEmail = req.params.email;
+        console.log(`[${new Date().toISOString()}] Fetching reports for email:`, userEmail);
+
+        // Log the raw query being executed
+        const query = { email: userEmail };
+        console.log('Database query:', JSON.stringify(query, null, 2));
+
+        const reports = await Report.find(query)
             .populate('orderId', 'orderNumber')
             .sort({ createdAt: -1 })
-            .lean();
+            .lean()
+            .exec();
 
-        console.log('Reports fetched from DB:', reports);
+        console.log(`[${new Date().toISOString()}] Raw reports from DB (${reports.length}):`, JSON.stringify(reports, null, 2));
 
         // Filter out archived reports
-        const filteredReports = reports.filter(report => report.status !== 'Archived');
+        const filteredReports = reports.filter(report => {
+            const isArchived = report.status === 'Archived';
+            if (isArchived) {
+                console.log(`Filtering out archived report:`, {
+                    _id: report._id,
+                    status: report.status,
+                    problemType: report.problemType
+                });
+            }
+            return !isArchived;
+        });
 
-        console.log('Filtered reports (non-archived):', filteredReports);
+        console.log(`[${new Date().toISOString()}] Returning ${filteredReports.length} non-archived reports`);
 
         res.json({
             success: true,
             reports: filteredReports
         });
     } catch (error) {
-        console.error('Error fetching user reports:', error);
+        console.error(`[${new Date().toISOString()}] Error in /api/reports/user/:email:`, {
+            error: error.message,
+            stack: error.stack,
+            params: req.params
+        });
         res.status(500).json({
             success: false,
             message: 'Error fetching user reports',

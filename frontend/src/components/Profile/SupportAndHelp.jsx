@@ -17,36 +17,49 @@ const SupportAndHelp = () => {
     useEffect(() => {
         const fetchUserReports = async () => {
             if (!user || !user.email) {
+                console.log('No user or email found in the user object');
                 setLoading(false);
                 return;
             }
 
             try {
                 const API_URL = import.meta.env.VITE_API_URL;
-                const response = await fetch(`${API_URL}/api/reports/user/${user.email}`);
+                console.log(`[${new Date().toISOString()}] Fetching reports for:`, {
+                    email: user.email,
+                    userId: user.id
+                });
 
-                if (!response.ok) {
-                    throw new Error('Failed to fetch reports');
-                }
+                const response = await fetch(`${API_URL}/api/reports/user/${encodeURIComponent(user.email)}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
 
                 const data = await response.json();
-                console.log('Fetched reports:', data);
-                
-                // The API returns the reports array in the response
+                console.log(`[${new Date().toISOString()}] API Response:`, {
+                    status: response.status,
+                    ok: response.ok,
+                    data: data
+                });
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to fetch reports');
+                }
+
                 if (data.success && Array.isArray(data.reports)) {
+                    console.log(`[${new Date().toISOString()}] Received ${data.reports.length} reports`);
                     setReports(data.reports);
-                } else if (Array.isArray(data)) {
-                    // Fallback in case the response is just the array directly
-                    setReports(data);
-                } else if (data.success === false) {
-                    console.warn('API returned success: false:', data);
-                    setReports([]);
                 } else {
-                    console.warn('Unexpected API response format:', data);
+                    console.warn(`[${new Date().toISOString()}] Unexpected response format:`, data);
                     setReports([]);
                 }
             } catch (err) {
-                console.error('Error fetching reports:', err);
+                console.error(`[${new Date().toISOString()}] Error in fetchUserReports:`, {
+                    error: err,
+                    message: err.message,
+                    stack: err.stack
+                });
                 setError('Failed to load your reports. Please try again later.');
             } finally {
                 setLoading(false);
