@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
 const { protect } = require("../middleware/authMiddleware");
 const authController = require("../controllers/authController");
 
@@ -165,6 +166,78 @@ router.patch('/reset-password/:token', authController.resetPassword);
 // Update user profile and password routes (protected)
 router.patch('/update-profile', protect, authController.updateProfile);
 router.patch('/update-password', protect, authController.updatePassword);
+
+// @route   PUT /api/users/update-email
+// @desc    Update user's email
+// @access  Private
+router.put('/update-email', protect, async (req, res) => {
+    try {
+        const { newEmail, currentPassword } = req.body;
+        
+        // Find the user
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Verify current password
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Current password is incorrect' });
+        }
+
+        // Check if new email is different
+        if (newEmail.toLowerCase() === user.email.toLowerCase()) {
+            return res.status(400).json({ message: 'New email is the same as current email' });
+        }
+
+        // Check if new email is already in use (case-insensitive)
+        const existingUser = await User.findOne({ 
+            email: { $regex: new RegExp(`^${newEmail}$`, 'i') },
+            _id: { $ne: user._id } // Exclude current user from the check
+        });
+
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email is already in use' });
+        }
+
+        // Update email (lowercase for consistency)
+        user.email = newEmail.toLowerCase();
+        user.emailVerified = false; // Require email verification
+        await user.save();
+
+        // Generate new token with updated email
+        const payload = {
+            user: {
+                id: user._id,
+                role: user.role
+            }
+        };
+
+        jwt.sign(
+            payload,
+            process.env.JWT_SECRET,
+            { expiresIn: '7d' },
+            (err, token) => {
+                if (err) throw err;
+                res.json({ 
+                    token,
+                    user: {
+                        id: user._id,
+                        name: user.name,
+                        email: user.email,
+                        role: user.role,
+                        emailVerified: user.emailVerified
+                    },
+                    message: 'Email updated successfully. Please verify your new email.'
+                });
+            }
+        );
+    } catch (error) {
+        console.error('Error updating email:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 
 module.exports = router;
 

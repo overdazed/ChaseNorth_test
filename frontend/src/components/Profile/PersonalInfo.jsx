@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../../redux/slices/authSlice';
+import { updateUser, logout } from '../../redux/slices/authSlice';
 import { FaEdit, FaSave, FaTimes, FaCamera, FaKey, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaMapLocationDot } from "react-icons/fa6";
+import { IoMailOutline } from "react-icons/io5";
 import { countries } from '../../data/countries.jsx';
-import {FaMapLocationDot} from "react-icons/fa6";
-import {IoMailOutline} from "react-icons/io5";
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:9000';
 
 // Custom scrollbar styles
 const scrollbarStyles = `
@@ -29,8 +31,16 @@ const scrollbarStyles = `
 `;
 
 const PersonalInfo = () => {
-  const { user } = useSelector((state) => state.auth);
+  const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  
+  // Debug logs
+  console.log('Full auth state:', authState);
+  console.log('User from auth state:', authState.user);
+  console.log('Is user authenticated?', authState.isAuthenticated);
+  
+  // Destructure user after logging the full state
+  const { user } = authState;
 
   const [isEditing, setIsEditing] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
@@ -244,26 +254,109 @@ const PersonalInfo = () => {
     }
     
     try {
+      // Get the token from localStorage - using the correct key 'userToken'
+      const token = localStorage.getItem('userToken');
+      
+      console.log('Update email request details:', {
+        currentEmail: user?.email,
+        newEmail: emailForm.newEmail,
+        tokenExists: !!token,
+        apiUrl: API_URL
+      });
+      
+      if (!token) {
+        throw new Error('No authentication token found. Please log in again.');
+      }
+      
+      console.log('Sending request to update email...');
       const response = await fetch(`${API_URL}/api/users/update-email`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.token}`
+          'Authorization': `Bearer ${token}`,
+          'x-auth-token': token
         },
         body: JSON.stringify({
           newEmail: emailForm.newEmail,
           currentPassword: emailForm.currentPassword
-        })
+        }),
+        credentials: 'include'
       });
+      
+      console.log('Response status:', response.status);
+      
+      // Check for 401 Unauthorized
+      if (response.status === 401) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Authentication error:', errorData);
+        
+        // If token is invalid or expired, log the user out
+        if (errorData.message?.includes('expired') || 
+            errorData.message?.includes('invalid') ||
+            response.statusText === 'Unauthorized') {
+          dispatch(logout());
+          throw new Error('Your session has expired. Please log in again.');
+        }
+        
+        throw new Error(errorData.message || 'Authentication failed');
+      }
       
       const data = await response.json();
       
       if (!response.ok) {
+        // If unauthorized, try to refresh the token
+        if (response.status === 401) {
+          // Attempt to refresh the token
+          const refreshResponse = await fetch(`${API_URL}/api/auth/refresh-token`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          
+          if (refreshResponse.ok) {
+            const { token: newToken } = await refreshResponse.json();
+            // Retry the request with the new token
+            const retryResponse = await fetch(`${API_URL}/api/users/update-email`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${newToken}`
+              },
+              body: JSON.stringify({
+                newEmail: emailForm.newEmail,
+                currentPassword: emailForm.currentPassword
+              })
+            });
+            
+            const retryData = await retryResponse.json();
+            
+            if (!retryResponse.ok) {
+              throw new Error(retryData.message || 'Failed to update email after token refresh');
+            }
+            
+            // Update the token in localStorage
+            localStorage.setItem('token', newToken);
+            
+            // Return the successful response data
+            return retryData;
+          } else {
+            // If refresh fails, log the user out
+            dispatch(logout());
+            throw new Error('Session expired. Please log in again.');
+          }
+        }
+        
         throw new Error(data.message || 'Failed to update email');
       }
       
-      // Update user data in the UI
-      dispatch(updateUser({ email: emailForm.newEmail }));
+      // Update user data in the UI with the new token and user data
+      dispatch(updateUser({ 
+        email: data.user.email,
+        token: data.token,
+        emailVerified: data.user.emailVerified
+      }));
       
       // Reset form and state
       setEmailForm({
@@ -273,7 +366,7 @@ const PersonalInfo = () => {
       setIsEditingEmail(false);
       setEmailError('');
       
-      toast.success('Email updated successfully!');
+      toast.success(data.message || 'Email updated successfully! Please verify your new email.');
     } catch (error) {
       console.error('Error updating email:', error);
       setEmailError(error.message || 'Failed to update email. Please try again.');
@@ -585,15 +678,77 @@ const PersonalInfo = () => {
               <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-400 mb-1 flex items-center gap-2">
                 <IoMailOutline className="text-neutral-500 w-4 h-4" />Email Address
               </label>
-              <div className="p-3 bg-gray-50 dark:bg-neutral-800 rounded-lg">
-                <div className="flex items-center gap-2">
-                  {user.email}
-                  <span className="text-xs bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full">
-                    Verified
-                  </span>
+              {isEditingEmail ? (
+                <form onSubmit={handleUpdateEmail} className="space-y-3">
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-400 mb-1">
+                      New Email Address
+                    </label>
+                    <input
+                      type="email"
+                      name="newEmail"
+                      value={emailForm.newEmail}
+                      onChange={handleEmailChange}
+                      placeholder="Enter new email address"
+                      className="w-full p-2 border border-neutral-300 dark:border-neutral-600 rounded focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-neutral-800 dark:text-white"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-400 mb-1">
+                      Current Password
+                    </label>
+                    <input
+                      type="password"
+                      name="currentPassword"
+                      value={emailForm.currentPassword}
+                      onChange={handleEmailChange}
+                      placeholder="Enter your current password"
+                      className="w-full p-2 border border-neutral-300 dark:border-neutral-600 rounded focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-neutral-800 dark:text-white"
+                      required
+                    />
+                  </div>
+                  {emailError && (
+                    <p className="text-sm text-red-500">{emailError}</p>
+                  )}
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsEditingEmail(false);
+                        setEmailForm({ newEmail: '', currentPassword: '' });
+                        setEmailError('');
+                      }}
+                      className="px-3 py-1.5 text-sm font-medium text-neutral-700 bg-neutral-100 hover:bg-neutral-200 rounded-lg transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-3 py-1.5 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors"
+                    >
+                      Save Email
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div className="p-3 bg-gray-50 dark:bg-neutral-800 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      {user.email}
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                        Verified
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => setIsEditingEmail(true)}
+                      className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                    >
+                      Change
+                    </button>
+                  </div>
                 </div>
-                <p className="text-xs text-neutral-500 mt-1">Email cannot be changed</p>
-              </div>
+              )}
             </div>
 
             <div>

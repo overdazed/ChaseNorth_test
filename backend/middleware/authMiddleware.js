@@ -33,21 +33,53 @@ const protect = async (req, res, next) => {
     if (token) {
         try {
             console.log('Verifying token...');
+            console.log('Token being verified:', token.substring(0, 20) + '...'); // Log first 20 chars of token
+            
+            // Verify the token
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            console.log('Token verified successfully. User ID:', decoded.user?.id);
+            console.log('Token verified successfully. Decoded:', {
+                id: decoded.user?.id,
+                role: decoded.user?.role,
+                iat: decoded.iat ? new Date(decoded.iat * 1000) : 'No iat',
+                exp: decoded.exp ? new Date(decoded.exp * 1000) : 'No exp'
+            });
             
-            // Get user from the token
-            req.user = await User.findById(decoded.user.id).select('-password');
+            if (!decoded.user?.id) {
+                console.error('Token is missing user ID');
+                return res.status(401).json({ message: 'Invalid token format' });
+            }
             
-            if (!req.user) {
-                console.log('User not found for token');
+            // Get user from the database
+            console.log('Fetching user from database...');
+            const user = await User.findById(decoded.user.id).select('-password');
+            
+            if (!user) {
+                console.error('User not found for token');
                 return res.status(401).json({ message: 'User not found' });
             }
             
-            console.log('User authenticated:', { id: req.user._id, email: req.user.email });
+            // Check if token was issued before the last password change
+            if (user.passwordChangedAt && decoded.iat < user.passwordChangedAt.getTime() / 1000) {
+                console.error('Token was issued before password change');
+                return res.status(401).json({ message: 'Token expired. Please log in again.' });
+            }
+            
+            // Attach user to request object
+            req.user = user;
+            console.log('User authenticated successfully:', { 
+                id: user._id, 
+                email: user.email,
+                role: user.role 
+            });
+            
             next();
         } catch (error) {
-            console.error('Token verification failed:', error.message);
+            console.error('Token verification failed:', {
+                name: error.name,
+                message: error.message,
+                expiredAt: error.expiredAt,
+                date: new Date().toISOString()
+            });
             if (error.name === 'JsonWebTokenError') {
                 return res.status(401).json({ message: 'Invalid token' });
             } else if (error.name === 'TokenExpiredError') {
