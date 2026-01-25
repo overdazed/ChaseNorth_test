@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FaFileAlt, FaExclamationTriangle, FaCheckCircle, FaClock, FaInfoCircle } from 'react-icons/fa';
-import { format } from 'date-fns';
+import { format } from "date-fns/format";
 import { useNavigate } from 'react-router-dom';
 
 const UserReports = () => {
