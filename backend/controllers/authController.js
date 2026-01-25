@@ -222,27 +222,32 @@ exports.updateProfile = async (req, res, next) => {
                         }
                     }
 
-                    // Upload the profile picture to Supabase Storage using direct replacement
+                    // Simple and direct approach: delete old file, upload new file with same filename
                     const fileName = `profile-pictures/${req.user.id}.jpg`;
                     
-                    // First, explicitly delete the old file if it exists
+                    // Step 1: Delete the old profile picture if it exists
                     try {
-                        await supabase
+                        const { error: deleteError } = await supabase
                             .storage
                             .from('profile-pictures')
                             .remove([fileName]);
-                        console.log('Old profile picture deleted (if existed):', fileName);
-                    } catch (deleteError) {
-                        console.log('No existing profile picture to delete or delete failed:', deleteError.message);
+                        
+                        if (deleteError) {
+                            console.log('No existing profile picture to delete or delete failed:', deleteError.message);
+                        } else {
+                            console.log('Successfully deleted old profile picture:', fileName);
+                        }
+                    } catch (error) {
+                        console.log('Error during deletion check:', error.message);
                     }
                     
-                    // Now upload the new file with a unique temporary name first
-                    const tempFileName = `profile-pictures/temp_${req.user.id}_${Date.now()}.jpg`;
-                    const { data: uploadData, error: uploadError } = await supabase
+                    // Step 2: Upload the new profile picture with the same filename
+                    const { data, error: uploadError } = await supabase
                         .storage
                         .from('profile-pictures')
-                        .upload(tempFileName, Buffer.from(filteredBody.profilePicture.split(',')[1], 'base64'), {
+                        .upload(fileName, Buffer.from(filteredBody.profilePicture.split(',')[1], 'base64'), {
                             contentType: 'image/jpeg',
+                            upsert: true,  // Use upsert to ensure file is replaced if delete didn't work
                             cacheControl: '0, no-cache, no-store, must-revalidate'
                         });
                     
@@ -251,18 +256,7 @@ exports.updateProfile = async (req, res, next) => {
                         throw uploadError;
                     }
                     
-                    // Now move the temporary file to the final location
-                    const { data: moveData, error: moveError } = await supabase
-                        .storage
-                        .from('profile-pictures')
-                        .move(tempFileName, fileName);
-                    
-                    if (moveError) {
-                        console.error('Supabase move error:', moveError);
-                        throw moveError;
-                    }
-                    
-                    // Get the public URL of the final file
+                    // Step 3: Get the public URL of the uploaded file
                     const { data: publicUrlData } = supabase
                         .storage
                         .from('profile-pictures')
