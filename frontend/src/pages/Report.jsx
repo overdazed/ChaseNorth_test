@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 const problemTypes = [
   'Item not delivered',
@@ -69,15 +70,25 @@ const Report = () => {
     }
   }, [location.state?.orderId]);
 
-  const { register, handleSubmit, formState: { errors }, watch } = useForm({
+  // Get user from Redux store
+  const { user } = useSelector((state) => state.auth);
+
+  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm({
     defaultValues: {
       problemType: '',
       otherProblem: '',
       details: '',
       desiredOutcome: '',
-      email: localStorage.getItem('userEmail') || ''
+      email: user?.email || ''
     }
   });
+
+  // Update email field when user data is available
+  useEffect(() => {
+    if (user?.email) {
+      setValue('email', user.email);
+    }
+  }, [user, setValue]);
   
   const problemType = watch('problemType');
 
@@ -484,7 +495,7 @@ const Report = () => {
                 {...register('email', {
                   required: 'Email is required',
                   pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i,
                     message: 'Please enter a valid email address'
                   }
                 })}

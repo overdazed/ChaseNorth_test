@@ -245,7 +245,7 @@ const SupportAndHelp = () => {
                                         <p className="text-sm text-gray-700 mb-3">{report.details}</p>
                                         
                                         <div className="flex flex-wrap gap-4 text-xs text-gray-500 mb-2">
-                                            <span>Order: {report.orderId?.orderNumber || 'N/A'}</span>
+                                            <span>Order: {report.orderId?.orderNumber || report.orderId?._id || 'N/A'}</span>
                                             <span>Created: {formatDate(report.createdAt)}</span>
                                             <span>Updated: {formatDate(report.updatedAt)}</span>
                                         </div>
