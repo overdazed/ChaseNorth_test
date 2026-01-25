@@ -71,7 +71,7 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         // Basic validation
         if (!formData.subject.trim() || !formData.message.trim()) {
             toast.error('Please fill in all required fields');
@@ -79,6 +79,14 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
         }
 
         try {
+            console.log('Sending request with data:', {  // Add this line
+                name: user?.name || 'Guest User',
+                email: user?.email || 'no-email@example.com',
+                subject: formData.subject,
+                message: formData.message,
+                priority: formData.priority
+            });
+
             const response = await fetch(`${API_URL}/api/contact`, {
                 method: 'POST',
                 headers: {
@@ -95,9 +103,10 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
             });
 
             const data = await response.json();
+            console.log('Server response:', { status: response.status, data });  // Add this line
 
             if (!response.ok) {
-                throw new Error(data.message || 'Failed to send message');
+                throw new Error(data.message || `Failed to send message. Status: ${response.status}`);
             }
 
             toast.success('Your message has been sent successfully!');

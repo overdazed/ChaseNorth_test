@@ -1,21 +1,8 @@
-import express from 'express';
-import nodemailer from 'nodemailer';
-import { body, validationResult } from 'express-validator';
-
-
+const express = require('express');
+const { body, validationResult } = require('express-validator');
+const sendEmail = require('../utils/sendEmail');
 
 const router = express.Router();
-
-// Configure nodemailer
-const transporter = nodemailer.createTransport({
-    // Configure your email service here
-    // Example for Gmail:
-    service: 'gmail',
-    auth: {
-        user: process.env.SUPPORT_EMAIL,
-        pass: process.env.SUPPORT_PASS
-    }
-});
 
 // @route   POST /api/contact
 // @desc    Handle contact form submission
@@ -24,25 +11,30 @@ router.post(
     '/',
     [
         body('name').notEmpty().withMessage('Name is required'),
-        body('email').isEmail().withMessage('Please include a valid email'),
+        body('email').isLength({ min: 3 }).withMessage('Please include a valid email'),
         body('subject').notEmpty().withMessage('Subject is required'),
         body('message').notEmpty().withMessage('Message is required')
     ],
     async (req, res) => {
+        console.log('Received contact form data:', req.body);
+        
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            console.error('Validation errors:', errors.array());
+            return res.status(400).json({ 
+                message: 'Validation failed',
+                errors: errors.array() 
+            });
         }
 
         const { name, email, subject, message, priority } = req.body;
 
         try {
-            // Send email
-            await transporter.sendMail({
-                from: `"${name}" <${process.env.SUPPORT_EMAIL}>`,
-                to: 'support@chasenorth.com',
-                subject: `[${priority}] ${subject}`,
-                text: `
+            // Prepare email options
+            const emailOptions = {
+                email: 'support@chasenorth.com',
+                subject: `[${priority || 'No Priority'}] ${subject}`,
+                message: `
                     You have received a new contact form submission:
                     
                     Name: ${name}
@@ -50,8 +42,7 @@ router.post(
                     Priority: ${priority || 'Not specified'}
                     
                     Message:
-                    ${message}
-                `,
+                    ${message}`,
                 html: `
                     <h2>New Contact Form Submission</h2>
                     <p><strong>Name:</strong> ${name}</p>
@@ -60,7 +51,10 @@ router.post(
                     <h3>Message:</h3>
                     <p>${message.replace(/\n/g, '<br>')}</p>
                 `
-            });
+            };
+            
+            // Send email using the sendEmail utility
+            await sendEmail(emailOptions);
 
             res.status(200).json({ message: 'Your message has been sent successfully!' });
         } catch (error) {
@@ -70,4 +64,4 @@ router.post(
     }
 );
 
-export default router;
+module.exports = router;
