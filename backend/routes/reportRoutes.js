@@ -159,12 +159,16 @@ router.get('/user/:email', async (req, res) => {
             .sort({ createdAt: -1 })
             .lean();
 
+        console.log('Reports fetched from DB:', reports);
+
         // Filter out archived reports
         const filteredReports = reports.filter(report => report.status !== 'Archived');
 
+        console.log('Filtered reports (non-archived):', filteredReports);
+
         res.json({
             success: true,
-            reports: filteredReports || []
+            reports: filteredReports
         });
     } catch (error) {
         console.error('Error fetching user reports:', error);

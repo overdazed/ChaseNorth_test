@@ -30,6 +30,7 @@ const SupportAndHelp = () => {
                 }
 
                 const data = await response.json();
+                console.log('Fetched reports:', data.reports);
                 setReports(data.reports || []);
             } catch (err) {
                 console.error('Error fetching reports:', err);
