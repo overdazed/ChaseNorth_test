@@ -120,15 +120,25 @@ const OrderDetailsPage = () => {
     }, [])
 
     useEffect(() => {
-        const handleBackNavigation = () => {
-            if (sessionStorage.getItem('fromSupportAndHelp')) {
-                sessionStorage.removeItem('fromSupportAndHelp');
-                navigate('/profile?tab=support', { replace: true });
+        const handleBackNavigation = (event) => {
+            if (window.history.state?.state?.fromSupportTab) {
+                // Prevent the default back navigation
+                event.preventDefault();
+                // Navigate to profile with support tab active
+                navigate('/profile', {
+                    state: { activeTab: 'support' },
+                    replace: true
+                });
             }
         };
 
+        // Add the event listener
         window.addEventListener('popstate', handleBackNavigation);
-        return () => window.removeEventListener('popstate', handleBackNavigation);
+
+        // Clean up the event listener
+        return () => {
+            window.removeEventListener('popstate', handleBackNavigation);
+        };
     }, [navigate]);
 
     if (loading) return <p>Loading...</p>;

@@ -3,7 +3,7 @@ import PersonalInfo from "../components/Profile/PersonalInfo"
 import SupportAndHelp from "../components/Profile/SupportAndHelp"
 import { FaSignOutAlt, FaUser, FaShoppingBag, FaQuestionCircle } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { logout } from "../redux/slices/authSlice.js"
 import { clearCart } from "../redux/slices/cartSlice.js"
@@ -12,6 +12,7 @@ const Profile = () => {
     // Get user from authSlice
     const {user} = useSelector((state) => state.auth);
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -62,6 +63,12 @@ const Profile = () => {
         { id: 'personal', label: 'Personal Information', icon: <FaUser className="mr-2" /> },
         { id: 'support', label: 'Support & Help', icon: <FaQuestionCircle className="mr-2" /> }
     ]
+
+    useEffect(() => {
+        if (location.state?.activeTab) {
+            setActiveTab(location.state.activeTab);
+        }
+    }, [location.state]);
 
     return (
         <div className={`min-h-screen flex flex-col ${bgClass} ${textClass} transition-colors duration-500`}>

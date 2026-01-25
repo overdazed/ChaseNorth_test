@@ -271,9 +271,9 @@ const SupportAndHelp = () => {
                                 <div className="flex space-x-2 mt-3">
                                     <button
                                         onClick={() => {
-                                            // Store the current location before navigating
-                                            sessionStorage.setItem('fromSupportAndHelp', 'true');
-                                            navigate(`/order/${report.orderId?._id || report.orderId}`);
+                                            navigate(`/order/${report.orderId?._id || report.orderId}`, {
+                                                state: { fromSupportTab: true }
+                                            });
                                         }}
                                         className="text-xs text-blue-600 hover:text-blue-800 cursor-pointer"
                                     >
