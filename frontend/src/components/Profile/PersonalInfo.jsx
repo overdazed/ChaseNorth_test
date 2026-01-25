@@ -107,13 +107,6 @@ const PersonalInfo = () => {
     }
   };
 
-  // Check email verification status on component mount
-  useEffect(() => {
-    if (user && !user.emailVerified) {
-      refreshUserData();
-    }
-  }, [user]);
-
   const [addressData, setAddressData] = useState({
     billingAddress: {
       firstName: '',
