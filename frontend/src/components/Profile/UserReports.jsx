@@ -144,6 +144,18 @@ const UserReports = () => {
                                                 'No details provided'}
                                         </p>
                                     </div>
+                                    {/* Admin Notes Section - Only show for 'Needs Info' status */}
+                                    {report.status === 'Needs Info' && report.adminNotes && report.adminNotes.length > 0 && (
+                                        <div className="mt-3 p-3 bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 rounded-r">
+                                            <p className="font-medium text-yellow-800 dark:text-yellow-200">
+                                                Action needed! 
+                                                <span className="block mt-1 text-yellow-700 dark:text-yellow-300 font-normal">
+                                                    &gt; {report.adminNotes[report.adminNotes.length - 1].content}
+                                                </span>
+                                            </p>
+                                        </div>
+                                    )}
+                                    
                                     <div className="mt-2 flex flex-wrap items-center gap-x-6 text-sm text-gray-500 dark:text-gray-400">
                                         {report.orderId && (
                                             <div className="flex items-center">
