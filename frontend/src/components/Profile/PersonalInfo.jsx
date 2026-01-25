@@ -273,8 +273,7 @@ const PersonalInfo = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-          'x-auth-token': token
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           newEmail: emailForm.newEmail,
@@ -301,54 +300,84 @@ const PersonalInfo = () => {
         throw new Error(errorData.message || 'Authentication failed');
       }
       
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error('Error parsing JSON response:', jsonError);
+        throw new Error('Invalid response from server');
+      }
       
       if (!response.ok) {
-        // If unauthorized, try to refresh the token
+        console.error('Update email failed:', {
+          status: response.status,
+          statusText: response.statusText,
+          data: data
+        });
+        
         if (response.status === 401) {
-          // Attempt to refresh the token
-          const refreshResponse = await fetch(`${API_URL}/api/auth/refresh-token`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
-          
-          if (refreshResponse.ok) {
-            const { token: newToken } = await refreshResponse.json();
-            // Retry the request with the new token
-            const retryResponse = await fetch(`${API_URL}/api/users/update-email`, {
-              method: 'PUT',
+          // Try to refresh the token if it's expired
+          try {
+            console.log('Attempting to refresh token...');
+            const refreshResponse = await fetch(`${API_URL}/api/auth/refresh-token`, {
+              method: 'POST',
+              credentials: 'include',
               headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${newToken}`
-              },
-              body: JSON.stringify({
-                newEmail: emailForm.newEmail,
-                currentPassword: emailForm.currentPassword
-              })
+                'Content-Type': 'application/json'
+              }
             });
             
-            const retryData = await retryResponse.json();
-            
-            if (!retryResponse.ok) {
-              throw new Error(retryData.message || 'Failed to update email after token refresh');
+            if (refreshResponse.ok) {
+              const { token: newToken } = await refreshResponse.json();
+              console.log('Token refreshed successfully');
+              
+              // Retry the request with the new token
+              const retryResponse = await fetch(`${API_URL}/api/users/update-email`, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${newToken}`
+                },
+                body: JSON.stringify({
+                  newEmail: emailForm.newEmail,
+                  currentPassword: emailForm.currentPassword
+                })
+              });
+              
+              const retryData = await retryResponse.json();
+              
+              if (!retryResponse.ok) {
+                throw new Error(retryData.message || 'Failed to update email after token refresh');
+              }
+              
+              // Update the token in localStorage
+              localStorage.setItem('userToken', newToken);
+              
+              // Return the successful response data
+              return retryData;
+            } else {
+              // If refresh fails, log the user out
+              console.log('Token refresh failed, logging out...');
+              dispatch(logout());
+              throw new Error('Your session has expired. Please log in again.');
             }
-            
-            // Update the token in localStorage
-            localStorage.setItem('token', newToken);
-            
-            // Return the successful response data
-            return retryData;
-          } else {
-            // If refresh fails, log the user out
+          } catch (refreshError) {
+            console.error('Error during token refresh:', refreshError);
             dispatch(logout());
             throw new Error('Session expired. Please log in again.');
           }
         }
         
-        throw new Error(data.message || 'Failed to update email');
+        // Handle specific error messages
+        if (response.status === 400) {
+          throw new Error(data.message || 'Invalid request. Please check your input and try again.');
+        } else if (response.status === 404) {
+          throw new Error('User not found. Please log in again.');
+        } else if (response.status === 500) {
+          throw new Error('Server error. Please try again later.');
+        } else {
+          throw new Error(data.message || 'Failed to update email');
+        }
       }
       
       // Update user data in the UI with the new token and user data
@@ -736,8 +765,12 @@ const PersonalInfo = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       {user.email}
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
-                        Verified
+                      <span className={`text-xs px-2 py-0.5 rounded-full ${
+                        user.emailVerified 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-yellow-100 text-yellow-800'
+                      }`}>
+                        {user.emailVerified ? 'Verified' : 'Unverified'}
                       </span>
                     </div>
                     <button

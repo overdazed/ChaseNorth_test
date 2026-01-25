@@ -31,6 +31,7 @@ const allowedOrigins = ['http://localhost:5173', 'http://localhost:9000','http:/
 //   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 //   allowedHeaders: ['Content-Type', 'Authorization']
 // }));
+// Configure CORS with allowed headers including x-auth-token
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
@@ -42,7 +43,8 @@ app.use(cors({
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
+  exposedHeaders: ['x-auth-token']
 }));
 
 // Mock authentication middleware (from minimal.js)

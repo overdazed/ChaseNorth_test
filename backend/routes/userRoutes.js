@@ -174,11 +174,17 @@ router.put('/update-email', protect, async (req, res) => {
     try {
         const { newEmail, currentPassword } = req.body;
         
-        // Find the user
-        const user = await User.findById(req.user.id);
+        // Find the user and include the password field for verification
+        const user = await User.findById(req.user.id).select('+password');
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
+        
+        console.log('User found for email update:', { 
+            userId: user._id, 
+            currentEmail: user.email,
+            hasPassword: !!user.password 
+        });
 
         // Verify current password
         const isMatch = await bcrypt.compare(currentPassword, user.password);
