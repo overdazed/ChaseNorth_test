@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import axios from 'axios';
 
 const EmailVerification = () => {
     const [searchParams] = useSearchParams();
@@ -8,7 +7,7 @@ const EmailVerification = () => {
     const token = searchParams.get('token');
 
     useEffect(() => {
-        const verifyEmail = async () => {
+        const verifyEmail = () => {
             try {
                 if (!token) {
                     console.error('No verification token provided');
@@ -16,27 +15,18 @@ const EmailVerification = () => {
                     return;
                 }
 
-                // Call backend verification endpoint
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/verify-email?token=${token}`);
+                // Instead of calling backend API, redirect directly to backend verification endpoint
+                // This avoids CORS issues since the browser will handle the redirect
+                const verificationUrl = `${import.meta.env.VITE_API_URL}/api/users/verify-email?token=${token}`;
                 
-                console.log('Email verification response:', response.data);
+                console.log('Redirecting to backend verification:', verificationUrl);
                 
-                // Redirect to profile with success message
-                navigate('/profile?emailVerified=true');
+                // Perform the redirect
+                window.location.href = verificationUrl;
                 
             } catch (error) {
-                console.error('Email verification failed:', error.response?.data || error.message);
-                
-                // Redirect to profile with error message
-                if (error.response?.status === 400) {
-                    navigate('/profile?emailError=invalid_token');
-                } else if (error.response?.status === 404) {
-                    navigate('/profile?emailError=user_not_found');
-                } else if (error.response?.data?.message.includes('expired')) {
-                    navigate('/profile?emailError=expired');
-                } else {
-                    navigate('/profile?emailError=verification_failed');
-                }
+                console.error('Email verification failed:', error.message);
+                navigate('/profile?emailError=verification_failed');
             }
         };
 

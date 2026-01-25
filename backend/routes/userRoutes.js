@@ -263,6 +263,11 @@ router.put('/update-email', protect, async (req, res) => {
 // @desc    Verify user's email after change
 // @access  Public
 router.get('/verify-email', async (req, res) => {
+    // Set CORS headers for this specific endpoint
+    res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+    res.header('Access-Control-Allow-Methods', 'GET');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
     try {
         const { token } = req.query;
         
