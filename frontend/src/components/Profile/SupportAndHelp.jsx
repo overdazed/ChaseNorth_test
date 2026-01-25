@@ -30,8 +30,18 @@ const SupportAndHelp = () => {
                 }
 
                 const data = await response.json();
-                console.log('Fetched reports:', data.reports);
-                setReports(data.reports || []);
+                console.log('Fetched reports:', data);
+                
+                // The API returns the reports array directly in the response
+                if (data.success && Array.isArray(data.reports)) {
+                    setReports(data.reports);
+                } else if (Array.isArray(data)) {
+                    // Fallback in case the response is just the array directly
+                    setReports(data);
+                } else {
+                    console.warn('Unexpected API response format:', data);
+                    setReports([]);
+                }
             } catch (err) {
                 console.error('Error fetching reports:', err);
                 setError('Failed to load your reports. Please try again later.');
