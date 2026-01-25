@@ -60,7 +60,7 @@ const Profile = () => {
     const tabs = [
         { id: 'orders', label: 'My Orders', icon: <FaShoppingBag className="mr-2" /> },
         { id: 'personal', label: 'Personal Information', icon: <FaUser className="mr-2" /> },
-        { id: 'support', label: 'Support & Help', icon: <FaUser className="mr-2" /> }
+        { id: 'support', label: 'Support & Help', icon: <FaQuestionCircle className="mr-2" /> }
     ]
 
     return (
@@ -85,6 +85,17 @@ const Profile = () => {
                             className="w-full bg-red-800 text-white py-3 px-4 rounded-full hover:bg-accent flex items-center justify-center gap-2">
                             <FaSignOutAlt/>
                             Logout
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('orders')}
+                            className={`w-full mt-4 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
+                                activeTab === 'orders'
+                                    ? 'bg-blue-600 text-white'
+                                    : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
+                            }`}
+                        >
+                            <FaShoppingBag />
+                            My Orders
                         </button>
                         <button
                             onClick={() => setActiveTab('personal')}
