@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/slices/authSlice';
 import { FaEdit, FaSave, FaTimes, FaCamera, FaKey, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import { countries } from '../../data/countries.jsx';
+import {FaMapLocationDot} from "react-icons/fa6";
+import {IoMailOutline} from "react-icons/io5";
 
 // Custom scrollbar styles
 const scrollbarStyles = `
@@ -52,6 +54,13 @@ const PersonalInfo = () => {
     newPassword: '',
     confirmPassword: ''
   });
+  
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [emailForm, setEmailForm] = useState({
+    newEmail: '',
+    currentPassword: ''
+  });
+  const [emailError, setEmailError] = useState('');
 
   const [addressData, setAddressData] = useState({
     billingAddress: {
@@ -208,6 +217,66 @@ const PersonalInfo = () => {
     } catch (error) {
       console.error('Password update error:', error);
       alert(error.message || 'Failed to update password');
+    }
+  };
+
+  const handleEmailChange = (e) => {
+    const { name, value } = e.target;
+    setEmailForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    setEmailError('');
+  };
+
+  const handleUpdateEmail = async (e) => {
+    e.preventDefault();
+    
+    // Basic validation
+    if (!emailForm.newEmail || !emailForm.currentPassword) {
+      setEmailError('Please fill in all fields');
+      return;
+    }
+    
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailForm.newEmail)) {
+      setEmailError('Please enter a valid email address');
+      return;
+    }
+    
+    try {
+      const response = await fetch(`${API_URL}/api/users/update-email`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`
+        },
+        body: JSON.stringify({
+          newEmail: emailForm.newEmail,
+          currentPassword: emailForm.currentPassword
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to update email');
+      }
+      
+      // Update user data in the UI
+      dispatch(updateUser({ email: emailForm.newEmail }));
+      
+      // Reset form and state
+      setEmailForm({
+        newEmail: '',
+        currentPassword: ''
+      });
+      setIsEditingEmail(false);
+      setEmailError('');
+      
+      toast.success('Email updated successfully!');
+    } catch (error) {
+      console.error('Error updating email:', error);
+      setEmailError(error.message || 'Failed to update email. Please try again.');
     }
   };
 
@@ -484,7 +553,7 @@ const PersonalInfo = () => {
 
           <div className="flex-1 w-full">
             <h3 className="text-xl font-semibold mb-2">Profile Picture</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-500">
+            <p className="text-sm text-gray-600 dark:text-neutral-500">
               {isEditing
                 ? 'Click on the camera icon to upload a new photo. JPG, GIF or PNG. Max size 2MB.'
                 : 'Update your profile picture to personalize your account.'}
@@ -513,7 +582,9 @@ const PersonalInfo = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-400 mb-1">Email Address</label>
+              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-400 mb-1 flex items-center gap-2">
+                <IoMailOutline className="text-neutral-500 w-4 h-4" />Email Address
+              </label>
               <div className="p-3 bg-gray-50 dark:bg-neutral-800 rounded-lg">
                 <div className="flex items-center gap-2">
                   {user.email}
@@ -521,13 +592,13 @@ const PersonalInfo = () => {
                     Verified
                   </span>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
+                <p className="text-xs text-neutral-500 mt-1">Email cannot be changed</p>
               </div>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-400 mb-1 flex items-center gap-2">
-                <FaPhone className="text-gray-500" /> Phone Number
+                <FaPhone className="text-neutral-500" /> Phone Number
               </label>
               {isEditing ? (
                 <input
@@ -549,7 +620,7 @@ const PersonalInfo = () => {
         <div className="space-y-6 pt-6 border-t dark:border-neutral-900">
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-50 flex items-center gap-2">
-              <FaMapMarkerAlt className="text-red-500" /> Address Information
+              <FaMapLocationDot className="text-neutral-500" /> Address Information
             </h3>
           </div>
 
@@ -571,7 +642,7 @@ const PersonalInfo = () => {
                       <p>{user.billingAddress.country}</p>
                     </>
                   ) : (
-                    <p className="text-gray-500 italic">No billing address provided</p>
+                    <p className="text-neutral-500 italic">No billing address provided</p>
                   )}
                 </div>
               )}
@@ -621,7 +692,7 @@ const PersonalInfo = () => {
         <div className="pt-6 border-t dark:border-neutral-900">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-50 flex items-center gap-2">
-              <FaKey className="text-yellow-500" /> Password & Security
+              <FaKey className="text-neutral-500" /> Password & Security
             </h3>
             {!showPasswordForm && (
                 <button
