@@ -1,4 +1,4 @@
-import { useuseState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser, logout } from '../../redux/slices/authSlice';
 import { FaEdit, FaSave, FaTimes, FaCamera, FaKey, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
@@ -33,7 +33,7 @@ const scrollbarStyles = `
 const PersonalInfo = () => {
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  
+
   // Debug logs
   console.log('Full auth state:', authState);
   console.log('User from auth state:', authState.user);
@@ -80,7 +80,7 @@ const PersonalInfo = () => {
       const token = localStorage.getItem('userToken');
       if (!token) return;
 
-      const response = await fetch(`${API_URL}/api/users/profile`, {
+      const response = await fetch(`${API_URL}/api/users/me`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -89,10 +89,8 @@ const PersonalInfo = () => {
 
       if (response.ok) {
         const userData = await response.json();
-        
-        // Update the user data in Redux store
-        dispatch(updateUser(userData));
-        
+        dispatch(updateEmailVerification(userData.emailVerified));
+
         // Update local storage
         const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
         if (userInfo) {
@@ -101,8 +99,6 @@ const PersonalInfo = () => {
             emailVerified: userData.emailVerified
           }));
         }
-        
-        return userData;
       }
     } catch (error) {
       console.error('Error refreshing user data:', error);
@@ -171,20 +167,6 @@ const PersonalInfo = () => {
       });
     }
   }, [user]);
-
-  useEffect(() => {
-    const checkEmailVerification = async () => {
-      if (user && !user.emailVerified) {
-        const updatedUser = await refreshUserData();
-        // If we have updated user data and it's now verified, update the UI
-        if (updatedUser?.emailVerified) {
-          dispatch(updateUser(updatedUser));
-        }
-      }
-    };
-
-    checkEmailVerification();
-  }, [user?.emailVerified]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
