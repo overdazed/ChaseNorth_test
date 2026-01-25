@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FaSearch, FaArrowLeft, FaPaperclip, FaCheck, FaTimes, FaSpinner, FaExpand, FaTimesCircle } from 'react-icons/fa';
+import { FaSearch, FaArrowLeft, FaPaperclip, FaCheck, FaTimes, FaSpinner, FaExpand, FaTimesCircle, FaUpload } from 'react-icons/fa';
 import { supabase } from '../../lib/supabase';
 import { toast } from 'sonner';
 import axios from 'axios';
@@ -48,6 +48,9 @@ const ReportManagement = () => {
     const [imageLoading, setImageLoading] = useState({});
     const [editingNoteId, setEditingNoteId] = useState(null);
     const [editingNoteContent, setEditingNoteContent] = useState('');
+    const [uploadingFiles, setUploadingFiles] = useState(false);
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const fileInputRef = useRef(null);
 
     const navigate = useNavigate();
     const { id } = useParams();
@@ -189,15 +192,6 @@ const ReportManagement = () => {
         return statusClasses[status] || statusClasses['default'];
     };
 
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center h-64">
-                <FaSpinner className="animate-spin text-2xl text-blue-500" />
-                <span className="ml-2">Loading reports...</span>
-            </div>
-        );
-    }
-
     const handleEditNote = (note) => {
         setEditingNoteId(note._id);
         setEditingNoteContent(note.content);
@@ -275,6 +269,69 @@ const ReportManagement = () => {
             toast.error(error.response?.data?.message || 'Failed to delete note');
         }
     };
+
+    const handleFileUpload = async (files) => {
+        if (!files || files.length === 0) return;
+        
+        setUploadingFiles(true);
+        
+        try {
+            // Upload each file sequentially to avoid overloading the server
+            for (const file of files) {
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                // Upload the file to the server
+                const { data } = await axios.post(
+                    `${import.meta.env.VITE_BACKEND_URL}/api/reports/upload/${selectedReport._id}`,
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+                        },
+                        withCredentials: true
+                    }
+                );
+                
+                if (data.success && data.attachment) {
+                    // Update the local state with the new attachment
+                    const updatedReport = {
+                        ...selectedReport,
+                        attachments: [...(selectedReport.attachments || []), data.attachment]
+                    };
+                    
+                    // Update the reports list
+                    const updatedReports = reports.map(r => 
+                        r._id === selectedReport._id ? updatedReport : r
+                    );
+                    
+                    setReports(updatedReports);
+                    setSelectedReport(updatedReport);
+                } else {
+                    throw new Error('Failed to upload file');
+                }
+            }
+            
+            setSelectedFiles([]);
+            toast.success('Pictures uploaded successfully');
+            
+        } catch (error) {
+            console.error('Error uploading files:', error);
+            toast.error(error.response?.data?.message || 'Failed to upload pictures');
+        } finally {
+            setUploadingFiles(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-64">
+                <FaSpinner className="animate-spin text-2xl text-blue-500" />
+                <span className="ml-2">Loading reports...</span>
+            </div>
+        );
+    }
 
     return (
         <div className="max-w-7xl mx-auto p-6">
@@ -405,7 +462,41 @@ const ReportManagement = () => {
 
                                 {selectedReport.attachments && selectedReport.attachments.length > 0 && (
                                     <div className="mt-4">
-                                        <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Attachments ({selectedReport.attachments.length})</h4>
+                                        <div className="flex justify-between items-center mb-2">
+                                            <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                                                Attachments ({selectedReport.attachments.length})
+                                            </h4>
+                                            <div>
+                                                <input
+                                                    type="file"
+                                                    ref={fileInputRef}
+                                                    className="hidden"
+                                                    multiple
+                                                    accept="image/*"
+                                                    onChange={(e) => {
+                                                        setSelectedFiles(Array.from(e.target.files));
+                                                        handleFileUpload(Array.from(e.target.files));
+                                                    }}
+                                                />
+                                                <button
+                                                    onClick={() => fileInputRef.current.click()}
+                                                    className="text-xs flex items-center gap-1 px-3 py-1.5 bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-700 dark:hover:bg-neutral-600 rounded-md transition-colors"
+                                                    disabled={uploadingFiles}
+                                                >
+                                                    {uploadingFiles ? (
+                                                        <>
+                                                            <FaSpinner className="animate-spin mr-1" />
+                                                            Uploading...
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <FaUpload className="mr-1" />
+                                                            Add Pictures
+                                                        </>
+                                                    )}
+                                                </button>
+                                            </div>
+                                        </div>
                                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                                             {selectedReport.attachments.map((attachment, index) => {
                                                 const imageUrl = attachment.path.startsWith('http')

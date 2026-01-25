@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage: multer.memoryStorage(),
-    limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+    limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
 });
 
 // @route   POST /api/reports
@@ -202,6 +202,76 @@ router.get('/user/:email', async (req, res) => {
     }
 });
 
+// @desc    Upload file for a report
+// @route   POST /api/reports/upload/:reportId
+// @access  Private
+router.post('/upload/:reportId', protect, upload.single('file'), async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: 'No file uploaded' });
+        }
+
+        const report = await Report.findById(req.params.reportId);
+        if (!report) {
+            return res.status(404).json({ success: false, message: 'Report not found' });
+        }
+
+        const file = req.file;
+        const fileExt = file.originalname.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+        const filePath = `${report._id}/${fileName}`;
+
+        // Upload to Supabase
+        const { error: uploadError } = await supabase.storage
+            .from('reports')
+            .upload(filePath, file.buffer, {
+                contentType: file.mimetype,
+                upsert: false,
+                cacheControl: '3600',
+            });
+
+        if (uploadError) {
+            console.error('Supabase upload error:', uploadError);
+            return res.status(500).json({ 
+                success: false, 
+                message: 'Failed to upload file to storage',
+                error: uploadError.message 
+            });
+        }
+
+        // Get public URL
+        const { data: { publicUrl } } = supabase.storage
+            .from('reports')
+            .getPublicUrl(filePath);
+
+        const attachment = {
+            filename: file.originalname,
+            path: filePath,
+            url: publicUrl,
+            mimetype: file.mimetype,
+            size: file.size
+        };
+
+        // Add the attachment to the report
+        report.attachments = [...(report.attachments || []), attachment];
+        await report.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'File uploaded successfully',
+            attachment
+        });
+
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Server error during file upload',
+            error: error.message 
+        });
+    }
+});
+
 // Admin routes
 const adminRouter = express.Router();
 
@@ -275,6 +345,79 @@ adminRouter.patch('/:id/status', async (req, res) => {
     } catch (error) {
         console.error('Error updating report status:', error);
         res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// @desc    Add attachments to a report
+// @route   POST /api/admin/reports/:id/attachments
+// @access  Private/Admin
+adminRouter.post('/:id/attachments', upload.array('attachments', 5), async (req, res) => {
+    try {
+        const report = await Report.findById(req.params.id);
+        
+        if (!report) {
+            return res.status(404).json({ message: 'Report not found' });
+        }
+
+        const files = req.files || [];
+        const uploadedAttachments = [];
+
+        // Upload each file to Supabase
+        for (const file of files) {
+            const fileExt = file.originalname.split('.').pop();
+            const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+            const filePath = `reports/${report._id}/${fileName}`;
+            
+            // Upload to Supabase
+            const { error: uploadError } = await supabase.storage
+                .from('reports')
+                .upload(filePath, file.buffer, {
+                    contentType: file.mimetype,
+                    upsert: false
+                });
+            
+            if (uploadError) {
+                console.error('Error uploading to Supabase:', uploadError);
+                continue; // Skip this file but continue with others
+            }
+            
+            // Get public URL
+            const { data: { publicUrl } } = supabase.storage
+                .from('reports')
+                .getPublicUrl(filePath);
+            
+            uploadedAttachments.push({
+                filename: file.originalname,
+                path: `${report._id}/${fileName}`,
+                url: publicUrl,
+                mimetype: file.mimetype
+            });
+        }
+
+        if (uploadedAttachments.length === 0) {
+            return res.status(400).json({ message: 'No files were uploaded' });
+        }
+
+        // Add new attachments to the report
+        report.attachments = [...(report.attachments || []), ...uploadedAttachments];
+        
+        await report.save();
+        
+        // Populate the report data for the response
+        const updatedReport = await Report.findById(report._id)
+            .populate('orderId')
+            .populate('attachments');
+        
+        res.status(200).json({
+            message: 'Files uploaded successfully',
+            report: updatedReport
+        });
+    } catch (error) {
+        console.error('Error uploading files:', error);
+        res.status(500).json({ 
+            message: 'Failed to upload files',
+            error: error.message 
+        });
     }
 });
 
