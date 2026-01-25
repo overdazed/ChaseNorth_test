@@ -222,41 +222,32 @@ exports.updateProfile = async (req, res, next) => {
                         }
                     }
 
-                    // Delete old profile picture for this user
-                    const oldFileName = `profile-pictures/${req.user.id}.jpg`;
-                    
-                    // First check if the old file exists
-                    const { data: existingFiles, error: listError } = await supabase
-                        .storage
-                        .from('profile-pictures')
-                        .list(oldFileName.split('/')[0], {
-                            search: oldFileName.split('/')[1]
-                        });
-                    
-                    // If the old file exists, delete it
-                    if (existingFiles && existingFiles.length > 0) {
-                        const { error: deleteError } = await supabase
-                            .storage
-                            .from('profile-pictures')
-                            .remove([oldFileName]);
-                        
-                        if (deleteError) {
-                            console.error('Error deleting old profile picture:', deleteError);
-                        } else {
-                            console.log('Successfully deleted old profile picture:', oldFileName);
-                        }
-                    }
-
-                    // Upload the profile picture to Supabase Storage
+                    // Upload the profile picture to Supabase Storage using direct replacement
                     const fileName = `profile-pictures/${req.user.id}.jpg`;
+                    
+                    // Use upsert with cache invalidation to directly replace the file
                     const { data, error } = await supabase
                         .storage
                         .from('profile-pictures')
                         .upload(fileName, Buffer.from(filteredBody.profilePicture.split(',')[1], 'base64'), {
                             contentType: 'image/jpeg',
                             upsert: true,
-                            cacheControl: '3600'
+                            cacheControl: '0, no-cache, no-store, must-revalidate'
                         });
+                    
+                    if (error) {
+                        console.error('Supabase upload error:', error);
+                    } else {
+                        // Get the public URL of the uploaded file
+                        const { data: publicUrlData } = supabase
+                            .storage
+                            .from('profile-pictures')
+                            .getPublicUrl(fileName);
+
+                        // Update the profile picture URL in the filtered body
+                        filteredBody.profilePicture = publicUrlData.publicUrl;
+                        console.log('Profile picture updated:', filteredBody.profilePicture);
+                    }
 
                     if (error) {
                         console.error('Supabase upload error:', error);
