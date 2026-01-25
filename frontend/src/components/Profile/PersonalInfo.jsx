@@ -430,6 +430,9 @@ const PersonalInfo = () => {
       setIsEditingEmail(false);
       setEmailError('');
       
+      // Refresh user data after email update to get the latest verification status
+      refreshUserData();
+      
       toast.success(data.message || 'Email updated successfully! Please verify your new email.');
     } catch (error) {
       console.error('Error updating email:', error);
