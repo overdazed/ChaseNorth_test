@@ -386,9 +386,9 @@ const PersonalInfo = () => {
         )}
       </div>
 
-      <div className="dark:bg-neutra bg-white rounded-xl shadow-sm p-6 space-y-8">
+      <div className="dark:bg-neutral-950 bg-white rounded-xl shadow-sm p-6 space-y-8">
         {/* Profile Picture Section */}
-        <div className="flex flex-col items-center md:flex-row md:items-start gap-6 pb-6 border-b">
+        <div className="flex flex-col items-center md:flex-row md:items-start gap-6 pb-6 border-b dark:border-neutral-900 border-neutral-100">
           <div className="relative">
             <div className="w-32 h-32 rounded-full bg-gray-200 overflow-hidden shadow-md">
               {formData.profilePicture ? (
@@ -418,7 +418,7 @@ const PersonalInfo = () => {
 
           <div className="flex-1 w-full">
             <h3 className="text-xl font-semibold mb-2">Profile Picture</h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-500">
               {isEditing
                 ? 'Click on the camera icon to upload a new photo. JPG, GIF or PNG. Max size 2MB.'
                 : 'Update your profile picture to personalize your account.'}
@@ -428,10 +428,10 @@ const PersonalInfo = () => {
 
         {/* Personal Information Section */}
         <div className="space-y-6">
-          <h3 className="text-lg font-semibold text-gray-800">Personal Details</h3>
+          <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-50">Personal Details</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-400 mb-1">Name</label>
               {isEditing ? (
                 <input
                   type="text"
@@ -442,13 +442,13 @@ const PersonalInfo = () => {
                   required
                 />
               ) : (
-                <p className="p-3 bg-gray-50 rounded-lg">{user.name}</p>
+                <p className="p-3 bg-gray-50 dark:bg-neutral-800 rounded-lg">{user.name}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-              <div className="p-3 bg-gray-50 rounded-lg">
+              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-400 mb-1">Email Address</label>
+              <div className="p-3 bg-gray-50 dark:bg-neutral-800 rounded-lg">
                 <div className="flex items-center gap-2">
                   {user.email}
                   <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
@@ -460,7 +460,7 @@ const PersonalInfo = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-400 mb-1 flex items-center gap-2">
                 <FaPhone className="text-gray-500" /> Phone Number
               </label>
               {isEditing ? (
@@ -473,7 +473,7 @@ const PersonalInfo = () => {
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               ) : (
-                <p className="p-3 bg-gray-50 rounded-lg">{user.phone || 'Not provided'}</p>
+                <p className="p-3 bg-gray-50 dark:bg-neutral-800 rounded-lg">{user.phone || 'Not provided'}</p>
               )}
             </div>
           </div>
@@ -482,19 +482,19 @@ const PersonalInfo = () => {
         {/* Address Section */}
         <div className="space-y-6 pt-6 border-t">
           <div className="flex justify-between items-center">
-            <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-50 flex items-center gap-2">
               <FaMapMarkerAlt className="text-red-500" /> Address Information
             </h3>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Billing Address */}
-            <div className="border rounded-lg p-5 bg-gray-50">
-              <h4 className="font-medium text-gray-900 mb-4 pb-2 border-b">Billing Address</h4>
+            <div className="rounded-lg p-5 bg-neutral-50 dark:bg-neutral-800">
+              <h4 className="font-medium text-neutral-900 dark:text-neutral-50 mb-4 pb-2 border-b dark:border-neutral-700">Billing Address</h4>
               {isEditing ? (
                 renderAddressForm('billing')
               ) : (
-                <div className="space-y-2 text-gray-700">
+                <div className="space-y-2 text-neutral-700 dark:text-neutral-300">
                   {user.billingAddress?.street ? (
                     <>
                       {user.billingAddress.firstName && (
@@ -512,9 +512,9 @@ const PersonalInfo = () => {
             </div>
 
             {/* Shipping Address */}
-            <div className="border rounded-lg p-5 bg-gray-50">
-              <div className="flex justify-between items-center mb-4 pb-2 border-b">
-                <h4 className="font-medium text-gray-900">Shipping Address</h4>
+            <div className="rounded-lg p-5 bg-neutral-50 dark:bg-neutral-800">
+              <div className="flex justify-between items-center mb-4 pb-2 border-b dark:border-neutral-700">
+                <h4 className="font-medium text-neutral-900 dark:text-neutral-50 ">Shipping Address</h4>
                 {isEditing && (
                   <label className="flex items-center gap-2 text-sm text-gray-600">
                     <input
