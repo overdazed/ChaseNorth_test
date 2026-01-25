@@ -106,6 +106,24 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
         return <FaFileAlt className="text-gray-500" />;
     };
 
+    const isDarkMode = document.documentElement.classList.contains('dark');
+
+    const faqData = [
+        {
+            question: 'How do I track my order?',
+            answer: 'You can track your order by visiting the My Orders section in your profile.',
+            additionalInfo: 'Orders typically ship within 1-2 business days.'
+        },
+        {
+            question: 'What is your return policy?',
+            answer: 'We offer a 30-day return policy for most items. Items must be in original condition with all tags attached.'
+        },
+        {
+            question: 'How do I contact customer support?',
+            answer: 'You can contact our support team through the contact form below or by emailing support@example.com.'
+        }
+    ];
+
     return (
         <div className={`p-6 ${isDarkMode ? 'bg-neutral-900' : 'bg-white'} rounded-lg shadow-sm`}>
             <div className="flex flex-col">
@@ -218,40 +236,34 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
                                                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                                                         <div className="flex items-center">
                                                             <div className="h-10 w-10 flex-shrink-0">
-                                                                <FaFileAlt className="h-10 w-10 text-gray-400" aria-hidden="true" />
+                                                                {getFileIcon(report.filename)}
                                                             </div>
                                                             <div className="ml-4">
                                                                 <div className="font-medium text-gray-900 dark:text-white">
                                                                     {report.problemType || 'Report'}
                                                                 </div>
                                                                 <div className="text-gray-500 dark:text-gray-400">
-                                                                    #{report._id.substring(0, 8)}
+                                                                    #{report._id?.substring(0, 8) || 'N/A'}
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </td>
                                                     <td className="whitespace-nowrap px-3 py-4 text-sm">
                                                         <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                                                            report.status === 'Resolved' 
-                                                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
-                                                                : report.status === 'In Review' 
-                                                                    ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' 
-                                                                    : report.status === 'Rejected'
-                                                                        ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                                                                        : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                                                            getStatusColor(report.status)
                                                         }`}>
                                                             {report.status || 'Submitted'}
                                                         </span>
                                                     </td>
                                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                                        {new Date(report.createdAt).toLocaleDateString()}
+                                                        {formatDate(report.createdAt)}
                                                     </td>
                                                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                         <button
                                                             onClick={() => navigate(`/report/${report._id}`)}
                                                             className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
                                                         >
-                                                            View<span className="sr-only">, {report._id}</span>
+                                                            View<span className="sr-only">, {report._id || ''}</span>
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -260,37 +272,44 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
                                     </table>
                                 </div>
                             )}
-                                Contact Support
-                            </h3>
+                        </div>
+                    )}
+                </div>
+
+                {/* Contact Form */}
+                {showContactForm && (
+                    <div className="mt-8 p-6 bg-white dark:bg-neutral-800 rounded-lg shadow">
+                        <div className="flex justify-between items-center mb-6">
+                            <h3 className="text-xl font-semibold">Contact Support</h3>
                             <button
                                 onClick={() => setShowContactForm(false)}
-                                className="text-gray-400 hover:text-gray-600"
+                                className="text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-200"
                             >
-                                <span className="text-xl">&times;</span>
+                                <span className="text-2xl">&times;</span>
                             </button>
                         </div>
-
+                        
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subject</label>
                                 <input
                                     type="text"
                                     name="subject"
                                     value={formData.subject}
                                     onChange={handleInputChange}
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-neutral-700 dark:text-white"
                                     required
                                     placeholder="Briefly describe your issue"
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
                                 <textarea
                                     name="message"
                                     value={formData.message}
                                     onChange={handleInputChange}
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-neutral-700 dark:text-white"
                                     rows="4"
                                     required
                                     placeholder="Provide details about your issue..."
@@ -298,12 +317,12 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Priority</label>
                                 <select
                                     name="priority"
                                     value={formData.priority}
                                     onChange={handleInputChange}
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-neutral-700 dark:text-white"
                                 >
                                     <option value="Low">Low</option>
                                     <option value="Medium">Medium</option>
@@ -316,21 +335,33 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
                                 <button
                                     type="button"
                                     onClick={() => setShowContactForm(false)}
-                                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white dark:hover:bg-neutral-600"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700"
+                                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
                                 >
-                                    Submit Ticket
+                                    Send Message
                                 </button>
                             </div>
                         </form>
                     </div>
-                </div>
-            )}
+                )}
+
+                {/* Contact Support Button */}
+                {!showOnlyFaq && !showContactForm && (
+                    <div className="mt-8 text-center">
+                        <button
+                            onClick={() => setShowContactForm(true)}
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
+                        >
+                            <FaHeadset className="mr-2" /> Contact Support
+                        </button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
