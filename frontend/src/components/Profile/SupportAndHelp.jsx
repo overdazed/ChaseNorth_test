@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const SupportAndHelp = ({ showOnlyFaq = false }) => {
+const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
     const { user } = useSelector((state) => state.auth);
     const navigate = useNavigate();
     const [reports, setReports] = useState([]);
@@ -185,13 +185,41 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
     const faqData = [
         {
             question: 'How do I track my order?',
-            answer: 'You can track your order by visiting the My Orders section in your profile. There you will find detailed information about your order status and tracking number if available.',
+            answer: (
+                <span>
+                    You can track your order by visiting the{' '}
+                    <button 
+                        onClick={(e) => {
+                            e.preventDefault();
+                            onTabChange && onTabChange('orders');
+                        }}
+                        className="text-blue-600 hover:underline dark:text-blue-400"
+                    >
+                        My Orders
+                    </button>{' '}
+                    section in your profile. There you will find detailed information about your order status and tracking number if available.
+                </span>
+            ),
             additionalInfo: 'Orders typically ship within 1-2 business days. You will receive a confirmation email with tracking information once your order ships.'
         },
         {
             question: 'What is your return policy?',
             answer: 'We offer a 30-day return policy for most items. To be eligible for a return, your item must be in the same condition that you received it, unworn or unused, with tags, and in its original packaging.',
-            additionalInfo: 'To start a return, please visit our Returns Center in your account.'
+            additionalInfo: (
+                <span>
+                    To start a return, please visit our{' '}
+                    <button 
+                        onClick={(e) => {
+                            e.preventDefault();
+                            onTabChange && onTabChange('returns');
+                        }}
+                        className="text-blue-600 hover:underline dark:text-blue-400"
+                    >
+                        Returns Center
+                    </button>{' '}
+                    in your account.
+                </span>
+            )
         },
         {
             question: 'How do I contact customer support?',
@@ -213,35 +241,7 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
     return (
         <div className={`p-6 ${isDarkMode ? 'bg-neutral-900' : 'bg-white'} rounded-lg shadow-sm`}>
             <div className="flex flex-col">
-                {!showOnlyFaq && (
-                    <div className="w-full mb-6">
-                        <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-neutral-800' : 'bg-gray-50'}`}>
-                            <h2 className="text-xl font-bold mb-4">Support Center</h2>
-                            <div className="flex space-x-4">
-                                <button
-                                    onClick={() => setActiveTab('faq')}
-                                    className={`px-4 py-2 rounded-md ${
-                                        activeTab === 'faq' 
-                                            ? 'bg-blue-600 text-white' 
-                                            : isDarkMode ? 'bg-neutral-700 text-white hover:bg-neutral-600' : 'bg-white text-gray-700 hover:bg-gray-100'
-                                    }`}
-                                >
-                                    FAQ
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('reports')}
-                                    className={`px-4 py-2 rounded-md ${
-                                        activeTab === 'reports' 
-                                            ? 'bg-blue-600 text-white' 
-                                            : isDarkMode ? 'bg-neutral-700 text-white hover:bg-neutral-600' : 'bg-white text-gray-700 hover:bg-gray-100'
-                                    }`}
-                                >
-                                    Your Reports
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
+
 
                 {/* Main Content */}
                 <div className="w-full">
@@ -249,20 +249,12 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
                         <div className="space-y-6">
                             <div className="flex justify-between items-center">
                                 <h1 className="text-2xl font-bold">Help & Support</h1>
-                                {!showOnlyFaq && (
-                                    <button
-                                        onClick={handleReportBug}
-                                        className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
-                                    >
-                                        <FaBug /> Report a Bug
-                                    </button>
-                                )}
                             </div>
                             
                             {/* Quick Actions */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                                 <button 
-                                    onClick={() => window.scrollTo({ top: document.getElementById('faq-section').offsetTop - 20, behavior: 'smooth' })}
+                                    onClick={() => navigate('/faq')}
                                     className="p-4 rounded-lg bg-white dark:bg-neutral-800 shadow-sm hover:shadow-md transition-shadow flex items-center gap-3"
                                 >
                                     <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/50">

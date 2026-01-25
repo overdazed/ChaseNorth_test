@@ -2,7 +2,7 @@ import MyOrdersPage from "./MyOrdersPage"
 import PersonalInfo from "../components/Profile/PersonalInfo"
 import SupportAndHelp from "../components/Profile/SupportAndHelp"
 import UserReports from "../components/Profile/UserReports"
-import { FaSignOutAlt, FaUser, FaShoppingBag, FaQuestionCircle, FaFileAlt } from "react-icons/fa"
+import { FaSignOutAlt, FaUser, FaShoppingBag, FaQuestionCircle, FaFileAlt, FaUndo } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -63,7 +63,8 @@ const Profile = () => {
         { id: 'personal', label: 'Personal Information', icon: <FaUser className="mr-2" /> },
         { id: 'orders', label: 'My Orders', icon: <FaShoppingBag className="mr-2" /> },
         { id: 'reports', label: 'Your Reports', icon: <FaFileAlt className="mr-2" /> },
-        { id: 'support', label: 'Support & Help', icon: <FaQuestionCircle className="mr-2" /> }
+        { id: 'support', label: 'Support & Help', icon: <FaQuestionCircle className="mr-2" /> },
+        { id: 'returns', label: 'Return Center', icon: <FaUndo className="mr-2" /> }
     ]
 
     useEffect(() => {
@@ -125,14 +126,25 @@ const Profile = () => {
                         </button>
                         <button
                             onClick={() => setActiveTab('support')}
-                            className={`w-full mt-4 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
+                            className={`w-full mt-2 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                 activeTab === 'support'
                                     ? 'bg-blue-600 text-white'
                                     : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
                             }`}
                         >
                             <FaQuestionCircle />
-                            Support & Help
+                            <span>Support & Help</span>
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('returns')}
+                            className={`w-full mt-2 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
+                                activeTab === 'returns'
+                                    ? 'bg-blue-600 text-white'
+                                    : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
+                            }`}
+                        >
+                            <FaUndo />
+                            <span>Return Center</span>
                         </button>
                     </div>
                     <div className="sticky bottom-0 left-0 right-0 bg-inherit pt-4">
@@ -175,9 +187,60 @@ const Profile = () => {
                                <PersonalInfo />
                            ) : activeTab === 'reports' ? (
                                <UserReports />
-                           ) : (
-                               <SupportAndHelp showOnlyFaq={true} />
-                           )}
+                           ) : activeTab === 'support' ? (
+                            <SupportAndHelp 
+                                showOnlyFaq={false} 
+                                onTabChange={(tab) => setActiveTab(tab)} 
+                            />
+                        ) : (
+                            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                                <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+                                    Return Center
+                                </h2>
+                                <div className="space-y-6">
+                                    <div className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+                                        <h3 className="font-semibold text-blue-800 dark:text-blue-200 mb-2">
+                                            How to Initiate a Return
+                                        </h3>
+                                        <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-gray-300">
+                                            <li>Log in to your account</li>
+                                            <li>Go to "My Orders"</li>
+                                            <li>Find the order with the item you want to return</li>
+                                            <li>Click "Request Return"</li>
+                                            <li>Follow the on-screen instructions</li>
+                                        </ol>
+                                    </div>
+
+                                    <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+                                        <h3 className="font-semibold text-lg mb-3 text-gray-900 dark:text-white">
+                                            Return Policy
+                                        </h3>
+                                        <ul className="space-y-3 text-gray-700 dark:text-gray-300">
+                                            <li>✅ 30-day return policy for most items</li>
+                                            <li>❌ Final sale items cannot be returned</li>
+                                            <li>📦 Items must be in original condition with tags attached</li>
+                                            <li>🔄 Refunds will be processed within 5-7 business days</li>
+                                            <li>🚚 Return shipping is free for all EU orders</li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
+                                        <h3 className="font-semibold text-yellow-800 dark:text-yellow-200 mb-2">
+                                            Need Help with Your Return?
+                                        </h3>
+                                        <p className="text-yellow-700 dark:text-yellow-300">
+                                            If you're having trouble with your return or have questions about our return policy, 
+                                            please contact our <button 
+                                                onClick={() => setActiveTab('support')}
+                                                className="text-blue-600 hover:underline dark:text-blue-400"
+                                            >
+                                                support team
+                                            </button>.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                        </div>
                     </div>
                 </div>
