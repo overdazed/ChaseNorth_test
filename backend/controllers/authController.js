@@ -224,12 +224,27 @@ exports.updateProfile = async (req, res, next) => {
 
                     // Delete old profile picture for this user
                     const oldFileName = `profile-pictures/${req.user.id}.jpg`;
-                    const { error: deleteError } = await supabase
+                    
+                    // First check if the old file exists
+                    const { data: existingFiles, error: listError } = await supabase
                         .storage
                         .from('profile-pictures')
-                        .remove([oldFileName]);
-                    if (deleteError) {
-                        console.error('Error deleting old profile picture:', deleteError);
+                        .list(oldFileName.split('/')[0], {
+                            search: oldFileName.split('/')[1]
+                        });
+                    
+                    // If the old file exists, delete it
+                    if (existingFiles && existingFiles.length > 0) {
+                        const { error: deleteError } = await supabase
+                            .storage
+                            .from('profile-pictures')
+                            .remove([oldFileName]);
+                        
+                        if (deleteError) {
+                            console.error('Error deleting old profile picture:', deleteError);
+                        } else {
+                            console.log('Successfully deleted old profile picture:', oldFileName);
+                        }
                     }
 
                     // Upload the profile picture to Supabase Storage
@@ -239,7 +254,8 @@ exports.updateProfile = async (req, res, next) => {
                         .from('profile-pictures')
                         .upload(fileName, Buffer.from(filteredBody.profilePicture.split(',')[1], 'base64'), {
                             contentType: 'image/jpeg',
-                            upsert: true
+                            upsert: true,
+                            cacheControl: '3600'
                         });
 
                     if (error) {
