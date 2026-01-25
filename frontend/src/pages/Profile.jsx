@@ -58,10 +58,10 @@ const Profile = () => {
     // State for active tab
     const [activeTab, setActiveTab] = useState('orders')
      
-    // Tab configuration
+    // Tab configuration - Personal Information first
     const tabs = [
-        { id: 'orders', label: 'My Orders', icon: <FaShoppingBag className="mr-2" /> },
         { id: 'personal', label: 'Personal Information', icon: <FaUser className="mr-2" /> },
+        { id: 'orders', label: 'My Orders', icon: <FaShoppingBag className="mr-2" /> },
         { id: 'reports', label: 'Your Reports', icon: <FaFileAlt className="mr-2" /> },
         { id: 'support', label: 'Support & Help', icon: <FaQuestionCircle className="mr-2" /> }
     ]
@@ -75,9 +75,10 @@ const Profile = () => {
     return (
         <div className={`min-h-screen flex flex-col ${bgClass} ${textClass} transition-colors duration-500`}>
             <div className="flex-grow container mx-auto p-4 md:p-6">
-                <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
+                <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 h-full">
                     {/* Left Section*/}
-                    <div className={`w-full md:w-1/3 lg:1/4 shadow-md border-r border-l rounded-lg p-6 ${bgClass} ${borderClass}`}>
+                    <div className={`w-full md:w-1/3 lg:1/4 shadow-md border-r border-l rounded-lg p-6 ${bgClass} ${borderClass} flex flex-col h-[calc(100vh-8rem)]`}>
+                        <div className="flex-1 overflow-y-auto">
                         <div className="flex items-center mb-4">
                             <img
                                 src={user?.profilePicture || "https://via.placeholder.com/150"}
@@ -89,12 +90,17 @@ const Profile = () => {
                             </h1>
                         </div>
                         <p className="text-lg text-neutral-600 mb-4">{user?.email}</p>
-                        <button
-                            onClick={handleLogout}
-                            className="w-full bg-red-800 text-white py-3 px-4 rounded-full hover:bg-accent flex items-center justify-center gap-2">
-                            <FaSignOutAlt/>
-                            Logout
-                        </button>
+                            <button
+                                onClick={() => setActiveTab('personal')}
+                                className={`w-full mt-4 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
+                                    activeTab === 'personal'
+                                        ? 'bg-blue-600 text-white'
+                                        : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
+                                }`}
+                            >
+                                <FaUser />
+                                Personal Information
+                            </button>
                         <button
                             onClick={() => setActiveTab('orders')}
                             className={`w-full mt-4 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
@@ -105,17 +111,6 @@ const Profile = () => {
                         >
                             <FaShoppingBag />
                             My Orders
-                        </button>
-                        <button
-                            onClick={() => setActiveTab('personal')}
-                            className={`w-full mt-4 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
-                                activeTab === 'personal'
-                                    ? 'bg-blue-600 text-white'
-                                    : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
-                            }`}
-                        >
-                            <FaUser />
-                            Personal Information
                         </button>
                         <button
                             onClick={() => setActiveTab('reports')}
@@ -140,6 +135,15 @@ const Profile = () => {
                             Support & Help
                         </button>
                     </div>
+                    <div className="sticky bottom-0 left-0 right-0 bg-inherit pt-4">
+                        <button
+                            onClick={handleLogout}
+                            className="w-full bg-red-800 text-white py-3 px-4 rounded-full hover:bg-accent flex items-center justify-center gap-2">
+                            <FaSignOutAlt/>
+                            Logout
+                        </button>
+                    </div>
+                </div>
                     
                     {/* Right Section: Content Area */}
                     <div className={`w-full md:w-2/3 lg:w-3/4 ${bgClass} ${borderClass} rounded-lg shadow-md border-r border-l overflow-hidden`}>

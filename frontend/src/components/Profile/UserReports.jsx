@@ -138,12 +138,27 @@ const UserReports = () => {
                                                 'No details provided'}
                                         </p>
                                     </div>
-                                    {/* Admin Notes Section - Only show for 'Needs Info' status */}
-                                    {report.status === 'Needs Info' && report.adminNotes && report.adminNotes.length > 0 && (
-                                        <div className="mt-3 p-3 bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 rounded-r">
-                                            <p className="font-medium text-yellow-800 dark:text-yellow-200">
-                                                Action needed! 
-                                                <span className="block mt-1 text-yellow-700 dark:text-yellow-300 font-normal">
+                                    {/* Admin Notes Section - Show for 'Needs Info' and 'Rejected' statuses */}
+                                    {(report.status === 'Needs Info' || report.status === 'Rejected') && 
+                                     report.adminNotes && report.adminNotes.length > 0 && (
+                                        <div className={`mt-3 p-3 rounded-r border-l-4 ${
+                                            report.status === 'Needs Info' 
+                                                ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-400' 
+                                                : 'bg-red-50 dark:bg-red-900/20 border-red-400'
+                                        }`}>
+                                            <p className={`font-medium ${
+                                                report.status === 'Needs Info' 
+                                                    ? 'text-yellow-800 dark:text-yellow-200' 
+                                                    : 'text-red-800 dark:text-red-200'
+                                            }`}>
+                                                {report.status === 'Needs Info' 
+                                                    ? 'Action needed!' 
+                                                    : 'Report Rejected'}
+                                                <span className={`block mt-1 ${
+                                                    report.status === 'Needs Info' 
+                                                        ? 'text-yellow-700 dark:text-yellow-300' 
+                                                        : 'text-red-700 dark:text-red-300'
+                                                } font-normal`}>
                                                     &gt; {report.adminNotes[report.adminNotes.length - 1].content}
                                                 </span>
                                             </p>
