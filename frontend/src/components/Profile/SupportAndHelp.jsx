@@ -25,6 +25,7 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showContactForm, setShowContactForm] = useState(false);
+    const [expandedFaq, setExpandedFaq] = useState(null);
     const [formData, setFormData] = useState({
         subject: '',
         message: '',
@@ -68,12 +69,56 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // In a real application, this would submit to your support system
-        alert('Support request submitted successfully!');
-        setShowContactForm(false);
-        setFormData({ subject: '', message: '', priority: 'Medium' });
+        
+        // Basic validation
+        if (!formData.subject.trim() || !formData.message.trim()) {
+            toast.error('Please fill in all required fields');
+            return;
+        }
+
+        setIsSubmitting(true);
+        
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/support/contact`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
+                },
+                body: JSON.stringify({
+                    name: user?.name || 'Guest',
+                    email: user?.email || '',
+                    subject: formData.subject,
+                    message: formData.message,
+                    priority: formData.priority
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to send message');
+            }
+            
+            // Show success message
+            toast.success('Your message has been sent successfully!');
+            
+            // Reset form and close modal
+            setFormData({
+                subject: '',
+                message: '',
+                priority: 'Medium'
+            });
+            setShowContactForm(false);
+            
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            toast.error(error.message || 'Failed to send message. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const getStatusColor = (status) => {
@@ -122,8 +167,12 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
     // Check for dark mode
     const isDarkMode = document.documentElement.classList.contains('dark');
     
+    const toggleFaq = (index) => {
+        setExpandedFaq(expandedFaq === index ? null : index);
+    };
+    
     const handleReportBug = () => {
-        navigate('/report', { 
+        navigate('/bug-report', {
             state: { 
                 reportType: 'bug',
                 activeTab: 'reports'
@@ -477,15 +526,24 @@ const SupportAndHelp = ({ showOnlyFaq = false }) => {
                                         <div className="flex items-end">
                                             <button
                                                 type="submit"
-                                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+                                                disabled={isSubmitting}
+                                                className={`w-full ${isSubmitting ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'} text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 flex items-center justify-center`}
                                             >
-                                                <FaEnvelope /> Send Message
+                                                {isSubmitting ? (
+                                                    <>
+                                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                        </svg>
+                                                        Sending...
+                                                    </>
+                                                ) : 'Send Message'}
                                             </button>
                                         </div>
                                     </div>
 
                                     <div className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                                        By submitting this form, you agree to our <a href="/privacy" className="text-blue-600 hover:underline dark:text-blue-400">Privacy Policy</a> and <a href="/terms" className="text-blue-600 hover:underline dark:text-blue-400">Terms of Service</a>.
+                                        By submitting this form, you agree to our <a href="/privacy-policy" className="text-blue-600 hover:underline dark:text-blue-400">Privacy Policy</a> and <a href="/terms-and-conditions" className="text-blue-600 hover:underline dark:text-blue-400">Terms and conditions</a>.
                                     </div>
                                 </form>
                             </div>

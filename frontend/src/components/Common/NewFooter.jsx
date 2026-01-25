@@ -123,7 +123,7 @@ const NewFooter = () => {
                   FAQ / Help
                 </Link>
                 <Link to="/return-policy" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
-                  Return policy
+                  Return Policy
                 </Link>
                 <Link to="/size-chart" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Size chart
@@ -170,6 +170,9 @@ const NewFooter = () => {
                 </Link>
                 <Link to="/terms-and-conditions" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Terms and Conditions
+                </Link>
+                <Link to="/privacy-policy" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
+                  Privacy Policy
                 </Link>
                 <Link to="/impressum" className="text-neutral-50 hover:text-neutral-400 transition-colors duration-300 text-sm sm:text-base">
                   Impressum

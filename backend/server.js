@@ -56,16 +56,16 @@ app.use((req, res, next) => {
 // Import routes (combining both files)
 const reviewRoutes = require('./routes/productReviews');
 const productRoutes = require('./routes/productRoutes');
-const userRoutes = require('./routes/userRoutes');
-const orderRoutes = require('./routes/orderRoutes');
+import userRoutes from './routes/userRoutes.js';
+import productRoutes from './routes/productRoutes.js';
+import supportRoutes from './routes/supportRoutes.js';
 const cartRoutes = require('./routes/cartRoutes');
 const checkoutRoutes = require('./routes/checkoutRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const subscribeRoute = require('./routes/subscribeRoute');
 const adminRoutes = require('./routes/adminRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 const invoiceRoutes = require('./routes/invoiceRoutes');
-const productAdminRoutes = require('./routes/productAdminRoutes');
-const adminOrderRoutes = require('./routes/adminOrderRoutes');
 const newsletterRoutes = require('./routes/newsletterRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const bugReportRoutes = require('./routes/bugReportRoutes');
@@ -90,6 +90,8 @@ app.get("/", (req, res) => {
 app.use('/api/product-reviews', reviewRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/support', supportRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/checkout', checkoutRoutes);
