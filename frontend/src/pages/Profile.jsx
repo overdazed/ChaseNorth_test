@@ -93,7 +93,7 @@ const Profile = () => {
                         <p className="text-lg text-neutral-600 mb-4">{user?.email}</p>
                             <button
                                 onClick={() => setActiveTab('personal')}
-                                className={`w-full mt-4 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
+                                className={`w-full mt-12 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                     activeTab === 'personal'
                                         ? 'bg-blue-600 text-white'
                                         : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
@@ -104,7 +104,7 @@ const Profile = () => {
                             </button>
                         <button
                             onClick={() => setActiveTab('orders')}
-                            className={`w-full mt-4 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
+                            className={`w-full mt-2 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                 activeTab === 'orders'
                                     ? 'bg-blue-600 text-white'
                                     : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
@@ -115,7 +115,7 @@ const Profile = () => {
                         </button>
                         <button
                             onClick={() => setActiveTab('reports')}
-                            className={`w-full mt-4 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
+                            className={`w-full mt-2 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                 activeTab === 'reports'
                                     ? 'bg-blue-600 text-white'
                                     : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
