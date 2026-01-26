@@ -835,32 +835,30 @@ const PersonalInfo = () => {
                 </form>
               ) : (
                 <div className="p-3 bg-gray-50 dark:bg-neutral-800 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      {user.email}
-                      {user.emailVerified ? (
-                        <div className="flex flex-col">
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-800 mb-1">
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        {user.email}
+                        {user.emailVerified ? (
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-800">
                             Verified
                           </span>
-                          {showLoginAgain && (
-                            <span className="text-xs text-blue-600 dark:text-blue-400">
-                              Please login again to update your session.
-                            </span>
-                          )}
-                        </div>
-                      ) : (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800">
-                          Unverified
-                        </span>
-                      )}
+                        ) : (
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800">
+                            Unverified
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => setIsEditingEmail(true)}
+                        className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                      >
+                        Change
+                      </button>
                     </div>
-                    <button
-                      onClick={() => setIsEditingEmail(true)}
-                      className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
-                    >
-                      Change
-                    </button>
+                    <p className={`text-xs text-amber-600 dark:text-amber-400 mt-1 ${user.emailVerified ? 'hidden' : ''}`}>
+                      If verified, but it still shows "Unverified", please log out and back in again
+                    </p>
                   </div>
                 </div>
               )}
