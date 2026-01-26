@@ -29,7 +29,8 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
     const [formData, setFormData] = useState({
         subject: '',
         message: '',
-        priority: 'Medium'
+        priority: 'Medium',
+        attachments: []
     });
 
     useEffect(() => {
@@ -69,6 +70,21 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
         }));
     };
 
+    const handleFileChange = (e) => {
+        const files = Array.from(e.target.files);
+        setFormData(prev => ({
+            ...prev,
+            attachments: [...prev.attachments, ...files]
+        }));
+    };
+
+    const removeAttachment = (index) => {
+        setFormData(prev => ({
+            ...prev,
+            attachments: prev.attachments.filter((_, i) => i !== index)
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -79,31 +95,35 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
         }
 
         try {
-            console.log('Sending request with data:', {  // Add this line
+            const formDataToSend = new FormData();
+            formDataToSend.append('name', user?.name || 'Guest User');
+            formDataToSend.append('email', user?.email || 'no-email@example.com');
+            formDataToSend.append('subject', formData.subject);
+            formDataToSend.append('message', formData.message);
+            formDataToSend.append('priority', formData.priority);
+
+            // Append attachments
+            formData.attachments.forEach((file, index) => {
+                formDataToSend.append('attachments', file);
+            });
+
+            console.log('Sending request with data:', {
                 name: user?.name || 'Guest User',
                 email: user?.email || 'no-email@example.com',
                 subject: formData.subject,
                 message: formData.message,
-                priority: formData.priority
+                priority: formData.priority,
+                attachments: formData.attachments.length
             });
 
             const response = await fetch(`${API_URL}/api/contact`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
                 credentials: 'include',
-                body: JSON.stringify({
-                    name: user?.name || 'Guest User',
-                    email: user?.email || 'no-email@example.com',
-                    subject: formData.subject,
-                    message: formData.message,
-                    priority: formData.priority
-                })
+                body: formDataToSend
             });
 
             const data = await response.json();
-            console.log('Server response:', { status: response.status, data });  // Add this line
+            console.log('Server response:', { status: response.status, data });
 
             if (!response.ok) {
                 throw new Error(data.message || `Failed to send message. Status: ${response.status}`);
@@ -114,7 +134,8 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
             setFormData({
                 subject: '',
                 message: '',
-                priority: 'Medium'
+                priority: 'Medium',
+                attachments: []
             });
         } catch (error) {
             console.error('Error submitting contact form:', error);
@@ -570,6 +591,31 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
                                                 <option value="High">High - Urgent problem</option>
                                                 <option value="Critical">Critical - Site not working</option>
                                             </select>
+                                        </div>
+                                        <div className="w-full">
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Attachments</label>
+                                            <input
+                                                type="file"
+                                                onChange={handleFileChange}
+                                                multiple
+                                                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-neutral-700 dark:text-white"
+                                            />
+                                            {formData.attachments.length > 0 && (
+                                                <div className="mt-2 space-y-2">
+                                                    {formData.attachments.map((file, index) => (
+                                                        <div key={index} className="flex items-center justify-between p-2 bg-gray-100 dark:bg-neutral-700 rounded">
+                                                            <span className="text-sm truncate max-w-[200px]">{file.name}</span>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => removeAttachment(index)}
+                                                                className="text-red-500 hover:text-red-700"
+                                                            >
+                                                                <span className="text-xl">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="w-full">
                                             <button

@@ -1,14 +1,19 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const sendEmail = require('../utils/sendEmail');
+const multer = require('multer');
 
 const router = express.Router();
+
+// Configure multer for file uploads
+const upload = multer({ storage: multer.memoryStorage() });
 
 // @route   POST /api/contact
 // @desc    Handle contact form submission
 // @access  Public
 router.post(
     '/',
+    upload.array('attachments'),
     [
         body('name').notEmpty().withMessage('Name is required'),
         body('email').isLength({ min: 3 }).withMessage('Please include a valid email'),
@@ -17,17 +22,19 @@ router.post(
     ],
     async (req, res) => {
         console.log('Received contact form data:', req.body);
+        console.log('Received files:', req.files);
         
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             console.error('Validation errors:', errors.array());
-            return res.status(400).json({ 
+            return res.status(400).json({
                 message: 'Validation failed',
-                errors: errors.array() 
+                errors: errors.array()
             });
         }
 
         const { name, email, subject, message, priority } = req.body;
+        const attachments = req.files || [];
 
         try {
             // Prepare email options
@@ -36,7 +43,7 @@ router.post(
                 subject: `[${priority || 'No Priority'}] ${subject}`,
                 message: `
                     You have received a new contact form submission:
-                    
+                     
                     Name: ${name}
                     Email: ${email}
                     Priority: ${priority || 'Not specified'}
@@ -50,7 +57,10 @@ router.post(
                     <p><strong>Priority:</strong> ${priority || 'Not specified'}</p>
                     <h3>Message:</h3>
                     <p>${message.replace(/\n/g, '<br>')}</p>
-                `
+                    ${attachments.length > 0 ? '<h3>Attachments:</h3>' : ''}
+                    ${attachments.map(file => `<p>${file.originalname}</p>`).join('')}
+                `,
+                attachments: attachments
             };
             
             // Send email using the sendEmail utility

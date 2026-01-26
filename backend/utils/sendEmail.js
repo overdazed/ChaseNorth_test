@@ -25,6 +25,14 @@ const sendEmail = async (options) => {
         // html: options.html // you can also send HTML emails
     };
 
+    // Add attachments if they exist
+    if (options.attachments && options.attachments.length > 0) {
+        mailOptions.attachments = options.attachments.map(file => ({
+            filename: file.originalname,
+            content: file.buffer
+        }));
+    }
+
     // 3) Actually send the email
     await transporter.sendMail(mailOptions);
 };
