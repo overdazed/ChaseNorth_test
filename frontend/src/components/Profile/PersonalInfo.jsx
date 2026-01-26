@@ -1027,15 +1027,17 @@ const PersonalInfo = () => {
                             confirmPassword: ''
                           }));
                         }}
-                        className="flex items-center font-medium gap-2 px-4 py-2 bg-neutral-200 dark:bg-neutral-100 text-neutral-800 rounded-full hover:bg-neutral-300 transition-colors"
+                        className="flex items-center text-base font-medium gap-1 sm:gap-2 px-4 py-2 bg-neutral-200 dark:bg-neutral-100 text-neutral-800 rounded-full hover:bg-neutral-300 transition-colors"
                     >
-                      <FaTimes className="text-sm" /> Cancel
+                      <FaTimes className="text-sm" />
+                      <span>Cancel</span>
                     </button>
                     <button
                         type="submit"
-                        className="flex items-center font-medium gap-2 px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors"
+                        className="flex items-center text-base font-medium gap-1 sm:gap-2 px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors"
                     >
-                      <FaEdit className="text-sm" /> Update Password
+                      <FaEdit className="text-sm" />
+                      <span>Update</span>
                     </button>
                   </div>
                 </form>
