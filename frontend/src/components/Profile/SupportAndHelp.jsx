@@ -330,43 +330,62 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
                             </div>
 
                             {/* FAQ Section */}
-                            <div id="faq-section" className="space-y-4">
-                                <h2 className="text-xl font-semibold mb-4">Frequently Asked Questions</h2>
-                                {faqData.map((faq, index) => (
-                                    <div 
-                                        key={index} 
-                                        className={`border rounded-lg overflow-hidden transition-all duration-200 ${
-                                            isDarkMode ? 'border-neutral-700' : 'border-gray-200'
-                                        }`}
-                                    >
-                                        <button
-                                            onClick={() => toggleFaq(index)}
-                                            className="w-full p-4 text-left flex justify-between items-center hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors"
-                                        >
-                                            <h3 className="font-medium text-gray-900 dark:text-white">{faq.question}</h3>
-                                            {expandedFaq === index ? 
-                                                <FaChevronUp className="text-gray-500" /> : 
-                                                <FaChevronDown className="text-gray-500" />
-                                            }
-                                        </button>
-                                        
-                                        <div 
-                                            className={`px-4 pb-4 pt-0 transition-all duration-200 ${
-                                                expandedFaq === index ? 'block' : 'hidden'
-                                            }`}
-                                        >
-                                            <p className="text-gray-600 dark:text-gray-300 mb-3">{faq.answer}</p>
-                                            {faq.additionalInfo && (
-                                                <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-md">
-                                                    <p className="text-sm text-blue-700 dark:text-blue-300">
-                                                        <span className="font-medium">Note: </span>
-                                                        {faq.additionalInfo}
-                                                    </p>
+                            <div className="min-h-[400px] bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200 rounded-lg">
+                                <div className="p-6">
+                                    <h1 className="text-2xl font-bold md:text-3xl dark:text-white mb-8">
+                                        Frequently asked questions
+                                    </h1>
+
+                                    <div className="divide-y divide-neutral-200/50 dark:divide-neutral-700/50">
+                                        {faqData.map((faq, index) => (
+                                            <div key={index} className="py-6">
+                                                <button
+                                                    onClick={() => toggleFaq(index)}
+                                                    className="group inline-flex items-center justify-between gap-x-3 w-full md:text-lg font-semibold text-start text-neutral-800 rounded-lg transition hover:text-neutral-500 focus:outline-none dark:text-neutral-200 dark:hover:text-neutral-400"
+                                                >
+                                                    {faq.question}
+                                                    <svg
+                                                        className={`shrink-0 size-5 text-neutral-600 group-hover:text-neutral-500 dark:text-neutral-400 transition-transform duration-200 ${
+                                                            expandedFaq === index ? "rotate-180" : ""
+                                                        }`}
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="24"
+                                                        height="24"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth="2"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    >
+                                                        <path d="m6 9 6 6 6-6" />
+                                                    </svg>
+                                                </button>
+                                                <div
+                                                    className={`overflow-hidden transition-all duration-300 ${
+                                                        expandedFaq === index ? "max-h-96 mt-2" : "max-h-0"
+                                                    }`}
+                                                >
+                                                    <div className="text-neutral-600 dark:text-neutral-400">
+                                                        {typeof faq.answer === 'string' ? (
+                                                            <p>{faq.answer}</p>
+                                                        ) : (
+                                                            faq.answer
+                                                        )}
+                                                        {faq.additionalInfo && (
+                                                            <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-md">
+                                                                <p className="text-sm text-blue-700 dark:text-blue-300">
+                                                                    <span className="font-medium">Note: </span>
+                                                                    {faq.additionalInfo}
+                                                                </p>
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            )}
-                                        </div>
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
+                                </div>
                             </div>
                         </div>
                     ) : (

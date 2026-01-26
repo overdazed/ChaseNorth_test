@@ -30,6 +30,11 @@ const FAQPage = () => {
   ];
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredFaqs = faqs.filter(faq =>
+    faq.question.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -67,9 +72,33 @@ const FAQPage = () => {
             </div>
 
             <div className="md:col-span-3">
+              {/* Search Bar */}
+              <div className="mb-6 relative">
+                <input
+                  type="text"
+                  placeholder="Search FAQs..."
+                  className="w-full px-4 py-2 pl-10 rounded-lg focus:outline-none focus:ring-1 focus:ring-neutral-500 dark:bg-neutral-800 dark:border-neutral-600 dark:text-neutral-200"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <svg
+                    className="h-5 w-5 text-neutral-400 dark:text-neutral-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
               {/* Accordion */}
               <div className="divide-y divide-neutral-200/50 dark:divide-neutral-700/50">
-                {faqs.map((faq, index) => (
+                {filteredFaqs.map((faq, index) => (
                     <div key={index} className="py-6">
                       <button
                           onClick={() => toggleAccordion(index)}
