@@ -1027,7 +1027,7 @@ const PersonalInfo = () => {
                             confirmPassword: ''
                           }));
                         }}
-                        className="flex items-center font-medium gap-2 px-2 py-2 md:px-4 md:py-2 bg-neutral-200 dark:bg-neutral-100 text-neutral-800 rounded-full hover:bg-neutral-300 transition-colors"
+                        className="flex items-center font-medium gap-2 px-4 py-2 bg-neutral-200 dark:bg-neutral-100 text-neutral-800 rounded-full hover:bg-neutral-300 transition-colors"
                     >
                       <FaTimes className="text-sm" /> Cancel
                     </button>
