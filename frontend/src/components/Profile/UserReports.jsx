@@ -93,7 +93,7 @@ const UserReports = () => {
                 </div>
             ) : (
                 <div className="dark:bg-neutral-900 shadow overflow-hidden sm:rounded-lg">
-                    <ul className="divide-y divide-gray-200">
+                    <ul className="divide-y divide-neutral-200 dark:divide-neutral-700">
                         {reports.map((report) => (
                             <li key={report._id} className="hover:bg-neutral-100 dark:hover:bg-neutral-800">
                                 <div className="px-4 py-4 sm:px-6">

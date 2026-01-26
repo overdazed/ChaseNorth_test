@@ -224,6 +224,7 @@ exports.updateProfile = async (req, res, next) => {
 
                     // Simple and direct approach: delete old file, upload new file with same filename
                     const fileName = `profile-pictures/${req.user.id}.jpg`;
+                    console.log('Attempting to delete old profile picture:', fileName);
                     
                     // Step 1: Delete the old profile picture if it exists
                     try {
@@ -265,6 +266,9 @@ exports.updateProfile = async (req, res, next) => {
                     // Update the profile picture URL in the filtered body
                     filteredBody.profilePicture = publicUrlData.publicUrl;
                     console.log('Profile picture updated successfully:', filteredBody.profilePicture);
+                    
+                    // Debug: Log the final state of the profile picture
+                    console.log('Final profile picture URL:', filteredBody.profilePicture);
                 } catch (error) {
                     console.error('Error handling profile picture upload:', error);
                 }
