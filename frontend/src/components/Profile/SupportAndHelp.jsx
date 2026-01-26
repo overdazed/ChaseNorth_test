@@ -556,8 +556,8 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
                                         />
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div>
+                                    <div className="space-y-4">
+                                        <div className="w-full md:w-1/2">
                                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Priority</label>
                                             <select
                                                 name="priority"
@@ -571,10 +571,10 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
                                                 <option value="Critical">Critical - Site not working</option>
                                             </select>
                                         </div>
-                                        <div className="flex items-end">
+                                        <div className="w-full">
                                             <button
                                                 type="submit"
-                                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+                                                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-full transition-colors flex items-center justify-center gap-2"
                                             >
                                                 <FaEnvelope /> Send Message
                                             </button>

@@ -851,7 +851,7 @@ const PersonalInfo = () => {
                       </div>
                       <button
                         onClick={() => setIsEditingEmail(true)}
-                        className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                        className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 font-medium"
                       >
                         Change
                       </button>
@@ -965,7 +965,7 @@ const PersonalInfo = () => {
             {!showPasswordForm && (
                 <button
                     onClick={() => setShowPasswordForm(true)}
-                    className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
+                    className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 text-sm font-medium"
                 >
                   Change Password
                 </button>

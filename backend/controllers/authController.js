@@ -250,7 +250,7 @@ exports.updateProfile = async (req, res, next) => {
                         .upload(fileName, Buffer.from(filteredBody.profilePicture.split(',')[1], 'base64'), {
                             contentType: 'image/jpeg',
                             upsert: true,  // This will overwrite the file if it exists
-                            cacheControl: '0, no-cache, no-store, must-revalidate'
+                            cacheControl: '3600'  // Set cache control to 1 hour to prevent immediate deletion
                         });
                     
                     if (uploadError) {
