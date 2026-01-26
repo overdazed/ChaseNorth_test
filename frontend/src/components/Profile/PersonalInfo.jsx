@@ -704,15 +704,31 @@ const PersonalInfo = () => {
               )}
             </div>
             {isEditing && (
-              <label className="absolute bottom-0 right-0 bg-indigo-600 text-white p-2 rounded-full cursor-pointer hover:bg-indigo-700 transition-colors">
-                <FaCamera />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleProfilePictureChange}
-                  className="hidden"
-                />
-              </label>
+              <>
+                {/* Remove button at top-right */}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setFormData(prev => ({ ...prev, profilePicture: null }));
+                  }}
+                  className="absolute -top-2 -right-2 bg-red-600 text-white w-6 h-6 flex items-center justify-center rounded-full cursor-pointer hover:bg-red-700 transition-colors z-10"
+                  title="Remove profile picture"
+                >
+                  <FaTimes className="w-3.5 h-3.5" />
+                </button>
+                
+                {/* Camera button at bottom-right */}
+                <label className="absolute -bottom-2 -right-2 bg-indigo-600 text-white w-8 h-8 flex items-center justify-center rounded-full cursor-pointer hover:bg-indigo-700 transition-colors z-10" title="Change profile picture">
+                  <FaCamera className="w-3.5 h-3.5" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleProfilePictureChange}
+                    className="hidden"
+                  />
+                </label>
+              </>
             )}
           </div>
 
