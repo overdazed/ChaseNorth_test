@@ -89,13 +89,14 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
         e.preventDefault();
 
         // Basic validation
-        if (!formData.subject.trim() || !formData.message.trim()) {
-            toast.error('Please fill in all required fields');
-            return;
-        }
+        // if (!formData.subject.trim() || !formData.message.trim()) {
+        //     toast.error('Please fill in all required fields');
+        //     return;
+        // }
 
         try {
             const formDataToSend = new FormData();
+
             formDataToSend.append('name', user?.name || 'Guest User');
             formDataToSend.append('email', user?.email || 'no-email@example.com');
             formDataToSend.append('subject', formData.subject);
@@ -137,25 +138,23 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
                     data.errors.forEach(error => {
                         toast.error(`${error.param}: ${error.msg}`);
                     });
+                } else {
+                    toast.error(data.message || 'Failed to send message');
                 }
-                throw new Error(data.message || `Failed to send message. Status: ${response.status}`);
+                return;
             }
 
             toast.success('Your message has been sent successfully!');
-            setShowContactForm(false);
             setFormData({
                 subject: '',
                 message: '',
                 priority: 'Medium',
                 attachments: []
             });
+            setShowContactForm(false);
         } catch (error) {
             console.error('Error submitting contact form:', error);
-            if (error.message.includes('Validation failed')) {
-                toast.error('Validation failed. Please check all required fields and try again.');
-            } else {
-                toast.error(error.message || 'Failed to send message. Please try again.');
-            }
+            toast.error('An error occurred while sending your message. Please try again.');
         }
     };
 
