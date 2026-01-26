@@ -275,7 +275,7 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
     ];
 
     return (
-        <div className={`p-6 ${isDarkMode ? 'bg-transparent' : 'bg-white'} rounded-lg shadow-sm`}>
+        <div className={`p-6 ${isDarkMode ? 'bg-transparent' : 'bg-neutral-50'} rounded-lg shadow-sm`}>
             <div className="flex flex-col">
 
 
@@ -496,7 +496,7 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
                 {/* Contact Form Modal */}
                 {showContactForm && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                        <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <div className="bg-neutral-50 dark:bg-neutral-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
                             <div className="p-6">
                                 <div className="flex justify-between items-center mb-6">
                                     <h3 className="text-2xl font-bold">Contact Support</h3>

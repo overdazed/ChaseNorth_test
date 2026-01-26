@@ -152,7 +152,7 @@ const UserReports = () => {
                                                     : 'text-red-800 dark:text-red-200'
                                             }`}>
                                                 {report.status === 'Needs Info' 
-                                                    ? 'We need your '
+                                                    ? 'We need your help!'
                                                     : 'Report Rejected'}
                                                 <span className={`block mt-1 ${
                                                     report.status === 'Needs Info' 
