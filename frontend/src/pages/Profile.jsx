@@ -149,7 +149,7 @@ const Profile = () => {
                             Your Reports
                         </button>
                         <button
-                            onClick={() => setActiveTab('support')}
+                            onClick={() => handleTabChange('support')}
                             className={`w-full mt-2 py-2.5 sm:py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                 activeTab === 'support'
                                     ? 'bg-indigo-600 text-white'
@@ -185,8 +185,8 @@ const Profile = () => {
                     <div ref={contentRef} className={`w-full md:w-2/3 lg:w-3/4 ${bgClass} ${borderClass} rounded-lg shadow-md border-r border-l overflow-hidden`}>
                         {/* Scroll target for mobile view */}
                         <div id="content-start" className="-mt-20 pt-20"></div>
-                        {/* Tab Navigation */}
-                        <div className={`border-b ${borderClass} px-6`}>
+                        {/* Tab Navigation - Hidden on mobile, shown on md and up */}
+                        <div className={`border-b ${borderClass} px-6 hidden md:block`}>
                             <div className="flex space-x-6">
                                 {tabs.map((tab) => (
                                     <button
