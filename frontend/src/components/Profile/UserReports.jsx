@@ -78,18 +78,18 @@ const UserReports = () => {
             </div>
 
             {reports.length === 0 ? (
-                <div className="text-center py-12 bg-white rounded-lg shadow">
-                    <FaFileAlt className="mx-auto h-12 w-12 text-gray-400" />
-                    <h3 className="mt-2 text-lg font-medium text-gray-900">No reports found</h3>
+                <div className="text-center py-12 bg-transparent rounded-lg shadow">
+                    <FaFileAlt className="mx-auto h-12 w-12 text-neutral-400" />
+                    <h3 className="mt-2 text-lg font-medium text-neutral-900 dark:text-neutral-400">No reports found</h3>
                     <p className="mt-1 text-gray-500">You haven't submitted any reports yet.</p>
-                    <div className="mt-6">
-                        <button
-                            onClick={() => navigate('/report')}
-                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
-                        >
-                            Create Your First Report
-                        </button>
-                    </div>
+                    {/*<div className="mt-6">*/}
+                    {/*    <button*/}
+                    {/*        onClick={() => navigate('/report')}*/}
+                    {/*        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"*/}
+                    {/*    >*/}
+                    {/*        Create Your First Report*/}
+                    {/*    </button>*/}
+                    {/*</div>*/}
                 </div>
             ) : (
                 <div className="dark:bg-neutral-900 shadow overflow-hidden sm:rounded-lg">
