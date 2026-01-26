@@ -89,7 +89,7 @@ const MyOrdersPage = () => {
     const borderClass = isDarkMode ? 'border-neutral-700' : 'border-neutral-200'
 
     return (
-        <div className={`min-h-screen flex flex-col ${bgClass} ${textClass} transition-colors duration-500`}>
+        <div className={`min-h-view flex flex-col ${bgClass} ${textClass} transition-colors duration-500`}>
             <div className="flex-grow container mx-auto p-4 md:p-6">
                 <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
                     {/* Right Section: Orders Table */}
