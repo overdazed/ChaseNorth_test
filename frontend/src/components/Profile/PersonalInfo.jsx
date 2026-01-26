@@ -836,9 +836,9 @@ const PersonalInfo = () => {
               ) : (
                 <div className="p-3 bg-gray-50 dark:bg-neutral-800 rounded-lg">
                   <div className="flex flex-col gap-1">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        {user.email}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="break-all">{user.email}</span>
                         {user.emailVerified ? (
                           <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-800">
                             Verified
@@ -851,7 +851,7 @@ const PersonalInfo = () => {
                       </div>
                       <button
                         onClick={() => setIsEditingEmail(true)}
-                        className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 font-medium"
+                        className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 font-medium self-start sm:self-auto"
                       >
                         Change
                       </button>
@@ -1027,7 +1027,7 @@ const PersonalInfo = () => {
                             confirmPassword: ''
                           }));
                         }}
-                        className="flex items-center font-medium gap-2 px-4 py-2 bg-neutral-200 dark:bg-neutral-100 text-neutral-800 rounded-full hover:bg-neutral-300 transition-colors"
+                        className="flex items-center font-medium gap-2 px-2 py-2 md:px-4 md:py-2 bg-neutral-200 dark:bg-neutral-100 text-neutral-800 rounded-full hover:bg-neutral-300 transition-colors"
                     >
                       <FaTimes className="text-sm" /> Cancel
                     </button>
