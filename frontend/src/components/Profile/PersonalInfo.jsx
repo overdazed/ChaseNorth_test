@@ -34,6 +34,18 @@ const scrollbarStyles = `
 const PersonalInfo = () => {
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const [showLoginAgain, setShowLoginAgain] = useState(false);
+
+  // Check for emailVerified in URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('emailVerified') === 'true') {
+      setShowLoginAgain(true);
+      // Remove the query parameter from the URL
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, '', newUrl);
+    }
+  }, []);
 
   // Debug logs
   console.log('Full auth state:', authState);
@@ -689,7 +701,7 @@ const PersonalInfo = () => {
       <div className="dark:bg-neutral-950 bg-white rounded-xl shadow-sm p-6 space-y-8">
         {/* Profile Picture Section */}
         <div className="flex flex-col items-center md:flex-row md:items-start gap-6 pb-6 border-b dark:border-neutral-900 border-neutral-100">
-          <div className="relative">
+          <div className="relative group">
             <div className="w-32 h-32 rounded-full overflow-hidden shadow-md">
               {formData.profilePicture ? (
                 <img
@@ -705,22 +717,24 @@ const PersonalInfo = () => {
             </div>
             {isEditing && (
               <>
-                {/* Remove button at top-right */}
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setFormData(prev => ({ ...prev, profilePicture: null }));
-                  }}
-                  className="absolute -top-2 -right-2 bg-red-600 text-white w-6 h-6 flex items-center justify-center rounded-full cursor-pointer hover:bg-red-700 transition-colors z-10"
-                  title="Remove profile picture"
-                >
-                  <FaTimes className="w-3.5 h-3.5" />
-                </button>
+                {/* Remove button at top-right - only show when there's a profile picture */}
+                {formData.profilePicture && (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setFormData(prev => ({ ...prev, profilePicture: null }));
+                    }}
+                    className="absolute -top-2 -right-2 bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full cursor-pointer hover:bg-red-700 transition-colors z-10"
+                    title="Remove profile picture"
+                  >
+                    <FaTimes className="w-3.5 h-3.5" />
+                  </button>
+                )}
                 
-                {/* Camera button at bottom-right */}
-                <label className="absolute -bottom-2 -right-2 bg-indigo-600 text-white w-8 h-8 flex items-center justify-center rounded-full cursor-pointer hover:bg-indigo-700 transition-colors z-10" title="Change profile picture">
-                  <FaCamera className="w-3.5 h-3.5" />
+                {/* Camera button in the middle */}
+                <label className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white hover:w-full hover:h-full flex items-center justify-center rounded-full cursor-pointer hover:bg-black/40 transition-colors z-10" title="Change profile picture">
+                  <FaCamera className="w-6 h-6" />
                   <input
                     type="file"
                     accept="image/*"
@@ -825,9 +839,16 @@ const PersonalInfo = () => {
                     <div className="flex items-center gap-2">
                       {user.email}
                       {user.emailVerified ? (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-800">
-                          Verified
-                        </span>
+                        <div className="flex flex-col">
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-800 mb-1">
+                            Verified
+                          </span>
+                          {showLoginAgain && (
+                            <span className="text-xs text-blue-600 dark:text-blue-400">
+                              Please login again to update your session.
+                            </span>
+                          )}
+                        </div>
                       ) : (
                         <span className="text-xs px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800">
                           Unverified
