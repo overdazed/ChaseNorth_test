@@ -3,6 +3,7 @@ import PersonalInfo from "../components/Profile/PersonalInfo"
 import SupportAndHelp from "../components/Profile/SupportAndHelp"
 import UserReports from "../components/Profile/UserReports"
 import { FaSignOutAlt, FaUser, FaShoppingBag, FaQuestionCircle, FaFileAlt, FaUndo } from "react-icons/fa"
+import { AiOutlineUser } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -81,11 +82,17 @@ const Profile = () => {
                     <div className={`w-full md:w-1/3 lg:1/4 shadow-md border-r border-l rounded-lg p-6 ${bgClass} ${borderClass} flex flex-col h-[calc(100vh-8rem)]`}>
                         <div className="flex-1 overflow-y-auto">
                         <div className="flex items-center mb-4">
-                            <img
-                                src={user?.profilePicture || "https://via.placeholder.com/150"}
-                                alt="Profile"
-                                className="w-16 h-16 rounded-full mr-4"
-                            />
+                            {user?.profilePicture ? (
+                                <img
+                                    src={user?.profilePicture}
+                                    alt="Profile"
+                                    className="w-16 h-16 rounded-full mr-4"
+                                />
+                            ) : (
+                                <div className="w-16 h-16 rounded-full mr-4 flex items-center justify-center bg-transparent">
+                                    <AiOutlineUser className="text-4xl text-neutral-700 dark:text-neutral-300" />
+                                </div>
+                            )}
                             <h1 className={`text-2xl md:text-3xl font-bold ${textClass}`}>
                                 {user?.name}
                             </h1>

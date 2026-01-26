@@ -690,7 +690,7 @@ const PersonalInfo = () => {
         {/* Profile Picture Section */}
         <div className="flex flex-col items-center md:flex-row md:items-start gap-6 pb-6 border-b dark:border-neutral-900 border-neutral-100">
           <div className="relative">
-            <div className="w-32 h-32 rounded-full bg-gray-200 overflow-hidden shadow-md">
+            <div className="w-32 h-32 rounded-full overflow-hidden shadow-md">
               {formData.profilePicture ? (
                 <img
                   src={formData.profilePicture}
@@ -698,8 +698,8 @@ const PersonalInfo = () => {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-300 dark:bg-neutral-700">
-                  <AiOutlineUser className="text-4xl text-neutral-700 dark:text-neutral-300" />
+                <div className="w-full h-full flex items-center justify-center bg-white dark:bg-neutral-950">
+                  <AiOutlineUser className="text-6xl text-neutral-700 dark:text-neutral-300" />
                 </div>
               )}
             </div>
