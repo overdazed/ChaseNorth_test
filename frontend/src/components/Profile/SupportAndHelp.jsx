@@ -121,6 +121,12 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
                 credentials: 'include',
                 body: formDataToSend
             });
+            
+            // Debug: Log what was actually sent
+            console.log('FormData entries:');
+            for (let [key, value] of formDataToSend.entries()) {
+                console.log(`${key}:`, value);
+            }
 
             const data = await response.json();
             console.log('Server response:', { status: response.status, data });
