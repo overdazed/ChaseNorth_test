@@ -102,7 +102,7 @@ const Profile = () => {
                                 onClick={() => setActiveTab('personal')}
                                 className={`w-full mt-12 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                     activeTab === 'personal'
-                                        ? 'bg-blue-600 text-white'
+                                        ? 'bg-indigo-600 text-white'
                                         : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
                                 }`}
                             >
@@ -113,7 +113,7 @@ const Profile = () => {
                             onClick={() => setActiveTab('orders')}
                             className={`w-full mt-2 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                 activeTab === 'orders'
-                                    ? 'bg-blue-600 text-white'
+                                    ? 'bg-indigo-600 text-white'
                                     : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
                             }`}
                         >
@@ -124,7 +124,7 @@ const Profile = () => {
                             onClick={() => setActiveTab('reports')}
                             className={`w-full mt-2 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                 activeTab === 'reports'
-                                    ? 'bg-blue-600 text-white'
+                                    ? 'bg-indigo-600 text-white'
                                     : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
                             }`}
                         >
@@ -135,7 +135,7 @@ const Profile = () => {
                             onClick={() => setActiveTab('support')}
                             className={`w-full mt-2 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                 activeTab === 'support'
-                                    ? 'bg-blue-600 text-white'
+                                    ? 'bg-indigo-600 text-white'
                                     : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
                             }`}
                         >
@@ -146,7 +146,7 @@ const Profile = () => {
                             onClick={() => setActiveTab('returns')}
                             className={`w-full mt-2 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                 activeTab === 'returns'
-                                    ? 'bg-blue-600 text-white'
+                                    ? 'bg-indigo-600 text-white'
                                     : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
                             }`}
                         >
@@ -175,7 +175,7 @@ const Profile = () => {
                                         onClick={() => setActiveTab(tab.id)}
                                         className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center ${
                                             activeTab === tab.id
-                                                ? 'border-blue-500 text-blue-600'
+                                                ? 'border-indigo-500 text-indigo-600'
                                                 : `border-transparent ${isDarkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`
                                         }`}
                                     >
@@ -200,13 +200,13 @@ const Profile = () => {
                                 onTabChange={(tab) => setActiveTab(tab)} 
                             />
                         ) : (
-                            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                            <div className="bg-transparent rounded-lg shadow p-6">
                                 <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
                                     Return Center
                                 </h2>
                                 <div className="space-y-6">
-                                    <div className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
-                                        <h3 className="font-semibold text-blue-800 dark:text-blue-200 mb-2">
+                                    <div className="bg-indigo-50 dark:bg-indigo-950/30 p-4 rounded-lg">
+                                        <h3 className="font-semibold text-indigo-800 dark:text-indigo-200 mb-2">
                                             How to Initiate a Return
                                         </h3>
                                         <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-gray-300">
@@ -219,7 +219,7 @@ const Profile = () => {
                                     </div>
 
                                     <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-                                        <h3 className="font-semibold text-lg mb-3 text-gray-900 dark:text-white">
+                                        <h3 className="font-semibold text-lg mb-3 text-neutral-800 dark:text-neutral-50">
                                             Return Policy
                                         </h3>
                                         <ul className="space-y-3 text-gray-700 dark:text-gray-300">
@@ -239,7 +239,7 @@ const Profile = () => {
                                             If you're having trouble with your return or have questions about our return policy, 
                                             please contact our <button 
                                                 onClick={() => setActiveTab('support')}
-                                                className="text-blue-600 hover:underline dark:text-blue-400"
+                                                className="text-indigo-600 hover:underline dark:text-indigo-400"
                                             >
                                                 support team
                                             </button>.
