@@ -89,8 +89,8 @@ const Profile = () => {
             <div className="flex-grow container mx-auto p-4 md:p-6">
                 <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 h-full">
                     {/* Left Section*/}
-                    <div className={`w-full md:w-1/3 lg:1/4 shadow-md border-r border-l rounded-lg p-6 ${bgClass} ${borderClass} flex flex-col h-[calc(100vh-8rem)]`}>
-                        <div className="flex-1 overflow-y-auto">
+                    <div className={`w-full md:w-1/3 lg:1/4 shadow-md border-r border-l rounded-lg p-6 ${bgClass} ${borderClass} flex flex-col h-[calc(100vh-8rem)] md:h-auto`}>
+                        <div className="flex-1 overflow-y-auto md:overflow-y-visible">
                         <div className="flex items-center mb-4">
                             {user?.profilePicture ? (
                                 <img
