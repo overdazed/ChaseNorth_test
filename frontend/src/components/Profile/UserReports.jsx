@@ -101,7 +101,7 @@ const UserReports = () => {
                                         <div className="flex items-center">
                                             {getStatusIcon(report.status)}
                                             <div className="flex flex-col">
-                                            <p className="text-md font-semibold text-indigo-600 dark:text-indigo-400">
+                                            <p className="text-md font-semibold text-indigo-600 dark:text-neutral-200">
                                                 {report.problemType || 'Report'}
                                             </p>
                                             <div className="flex items-center space-x-2">
@@ -123,7 +123,7 @@ const UserReports = () => {
                                                                 ? 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-300'
                                                                 : report.status === 'Rejected' 
                                                                     ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200'
-                                                                    : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-200' // Default for 'Submitted'
+                                                                    : 'bg-yellow-100 text-yellow-700 border border-yellow-600 dark:border-yellow-700 dark:bg-yellow-900 dark:text-yellow-200' // Default for 'Submitted'
                                                 }`}>
                                                 {report.status || 'Submitted'}
                                             </p>
@@ -152,7 +152,7 @@ const UserReports = () => {
                                                     : 'text-red-800 dark:text-red-200'
                                             }`}>
                                                 {report.status === 'Needs Info' 
-                                                    ? 'Action needed!' 
+                                                    ? 'We need your '
                                                     : 'Report Rejected'}
                                                 <span className={`block mt-1 ${
                                                     report.status === 'Needs Info' 
