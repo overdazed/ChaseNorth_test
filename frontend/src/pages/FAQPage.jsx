@@ -75,11 +75,11 @@ const FAQPage = () => {
               {/* Search Bar */}
               <div className="mb-6 relative">
                 <input
-                  type="text"
-                  placeholder="Search FAQs..."
-                  className="w-full px-4 py-2 pl-10 rounded-lg focus:outline-none focus:ring-1 focus:ring-neutral-500 dark:bg-neutral-800 dark:border-neutral-600 dark:text-neutral-200"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                    type="text"
+                    placeholder="Search FAQs..."
+                    className="w-full px-4 shadow-sm py-2 pl-10 rounded-lg focus:outline-none focus:ring-0 dark:bg-neutral-800 dark:border-neutral-600 dark:text-neutral-50 dark:placeholder:text-neutral-400 placeholder:text-neutral-700"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                   <svg

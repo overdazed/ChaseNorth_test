@@ -332,9 +332,9 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
                             {/* FAQ Section */}
                             <div className="min-h-[400px] bg-neutral-50 dark:bg-neutral-950 transition-colors duration-200 rounded-lg">
                                 <div className="p-6">
-                                    <h1 className="text-2xl font-bold md:text-3xl dark:text-white mb-8">
+                                    <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-50 mb-8">
                                         Frequently asked questions
-                                    </h1>
+                                    </h3>
 
                                     <div className="divide-y divide-neutral-200/50 dark:divide-neutral-700/50">
                                         {faqData.map((faq, index) => (
