@@ -48,9 +48,9 @@ const PersonalInfo = () => {
   }, []);
 
   // Debug logs
-  console.log('Full auth state:', authState);
-  console.log('User from auth state:', authState.user);
-  console.log('Is user authenticated?', authState.isAuthenticated);
+  // console.log('Full auth state:', authState);
+  // console.log('User from auth state:', authState.user);
+  // console.log('Is user authenticated?', authState.isAuthenticated);
   
   // Destructure user after logging the full state
   const { user } = authState;
@@ -233,7 +233,7 @@ const PersonalInfo = () => {
   };
 
   // Debug: Log the profile picture data before submission
-  console.log('Profile picture data before submission:', formData.profilePicture);
+  // console.log('Profile picture data before submission:', formData.profilePicture);
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
@@ -663,8 +663,8 @@ const PersonalInfo = () => {
   if (!user) return null;
 
   // Debug logs
-  console.log('User object in PersonalInfo:', user);
-  console.log('Email verified status:', user.emailVerified, 'Type:', typeof user.emailVerified);
+  // console.log('User object in PersonalInfo:', user);
+  // console.log('Email verified status:', user.emailVerified, 'Type:', typeof user.emailVerified);
 
   return (
     <div className="space-y-8">

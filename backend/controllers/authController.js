@@ -225,14 +225,14 @@ exports.updateProfile = async (req, res, next) => {
                     // Simple and direct approach: delete old file, upload new file with same filename
                     const fileName = `profile-pictures/${req.user.id}.jpg`;
                     console.log('Attempting to delete old profile picture:', fileName);
-                    
+
                     // Step 1: Delete the old profile picture if it exists
                     try {
                         const { error: deleteError } = await supabase
                             .storage
                             .from('profile-pictures')
                             .remove([fileName]);
-                        
+
                         if (deleteError) {
                             console.log('No existing profile picture to delete or delete failed:', deleteError.message);
                         } else {
@@ -241,14 +241,15 @@ exports.updateProfile = async (req, res, next) => {
                     } catch (error) {
                         console.log('Error during deletion check:', error.message);
                     }
-                    
+
                     // Step 2: Upload the new profile picture with the same filename
+
                     const { data, error: uploadError } = await supabase
                         .storage
                         .from('profile-pictures')
                         .upload(fileName, Buffer.from(filteredBody.profilePicture.split(',')[1], 'base64'), {
                             contentType: 'image/jpeg',
-                            upsert: true,  // Use upsert to ensure file is replaced if delete didn't work
+                            upsert: true,  // This will overwrite the file if it exists
                             cacheControl: '0, no-cache, no-store, must-revalidate'
                         });
                     
@@ -256,7 +257,7 @@ exports.updateProfile = async (req, res, next) => {
                         console.error('Supabase upload error:', uploadError);
                         throw uploadError;
                     }
-                    
+
                     // Step 3: Get the public URL of the uploaded file
                     const { data: publicUrlData } = supabase
                         .storage
@@ -265,10 +266,9 @@ exports.updateProfile = async (req, res, next) => {
 
                     // Update the profile picture URL in the filtered body
                     filteredBody.profilePicture = publicUrlData.publicUrl;
-                    console.log('Profile picture updated successfully:', filteredBody.profilePicture);
-                    
                     // Debug: Log the final state of the profile picture
                     console.log('Final profile picture URL:', filteredBody.profilePicture);
+                    console.log('Profile picture updated successfully:', filteredBody.profilePicture);
                 } catch (error) {
                     console.error('Error handling profile picture upload:', error);
                 }
