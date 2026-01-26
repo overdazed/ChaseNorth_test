@@ -92,20 +92,20 @@ const UserReports = () => {
                     </div>
                 </div>
             ) : (
-                <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div className="dark:bg-neutral-900 shadow overflow-hidden sm:rounded-lg">
                     <ul className="divide-y divide-gray-200">
                         {reports.map((report) => (
-                            <li key={report._id} className="hover:bg-gray-50">
+                            <li key={report._id} className="hover:bg-neutral-100 dark:hover:bg-neutral-800">
                                 <div className="px-4 py-4 sm:px-6">
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center">
                                             {getStatusIcon(report.status)}
                                             <div className="flex flex-col">
-                                            <p className="text-sm font-medium text-indigo-600 dark:text-indigo-400">
+                                            <p className="text-md font-semibold text-indigo-600 dark:text-indigo-400">
                                                 {report.problemType || 'Report'}
                                             </p>
                                             <div className="flex items-center space-x-2">
-                                                <span className="text-xs font-mono bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded">
+                                                <span className="text-xs font-mono bg-gray-100 dark:bg-neutral-800 px-2 py-0.5 rounded">
                                                     {report.referenceNumber || `#${report._id?.substring(0, 8) || 'N/A'}`}
                                                 </span>
                                             </div>
@@ -130,7 +130,7 @@ const UserReports = () => {
                                         </div>
                                     </div>
                                     <div className="mt-2 sm:flex sm:justify-between">
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                                        <p className="text-sm text-neutral-500 dark:text-neutral-200">
                                             {report.details ? 
                                                 (report.details.length > 100 ? 
                                                     `${report.details.substring(0, 100)}...` : 
@@ -174,7 +174,7 @@ const UserReports = () => {
                                                 </span>
                                                 <Link 
                                                     to={`/order/${report.orderId._id || report.orderId}`}
-                                                    className="ml-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
+                                                    className="ml-2 text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 text-sm"
                                                 >
                                                     (View Details)
                                                 </Link>

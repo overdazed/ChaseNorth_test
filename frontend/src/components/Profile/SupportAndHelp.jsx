@@ -275,7 +275,7 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
     ];
 
     return (
-        <div className={`p-6 ${isDarkMode ? 'bg-neutral-900' : 'bg-white'} rounded-lg shadow-sm`}>
+        <div className={`p-6 ${isDarkMode ? 'bg-transparent' : 'bg-white'} rounded-lg shadow-sm`}>
             <div className="flex flex-col">
 
 
@@ -291,7 +291,7 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                                 <button 
                                     onClick={() => navigate('/faq')}
-                                    className="p-4 rounded-lg bg-white dark:bg-neutral-800 shadow-sm hover:shadow-md transition-shadow flex items-center gap-3"
+                                    className="p-4 rounded-lg bg-white dark:bg-neutral-900 shadow-sm hover:shadow-md transition-shadow flex items-center gap-3"
                                 >
                                     <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/50">
                                         <FaQuestionCircle className="text-blue-600 dark:text-blue-400 text-xl" />
@@ -304,7 +304,7 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
                                 
                                 <button 
                                     onClick={() => setShowContactForm(true)}
-                                    className="p-4 rounded-lg bg-white dark:bg-neutral-800 shadow-sm hover:shadow-md transition-shadow flex items-center gap-3"
+                                    className="p-4 rounded-lg bg-white dark:bg-neutral-900 shadow-sm hover:shadow-md transition-shadow flex items-center gap-3"
                                 >
                                     <div className="p-3 rounded-full bg-green-100 dark:bg-green-900/50">
                                         <FaEnvelope className="text-green-600 dark:text-green-400 text-xl" />
@@ -317,7 +317,7 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
                                 
                                 <button 
                                     onClick={handleReportBug}
-                                    className="p-4 rounded-lg bg-white dark:bg-neutral-800 shadow-sm hover:shadow-md transition-shadow flex items-center gap-3"
+                                    className="p-4 rounded-lg bg-white dark:bg-neutral-900 shadow-sm hover:shadow-md transition-shadow flex items-center gap-3"
                                 >
                                     <div className="p-3 rounded-full bg-red-100 dark:bg-red-900/50">
                                         <FaBug className="text-red-600 dark:text-red-400 text-xl" />
