@@ -139,7 +139,11 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
             });
         } catch (error) {
             console.error('Error submitting contact form:', error);
-            toast.error(error.message || 'Failed to send message. Please try again.');
+            if (error.message.includes('Validation failed')) {
+                toast.error('Validation failed. Please check all required fields and try again.');
+            } else {
+                toast.error(error.message || 'Failed to send message. Please try again.');
+            }
         }
     };
 

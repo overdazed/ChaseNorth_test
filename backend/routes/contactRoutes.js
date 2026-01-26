@@ -14,27 +14,54 @@ const upload = multer({ storage: multer.memoryStorage() });
 router.post(
     '/',
     upload.array('attachments'),
-    [
-        body('name').notEmpty().withMessage('Name is required'),
-        body('email').isLength({ min: 3 }).withMessage('Please include a valid email'),
-        body('subject').notEmpty().withMessage('Subject is required'),
-        body('message').notEmpty().withMessage('Message is required')
-    ],
     async (req, res) => {
         console.log('Received contact form data:', req.body);
         console.log('Received files:', req.files);
-        
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            console.error('Validation errors:', errors.array());
-            return res.status(400).json({
-                message: 'Validation failed',
-                errors: errors.array()
-            });
-        }
 
+        // Manual validation since express-validator doesn't work well with multipart form data
         const { name, email, subject, message, priority } = req.body;
         const attachments = req.files || [];
+        
+        console.log('Parsed form data:', { name, email, subject, message, priority });
+        console.log('Attachments count:', attachments.length);
+        console.log('Full req.body:', req.body);
+        
+        // Validate required fields manually
+        const errors = [];
+        if (!name || name.trim() === '') {
+            errors.push({ msg: 'Name is required', param: 'name', location: 'body' });
+        }
+        if (!email || email.trim().length < 3) {
+            errors.push({ msg: 'Please include a valid email', param: 'email', location: 'body' });
+        }
+        if (!subject || subject.trim() === '') {
+            errors.push({ msg: 'Subject is required', param: 'subject', location: 'body' });
+        }
+        if (!message || message.trim() === '') {
+            errors.push({ msg: 'Message is required', param: 'message', location: 'body' });
+        }
+        
+        if (errors.length > 0) {
+            console.error('Validation errors:', errors);
+            console.error('Full request body:', req.body);
+            console.error('Request files:', req.files);
+            return res.status(400).json({
+                message: 'Validation failed',
+                errors: errors,
+                receivedData: req.body,
+                receivedFiles: req.files,
+                debugInfo: {
+                    hasName: !!name,
+                    hasEmail: !!email,
+                    hasSubject: !!subject,
+                    hasMessage: !!message,
+                    nameValue: name,
+                    emailValue: email,
+                    subjectValue: subject,
+                    messageValue: message
+                }
+            });
+        }
 
         try {
             // Prepare email options
@@ -75,3 +102,4 @@ router.post(
 );
 
 module.exports = router;
+
