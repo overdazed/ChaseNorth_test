@@ -124,7 +124,8 @@ const Profile = () => {
                                 }`}
                             >
                                 <FaUser />
-                                Personal Information
+                                <span className="hidden lg:inline">Personal Information</span>
+                                <span className="lg:hidden">Personal</span>
                             </button>
                         <button
                             onClick={() => handleTabChange('orders')}
