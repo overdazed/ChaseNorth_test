@@ -675,7 +675,7 @@ const PersonalInfo = () => {
             onClick={() => setIsEditing(true)}
             className="flex items-center font-medium gap-2 px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors"
           >
-            <FaEdit className="text-sm" /> Edit Profile
+            <FaEdit className="text-sm" /> Edit
           </button>
         ) : (
           <div className="flex gap-2">

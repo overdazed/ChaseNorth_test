@@ -6,7 +6,7 @@ import { FaSignOutAlt, FaUser, FaShoppingBag, FaQuestionCircle, FaFileAlt, FaUnd
 import { AiOutlineUser } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useLocation } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { logout } from "../redux/slices/authSlice.js"
 import { clearCart } from "../redux/slices/cartSlice.js"
 
@@ -58,6 +58,7 @@ const Profile = () => {
     
     // State for active tab
     const [activeTab, setActiveTab] = useState('personal')
+    const contentRef = useRef(null)
      
     // Tab configuration - Personal Information first
     const tabs = [
@@ -67,6 +68,15 @@ const Profile = () => {
         { id: 'support', label: 'Support & Help', icon: <FaQuestionCircle className="mr-2" /> },
         { id: 'returns', label: 'Return Center', icon: <FaUndo className="mr-2" /> }
     ]
+
+    // Function to handle tab change with smooth scroll
+    const handleTabChange = (tabId) => {
+        setActiveTab(tabId);
+        // Scroll to top of content area with smooth behavior
+        if (contentRef.current) {
+            contentRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     useEffect(() => {
         if (location.state?.activeTab) {
@@ -106,8 +116,8 @@ const Profile = () => {
                             )}
                         </div>
                             <button
-                                onClick={() => setActiveTab('personal')}
-                                className={`w-full mt-12 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
+                                onClick={() => handleTabChange('personal')}
+                                className={`w-full mt-12 py-2.5 sm:py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                     activeTab === 'personal'
                                         ? 'bg-indigo-600 text-white'
                                         : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
@@ -117,8 +127,8 @@ const Profile = () => {
                                 Personal Information
                             </button>
                         <button
-                            onClick={() => setActiveTab('orders')}
-                            className={`w-full mt-2 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
+                            onClick={() => handleTabChange('orders')}
+                            className={`w-full mt-2 py-2.5 sm:py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                 activeTab === 'orders'
                                     ? 'bg-indigo-600 text-white'
                                     : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
@@ -128,8 +138,8 @@ const Profile = () => {
                             My Orders
                         </button>
                         <button
-                            onClick={() => setActiveTab('reports')}
-                            className={`w-full mt-2 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
+                            onClick={() => handleTabChange('reports')}
+                            className={`w-full mt-2 py-2.5 sm:py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                 activeTab === 'reports'
                                     ? 'bg-indigo-600 text-white'
                                     : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
@@ -140,7 +150,7 @@ const Profile = () => {
                         </button>
                         <button
                             onClick={() => setActiveTab('support')}
-                            className={`w-full mt-2 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
+                            className={`w-full mt-2 py-2.5 sm:py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                 activeTab === 'support'
                                     ? 'bg-indigo-600 text-white'
                                     : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
@@ -150,8 +160,8 @@ const Profile = () => {
                             <span>Support & Help</span>
                         </button>
                         <button
-                            onClick={() => setActiveTab('returns')}
-                            className={`w-full mt-2 py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
+                            onClick={() => handleTabChange('returns')}
+                            className={`w-full mt-2 py-2.5 sm:py-3 px-4 rounded-full flex items-center justify-center gap-2 ${
                                 activeTab === 'returns'
                                     ? 'bg-indigo-600 text-white'
                                     : isDarkMode ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-gray-100 hover:bg-gray-200'
@@ -172,7 +182,9 @@ const Profile = () => {
                 </div>
                     
                     {/* Right Section: Content Area */}
-                    <div className={`w-full md:w-2/3 lg:w-3/4 ${bgClass} ${borderClass} rounded-lg shadow-md border-r border-l overflow-hidden`}>
+                    <div ref={contentRef} className={`w-full md:w-2/3 lg:w-3/4 ${bgClass} ${borderClass} rounded-lg shadow-md border-r border-l overflow-hidden`}>
+                        {/* Scroll target for mobile view */}
+                        <div id="content-start" className="-mt-20 pt-20"></div>
                         {/* Tab Navigation */}
                         <div className={`border-b ${borderClass} px-6`}>
                             <div className="flex space-x-6">
