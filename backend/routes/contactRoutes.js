@@ -13,57 +13,69 @@ const upload = multer({ storage: multer.memoryStorage() });
 // @access  Public
 router.post(
     '/',
-    upload.array('attachments'),
+    upload.array('attachments', 5), // Limit to 5 files
     async (req, res) => {
-        console.log('Received contact form data:', req.body);
-        console.log('Received files:', req.files);
-
-        // Manual validation since express-validator doesn't work well with multipart form data
-        const { name, email, subject, message, priority } = req.body;
-        const attachments = req.files || [];
-        
-        console.log('Parsed form data:', { name, email, subject, message, priority });
-        console.log('Attachments count:', attachments.length);
-        console.log('Full req.body:', req.body);
-        
-        // Validate required fields manually
-        const errors = [];
-        if (!name || name.trim() === '') {
-            errors.push({ msg: 'Name is required', param: 'name', location: 'body' });
-        }
-        if (!email || email.trim().length < 3) {
-            errors.push({ msg: 'Please include a valid email', param: 'email', location: 'body' });
-        }
-        if (!subject || subject.trim() === '') {
-            errors.push({ msg: 'Subject is required', param: 'subject', location: 'body' });
-        }
-        if (!message || message.trim() === '') {
-            errors.push({ msg: 'Message is required', param: 'message', location: 'body' });
-        }
-        
-        if (errors.length > 0) {
-            console.error('Validation errors:', errors);
-            console.error('Full request body:', req.body);
-            console.error('Request files:', req.files);
-            return res.status(400).json({
-                message: 'Validation failed',
-                errors: errors,
-                receivedData: req.body,
-                receivedFiles: req.files,
-                debugInfo: {
-                    hasName: !!name,
-                    hasEmail: !!email,
-                    hasSubject: !!subject,
-                    hasMessage: !!message,
-                    nameValue: name,
-                    emailValue: email,
-                    subjectValue: subject,
-                    messageValue: message
-                }
-            });
-        }
-
         try {
+            console.log('Received contact form data:', req.body);
+            console.log('Received files:', req.files);
+
+            // Manual validation
+            const { name, email, subject, message, priority } = req.body;
+            const attachments = req.files || [];
+            const errors = [];
+
+            // Validate required fields
+            if (!name || name.trim() === '') {
+                errors.push({
+                    param: 'name',
+                    msg: 'Name is required',
+                    location: 'body'
+                });
+            }
+            if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+                errors.push({
+                    param: 'email',
+                    msg: 'Please enter a valid email',
+                    location: 'body'
+                });
+            }
+            if (!subject || subject.trim() === '') {
+                errors.push({
+                    param: 'subject',
+                    msg: 'Subject is required',
+                    location: 'body'
+                });
+            }
+            if (!message || message.trim() === '') {
+                errors.push({
+                    param: 'message',
+                    msg: 'Message is required',
+                    location: 'body'
+                });
+            }
+
+            // Validate file types
+            const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+            const invalidFiles = attachments.filter(
+                file => !allowedTypes.includes(file.mimetype)
+            );
+
+            if (invalidFiles.length > 0) {
+                errors.push({
+                    param: 'attachments',
+                    msg: 'Invalid file type. Only JPG, PNG, and PDF files are allowed',
+                    location: 'body'
+                });
+            }
+
+            if (errors.length > 0) {
+                console.error('Validation errors:', errors);
+                return res.status(400).json({
+                    success: false,
+                    message: 'Validation failed',
+                    errors: errors
+                });
+            }
             // Prepare email options
             const emailOptions = {
                 email: 'support@chasenorth.com',
@@ -89,7 +101,7 @@ router.post(
                 `,
                 attachments: attachments
             };
-            
+
             // Send email using the sendEmail utility
             await sendEmail(emailOptions);
 

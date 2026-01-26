@@ -132,6 +132,12 @@ const SupportAndHelp = ({ showOnlyFaq = false, onTabChange }) => {
             console.log('Server response:', { status: response.status, data });
 
             if (!response.ok) {
+                if (data.errors && Array.isArray(data.errors)) {
+                    // Show each validation error
+                    data.errors.forEach(error => {
+                        toast.error(`${error.param}: ${error.msg}`);
+                    });
+                }
                 throw new Error(data.message || `Failed to send message. Status: ${response.status}`);
             }
 
