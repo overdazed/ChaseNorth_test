@@ -704,7 +704,7 @@
                 <div class="w-64">
                     <div class="flex justify-between py-2">
                         <span class="text-neutral-600">Subtotal:</span>
-                        <span class="font-medium">${{ "%.2f"|format(order.subtotal) }}</span>
+                        <span class="font-medium">${{ "%.2f"|format(order.subtotal or 0) }}</span>
                     </div>
 
                     {% if order.discount and order.discount.amount > 0 %}
@@ -712,7 +712,6 @@
                         <span class="text-neutral-600">Discount:</span>
                         <span class="font-medium text-red-600">-${{ "%.2f"|format(order.discount.amount) }}</span>
                     </div>
-                    {% set subtotal = subtotal - order.discount.amount %}
                     {% endif %}
 
                     {% if order.tax and order.tax > 0 %}
