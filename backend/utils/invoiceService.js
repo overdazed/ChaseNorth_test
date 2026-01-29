@@ -48,9 +48,9 @@ class InvoiceService {
             if (stderr) {
                 console.error('Python stderr:', stderr);
             }
-                if (!stdout) {
-                    throw new Error('Error generating invoice: ' + stderr);
-                }
+
+            if (!stdout) {
+                throw new Error('Error generating invoice: ' + stderr);
             }
 
             // Parse the response
