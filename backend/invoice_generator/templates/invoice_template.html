@@ -168,7 +168,7 @@
                         <tr>
                             <td class="border-r" style="padding-right: 16px;">
                                 <div class="whitespace-nowrap text-neutral-500">Date</div>
-                                <div class="whitespace-nowrap bold text-main text-right">{{ invoiceDate|date|invoice_date("F j, Y") }}</div>
+                                <div class="whitespace-nowrap bold text-main text-right">{{ invoice_date }}</div>
                             </td>
                             <td style="padding-left: 16px;">
                                 <div class="whitespace-nowrap text-neutral-500">Invoice #</div>
@@ -257,30 +257,40 @@
         <!-- Totals -->
         <table class="totals-table">
             <tr>
+                <td>-</td>
+                <td>-</td>
                 <td>Subtotal:</td>
-                <td>{{ "%.2f"|format(order.subtotal) }} EUR</td>
+                <td class="text-red-600">{{ "%.2f"|format(order.subtotal) }} EUR</td>
             </tr>
             {% if order.discount and order.discount.amount > 0 %}
             <tr>
+                <td>-</td>
+                <td>-</td>
                 <td>Discount:</td>
                 <td class="text-red-600">-{{ "%.2f"|format(order.discount.amount) }} EUR</td>
             </tr>
             {% endif %}
             {% if order.tax and order.tax > 0 %}
             <tr>
+                <td>-</td>
+                <td>-</td>
                 <td>Tax ({{ order.taxRate }}%):</td>
-                <td>{{ "%.2f"|format(order.tax) }} EUR</td>
+                <td class="text-red-600">{{ "%.2f"|format(order.tax) }} EUR</td>
             </tr>
             {% endif %}
             {% if order.shippingCost and order.shippingCost > 0 %}
             <tr>
+                <td>-</td>
+                <td>-</td>
                 <td>Shipping:</td>
-                <td>{{ "%.2f"|format(order.shippingCost) }} EUR</td>
+                <td class="text-red-600">{{ "%.2f"|format(order.shippingCost) }} EUR</td>
             </tr>
             {% endif %}
             <tr class="total-row">
+                <td>-</td>
+                <td>-</td>
                 <td>Total:</td>
-                <td>{{ "%.2f"|format(order.total) }} EUR</td>
+                <td class="text-red-600">{{ "%.2f"|format(order.total) }} EUR</td>
             </tr>
         </table>
         <div style="clear: both;"></div>
