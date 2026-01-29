@@ -156,44 +156,153 @@
 </head>
 <body>
     <div class="container">
-                <td class="text-right color-main">-{{ "%.2f"|format(order.discount.amount) }} EUR</td>
+        <!-- Header -->
+        <table class="header-table">
+            <tr>
+                <td>
+                    <img src="https://raw.githubusercontent.com/templid/email-templates/main/templid-dynamic-templates/invoice-02/brand-sample.png"
+                        class="logo" alt="Brand Logo" />
+                </td>
+                <td class="text-right">
+                    <table class="info-table">
+                        <tr>
+                            <td class="border-r" style="padding-right: 16px;">
+                                <div class="whitespace-nowrap text-neutral-500">Date</div>
+                                <div class="whitespace-nowrap bold text-main text-right">{{ invoice_date }}</div>
+                            </td>
+                            <td style="padding-left: 16px;">
+                                <div class="whitespace-nowrap text-neutral-500">Invoice #</div>
+                                <div class="whitespace-nowrap bold text-main text-right">{{ invoice_number }}</div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Billing Address -->
+        <div class="bg-slate-100">
+            <table class="header-table">
+                <tr>
+                    <td width="350" class="text-neutral-600">
+                        <p class="bold text-main">{{ company_name }}</p>
+                        <p>USt-ID-Nr.: {{ company_vat }}</p>
+                        <p>{{ company_contact_name }}</p>
+                        <p>{{ company_address }}</p>
+                        <p>{{ company_zip }} {{ company_city }}</p>
+                        <p>{{ company_country }}</p>
+                    </td>
+                    <td width="350" class="text-right text-neutral-600">
+                        {% if order.shippingAddress.firstName and order.shippingAddress.lastName %}
+                        <p class="bold">{{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastName }}</p>
+                        {% endif %}
+                        {% if order.shippingAddress.company %}
+                        <p>{{ order.shippingAddress.company }}</p>
+                        {% endif %}
+                        {% if order.shippingAddress.address %}
+                        <p>{{ order.shippingAddress.address }}</p>
+                        {% endif %}
+                        {% if order.shippingAddress.address2 %}
+                        <p>{{ order.shippingAddress.address2 }}</p>
+                        {% endif %}
+                        {% if order.shippingAddress.postalCode and order.shippingAddress.city %}
+                        <p>{{ order.shippingAddress.postalCode }} {{ order.shippingAddress.city }}</p>
+                        {% endif %}
+                        {% if order.shippingAddress.state %}
+                        <p>{{ order.shippingAddress.state }}</p>
+                        {% endif %}
+                        {% if order.shippingAddress.country %}
+                        <p>{{ order.shippingAddress.country }}</p>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Product details</th>
+                    <th class="text-right">Price</th>
+                    <th class="center">Qty</th>
+                    <th class="center">VAT</th>
+                    <th class="text-right">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set subtotal = 0 %}
+                {% for item in order.orderItems %}
+                {% set item_total = item.price * item.quantity %}
+                {% set subtotal = subtotal + item_total %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>
+                        <div class="text-neutral-700">{{ item.name }}</div>
+                        <div class="text-xs text-neutral-500">
+                            {% if item.color %}{{ item.color }}{% if item.size %} | {% endif %}{% endif %}
+                            {% if item.size %}{{ item.size }}{% endif %}
+                        </div>
+                    </td>
+                    <td class="text-right">{{ "%.2f"|format(item.price) }} EUR</td>
+                    <td class="center">{{ item.quantity }}</td>
+                    <td class="center">{{ order.taxRate }}%</td>
+                    <td class="text-right text-neutral-600">{{ "%.2f"|format(item_total) }} EUR</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Totals -->
+        <table class="totals-table">
+            <tr>
+                <td>Subtotal:</td>
+                <td>{{ "%.2f"|format(order.subtotal) }} EUR</td>
+            </tr>
+            {% if order.discount and order.discount.amount > 0 %}
+            <tr>
+                <td>Discount:</td>
+                <td class="text-red-600">-{{ "%.2f"|format(order.discount.amount) }} EUR</td>
             </tr>
             {% endif %}
             {% if order.tax and order.tax > 0 %}
             <tr>
                 <td>Tax ({{ order.taxRate }}%):</td>
-                <td class="text-right">{{ "%.2f"|format(order.tax) }} EUR</td>
+                <td>{{ "%.2f"|format(order.tax) }} EUR</td>
             </tr>
             {% endif %}
             {% if order.shippingCost and order.shippingCost > 0 %}
             <tr>
                 <td>Shipping:</td>
-                <td class="text-right">{{ "%.2f"|format(order.shippingCost) }} EUR</td>
+                <td>{{ "%.2f"|format(order.shippingCost) }} EUR</td>
             </tr>
             {% endif %}
             <tr class="total-row">
                 <td>Total:</td>
-                <td class="text-right">{{ "%.2f"|format(order.total) }} EUR</td>
+                <td>{{ "%.2f"|format(order.total) }} EUR</td>
             </tr>
-        </tbody>
-    </table>
-    <div class="clear"></div>
+        </table>
+        <div style="clear: both;"></div>
 
-    <div class="section">
-        <p class="bold color-main">PAYMENT DETAILS</p>
-        <p>Bank Name: {{ company_bank_name or 'Your Bank Name' }}</p>
-        <p>IBAN: {{ company_iban or 'DE89 3704 0044 0532 0130 00' }}</p>
-        <p>BIC: {{ company_bic or 'COBADEFFXXX' }}</p>
-    </div>
+        <!-- Payment Details -->
+        <div class="section payment-details text-neutral-700">
+            <p class="bold text-main">PAYMENT DETAILS</p>
+            <p>Bank Name: {{ company_bank_name or 'Your Bank Name' }}</p>
+            <p>IBAN: {{ company_iban or 'DE89 3704 0044 0532 0130 00' }}</p>
+            <p>BIC: {{ company_bic or 'COBADEFFXXX' }}</p>
+        </div>
 
-    <div class="section">
-        <p class="bold color-main">Notes</p>
-        <p>Thank you for your order!</p>
-    </div>
+        <!-- Notes -->
+        <div class="section notes text-neutral-700">
+            <p class="bold text-main">Notes</p>
+            <p class="italic">Thank you for your order!</p>
+        </div>
 
-    <div class="footer">
-        <p>{{ company_name }} | {{ company_address }}, {{ company_zip }} {{ company_city }}, {{ company_country }} | {{ company_email }} | {{ company_phone }}</p>
-        <p>{{ company_website }}</p>
+        <!-- Footer -->
+        <div class="footer">
+            <p>{{ company_name }} | {{ company_address }}, {{ company_zip }} {{ company_city }}, {{ company_country }} | {{ company_email }} | {{ company_phone }}</p>
+        </div>
     </div>
 </body>
 </html>
