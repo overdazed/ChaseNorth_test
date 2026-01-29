@@ -163,14 +163,37 @@ class InvoiceGenerator:
             # Ensure shipping address exists
             if 'shippingAddress' not in order:
                 order['shippingAddress'] = {}
-
+            
+            # Add taxRate from company_data if not present
+            if 'taxRate' not in order and 'tax_rate' in company_data:
+                order['taxRate'] = company_data['tax_rate']
+            elif 'taxRate' not in order:
+                order['taxRate'] = 0
+            
+            # Ensure tax field is present for the template
+            if 'tax' not in order:
+                tax_rate = order.get('taxRate', 0) / 100
+                subtotal = sum(item.get('price', 0) * item.get('quantity', 0) for item in order.get('orderItems', order.get('items', [])))
+                order['tax'] = subtotal * tax_rate
+            
+            # Ensure total is present
+            if 'total' not in order and 'totalPrice' not in order:
+                subtotal = sum(item.get('price', 0) * item.get('quantity', 0) for item in order.get('orderItems', order.get('items', [])))
+                tax = order.get('tax', 0)
+                shipping = order.get('shippingCost', 0) + order.get('shippingPrice', 0)
+                order['total'] = subtotal + tax + shipping
+                order['totalPrice'] = order['total']
+            
             # Update shipping address with default values if needed
             order['shippingAddress'].update({
                 'firstName': order['shippingAddress'].get('firstName', '') or '',
                 'lastName': order['shippingAddress'].get('lastName', '') or '',
+                'company': order['shippingAddress'].get('company', '') or '',
                 'address': order['shippingAddress'].get('address', '') or '',
+                'address2': order['shippingAddress'].get('address2', '') or '',
                 'city': order['shippingAddress'].get('city', '') or '',
                 'postalCode': order['shippingAddress'].get('postalCode', '') or order['shippingAddress'].get('postal_code', ''),
+                'state': order['shippingAddress'].get('state', '') or '',
                 'country': order['shippingAddress'].get('country', '') or ''
             })
 

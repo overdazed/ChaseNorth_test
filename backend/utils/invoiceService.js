@@ -40,11 +40,14 @@ class InvoiceService {
 
             const { stdout, stderr } = await execAsync(command, {
                 maxBuffer: 1024 * 1024 * 10, // 10MB buffer for larger PDFs
-                encoding: 'utf8'
+                encoding: 'utf8',
+                timeout: 60000 // 60 second timeout
             });
 
+            console.log('Python stdout:', stdout);
             if (stderr) {
-                console.error('Python script stderr:', stderr);
+                console.error('Python stderr:', stderr);
+            }
                 if (!stdout) {
                     throw new Error('Error generating invoice: ' + stderr);
                 }
@@ -78,7 +81,12 @@ class InvoiceService {
                 total: result.total
             };
         } catch (error) {
-            console.error('Error in generateInvoice:', error);
+            console.error('Error in generateInvoice:', error.message);
+            console.error('Error stack:', error.stack);
+            // Check if it's a spawn error (Python not found)
+            if (error.code === 'ENOENT') {
+                throw new Error('Python interpreter not found. Please check PYTHON_PATH environment variable.');
+            }
             throw new Error(`Failed to generate invoice: ${error.message}`);
         } finally {
             // Clean up the temporary file
