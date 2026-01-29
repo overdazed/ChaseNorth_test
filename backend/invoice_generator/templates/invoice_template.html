@@ -18,6 +18,7 @@
 
         ::before,
         ::after {
+            --tw-content: '';
         }
 
         html {
@@ -42,7 +43,7 @@
             border-top-width: 1px;
         }
 
-        abbr[title] {
+        abbr:where([title]) {
             -webkit-text-decoration: underline dotted;
             text-decoration: underline dotted;
         }
@@ -72,27 +73,27 @@
         samp,
         pre {
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-            font-size: 16px;
+            font-size: 1em;
         }
 
         small {
-            font-size: 13px;
+            font-size: 80%;
         }
 
         sub,
         sup {
-            font-size: 12px;
+            font-size: 75%;
             line-height: 0;
             position: relative;
             vertical-align: baseline;
         }
 
         sub {
-            bottom: -4px;
+            bottom: -0.25em;
         }
 
         sup {
-            top: -8px;
+            top: -0.5em;
         }
 
         table {
@@ -109,7 +110,7 @@
             font-family: inherit;
             font-feature-settings: inherit;
             font-variation-settings: inherit;
-            font-size: 16px;
+            font-size: 100%;
             font-weight: inherit;
             line-height: inherit;
             color: inherit;
@@ -126,6 +127,8 @@
         [type='button'],
         [type='reset'],
         [type='submit'] {
+            appearance: button;
+            -webkit-appearance: button;
             background-color: transparent;
             background-image: none;
         }
@@ -148,13 +151,17 @@
         }
 
         [type='search'] {
+            appearance: textfield;
+            -webkit-appearance: textfield;
             outline-offset: -2px;
         }
 
         ::-webkit-search-decoration {
+            -webkit-appearance: none;
         }
 
         ::-webkit-file-upload-button {
+            -webkit-appearance: button;
             font: inherit;
         }
 
@@ -231,7 +238,7 @@
 
         img,
         video {
-            max-width: 800px;
+            max-width: 100%;
             height: auto;
         }
 
@@ -256,15 +263,15 @@
         }
 
         .h-12 {
-            height: 48px;
+            height: 3rem;
         }
 
         .w-1\/2 {
-            width: 400px;
+            width: 50%;
         }
 
         .w-full {
-            width: 800px;
+            width: 100%;
         }
 
         .border-collapse {
@@ -272,7 +279,9 @@
         }
 
         .border-spacing-0 {
-            border-spacing: 0px 0px;
+            --tw-border-spacing-x: 0px;
+            --tw-border-spacing-y: 0px;
+            border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
         }
 
         .whitespace-nowrap {
@@ -304,61 +313,61 @@
         }
 
         .p-3 {
-            padding: 12px;
+            padding: 0.75rem;
         }
 
         .px-14 {
-            padding-left: 56px;
-            padding-right: 56px;
+            padding-left: 3.5rem;
+            padding-right: 3.5rem;
         }
 
         .px-2 {
-            padding-left: 8px;
-            padding-right: 8px;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
         }
 
         .py-10 {
-            padding-top: 40px;
-            padding-bottom: 40px;
+            padding-top: 2.5rem;
+            padding-bottom: 2.5rem;
         }
 
         .py-3 {
-            padding-top: 12px;
-            padding-bottom: 12px;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
         }
 
         .py-4 {
-            padding-top: 16px;
-            padding-bottom: 16px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
         }
 
         .py-6 {
-            padding-top: 24px;
-            padding-bottom: 24px;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
         }
 
         .pb-3 {
-            padding-bottom: 12px;
+            padding-bottom: 0.75rem;
         }
 
         .pl-2 {
-            padding-left: 8px;
+            padding-left: 0.5rem;
         }
 
         .pl-3 {
-            padding-left: 12px;
+            padding-left: 0.75rem;
         }
 
         .pl-4 {
-            padding-left: 16px;
+            padding-left: 1rem;
         }
 
         .pr-3 {
-            padding-right: 12px;
+            padding-right: 0.75rem;
         }
 
         .pr-4 {
-            padding-right: 16px;
+            padding-right: 1rem;
         }
 
         .text-center {
@@ -374,13 +383,13 @@
         }
 
         .text-sm {
-            font-size: 14px;
-            line-height: 20px;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
         }
 
         .text-xs {
-            font-size: 12px;
-            line-height: 16px;
+            font-size: 0.75rem;
+            line-height: 1rem;
         }
 
         .font-bold {
