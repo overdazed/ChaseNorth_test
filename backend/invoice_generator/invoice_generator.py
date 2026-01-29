@@ -139,24 +139,10 @@ class InvoiceGenerator:
             return 'N/A'
         return value.strftime(format)
 
-    def number_format(self, value, decimals=2, decimal_point='.', thousands_sep=','):
-        try:
-            value = float(value)
-            format_str = f'{{0:,.{decimals}f}}'
-            formatted = format_str.format(value)
-            if decimal_point != '.':
-                formatted = formatted.replace('.', decimal_point)
-            if thousands_sep != ',':
-                formatted = formatted.replace(',', thousands_sep)
-            return formatted
-        except (ValueError, TypeError):
-            return '0.00'
-
     def generate_invoice(self, order, company_data):
         try:
-            # Add format_date and number_format filters to the environment
+            # Add format_date filter to the environment
             self.env.filters['format_date'] = self.format_date
-            self.env.filters['number_format'] = self.number_format
 
             # Debug logging
             sys.stderr.write("=== Invoice Generation Started ===\n")
@@ -192,24 +178,11 @@ class InvoiceGenerator:
             if 'orderItems' not in order and 'items' in order:
                 order['orderItems'] = order['items']
 
-            # Calculate subtotal if not provided
-            if 'subtotal' not in order:
-                order['subtotal'] = sum(item.get('price', 0) * item.get('quantity', 0) for item in order.get('orderItems', []))
-
             # Prepare context for template
             context = {
                 'order': {
                     **order,
                     'total': order.get('totalPrice', 0)
-                },
-                'customer': {
-                    'name': f"{order['shippingAddress'].get('firstName', '')} {order['shippingAddress'].get('lastName', '')}".strip(),
-                    'address': order['shippingAddress'].get('address', ''),
-                    'city': order['shippingAddress'].get('city', ''),
-                    'postalCode': order['shippingAddress'].get('postalCode', ''),
-                    'country': order['shippingAddress'].get('country', ''),
-                    'company': '',  # Add if available in order data
-                    'number': ''    # Add if available in order data
                 },
                 'company_name': company_data.get('name', ''),
                 'company_contact_name': company_data.get('contact_name', ''),
@@ -233,7 +206,7 @@ class InvoiceGenerator:
             sys.stderr.write("============================\n")
 
             # Generate PDF
-            template = self.env.get_template('invoice_template_simple.html')
+            template = self.env.get_template('invoice_template.html')
             html_content = template.render(**context)
 
             # Generate PDF filename

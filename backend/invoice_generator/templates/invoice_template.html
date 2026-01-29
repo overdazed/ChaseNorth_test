@@ -18,7 +18,6 @@
 
         ::before,
         ::after {
-            --tw-content: '';
         }
 
         html {
@@ -73,27 +72,27 @@
         samp,
         pre {
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-            font-size: 1em;
+            font-size: 16px;
         }
 
         small {
-            font-size: 80%;
+            font-size: 13px;
         }
 
         sub,
         sup {
-            font-size: 75%;
+            font-size: 12px;
             line-height: 0;
             position: relative;
             vertical-align: baseline;
         }
 
         sub {
-            bottom: -0.25em;
+            bottom: -4px;
         }
 
         sup {
-            top: -0.5em;
+            top: -8px;
         }
 
         table {
@@ -110,7 +109,7 @@
             font-family: inherit;
             font-feature-settings: inherit;
             font-variation-settings: inherit;
-            font-size: 100%;
+            font-size: 16px;
             font-weight: inherit;
             line-height: inherit;
             color: inherit;
@@ -127,8 +126,6 @@
         [type='button'],
         [type='reset'],
         [type='submit'] {
-            appearance: button;
-            -webkit-appearance: button;
             background-color: transparent;
             background-image: none;
         }
@@ -151,17 +148,13 @@
         }
 
         [type='search'] {
-            appearance: textfield;
-            -webkit-appearance: textfield;
             outline-offset: -2px;
         }
 
         ::-webkit-search-decoration {
-            -webkit-appearance: none;
         }
 
         ::-webkit-file-upload-button {
-            -webkit-appearance: button;
             font: inherit;
         }
 
@@ -238,7 +231,7 @@
 
         img,
         video {
-            max-width: 100%;
+            max-width: 800px;
             height: auto;
         }
 
@@ -263,15 +256,15 @@
         }
 
         .h-12 {
-            height: 3rem;
+            height: 48px;
         }
 
         .w-1\/2 {
-            width: 50%;
+            width: 400px;
         }
 
         .w-full {
-            width: 100%;
+            width: 800px;
         }
 
         .border-collapse {
@@ -279,9 +272,7 @@
         }
 
         .border-spacing-0 {
-            --tw-border-spacing-x: 0px;
-            --tw-border-spacing-y: 0px;
-            border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
+            border-spacing: 0px 0px;
         }
 
         .whitespace-nowrap {
@@ -313,61 +304,61 @@
         }
 
         .p-3 {
-            padding: 0.75rem;
+            padding: 12px;
         }
 
         .px-14 {
-            padding-left: 3.5rem;
-            padding-right: 3.5rem;
+            padding-left: 56px;
+            padding-right: 56px;
         }
 
         .px-2 {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
+            padding-left: 8px;
+            padding-right: 8px;
         }
 
         .py-10 {
-            padding-top: 2.5rem;
-            padding-bottom: 2.5rem;
+            padding-top: 40px;
+            padding-bottom: 40px;
         }
 
         .py-3 {
-            padding-top: 0.75rem;
-            padding-bottom: 0.75rem;
+            padding-top: 12px;
+            padding-bottom: 12px;
         }
 
         .py-4 {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
+            padding-top: 16px;
+            padding-bottom: 16px;
         }
 
         .py-6 {
-            padding-top: 1.5rem;
-            padding-bottom: 1.5rem;
+            padding-top: 24px;
+            padding-bottom: 24px;
         }
 
         .pb-3 {
-            padding-bottom: 0.75rem;
+            padding-bottom: 12px;
         }
 
         .pl-2 {
-            padding-left: 0.5rem;
+            padding-left: 8px;
         }
 
         .pl-3 {
-            padding-left: 0.75rem;
+            padding-left: 12px;
         }
 
         .pl-4 {
-            padding-left: 1rem;
+            padding-left: 16px;
         }
 
         .pr-3 {
-            padding-right: 0.75rem;
+            padding-right: 12px;
         }
 
         .pr-4 {
-            padding-right: 1rem;
+            padding-right: 16px;
         }
 
         .text-center {
@@ -383,13 +374,13 @@
         }
 
         .text-sm {
-            font-size: 0.875rem;
-            line-height: 1.25rem;
+            font-size: 14px;
+            line-height: 20px;
         }
 
         .text-xs {
-            font-size: 0.75rem;
-            line-height: 1rem;
+            font-size: 12px;
+            line-height: 16px;
         }
 
         .font-bold {
@@ -497,33 +488,6 @@
                             </td>
                             <td class="w-1/2 align-top text-right">
                                 <div class="text-sm text-neutral-600">
-                                    <!-- {% if customer.company %}
-                            <p class="font-bold">{{ customer.company }}</p>
-                            {% endif %}
-
-                            {% if customer.number %}
-                            <p>Number: {{ customer.number }}</p>
-                            {% endif %}
-
-                            {% if customer.vat %}
-                            <p>VAT: {{ customer.vat }}</p>
-                            {% endif %}
-
-                            {% if order.shippingAddress.firstName and order.shippingAddress.lastName %}
-                            <p>{{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastName }}</p>
-                            {% endif %}
-
-                            {% if order.shippingAddress.address %}
-                            <p>{{ order.shippingAddress.address }}</p>
-                            {% endif %}
-
-                            {% if order.shippingAddress.postalCode and order.shippingAddress.city %}
-                            <p>{{ order.shippingAddress.postalCode }} {{ order.shippingAddress.city }}</p>
-                            {% endif %}
-
-                            {% if order.shippingAddress.country %}
-                            <p>{{ order.shippingAddress.country }}</p>
-                            {% endif %} -->
                                     {% if order.shippingAddress.firstName and order.shippingAddress.lastName %}
                                     <p class="font-bold">{{ order.shippingAddress.firstName }} {{
                                         order.shippingAddress.lastName }}</p>
@@ -574,19 +538,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- {% set totalNetAmount = 0 %}
-                {% set totalVatAmount = 0 %}
-                {% set totalAmount = 0 %}
-
-                {% for product in products %}
-                {% set productSubtotal = product.price * product.quantity %}
-                {% set productVatAmount = productSubtotal * product.vat / 100 %}
-                {% set productTotal = productSubtotal + productVatAmount %}
-
-                {% set totalNetAmount = totalNetAmount + productSubtotal %}
-                {% set totalVatAmount = totalVatAmount + productVatAmount %}
-                {% set totalAmount = totalAmount + productTotal %}
-                {% endfor %} -->
                         {% set subtotal = 0 %}
                         {% for item in order.orderItems %}
                         {% set item_total = item.price * item.quantity %}
@@ -602,7 +553,6 @@
                             </td>
                             <td class="border-b py-3 pl-2 text-right">${{ "%.2f"|format(item.price) }}</td>
                             <td class="border-b py-3 pl-2 text-center">{{ item.quantity }}</td>
-                            <td class="border-b py-3 pl-2 text-center">{{ item.vat | default('0') }}%</td>
                             <td class="border-b py-3 pl-2 pr-3 text-right text-neutral-600">${{
                                 "%.2f"|format(item_total) }}</td>
                         </tr>
@@ -657,16 +607,6 @@
                                                         </tr>
                                                         {% endif %}
 
-                                                        <!-- <tr>
-                                            <td class="p-3">
-                                                <div class="whitespace-nowrap text-slate-400">VAT total:</div>
-                                            </td>
-                                            <td class="p-3 text-right">
-                                                <div class="whitespace-nowrap font-bold text-main">{{ currencySymbol }}{{
-                                                    totalVatAmount|number_format(2, '.', ',') }}</div>
-                                            </td>
-                                        </tr> -->
-
                                                         {% if order.shippingCost and order.shippingCost > 0 %}
                                                         <tr>
                                                             <td class="p-3">
@@ -707,7 +647,6 @@
                 <p>Bank Name: {{ company_bank_name or 'Your Bank Name' }}</p>
                 <p>IBAN: {{ company_iban or 'DE89 3704 0044 0532 0130 00' }}</p>
                 <p>BIC: {{ company_bic or 'COBADEFFXXX' }}</p>
-                <!-- <p>Payment Reference: BRA-00335</p> -->
             </div>
 
             <div class="px-14 py-10 text-sm text-neutral-700">
@@ -716,14 +655,6 @@
                     industries
                     for previewing layouts and visual mockups.</p>
             </div>
-
-            <!-- <footer class="fixed bottom-0 left-0 bg-slate-100 w-full text-neutral-600 text-center text-xs py-3">
-                Supplier Company
-                <span class="text-slate-300 px-2">|</span>
-                info@company.com
-                <span class="text-slate-300 px-2">|</span>
-                +1-202-555-0106
-            </footer> -->
             <footer class="border-t border-neutral-200 py-4 text-center text-xs text-neutral-500">
                 {{ company_name }} | {{ company_address }}, {{ company_zip }} {{ company_city }}, {{ company_country }}
                 | {{
