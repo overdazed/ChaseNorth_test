@@ -172,7 +172,7 @@ const Profile = () => {
                             <span>Return Center</span>
                         </button>
                     </div>
-                    <div className="sticky bottom-0 left-0 right-0 bg-inherit pt-4">
+                    <div className="sticky bottom-4 left-0 right-0 bg-inherit pt-4">
                         <button
                             onClick={handleLogout}
                             className="w-full bg-red-800 text-white py-3 px-4 rounded-full hover:bg-accent flex items-center justify-center gap-2">
