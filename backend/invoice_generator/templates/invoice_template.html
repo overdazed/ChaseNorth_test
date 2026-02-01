@@ -14,6 +14,14 @@
             margin: 0;
             padding: 20px;
         }
+        .address p {
+            margin: 0;
+            line-height: 1.4;
+        }
+        .address-block {
+            margin-top: 60px;
+            margin-bottom: 30px;
+        }
         .container {
             width: 700px;
         }
@@ -181,10 +189,10 @@
         </table>
 
         <!-- Billing Address -->
-        <div class="bg-slate-100">
+        <div class="bg-slate-100 address-block">
             <table class="header-table">
                 <tr>
-                    <td width="350" class="text-neutral-600">
+                    <td width="350" class="text-neutral-600 address">
                         <p class="bold text-main">{{ company_name }}</p>
                         <p>USt-ID-Nr.: {{ company_vat }}</p>
                         <p>{{ company_contact_name }}</p>
@@ -192,7 +200,7 @@
                         <p>{{ company_zip }} {{ company_city }}</p>
                         <p>{{ company_country }}</p>
                     </td>
-                    <td width="350" class="text-right text-neutral-600">
+                    <td width="350" class="text-right text-neutral-600 address">
                         {% if order.shippingAddress.firstName and order.shippingAddress.lastName %}
                         <p class="bold">{{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastName }}</p>
                         {% endif %}
