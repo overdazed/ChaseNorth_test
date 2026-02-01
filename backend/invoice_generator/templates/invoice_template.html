@@ -110,12 +110,16 @@
             color: white;
             font-weight: bold;
         }
-        .section {
-            margin: 10px 0;
-            clear: both;
+        .section.payment-details {
+            margin: 0;          /* remove the 10px top/bottom margin */
+            padding: 0;         /* optional, just in case */
         }
-        .payment-details {
-            margin: 10px 0;
+        .payment-details p {
+            margin: 0;          /* remove all top/bottom spacing */
+            line-height: 1.2;   /* tight but readable */
+        }
+        .payment-details p.bold {
+            margin-bottom: 4px; /* small spacing for the title only */
         }
         .notes {
             margin: 10px 0;
