@@ -116,6 +116,7 @@
         }
         .payment-details {
             margin: 10px 0;
+            line-height: 1.4;
         }
         .notes {
             margin: 10px 0;
@@ -247,7 +248,7 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Product details</th>
+                    <th>Product</th>
                     <th class="text-right">Price</th>
                     <th class="center">Qty</th>
                     <th class="center">VAT</th>
@@ -268,10 +269,10 @@
                             {% if item.size %}{{ item.size }}{% endif %}
                         </div>
                     </td>
-                    <td class="text-right">{{ "%.2f"|format(item.price) }} EUR</td>
+                    <td class="text-right">{{ "%.2f"|format(item.price) }} €</td>
                     <td class="center">{{ item.quantity }}</td>
                     <td class="center">{{ order.taxRate }}%</td>
-                    <td class="text-right text-neutral-600">{{ "%.2f"|format(item_total) }} EUR</td>
+                    <td class="text-right text-neutral-600">{{ "%.2f"|format(item_total) }} €</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -282,29 +283,29 @@
             <table class="totals-table">
                 <tr>
                     <td>Subtotal:</td>
-                    <td class="text-red-600">{{ "%.2f"|format(order.subtotal) }} EUR</td>
+                    <td class="text-red-600">{{ "%.2f"|format(order.subtotal) }} €</td>
                 </tr>
                 {% if order.discount and order.discount.amount > 0 %}
                 <tr>
                     <td>Discount:</td>
-                    <td class="text-red-600">-{{ "%.2f"|format(order.discount.amount) }} EUR</td>
+                    <td class="text-red-600">-{{ "%.2f"|format(order.discount.amount) }} €</td>
                 </tr>
                 {% endif %}
                 {% if order.tax and order.tax > 0 %}
                 <tr>
                     <td>Tax ({{ order.taxRate }}%):</td>
-                    <td class="text-red-600">{{ "%.2f"|format(order.tax) }} EUR</td>
+                    <td class="text-red-600">{{ "%.2f"|format(order.tax) }}€</td>
                 </tr>
                 {% endif %}
                 {% if order.shippingCost and order.shippingCost > 0 %}
                 <tr>
                     <td>Shipping:</td>
-                    <td class="text-red-600">{{ "%.2f"|format(order.shippingCost) }} EUR</td>
+                    <td class="text-red-600">{{ "%.2f"|format(order.shippingCost) }} €</td>
                 </tr>
                 {% endif %}
                 <tr class="total-row">
                     <td>Total:</td>
-                    <td class="text-red-600">{{ "%.2f"|format(order.total) }} EUR</td>
+                    <td class="text-red-600">{{ "%.2f"|format(order.total) }} €</td>
                 </tr>
             </table>
         </div>
