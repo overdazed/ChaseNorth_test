@@ -71,19 +71,26 @@
         .items-table td.center {
             text-align: center;
         }
+        .totals-wrapper {
+            background: rgba(92, 106, 196, 0.05);
+            width: 50%;
+            margin-left: auto;
+            margin-top: 10px;
+        }
         .totals-table {
             /*width: 280px;*/
-            width: 50%;
-            /*float: right;*/
-            margin-left: auto;
+            width: 100%;
+            float: none;
+            /*margin-left: auto;*/
             border-collapse: collapse;
             /*margin-top: 10px;*/
         }
-        .totals-table td {
-            padding: 6px 8px;
+        .totals-table td:last-child {
+            /*padding: 6px 8px;*/
             border-bottom: 1px solid #e5e7eb;
         }
         .totals-table td:first-child {
+            /*padding-left: 24px;*/
             text-align: left;
             color: #94a3b8;
         }
@@ -268,34 +275,36 @@
         </table>
 
         <!-- Totals -->
-        <table class="totals-table">
-            <tr>
-                <td>Subtotal:</td>
-                <td class="text-red-600">{{ "%.2f"|format(order.subtotal) }} EUR</td>
-            </tr>
-            {% if order.discount and order.discount.amount > 0 %}
-            <tr>
-                <td>Discount:</td>
-                <td class="text-red-600">-{{ "%.2f"|format(order.discount.amount) }} EUR</td>
-            </tr>
-            {% endif %}
-            {% if order.tax and order.tax > 0 %}
-            <tr>
-                <td>Tax ({{ order.taxRate }}%):</td>
-                <td class="text-red-600">{{ "%.2f"|format(order.tax) }} EUR</td>
-            </tr>
-            {% endif %}
-            {% if order.shippingCost and order.shippingCost > 0 %}
-            <tr>
-                <td>Shipping:</td>
-                <td class="text-red-600">{{ "%.2f"|format(order.shippingCost) }} EUR</td>
-            </tr>
-            {% endif %}
-            <tr class="total-row">
-                <td>Total:</td>
-                <td class="text-red-600">{{ "%.2f"|format(order.total) }} EUR</td>
-            </tr>
-        </table>
+        <div class="totals-wrapper">
+            <table class="totals-table">
+                <tr>
+                    <td>Subtotal:</td>
+                    <td class="text-red-600">{{ "%.2f"|format(order.subtotal) }} EUR</td>
+                </tr>
+                {% if order.discount and order.discount.amount > 0 %}
+                <tr>
+                    <td>Discount:</td>
+                    <td class="text-red-600">-{{ "%.2f"|format(order.discount.amount) }} EUR</td>
+                </tr>
+                {% endif %}
+                {% if order.tax and order.tax > 0 %}
+                <tr>
+                    <td>Tax ({{ order.taxRate }}%):</td>
+                    <td class="text-red-600">{{ "%.2f"|format(order.tax) }} EUR</td>
+                </tr>
+                {% endif %}
+                {% if order.shippingCost and order.shippingCost > 0 %}
+                <tr>
+                    <td>Shipping:</td>
+                    <td class="text-red-600">{{ "%.2f"|format(order.shippingCost) }} EUR</td>
+                </tr>
+                {% endif %}
+                <tr class="total-row">
+                    <td>Total:</td>
+                    <td class="text-red-600">{{ "%.2f"|format(order.total) }} EUR</td>
+                </tr>
+            </table>
+        </div>
         <div style="clear: both;"></div>
 
         <!-- Payment Details -->
