@@ -7,7 +7,7 @@
     <style>
         @page {
             size: A4;
-            margin: 20mm 15mm 10mm 15mm;
+            margin: 20mm 15mm 18mm 15mm; /* bottom margin = footer zone */
         }
         * {
             box-sizing: border-box;
@@ -131,11 +131,12 @@
         }
         .footer {
             position: fixed;
-            bottom: 1px0;
+            bottom: 0;
             left: 0;
             right: 0;
+            height: 18mm;
             border-top: 1px solid #e5e7eb;
-            padding: 12px 20px;
+            padding: 6mm 20px 4mm;
             text-align: center;
             font-size: 12px;
             color: #9ca3af;
