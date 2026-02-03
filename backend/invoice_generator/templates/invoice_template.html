@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice #{{ invoice_number }}</title>
     <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm 10mm 15mm;
+        }
         * {
             box-sizing: border-box;
         }
@@ -13,6 +17,7 @@
             font-size: 14px;
             margin: 0;
             padding: 20px;
+            padding-bottom: 80px; /* reserve space for footer */
         }
         .address p {
             margin: 0;
@@ -125,8 +130,12 @@
             margin: 10px 0;
         }
         .footer {
+            position: fixed;
+            bottom: 1px0;
+            left: 0;
+            right: 0;
             border-top: 1px solid #e5e7eb;
-            padding-top: 12px;
+            padding: 12px 20px;
             text-align: center;
             font-size: 12px;
             color: #9ca3af;
@@ -327,11 +336,11 @@
             <p class="bold text-main">Notes</p>
             <p class="italic">Thank you for your order!</p>
         </div>
+    </div>
 
-        <!-- Footer -->
-        <div class="footer">
-            <p>{{ company_name }} | {{ company_address }}, {{ company_zip }} {{ company_city }}, {{ company_country }} | {{ company_email }} | {{ company_phone }}</p>
-        </div>
+    <!-- Footer -->
+    <div class="footer">
+        <p>{{ company_name }} | {{ company_address }}, {{ company_zip }} {{ company_city }}, {{ company_country }} | {{ company_email }} | {{ company_phone }}</p>
     </div>
 </body>
 </html>
