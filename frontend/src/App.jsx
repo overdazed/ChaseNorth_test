@@ -120,6 +120,7 @@ import ReportConfirmation from "./pages/ReportConfirmation";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import BugReport from "./pages/BugReport";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 import {Provider, useDispatch, useSelector} from "react-redux";
 import store from "./redux/store";
@@ -243,6 +244,7 @@ const App = () => {
                             <Route path="return-policy" element={<ReturnPolicy />} />
                             <Route path="terms-and-conditions" element={<TermsAndConditions />} />
                             <Route path="impressum" element={<Impressum />} />
+                            <Route path="privacy-policy" element={<PrivacyPolicy />} />
                             <Route path="sustainability" element={<Sustainability />} />
                             <Route path="mission" element={<Mission />} />
                             <Route path="about" element={<About />} />
