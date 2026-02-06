@@ -283,7 +283,7 @@ const OrderDetailsPage = () => {
                                             }}
                                             className="flex items-center gap-2 bg-blue-100 text-blue-700 hover:bg-blue-200 px-3 py-1 rounded-full text-sm font-medium transition-colors"
                                         >
-                                            <TbFileEuro size={14}/>
+                                            <TbFileEuro size={16}/>
                                             <span>Download Invoice</span>
                                         </button>
                                     )}
