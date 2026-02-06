@@ -69,11 +69,11 @@ const Profile = () => {
         { id: 'returns', label: 'Return Center', icon: <FaUndo className="mr-2" /> }
     ]
 
-    // Function to handle tab change with smooth scroll
+    // Function to handle tab change with smooth scroll (mobile only)
     const handleTabChange = (tabId) => {
         setActiveTab(tabId);
-        // Scroll to top of content area with smooth behavior
-        if (contentRef.current) {
+        // Scroll to top of content area with smooth behavior only on mobile
+        if (contentRef.current && window.innerWidth < 768) {
             contentRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
