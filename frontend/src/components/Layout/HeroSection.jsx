@@ -10,7 +10,7 @@ const StyledButton = styled(Link)`
   outline: none;
   border: none;
   background-color: inherit;
-    font-family: "Cotta", sans-serif;
+    font-family: "Inter", sans-serif;
   font-size: 18px;
   font-weight: bold;
   padding: 8px 16px;
