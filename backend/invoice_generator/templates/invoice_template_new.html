@@ -306,42 +306,6 @@
             background-color: #5c6ac4;
         }
 
-        .relative {
-            position: relative;
-        }
-
-        .absolute {
-            position: absolute;
-        }
-
-        .inline-block {
-            display: inline-block;
-        }
-
-        .right-0 {
-            right: 0;
-        }
-
-        .top-0 {
-            top: 0;
-        }
-
-        .bottom-0 {
-            bottom: 0;
-        }
-
-        .w-1\/2 {
-            width: 50%;
-        }
-
-        .z-10 {
-            z-index: 10;
-        }
-
-        .text-white {
-            color: #fff;
-        }
-
         .bg-slate-100 {
             background-color: #f1f5f9;
         }
@@ -630,15 +594,12 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="p-3">
-                                                <div class="whitespace-nowrap text-slate-400 font-bold">Total:</div>
+                                            <td class="bg-main p-3">
+                                                <div class="whitespace-nowrap font-bold text-white">Total:</div>
                                             </td>
-                                            <td class="p-3 text-right">
-                                                <div class="relative inline-block">
-                                                    <span class="whitespace-nowrap font-bold text-white relative z-10">{{ currencySymbol }}{{
-                                                        totalAmount|number_format(2, '.', ',') }}</span>
-                                                    <div class="absolute right-0 top-0 bottom-0 w-1/2 bg-main"></div>
-                                                </div>
+                                            <td class="bg-main p-3 text-right">
+                                                <div class="whitespace-nowrap font-bold text-white">{{ currencySymbol }}{{
+                                                    totalAmount|number_format(2, '.', ',') }}</div>
                                             </td>
                                         </tr>
                                         </tbody>
