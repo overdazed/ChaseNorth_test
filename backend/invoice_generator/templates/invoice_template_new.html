@@ -594,12 +594,15 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="bg-main p-3">
-                                                <div class="whitespace-nowrap font-bold text-white">Total:</div>
+                                            <td class="p-3">
+                                                <div class="whitespace-nowrap text-slate-400 font-bold">Total:</div>
                                             </td>
-                                            <td class="bg-main p-3 text-right">
-                                                <div class="whitespace-nowrap font-bold text-white">{{ currencySymbol }}{{
-                                                    totalAmount|number_format(2, '.', ',') }}</div>
+                                            <td class="p-3 text-right">
+                                                <div class="relative inline-block">
+                                                    <span class="whitespace-nowrap font-bold text-white relative z-10">{{ currencySymbol }}{{
+                                                        totalAmount|number_format(2, '.', ',') }}</span>
+                                                    <div class="absolute right-0 top-0 bottom-0 w-1/2 bg-main"></div>
+                                                </div>
                                             </td>
                                         </tr>
                                         </tbody>

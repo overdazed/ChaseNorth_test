@@ -266,7 +266,6 @@
                     <th class="center">Qty</th>
                     <th class="center">VAT</th>
                     <th class="text-right">Subtotal</th>
-                    <th class="text-right">Subtotal + VAT</th>
                 </tr>
             </thead>
             <tbody>
@@ -274,7 +273,6 @@
                 {% for item in order.orderItems %}
                 {% set item_total = item.price * item.quantity %}
                 {% set subtotal = subtotal + item_total %}
-                {% set item_total_with_vat = (item.price * item.quantity) * (1 + order.taxRate / 100) %}
                 <tr>
                     <td>{{ loop.index }}</td>
                     <td>
@@ -288,7 +286,6 @@
                     <td class="center">{{ item.quantity }}</td>
                     <td class="center">{{ order.taxRate }}%</td>
                     <td class="text-right text-neutral-600">{{ "%.2f"|format(item_total) }} €</td>
-                    <td class="text-right text-neutral-600">{{ "%.2f"|format(item_total_with_vat) }} €</td>
                 </tr>
                 {% endfor %}
             </tbody>
