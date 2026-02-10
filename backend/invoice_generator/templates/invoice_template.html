@@ -76,57 +76,6 @@
         .items-table td.center {
             text-align: center;
         }
-        .totals-wrapper {
-            background: rgba(92, 106, 196, 0.05);
-            width: 100%;
-            margin-left: auto;
-            margin-top: 10px;
-            display: flex;
-            justify-content: flex-end;
-        }
-        .totals-table {
-            /*width: 280px;*/
-            width: 50%;
-            float: none;
-            /*margin-left: auto;*/
-            border-collapse: collapse;
-            /*margin-top: 10px;*/
-        }
-        .totals-table td {
-            padding: 6px 8px;
-        }
-        .totals-table td:first-child {
-            /*padding-left: 24px;*/
-            text-align: right;
-            padding-left: 12px;
-            color: #94a3b8;
-        }
-        .totals-table td:last-child {
-            border-bottom: 1px solid #e5e7eb;
-            text-align: right;
-            font-weight: bold;
-            color: #5c6ac4;
-        }
-        .totals-table .total-row {
-            position: relative;
-        }
-        .totals-table .total-row td:first-child {
-            color: #94a3b8;
-        }
-        .totals-table .total-row td:last-child {
-            background-color: #5c6ac4;
-            color: white;
-            position: relative;
-        }
-        .totals-table .total-row td:last-child::before {
-            content: '';
-            position: absolute;
-            left: -100px;
-            top: 0;
-            bottom: 0;
-            width: 100px;
-            background-color: #5c6ac4;
-        }
         .section.payment-details {
             margin: 0;          /* remove the 10px top/bottom margin */
             padding: 0;         /* optional, just in case */
@@ -198,6 +147,21 @@
         }
         .text-red-600 {
             color: #dc2626;
+        }
+        .w-full {
+            width: 100%;
+        }
+        .p-3 {
+            padding: 0.75rem;
+        }
+        .text-slate-400 {
+            color: #94a3b8;
+        }
+        .bg-main {
+            background-color: #5c6ac4;
+        }
+        .text-white {
+            color: #fff;
         }
     </style>
 </head>
@@ -304,37 +268,73 @@
         </table>
 
         <!-- Totals -->
-        <div class="totals-wrapper">
-            <table class="totals-table">
+        <table class="w-full border-collapse border-spacing-0">
+            <tbody>
                 <tr>
-                    <td>Subtotal:</td>
-                    <td class="text-red-600">{{ "%.2f"|format(order.subtotal) }} €</td>
+                    <td colspan="6">
+                        <table class="w-full border-collapse border-spacing-0">
+                            <tbody>
+                                <tr>
+                                    <td class="w-full"></td>
+                                    <td>
+                                        <table class="w-full border-collapse border-spacing-0">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="border-b p-3">
+                                                        <div class="whitespace-nowrap text-slate-400">Subtotal:</div>
+                                                    </td>
+                                                    <td class="border-b p-3 text-right">
+                                                        <div class="whitespace-nowrap font-bold text-main">{{ "%.2f"|format(order.subtotal) }} €</div>
+                                                    </td>
+                                                </tr>
+                                                {% if order.discount and order.discount.amount > 0 %}
+                                                <tr>
+                                                    <td class="border-b p-3">
+                                                        <div class="whitespace-nowrap text-slate-400">Discount:</div>
+                                                    </td>
+                                                    <td class="border-b p-3 text-right">
+                                                        <div class="whitespace-nowrap font-bold text-main text-red-600">-{{ "%.2f"|format(order.discount.amount) }} €</div>
+                                                    </td>
+                                                </tr>
+                                                {% endif %}
+                                                {% if order.tax and order.tax > 0 %}
+                                                <tr>
+                                                    <td class="border-b p-3">
+                                                        <div class="whitespace-nowrap text-slate-400">Tax ({{ order.taxRate }}%):</div>
+                                                    </td>
+                                                    <td class="border-b p-3 text-right">
+                                                        <div class="whitespace-nowrap font-bold text-main text-red-600">{{ "%.2f"|format(order.tax) }} €</div>
+                                                    </td>
+                                                </tr>
+                                                {% endif %}
+                                                {% if order.shippingCost and order.shippingCost > 0 %}
+                                                <tr>
+                                                    <td class="p-3">
+                                                        <div class="whitespace-nowrap text-slate-400">Shipping:</div>
+                                                    </td>
+                                                    <td class="p-3 text-right">
+                                                        <div class="whitespace-nowrap font-bold text-main">{{ "%.2f"|format(order.shippingCost) }} €</div>
+                                                    </td>
+                                                </tr>
+                                                {% endif %}
+                                                <tr>
+                                                    <td class="bg-main p-3">
+                                                        <div class="whitespace-nowrap font-bold text-white">Total:</div>
+                                                    </td>
+                                                    <td class="bg-main p-3 text-right">
+                                                        <div class="whitespace-nowrap font-bold text-white">{{ "%.2f"|format(order.total) }} €</div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
                 </tr>
-                {% if order.discount and order.discount.amount > 0 %}
-                <tr>
-                    <td>Discount:</td>
-                    <td class="text-red-600">-{{ "%.2f"|format(order.discount.amount) }} €</td>
-                </tr>
-                {% endif %}
-                {% if order.tax and order.tax > 0 %}
-                <tr>
-                    <td>Tax ({{ order.taxRate }}%):</td>
-                    <td class="text-red-600">{{ "%.2f"|format(order.tax) }}€</td>
-                </tr>
-                {% endif %}
-                {% if order.shippingCost and order.shippingCost > 0 %}
-                <tr>
-                    <td>Shipping:</td>
-                    <td class="text-red-600">{{ "%.2f"|format(order.shippingCost) }} €</td>
-                </tr>
-                {% endif %}
-                <tr class="total-row">
-                    <td>Total:</td>
-                    <td class="text-red-600">{{ "%.2f"|format(order.total) }} €</td>
-                </tr>
-            </table>
-        </div>
-        <div style="clear: both;"></div>
+            </tbody>
+        </table>
 
         <!-- Payment Details -->
         <div class="section payment-details text-neutral-700">
