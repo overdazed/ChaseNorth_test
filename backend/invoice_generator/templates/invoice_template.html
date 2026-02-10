@@ -77,43 +77,55 @@
             text-align: center;
         }
         .totals-wrapper {
+            background: rgba(92, 106, 196, 0.05);
             width: 100%;
+            margin-left: auto;
             margin-top: 10px;
+            display: flex;
+            justify-content: flex-end;
         }
         .totals-table {
-            width: 100%;
+            /*width: 280px;*/
+            width: 50%;
+            float: none;
+            /*margin-left: auto;*/
             border-collapse: collapse;
+            /*margin-top: 10px;*/
         }
         .totals-table td {
             padding: 6px 8px;
         }
         .totals-table td:first-child {
-            width: 50%;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        .totals-table td:nth-child(2) {
-            width: 25%;
+            /*padding-left: 24px;*/
             text-align: right;
+            padding-left: 12px;
             color: #94a3b8;
-            border-bottom: 1px solid #e5e7eb;
         }
         .totals-table td:last-child {
-            width: 25%;
+            border-bottom: 1px solid #e5e7eb;
             text-align: right;
             font-weight: bold;
             color: #5c6ac4;
-            border-bottom: 1px solid #e5e7eb;
+        }
+        .totals-table .total-row {
+            position: relative;
         }
         .totals-table .total-row td:first-child {
-            background-color: #5c6ac4;
-        }
-        .totals-table .total-row td:nth-child(2) {
-            background-color: #5c6ac4;
-            color: white;
+            color: #94a3b8;
         }
         .totals-table .total-row td:last-child {
             background-color: #5c6ac4;
             color: white;
+            position: relative;
+        }
+        .totals-table .total-row td:last-child::before {
+            content: '';
+            position: absolute;
+            left: -100px;
+            top: 0;
+            bottom: 0;
+            width: 100px;
+            background-color: #5c6ac4;
         }
         .section.payment-details {
             margin: 0;          /* remove the 10px top/bottom margin */
@@ -295,35 +307,30 @@
         <div class="totals-wrapper">
             <table class="totals-table">
                 <tr>
-                    <td></td>
                     <td>Subtotal:</td>
-                    <td>{{ "%.2f"|format(order.subtotal) }} €</td>
+                    <td class="text-red-600">{{ "%.2f"|format(order.subtotal) }} €</td>
                 </tr>
                 {% if order.discount and order.discount.amount > 0 %}
                 <tr>
-                    <td></td>
                     <td>Discount:</td>
-                    <td>-{{ "%.2f"|format(order.discount.amount) }} €</td>
+                    <td class="text-red-600">-{{ "%.2f"|format(order.discount.amount) }} €</td>
                 </tr>
                 {% endif %}
                 {% if order.tax and order.tax > 0 %}
                 <tr>
-                    <td></td>
                     <td>Tax ({{ order.taxRate }}%):</td>
-                    <td>{{ "%.2f"|format(order.tax) }} €</td>
+                    <td class="text-red-600">{{ "%.2f"|format(order.tax) }}€</td>
                 </tr>
                 {% endif %}
                 {% if order.shippingCost and order.shippingCost > 0 %}
                 <tr>
-                    <td></td>
                     <td>Shipping:</td>
-                    <td>{{ "%.2f"|format(order.shippingCost) }} €</td>
+                    <td class="text-red-600">{{ "%.2f"|format(order.shippingCost) }} €</td>
                 </tr>
                 {% endif %}
                 <tr class="total-row">
-                    <td></td>
                     <td>Total:</td>
-                    <td>{{ "%.2f"|format(order.total) }} €</td>
+                    <td class="text-red-600">{{ "%.2f"|format(order.total) }} €</td>
                 </tr>
             </table>
         </div>
