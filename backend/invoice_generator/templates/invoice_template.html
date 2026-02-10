@@ -81,11 +81,34 @@
             width: 100%;
             margin-top: 10px;
             display: flex;
-            justify-content: flex-end;
+            border-top: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .totals-left-lines {
+            width: 50%;
+            border-right: 1px solid #e5e7eb;
+            position: relative;
+        }
+        .totals-left-lines::before {
+            content: '';
+            position: absolute;
+            left: 25%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: #e5e7eb;
+        }
+        .totals-left-lines::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: #e5e7eb;
         }
         .totals-table {
             width: 50%;
-            float: none;
             border-collapse: collapse;
         }
         .totals-table td {
@@ -94,7 +117,6 @@
         .totals-table td:first-child {
             text-align: right;
             padding-left: 12px;
-            padding-right: 20px;
             color: #94a3b8;
         }
         .totals-table td:last-child {
@@ -102,7 +124,6 @@
             text-align: right;
             font-weight: bold;
             color: #5c6ac4;
-            padding-right: 12px;
         }
         .totals-table .total-row {
             position: relative;
@@ -302,6 +323,7 @@
 
         <!-- Totals -->
         <div class="totals-wrapper">
+            <div class="totals-left-lines"></div>
             <table class="totals-table">
                 <tr>
                     <td>Subtotal:</td>
@@ -331,7 +353,6 @@
                 </tr>
             </table>
         </div>
-        <div style="clear: both;"></div>
 
         <!-- Payment Details -->
         <div class="section payment-details text-neutral-700">
