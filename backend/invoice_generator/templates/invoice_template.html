@@ -148,20 +148,20 @@
         .text-red-600 {
             color: #dc2626;
         }
-        .w-full {
-            width: 100%;
-        }
-        .p-3 {
-            padding: 0.75rem;
-        }
         .text-slate-400 {
             color: #94a3b8;
+        }
+        .p-3 {
+            padding: 12px;
+        }
+        .w-full {
+            width: 100%;
         }
         .bg-main {
             background-color: #5c6ac4;
         }
         .text-white {
-            color: #fff;
+            color: white;
         }
     </style>
 </head>
@@ -268,72 +268,66 @@
         </table>
 
         <!-- Totals -->
-        <table class="w-full border-collapse border-spacing-0">
-            <tbody>
-                <tr>
-                    <td colspan="6">
-                        <table class="w-full border-collapse border-spacing-0">
-                            <tbody>
-                                <tr>
-                                    <td class="w-full"></td>
-                                    <td>
-                                        <table class="w-full border-collapse border-spacing-0">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="border-b p-3">
-                                                        <div class="whitespace-nowrap text-slate-400">Subtotal:</div>
-                                                    </td>
-                                                    <td class="border-b p-3 text-right">
-                                                        <div class="whitespace-nowrap font-bold text-main">{{ "%.2f"|format(order.subtotal) }} €</div>
-                                                    </td>
-                                                </tr>
-                                                {% if order.discount and order.discount.amount > 0 %}
-                                                <tr>
-                                                    <td class="border-b p-3">
-                                                        <div class="whitespace-nowrap text-slate-400">Discount:</div>
-                                                    </td>
-                                                    <td class="border-b p-3 text-right">
-                                                        <div class="whitespace-nowrap font-bold text-main text-red-600">-{{ "%.2f"|format(order.discount.amount) }} €</div>
-                                                    </td>
-                                                </tr>
-                                                {% endif %}
-                                                {% if order.tax and order.tax > 0 %}
-                                                <tr>
-                                                    <td class="border-b p-3">
-                                                        <div class="whitespace-nowrap text-slate-400">Tax ({{ order.taxRate }}%):</div>
-                                                    </td>
-                                                    <td class="border-b p-3 text-right">
-                                                        <div class="whitespace-nowrap font-bold text-main text-red-600">{{ "%.2f"|format(order.tax) }} €</div>
-                                                    </td>
-                                                </tr>
-                                                {% endif %}
-                                                {% if order.shippingCost and order.shippingCost > 0 %}
-                                                <tr>
-                                                    <td class="p-3">
-                                                        <div class="whitespace-nowrap text-slate-400">Shipping:</div>
-                                                    </td>
-                                                    <td class="p-3 text-right">
-                                                        <div class="whitespace-nowrap font-bold text-main">{{ "%.2f"|format(order.shippingCost) }} €</div>
-                                                    </td>
-                                                </tr>
-                                                {% endif %}
-                                                <tr>
-                                                    <td class="bg-main p-3">
-                                                        <div class="whitespace-nowrap font-bold text-white">Total:</div>
-                                                    </td>
-                                                    <td class="bg-main p-3 text-right">
-                                                        <div class="whitespace-nowrap font-bold text-white">{{ "%.2f"|format(order.total) }} €</div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
+        <table class="items-table">
+            <tr>
+                <td colspan="6">
+                    <table class="items-table">
+                        <tr>
+                            <td class="w-full"></td>
+                            <td>
+                                <table class="items-table">
+                                    <tr>
+                                        <td class="border-b p-3">
+                                            <div class="whitespace-nowrap text-slate-400">Subtotal:</div>
+                                        </td>
+                                        <td class="border-b p-3 text-right">
+                                            <div class="whitespace-nowrap font-bold text-main">{{ "%.2f"|format(order.subtotal) }} €</div>
+                                        </td>
+                                    </tr>
+                                    {% if order.discount and order.discount.amount > 0 %}
+                                    <tr>
+                                        <td class="border-b p-3">
+                                            <div class="whitespace-nowrap text-slate-400">Discount:</div>
+                                        </td>
+                                        <td class="border-b p-3 text-right">
+                                            <div class="whitespace-nowrap font-bold text-main text-red-600">-{{ "%.2f"|format(order.discount.amount) }} €</div>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                    {% if order.tax and order.tax > 0 %}
+                                    <tr>
+                                        <td class="border-b p-3">
+                                            <div class="whitespace-nowrap text-slate-400">Tax ({{ order.taxRate }}%):</div>
+                                        </td>
+                                        <td class="border-b p-3 text-right">
+                                            <div class="whitespace-nowrap font-bold text-main text-red-600">{{ "%.2f"|format(order.tax) }} €</div>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                    {% if order.shippingCost and order.shippingCost > 0 %}
+                                    <tr>
+                                        <td class="p-3">
+                                            <div class="whitespace-nowrap text-slate-400">Shipping:</div>
+                                        </td>
+                                        <td class="p-3 text-right">
+                                            <div class="whitespace-nowrap font-bold text-main">{{ "%.2f"|format(order.shippingCost) }} €</div>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <td class="bg-main p-3">
+                                            <div class="whitespace-nowrap font-bold text-white">Total:</div>
+                                        </td>
+                                        <td class="bg-main p-3 text-right">
+                                            <div class="whitespace-nowrap font-bold text-white">{{ "%.2f"|format(order.total) }} €</div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
         </table>
 
         <!-- Payment Details -->
